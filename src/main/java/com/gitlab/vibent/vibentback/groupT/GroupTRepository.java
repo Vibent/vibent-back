@@ -11,7 +11,8 @@ public interface GroupTRepository extends CrudRepository<GroupT, Long> {
 
     GroupT findById(long id);
 
-    GroupT findByRef(UUID ref);
+    GroupT findByRef(String ref);
 
     ArrayList<GroupT> findByName(String name);
+
 }

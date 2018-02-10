@@ -13,7 +13,7 @@ CREATE TABLE user
     PRIMARY KEY(id)
 );
 
-CREATE TABLE groupT
+CREATE TABLE group_t
 (
     id INT NOT NULL,
     ref CHAR(36) NOT NULL,
@@ -23,10 +23,10 @@ CREATE TABLE groupT
     PRIMARY KEY(id)
 );
 
-CREATE TABLE eventParticipation
+CREATE TABLE event_participation
 (
-    user_ref CHAR(36) REFERENCES User(ref),
-    group_ref CHAR(36) REFERENCES GroupT(ref),
+    user_ref CHAR(36) REFERENCES user(ref),
+    group_ref CHAR(36) REFERENCES group_t(ref),
     answer ENUM('Yes', 'No', 'Maybe', 'Unanswered'),
     isVisible BOOLEAN
 );
@@ -35,7 +35,7 @@ CREATE TABLE event
 (
     id INT NOT NULL,
     ref CHAR(36) NOT NULL,
-    group_ref CHAR(36) NOT NULL REFERENCES GroupT(ref),
+    group_ref CHAR(36) NOT NULL REFERENCES group_t(ref),
     title VARCHAR(255),
     description VARCHAR(500),
     start_date DATETIME,
@@ -43,79 +43,79 @@ CREATE TABLE event
     PRIMARY KEY(id)
 );
 
-CREATE TABLE groupMemberShip
+CREATE TABLE group_membership
 (
-    user_ref CHAR(36) NOT NULL REFERENCES User(ref),
-    group_ref CHAR(36) NOT NULL REFERENCES GroupT(ref),
+    user_ref CHAR(36) NOT NULL REFERENCES user(ref),
+    group_ref CHAR(36) NOT NULL REFERENCES group_t(ref),
     is_admin BOOLEAN NOT NULL,
     is_accepted BOOLEAN NOT NULL
 );
 
-CREATE TABLE groupInviteLink
+CREATE TABLE group_invite_link
 (
     id INT NOT NULL,
-  group_ref CHAR(36) NOT NULL REFERENCES GroupT(ref),
+  group_ref CHAR(36) NOT NULL REFERENCES group_t(ref),
     hash VARCHAR(255),
     expires DATETIME,
     PRIMARY KEY(id)
 );
 
-CREATE TABLE bubbleOwnerShip
+CREATE TABLE bubble_ownership
 (
     id INT NOT NULL,
-    event_ref CHAR(36) NOT NULL REFERENCES Event(id),
+    event_ref CHAR(36) NOT NULL REFERENCES event(id),
     bubble_type ENUM('TravelBubble', 'LocationBubble', 'AlimentationBubble', 'SurveyBubble','CheckBoxBubble', 'PlanningBubble', 'FreeBubble'),
     bubble_id INT,
     creator_ref CHAR(36),
     PRIMARY KEY(id)
 );
 
-CREATE TABLE travelBubble
+CREATE TABLE travel_bubble
 (
     id INT PRIMARY KEY NOT NULL
 );
 
-CREATE TABLE travelProposal
+CREATE TABLE travel_proposal
 (
     id INT NOT NULL,
-    bubble_id INT REFERENCES TravelBubble(id),
-    driver_ref CHAR(36) REFERENCES User(ref),
+    bubble_id INT REFERENCES travel_bubble(id),
+    driver_ref CHAR(36) REFERENCES user(ref),
     capacity INT,
     pass_by_cities VARCHAR(500),
     PRIMARY KEY(id)
 );
 
-CREATE TABLE travelRequest
+CREATE TABLE travel_request
 (
     id INT NOT NULL,
-    creator_ref CHAR(36) REFERENCES User(ref),
-    bubble_id INT REFERENCES TravelBubble(id),
+    creator_ref CHAR(36) REFERENCES user(ref),
+    bubble_id INT REFERENCES travel_bubble(id),
     capacity INT,
     attached_to_proposal BOOLEAN,
     PRIMARY KEY(id)
 );
 
-CREATE TABLE attachedRequest
+CREATE TABLE attached_request
 (
-    proposal_id INT REFERENCES TravelProposal(id),
-	  request_id INT REFERENCES TravelRequest(id)
+    proposal_id INT REFERENCES travel_proposal(id),
+	  request_id INT REFERENCES travel_request(id)
 );
 
-CREATE TABLE locationBubble
+CREATE TABLE location_bubble
 (
     id INT PRIMARY KEY NOT NULL,
     coord VARCHAR(255)
 );
 
-CREATE TABLE alimentationBubble
+CREATE TABLE alimentation_bubble
 (
     id INT PRIMARY KEY NOT NULL
 );
 
-CREATE TABLE alimentationEntry
+CREATE TABLE alimentation_entry
 (
     id INT NOT NULL,
-    bubble_id INT REFERENCES AlimentationBubble(id),
+    bubble_id INT REFERENCES alimentation_bubble(id),
     name VARCHAR(64),
     total_requested INT,
     total_current INT,
@@ -123,71 +123,71 @@ CREATE TABLE alimentationEntry
     PRIMARY KEY(id)
 );
 
-CREATE TABLE alimentationBringing
+CREATE TABLE alimentation_bringing
 (
-    entry_id INT REFERENCES AlimentationEntry(id),
+    entry_id INT REFERENCES alimentation_entry(id),
     user_ref CHAR(36),
     quantity INT
 );
 
-CREATE TABLE surveyBubble
+CREATE TABLE survey_bubble
 (
     id INT,
 	  title VARCHAR(500)
 );
 
-CREATE TABLE surveyResponse
+CREATE TABLE survey_response
 (
     id INT NOT NULL,
-    survey_id INT REFERENCES SurveyBubble(id),
+    survey_id INT REFERENCES survey_bubble(id),
     content VARCHAR(500),
     PRIMARY KEY(id)
 );
 
-CREATE TABLE usersSurveyResponses
+CREATE TABLE users_survey_responses
 (
-    user_ref CHAR(36) REFERENCES User(ref),
-    surveyresponse_id INT REFERENCES SurveyResponse(id)
+    user_ref CHAR(36) REFERENCES user(ref),
+    surveyresponse_id INT REFERENCES survey_response(id)
 );
 
-CREATE TABLE checkBoxBubble
+CREATE TABLE checkbox_bubble
 (
    id INT,
    title VARCHAR(500)
 );
 
-CREATE TABLE checkBoxResponse
+CREATE TABLE checkbox_response
 (
    id INT NOT NULL,
-   bubble_id INT REFERENCES CheckBoxBubble(id),
+   bubble_id INT REFERENCES checkbox_bubble(id),
    content VARCHAR(500),
    PRIMARY KEY(id)
 );
 
-CREATE TABLE usersCheckBoxResponses
+CREATE TABLE users_checkbox_responses
 (
-    user_ref CHAR(36) REFERENCES User(ref),
-    checkboxresponse_id INT REFERENCES CheckBoxResponse(id)
+    user_ref CHAR(36) REFERENCES user(ref),
+    checkboxresponse_id INT REFERENCES checkbox_response(id)
 );
 
-CREATE TABLE planningBubble
+CREATE TABLE planning_bubble
 (
      id INT NOT NULL,
      PRIMARY KEY(id)
 );
 
-CREATE TABLE planningEntry
+CREATE TABLE planning_entry
 (
     id INT NOT NULL,
-    bubble_id INT REFERENCES CheckBoxBubble(id),
-    creator_ref CHAR(36) REFERENCES User(ref),
+    bubble_id INT REFERENCES checkbox_bubble(id),
+    creator_ref CHAR(36) REFERENCES user(ref),
     start DATETIME,
     end DATETIME,
     content VARCHAR(500),
     PRIMARY KEY(id)
 );
 
-CREATE TABLE freeBubble
+CREATE TABLE free_bubble
 (
     id INT NOT NULL,
     title VARCHAR(100),
