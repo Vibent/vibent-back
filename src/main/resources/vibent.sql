@@ -1,8 +1,9 @@
-CREATE TABLE User
+CREATE TABLE user
 (
-    id INT NOT NULL,
-    ref char(36),
+    id INT NOT NULL AUTO_INCREMENT,
+    ref CHAR(36) NOT NULL CHARACTER SET ascii,
     first_name VARCHAR(64),
+    last_name VARCHAR(64),
     name VARCHAR(64),
     email VARCHAR(320),
     image_path VARCHAR(500),
@@ -10,208 +11,186 @@ CREATE TABLE User
     password VARCHAR(255),
     salt VARCHAR(64),
     PRIMARY KEY(id)
-)
+);
 
-CREATE TABLE Group
+CREATE TABLE GroupT
 (
     id INT NOT NULL,
-    ref char(36) NOT NULL,
+    ref CHAR(36) NOT NULL,
     name VARCHAR(64),
     image_path VARCHAR(255),
-    has_default_admin bool,
+    has_default_admin BOOLEAN,
     PRIMARY KEY(id)
-)
+);
 
 CREATE TABLE EventParticipation
 (
-    user_ref char(36) NOT NULL,
-    groupe_ref char(36) NOT NULL,
-    answer ENUM('Yes', 'No', 'Maybe', 'Unanswered')
-    isVisible bool,
-    FOREIGN KEY (user_ref) REFERENCES User(id),
-    FOREIGN KEY (groupe_ref) REFERENCES Group(id)
-)
+    user_ref CHAR(36) REFERENCES User(ref),
+    group_ref CHAR(36) REFERENCES GroupT(ref),
+    answer ENUM('Yes', 'No', 'Maybe', 'Unanswered'),
+    isVisible BOOLEAN
+);
 
 CREATE TABLE Event
 (
     id INT NOT NULL,
-    ref char(36) NOT NULL,
-    group_ref char(36) NOT NULL,
+    ref CHAR(36) NOT NULL,
+    group_ref CHAR(36) NOT NULL REFERENCES GroupT(ref),
     title VARCHAR(255),
     description VARCHAR(500),
-    start_date DateTime,
-    end_date DateTime,
-    PRIMARY KEY(id),
-    FOREIGN KEY (group_ref) REFERENCES Group(id)
-)
+    start_date DATETIME,
+    end_date DATETIME,
+    PRIMARY KEY(id)
+);
 
 CREATE TABLE GroupMemberShip
 (
-    user_ref char(36) NOT NULL,
-    group_ref char(36) NOT NULL,
-    is_admin bool NOT NULL,
-    is_accepted bool NOT NULL,
-    FOREIGN KEY (user_ref) REFERENCES User(id),
-    FOREIGN KEY (group_ref) REFERENCES Group(id)
-)
+    user_ref CHAR(36) NOT NULL REFERENCES User(ref),
+    group_ref CHAR(36) NOT NULL REFERENCES GroupT(ref),
+    is_admin BOOLEAN NOT NULL,
+    is_accepted BOOLEAN NOT NULL
+);
 
 CREATE TABLE GroupInviteLink
 (
     id INT NOT NULL,
-    group_ref char(36) NOT NULL,
+  group_ref CHAR(36) NOT NULL REFERENCES GroupT(ref),
     hash VARCHAR(255),
-    expires DateTime,
-    PRIMARY KEY(id),
-    FOREIGN KEY (group_ref) REFERENCES Group(id)
-)
+    expires DATETIME,
+    PRIMARY KEY(id)
+);
 
 CREATE TABLE BubbleOwnerShip
 (
     id INT NOT NULL,
-    event_ref char(36) NOT NULL,
+    event_ref CHAR(36) NOT NULL REFERENCES Event(id),
     bubble_type ENUM('TravelBubble', 'LocationBubble', 'AlimentationBubble', 'SurveyBubble','CheckBoxBubble', 'PlanningBubble', 'FreeBubble'),
     bubble_id INT,
-    creator_ref char(36),
-    PRIMARY KEY(id),
-    FOREIGN KEY (event_ref) REFERENCES Event(id)
-)
+    creator_ref CHAR(36),
+    PRIMARY KEY(id)
+);
 
 CREATE TABLE TravelBubble
 (
-    id INT PRIMARY KEY NOT NULL,
-)
+    id INT PRIMARY KEY NOT NULL
+);
+
 CREATE TABLE TravelProposal
 (
     id INT NOT NULL,
-    bubble_id INT,
-    driver_ref char(36),
+    bubble_id INT REFERENCES TravelBubble(id),
+    driver_ref CHAR(36) REFERENCES User(ref),
     capacity INT,
     pass_by_cities VARCHAR(500),
-    PRIMARY KEY(id),
-    FOREIGN KEY (bubble_id) REFERENCES TravelBubble(id),
-    FOREIGN KEY (driver_ref) REFERENCES User(ref)
-)
+    PRIMARY KEY(id)
+);
 
 CREATE TABLE TravelRequest
 (
     id INT NOT NULL,
-    creator_ref char(36),
-     bubble_id INT,
+    creator_ref CHAR(36) REFERENCES User(ref),
+    bubble_id INT REFERENCES TravelBubble(id),
     capacity INT,
-    attached_to_proposal bool,
-    FOREIGN KEY (bubble_id) REFERENCES TravelBubble(id),
-    FOREIGN KEY (creator_ref) REFERENCES User(ref),
+    attached_to_proposal BOOLEAN,
     PRIMARY KEY(id)
-)
+);
 
 CREATE TABLE AttachedRequest
 (
-    proposal_id INT,
-	request_id INT,
-	FOREIGN KEY (proposal_id) REFERENCES TravelProposal(id),
-	FOREIGN KEY (request_id) REFERENCES TravelRequest(id)
-)
+    proposal_id INT REFERENCES TravelProposal(id),
+	  request_id INT REFERENCES TravelRequest(id)
+);
 
 CREATE TABLE LocationBubble
 (
     id INT PRIMARY KEY NOT NULL,
     coord VARCHAR(255)
-)
+);
 
 CREATE TABLE AlimentationBubble
 (
     id INT PRIMARY KEY NOT NULL
-)
+);
 
 CREATE TABLE AlimentationEntry
 (
     id INT NOT NULL,
-    bubble_id INT,
-	name VARCHAR(64),
-	total_requested INT,
-	total_current INT,
-	type ENUM('Food', 'Drink'),
-	FOREIGN KEY (bubble_id) REFERENCES AlimentationBubble(id),
-	PRIMARY KEY(id)
-)
+    bubble_id INT REFERENCES AlimentationBubble(id),
+    name VARCHAR(64),
+    total_requested INT,
+    total_current INT,
+    type ENUM('Food', 'Drink'),
+    PRIMARY KEY(id)
+);
 
 CREATE TABLE AlimentationBringing
 (
-    entry_id INT,
-	user_ref char(36),
-	quantity INT,
-	FOREIGN KEY (entry_id) REFERENCES AlimentationEntry(id)
-)
+    entry_id INT REFERENCES AlimentationEntry(id),
+    user_ref CHAR(36),
+    quantity INT
+);
 
 CREATE TABLE SurveyBubble 
 (
     id INT,
-	title VARCHAR(500)
-)
+	  title VARCHAR(500)
+);
 
 CREATE TABLE SurveyResponse
 (
-    id NOT NULL,
-	survey_id INT,
-	content VARCHAR(500),
-	PRIMARY KEY(id),
-	FOREIGN KEY (survey_id) REFERENCES SurveyBubble(id)
-)
+    id INT NOT NULL,
+    survey_id INT REFERENCES SurveyBubble(id),
+    content VARCHAR(500),
+    PRIMARY KEY(id)
+);
 
 CREATE TABLE UsersSurveyResponses
 (
-    user_ref char(36),
-	surveyresponse_id INT,
-	FOREIGN KEY (surveyresponse_id) REFERENCES SurveyResponse(id),
-	FOREIGN KEY (user_ref) REFERENCES User(ref)
-)
+    user_ref CHAR(36) REFERENCES User(ref),
+    surveyresponse_id INT REFERENCES SurveyResponse(id)
+);
 
 CREATE TABLE CheckBoxBubble
 (
    id INT,
    title VARCHAR(500)
-)
+);
 
 CREATE TABLE CheckBoxResponse
 (
-   id NOT NULL,
-   bubble_id INT,
+   id INT NOT NULL,
+   bubble_id INT REFERENCES CheckBoxBubble(id),
    content VARCHAR(500),
-   PRIMARY KEY(id),
-   FOREIGN KEY (bubble_id) REFERENCES CheckBoxBubble(id)
-)
+   PRIMARY KEY(id)
+);
 
 CREATE TABLE UsersCheckBoxResponses
 (
-    user_ref char(36),
-	checkboxresponse_id INT,
-	FOREIGN KEY (user_ref) REFERENCES User(ref),
-	FOREIGN KEY (checkboxresponse_id) REFERENCES CheckBoxResponse(id)
-)
+    user_ref CHAR(36) REFERENCES User(ref),
+    checkboxresponse_id INT REFERENCES CheckBoxResponse(id)
+);
 
 CREATE TABLE PlanningBubble
 (
-   id NOT NULL,
-   PRIMARY KEY(id)
-)
+     id INT NOT NULL,
+     PRIMARY KEY(id)
+);
 
 CREATE TABLE PlanningEntry
 (
-    id NOT NULL,
-    bubble_id INT
-	creator_ref UUID,
-	start DateTime,
-	end DateTime,
-	content VARCHAR(500),
-	PRIMARY KEY(id),
-	FOREIGN KEY (bubble_id) REFERENCES CheckBoxBubble(id),
-	FOREIGN KEY (creator_ref) REFERENCES User(ref)
-)
+    id INT NOT NULL,
+    bubble_id INT REFERENCES CheckBoxBubble(id),
+    creator_ref CHAR(36) REFERENCES User(ref),
+    start DATETIME,
+    end DATETIME,
+    content VARCHAR(500),
+    PRIMARY KEY(id)
+);
 
 CREATE TABLE FreeBubble
 (
-    id NOT NULL,
-	title VARCHAR(100),
-	content VARCHAR(1000),
-	PRIMARY KEY(id)
-)
+    id INT NOT NULL,
+    title VARCHAR(100),
+    content VARCHAR(1000),
+    PRIMARY KEY(id)
+);
