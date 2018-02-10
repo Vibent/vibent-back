@@ -1,7 +1,7 @@
 CREATE TABLE user
 (
     id INT NOT NULL AUTO_INCREMENT,
-    ref CHAR(36) NOT NULL CHARACTER SET ascii,
+    ref CHAR(36) NOT NULL,
     first_name VARCHAR(64),
     last_name VARCHAR(64),
     name VARCHAR(64),
@@ -13,7 +13,7 @@ CREATE TABLE user
     PRIMARY KEY(id)
 );
 
-CREATE TABLE GroupT
+CREATE TABLE groupT
 (
     id INT NOT NULL,
     ref CHAR(36) NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE GroupT
     PRIMARY KEY(id)
 );
 
-CREATE TABLE EventParticipation
+CREATE TABLE eventParticipation
 (
     user_ref CHAR(36) REFERENCES User(ref),
     group_ref CHAR(36) REFERENCES GroupT(ref),
@@ -31,7 +31,7 @@ CREATE TABLE EventParticipation
     isVisible BOOLEAN
 );
 
-CREATE TABLE Event
+CREATE TABLE event
 (
     id INT NOT NULL,
     ref CHAR(36) NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE Event
     PRIMARY KEY(id)
 );
 
-CREATE TABLE GroupMemberShip
+CREATE TABLE groupMemberShip
 (
     user_ref CHAR(36) NOT NULL REFERENCES User(ref),
     group_ref CHAR(36) NOT NULL REFERENCES GroupT(ref),
@@ -51,7 +51,7 @@ CREATE TABLE GroupMemberShip
     is_accepted BOOLEAN NOT NULL
 );
 
-CREATE TABLE GroupInviteLink
+CREATE TABLE groupInviteLink
 (
     id INT NOT NULL,
   group_ref CHAR(36) NOT NULL REFERENCES GroupT(ref),
@@ -60,7 +60,7 @@ CREATE TABLE GroupInviteLink
     PRIMARY KEY(id)
 );
 
-CREATE TABLE BubbleOwnerShip
+CREATE TABLE bubbleOwnerShip
 (
     id INT NOT NULL,
     event_ref CHAR(36) NOT NULL REFERENCES Event(id),
@@ -70,12 +70,12 @@ CREATE TABLE BubbleOwnerShip
     PRIMARY KEY(id)
 );
 
-CREATE TABLE TravelBubble
+CREATE TABLE travelBubble
 (
     id INT PRIMARY KEY NOT NULL
 );
 
-CREATE TABLE TravelProposal
+CREATE TABLE travelProposal
 (
     id INT NOT NULL,
     bubble_id INT REFERENCES TravelBubble(id),
@@ -85,7 +85,7 @@ CREATE TABLE TravelProposal
     PRIMARY KEY(id)
 );
 
-CREATE TABLE TravelRequest
+CREATE TABLE travelRequest
 (
     id INT NOT NULL,
     creator_ref CHAR(36) REFERENCES User(ref),
@@ -95,24 +95,24 @@ CREATE TABLE TravelRequest
     PRIMARY KEY(id)
 );
 
-CREATE TABLE AttachedRequest
+CREATE TABLE attachedRequest
 (
     proposal_id INT REFERENCES TravelProposal(id),
 	  request_id INT REFERENCES TravelRequest(id)
 );
 
-CREATE TABLE LocationBubble
+CREATE TABLE locationBubble
 (
     id INT PRIMARY KEY NOT NULL,
     coord VARCHAR(255)
 );
 
-CREATE TABLE AlimentationBubble
+CREATE TABLE alimentationBubble
 (
     id INT PRIMARY KEY NOT NULL
 );
 
-CREATE TABLE AlimentationEntry
+CREATE TABLE alimentationEntry
 (
     id INT NOT NULL,
     bubble_id INT REFERENCES AlimentationBubble(id),
@@ -123,20 +123,20 @@ CREATE TABLE AlimentationEntry
     PRIMARY KEY(id)
 );
 
-CREATE TABLE AlimentationBringing
+CREATE TABLE alimentationBringing
 (
     entry_id INT REFERENCES AlimentationEntry(id),
     user_ref CHAR(36),
     quantity INT
 );
 
-CREATE TABLE SurveyBubble 
+CREATE TABLE surveyBubble
 (
     id INT,
 	  title VARCHAR(500)
 );
 
-CREATE TABLE SurveyResponse
+CREATE TABLE surveyResponse
 (
     id INT NOT NULL,
     survey_id INT REFERENCES SurveyBubble(id),
@@ -144,19 +144,19 @@ CREATE TABLE SurveyResponse
     PRIMARY KEY(id)
 );
 
-CREATE TABLE UsersSurveyResponses
+CREATE TABLE usersSurveyResponses
 (
     user_ref CHAR(36) REFERENCES User(ref),
     surveyresponse_id INT REFERENCES SurveyResponse(id)
 );
 
-CREATE TABLE CheckBoxBubble
+CREATE TABLE checkBoxBubble
 (
    id INT,
    title VARCHAR(500)
 );
 
-CREATE TABLE CheckBoxResponse
+CREATE TABLE checkBoxResponse
 (
    id INT NOT NULL,
    bubble_id INT REFERENCES CheckBoxBubble(id),
@@ -164,19 +164,19 @@ CREATE TABLE CheckBoxResponse
    PRIMARY KEY(id)
 );
 
-CREATE TABLE UsersCheckBoxResponses
+CREATE TABLE usersCheckBoxResponses
 (
     user_ref CHAR(36) REFERENCES User(ref),
     checkboxresponse_id INT REFERENCES CheckBoxResponse(id)
 );
 
-CREATE TABLE PlanningBubble
+CREATE TABLE planningBubble
 (
      id INT NOT NULL,
      PRIMARY KEY(id)
 );
 
-CREATE TABLE PlanningEntry
+CREATE TABLE planningEntry
 (
     id INT NOT NULL,
     bubble_id INT REFERENCES CheckBoxBubble(id),
@@ -187,7 +187,7 @@ CREATE TABLE PlanningEntry
     PRIMARY KEY(id)
 );
 
-CREATE TABLE FreeBubble
+CREATE TABLE freeBubble
 (
     id INT NOT NULL,
     title VARCHAR(100),
