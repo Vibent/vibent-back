@@ -1,4 +1,4 @@
-package com.gitlab.vibent.vibentback.event;
+package com.gitlab.vibent.vibentback.event.Event;
 
 import lombok.Data;
 import lombok.NonNull;

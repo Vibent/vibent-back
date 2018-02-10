@@ -1,6 +1,5 @@
-package com.gitlab.vibent.vibentback.event;
+package com.gitlab.vibent.vibentback.event.Event;
 
-import com.gitlab.vibent.vibentback.groupT.GroupT;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.ArrayList;
