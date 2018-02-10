@@ -2,11 +2,8 @@ package com.gitlab.vibent.vibentback.user;
 
 import lombok.Data;
 import lombok.NonNull;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import java.util.UUID;
 
 @Data
 @Entity

@@ -8,7 +8,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     User findById(long id);
 
-    User findByRef(UUID ref);
+    User findByRef(String ref);
 
     User findByEmail(String email);
 }
