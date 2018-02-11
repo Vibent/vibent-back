@@ -25,10 +25,12 @@ CREATE TABLE group_t
 
 CREATE TABLE event_participation
 (
+    id INT NOT NULL AUTO_INCREMENT,
     user_ref CHAR(36) REFERENCES user(ref),
     group_ref CHAR(36) REFERENCES group_t(ref),
     answer ENUM('Yes', 'No', 'Maybe', 'Unanswered'),
-    isVisible BOOLEAN
+    is_visible BOOLEAN,
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE event
@@ -45,10 +47,13 @@ CREATE TABLE event
 
 CREATE TABLE group_membership
 (
+    id INT NOT NULL AUTO_INCREMENT,
     user_ref CHAR(36) NOT NULL REFERENCES user(ref),
     group_ref CHAR(36) NOT NULL REFERENCES group_t(ref),
     is_admin BOOLEAN NOT NULL,
-    is_accepted BOOLEAN NOT NULL
+    is_accepted BOOLEAN NOT NULL,
+    PRIMARY KEY(id)
+
 );
 
 CREATE TABLE group_invite_link
@@ -72,7 +77,8 @@ CREATE TABLE bubble_ownership
 
 CREATE TABLE travel_bubble
 (
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT
+    id INT NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE travel_proposal
@@ -97,19 +103,24 @@ CREATE TABLE travel_request
 
 CREATE TABLE attached_request
 (
+    id INT NOT NULL AUTO_INCREMENT,
     proposal_id INT REFERENCES travel_proposal(id),
-	  request_id INT REFERENCES travel_request(id)
+	  request_id INT REFERENCES travel_request(id),
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE location_bubble
 (
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    coord VARCHAR(255)
+    id INT NOT NULL AUTO_INCREMENT,
+    coord VARCHAR(255),
+    PRIMARY KEY(id)
+
 );
 
 CREATE TABLE alimentation_bubble
 (
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT
+    id INT NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE alimentation_entry
@@ -125,9 +136,11 @@ CREATE TABLE alimentation_entry
 
 CREATE TABLE alimentation_bringing
 (
+    id INT NOT NULL AUTO_INCREMENT,
     entry_id INT REFERENCES alimentation_entry(id),
     user_ref CHAR(36),
-    quantity INT
+    quantity INT,
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE survey_bubble
@@ -147,15 +160,17 @@ CREATE TABLE survey_response
 
 CREATE TABLE users_survey_responses
 (
+    id INT NOT NULL AUTO_INCREMENT,
     user_ref CHAR(36) REFERENCES user(ref),
-    surveyresponse_id INT REFERENCES survey_response(id)
+    surveyresponse_id INT REFERENCES survey_response(id),
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE checkbox_bubble
 (
    id INT AUTO_INCREMENT,
    title VARCHAR(500),
-  PRIMARY KEY (id)
+   PRIMARY KEY (id)
 );
 
 CREATE TABLE checkbox_response
@@ -168,8 +183,10 @@ CREATE TABLE checkbox_response
 
 CREATE TABLE users_checkbox_responses
 (
+    id INT NOT NULL AUTO_INCREMENT,
     user_ref CHAR(36) REFERENCES user(ref),
-    checkboxresponse_id INT REFERENCES checkbox_response(id)
+    checkboxresponse_id INT REFERENCES checkbox_response(id),
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE planning_bubble

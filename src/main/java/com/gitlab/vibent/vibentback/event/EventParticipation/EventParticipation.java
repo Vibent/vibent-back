@@ -9,6 +9,9 @@ import javax.persistence.*;
 @Entity
 public class EventParticipation {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     @NonNull
     private String userRef;
     @NonNull
