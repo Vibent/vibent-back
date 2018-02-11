@@ -1,4 +1,4 @@
-package com.gitlab.vibent.vibentback.event.Event;
+package com.gitlab.vibent.vibentback.event;
 
 import org.springframework.data.repository.CrudRepository;
 

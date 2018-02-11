@@ -1,4 +1,4 @@
-package com.gitlab.vibent.vibentback.event.EventParticipation;
+package com.gitlab.vibent.vibentback.eventParticipation;
 
 import org.springframework.data.repository.CrudRepository;
 import java.util.ArrayList;

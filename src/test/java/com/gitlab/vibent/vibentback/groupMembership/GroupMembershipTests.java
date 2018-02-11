@@ -1,8 +1,8 @@
-package com.gitlab.vibent.vibentback.event;
+package com.gitlab.vibent.vibentback.groupMembership;
 
 import com.gitlab.vibent.vibentback.VibentTests;
-import com.gitlab.vibent.vibentback.eventParticipation.EventParticipation;
-import com.gitlab.vibent.vibentback.eventParticipation.EventParticipationRepository;
+import com.gitlab.vibent.vibentback.groupMembership.GroupMembership;
+import com.gitlab.vibent.vibentback.groupMembership.GroupMembershipRepository;
 import com.gitlab.vibent.vibentback.groupT.GroupT;
 import com.gitlab.vibent.vibentback.groupT.GroupTRepository;
 import com.gitlab.vibent.vibentback.user.User;
@@ -17,10 +17,10 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class EventParticipationTests extends VibentTests {
+public class GroupMembershipTests extends VibentTests {
 
     @Autowired
-    EventParticipationRepository repository;
+    GroupMembershipRepository repository;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -29,11 +29,11 @@ public class EventParticipationTests extends VibentTests {
     User user = new User(UUID.randomUUID().toString(), "Theo", "Joubert", "theojoubertmoureaud@gmail.com","password", "salt");
 
     @Test
-    public void testAddEventParticipation(){
+    public void testAddGroupMembership(){
         userRepository.save(user);
         groupTRepository.save(group);
-        EventParticipation eventParticipation = new EventParticipation(user.getRef(), group.getRef(),"Yes");
-        repository.save(eventParticipation);
+        GroupMembership groupMembership = new GroupMembership(user.getRef(), group.getRef());
+        repository.save(groupMembership);
     }
 
 }

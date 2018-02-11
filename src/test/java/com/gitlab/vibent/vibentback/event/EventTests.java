@@ -1,8 +1,6 @@
 package com.gitlab.vibent.vibentback.event;
 
 import com.gitlab.vibent.vibentback.VibentTests;
-import com.gitlab.vibent.vibentback.event.Event.Event;
-import com.gitlab.vibent.vibentback.event.Event.EventRepository;
 import com.gitlab.vibent.vibentback.groupT.GroupT;
 import org.junit.BeforeClass;
 import org.junit.Test;
