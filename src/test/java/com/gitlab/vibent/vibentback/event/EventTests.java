@@ -20,7 +20,7 @@ public class EventTests extends VibentTests {
 
     @Autowired
     EventRepository repository;
-    GroupT group = new GroupT(UUID.randomUUID().toString(), "groupTest", false);
+    GroupT group = new GroupT(UUID.randomUUID().toString(), "groupTest");
 
     @BeforeClass
     public static void onlyOnce() {

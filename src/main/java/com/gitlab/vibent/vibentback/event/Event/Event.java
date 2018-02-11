@@ -5,7 +5,6 @@ import lombok.NonNull;
 import javax.persistence.*;
 import java.util.Date;
 
-
 @Data
 @Entity
 public class Event {

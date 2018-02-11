@@ -18,7 +18,7 @@ public class GroupTTests extends VibentTests {
 
     @Test
     public void testAddGroup(){
-        GroupT group = new GroupT(UUID.randomUUID().toString(), "groupTest", false);
+        GroupT group = new GroupT(UUID.randomUUID().toString(), "groupTest");
         repository.save(group);
     }
 }

@@ -17,7 +17,6 @@ public class GroupT {
     @NonNull
     private String name;
     private String imagePath;
-    @NonNull
     private boolean hasDefaultAdmin;
 
 }

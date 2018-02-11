@@ -15,7 +15,6 @@ public class EventParticipation {
     private String groupRef;
     @NonNull
     private String answer;
-    @NonNull
     private boolean isVisible;
 
 }
