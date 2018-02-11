@@ -2,6 +2,7 @@ package com.gitlab.vibent.vibentback.event;
 
 import com.gitlab.vibent.vibentback.VibentTests;
 import com.gitlab.vibent.vibentback.groupT.GroupT;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,10 +19,12 @@ public class EventTests extends VibentTests {
 
     @Autowired
     EventRepository repository;
-    GroupT group = new GroupT(UUID.randomUUID().toString(), "groupTest");
+    GroupT group;
 
-    @BeforeClass
-    public static void onlyOnce() {
+    @Before
+    public void init()
+    {
+        group = new GroupT(UUID.randomUUID().toString(), "groupTest");
     }
 
     @Test

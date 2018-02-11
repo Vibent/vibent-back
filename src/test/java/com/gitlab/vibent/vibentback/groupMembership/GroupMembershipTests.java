@@ -7,6 +7,7 @@ import com.gitlab.vibent.vibentback.groupT.GroupT;
 import com.gitlab.vibent.vibentback.groupT.GroupTRepository;
 import com.gitlab.vibent.vibentback.user.User;
 import com.gitlab.vibent.vibentback.user.UserRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,20 @@ public class GroupMembershipTests extends VibentTests {
     UserRepository userRepository;
     @Autowired
     GroupTRepository groupTRepository;
-    GroupT group = new GroupT(UUID.randomUUID().toString(), "groupTest");
-    User user = new User(UUID.randomUUID().toString(), "Theo", "Joubert", "theojoubertmoureaud@gmail.com","password", "salt");
 
-    @Test
-    public void testAddGroupMembership(){
+    GroupT group;
+    User user;
+
+    @Before
+    public void init()
+    {
+        group = new GroupT(UUID.randomUUID().toString(), "groupTest");
+        user = new User(UUID.randomUUID().toString(), "Theo", "Joubert", "theojoubertmoureaud@gmail.com","password", "salt");
         userRepository.save(user);
         groupTRepository.save(group);
+    }
+    @Test
+    public void testAddGroupMembership(){
         GroupMembership groupMembership = new GroupMembership(user.getRef(), group.getRef());
         repository.save(groupMembership);
     }
