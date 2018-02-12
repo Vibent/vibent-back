@@ -29,4 +29,5 @@ public class User {
     private String password;
     @NonNull
     private String salt;
+    private boolean isDeleted;
 }
