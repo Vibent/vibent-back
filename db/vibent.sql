@@ -252,7 +252,8 @@ ALTER TABLE checkbox_response
 ADD UNIQUE KEY checkbox_response_id(id);
 
 ALTER TABLE event
-ADD UNIQUE KEY event_id (id),
+ADD UNIQUE KEY event_id (id);
+ALTER TABLE event
 ADD UNIQUE KEY event_ref (ref);
 
 ALTER TABLE travel_bubble
@@ -283,7 +284,8 @@ ADD UNIQUE KEY planning_bubble_id(id);
 
 ALTER TABLE event_participation
 ADD CONSTRAINT event_participation_user__fk
-FOREIGN KEY (user_ref) REFERENCES user(ref),
+FOREIGN KEY (user_ref) REFERENCES user(ref);
+ALTER TABLE event_participation
 ADD CONSTRAINT event_participation_group__fk
 FOREIGN KEY (group_ref) REFERENCES group_t(ref);
 
@@ -293,7 +295,8 @@ FOREIGN KEY (group_ref)REFERENCES group_t(ref);
 
 ALTER TABLE group_membership
 ADD CONSTRAINT group_membership_user__fk
-FOREIGN KEY (user_ref) REFERENCES user(ref),
+FOREIGN KEY (user_ref) REFERENCES user(ref);
+ALTER TABLE group_membership
 ADD CONSTRAINT group_membership_group__fk
 FOREIGN KEY (group_ref) REFERENCES group_t(ref);
 
@@ -303,25 +306,29 @@ FOREIGN KEY (group_ref)REFERENCES group_t(ref);
 
 ALTER TABLE bubble_ownership
 ADD CONSTRAINT bubble_ownership_event__fk
-FOREIGN KEY (event_ref)REFERENCES event(ref),
+FOREIGN KEY (event_ref)REFERENCES event(ref);
+ALTER TABLE bubble_ownership
 ADD CONSTRAINT bubble_ownership_user__fk
 FOREIGN KEY (creator_ref)REFERENCES user(ref);
 
 ALTER TABLE travel_proposal
 ADD CONSTRAINT travel_proposal_bubble__fk
-FOREIGN KEY (bubble_id) REFERENCES travel_bubble(id),
+FOREIGN KEY (bubble_id) REFERENCES travel_bubble(id);
+ALTER TABLE travel_proposal
 ADD CONSTRAINT travel_proposal_driver__fk
 FOREIGN KEY (driver_ref) REFERENCES user(ref);
 
 ALTER TABLE travel_request
 ADD CONSTRAINT travel_request_creator__fk
-FOREIGN KEY (creator_ref) REFERENCES user(ref),
+FOREIGN KEY (creator_ref) REFERENCES user(ref);
+ALTER TABLE travel_request
 ADD CONSTRAINT travel_request_bubble__fk
 FOREIGN KEY (bubble_id) REFERENCES travel_bubble(id);
 
 ALTER TABLE attached_request
 ADD CONSTRAINT attached_request_proposal__fk
-FOREIGN KEY (proposal_id) REFERENCES travel_proposal(id),
+FOREIGN KEY (proposal_id) REFERENCES travel_proposal(id);
+ALTER TABLE attached_request
 ADD CONSTRAINT attached_request_request__fk
 FOREIGN KEY (request_id) REFERENCES travel_request(id);
 
@@ -339,7 +346,8 @@ FOREIGN KEY (survey_id)REFERENCES survey_bubble(id);
 
 ALTER TABLE users_survey_responses
 ADD CONSTRAINT users_survey_responses_user__fk
-FOREIGN KEY (user_ref)REFERENCES user(ref),
+FOREIGN KEY (user_ref)REFERENCES user(ref);
+ALTER TABLE users_survey_responses
 ADD CONSTRAINT users_survey_responses_bubble__fk
 FOREIGN KEY (surveyresponse_id)REFERENCES survey_response(id);
 
@@ -349,12 +357,14 @@ FOREIGN KEY (bubble_id)REFERENCES checkbox_bubble(id);
 
 ALTER TABLE users_checkbox_responses
 ADD CONSTRAINT users_checkbox_responses_user__fk
-FOREIGN KEY (user_ref)REFERENCES user(ref),
+FOREIGN KEY (user_ref)REFERENCES user(ref);
+ALTER TABLE users_checkbox_responses
 ADD CONSTRAINT users_checkbox_responses_bubble__fk
 FOREIGN KEY (checkboxresponse_id)REFERENCES checkbox_response(id);
 
 ALTER TABLE planning_entry
 ADD CONSTRAINT planning_entry_bubble__fk
-FOREIGN KEY (bubble_id)REFERENCES planning_bubble(id),
+FOREIGN KEY (bubble_id)REFERENCES planning_bubble(id);
+ALTER TABLE planning_entry
 ADD CONSTRAINT planning_entry_user__fk
 FOREIGN KEY (creator_ref)REFERENCES user(ref);
