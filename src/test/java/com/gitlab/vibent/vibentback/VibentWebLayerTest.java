@@ -1,12 +1,3 @@
-/*******************************************************
- * Copyright (C) 2018 Vibent
- *
- * This file is part of Vibent application
- *
- * Can not be copied and/or distributed without the express
- * permission of both fondators
- *******************************************************/
-
 package com.gitlab.vibent.vibentback;
 
 import com.gitlab.vibent.vibentback.user.User;
@@ -18,6 +9,17 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
 
-public class VibentTests {
+public class VibentWebLayerTest {
+
+    @Autowired
+    public MockMvc mockMvc;
+
+    @MockBean
+    UserService service;
+
+    @Before
+    public void setUp(){
+        when(service.getUser("5")).thenReturn(new User("d","d","d","d","d","d"));
+    }
 
 }
