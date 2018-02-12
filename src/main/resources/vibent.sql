@@ -173,9 +173,11 @@ CREATE TABLE survey_response
 (
     id INT NOT NULL AUTO_INCREMENT,
     survey_id INT,
+    creator_ref CHAR(36),
     content VARCHAR(500),
     is_deleted BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    INDEX (creator_ref)
 );
 
 CREATE TABLE users_survey_responses
@@ -335,7 +337,9 @@ FOREIGN KEY (entry_id)REFERENCES alimentation_entry(id);
 
 ALTER TABLE survey_response
 ADD CONSTRAINT survey_response_bubble__fk
-FOREIGN KEY (survey_id)REFERENCES survey_bubble(id);
+FOREIGN KEY (survey_id)REFERENCES survey_bubble(id),
+ADD CONSTRAINT survey_response_user__fk
+FOREIGN KEY (creator_ref)REFERENCES user(ref);
 
 ALTER TABLE users_survey_responses
 ADD CONSTRAINT users_survey_responses_user__fk
