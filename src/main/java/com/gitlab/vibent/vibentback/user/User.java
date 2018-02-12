@@ -1,12 +1,16 @@
 package com.gitlab.vibent.vibentback.user;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class User {
 
     @Id
