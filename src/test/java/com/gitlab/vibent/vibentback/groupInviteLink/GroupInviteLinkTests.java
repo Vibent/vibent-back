@@ -37,7 +37,7 @@ public class GroupInviteLinkTests extends VibentTests {
         groupTRepository.save(group);
     }
     @Test
-    public void testAddEventParticipation(){
+    public void testAddGroupInviteLink(){
         GroupInviteLink eventParticipation = new GroupInviteLink(group.getRef(), "hash",new Date());
         repository.save(eventParticipation);
     }
