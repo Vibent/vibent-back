@@ -1,7 +1,7 @@
 CREATE TABLE user
 (
     id INT NOT NULL AUTO_INCREMENT,
-    ref CHAR(36) NOT NULL,
+    ref CHAR(36) NOT NULL UNIQUE,
     first_name VARCHAR(64),
     last_name VARCHAR(64),
     name VARCHAR(64),
@@ -11,7 +11,8 @@ CREATE TABLE user
     password VARCHAR(255),
     salt VARCHAR(64),
     is_deleted BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    INDEX(ref)
 );
 
 CREATE TABLE group_t
@@ -22,7 +23,8 @@ CREATE TABLE group_t
     image_path VARCHAR(255),
     has_default_admin BOOLEAN,
     is_deleted BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    INDEX(ref)
 );
 
 CREATE TABLE event_participation
@@ -32,7 +34,9 @@ CREATE TABLE event_participation
     group_ref CHAR(36),
     answer ENUM('Yes', 'No', 'Maybe', 'Unanswered'),
     is_visible BOOLEAN,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    INDEX(user_ref),
+    INDEX(group_ref)
 );
 
 CREATE TABLE event
@@ -45,7 +49,8 @@ CREATE TABLE event
     start_date DATETIME,
     end_date DATETIME,
     is_deleted BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    INDEX(ref)
 );
 
 CREATE TABLE group_membership
@@ -55,7 +60,9 @@ CREATE TABLE group_membership
     group_ref CHAR(36) NOT NULL REFERENCES group_t(ref),
     is_admin BOOLEAN NOT NULL,
     is_accepted BOOLEAN NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    INDEX(group_ref),
+    INDEX(user_ref)
 
 );
 
@@ -65,7 +72,8 @@ CREATE TABLE group_invite_link
     group_ref CHAR(36) NOT NULL,
     hash VARCHAR(255),
     expires DATETIME,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    INDEX (group_ref)
 );
 
 CREATE TABLE bubble_ownership
@@ -76,7 +84,8 @@ CREATE TABLE bubble_ownership
     bubble_id INT,
     creator_ref CHAR(36),
     is_deleted BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    INDEX(event_ref)
 );
 
 CREATE TABLE travel_bubble
@@ -93,7 +102,8 @@ CREATE TABLE travel_proposal
     capacity INT,
     pass_by_cities VARCHAR(500),
     is_deleted BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    INDEX(driver_ref)
 );
 
 CREATE TABLE travel_request
@@ -104,7 +114,8 @@ CREATE TABLE travel_request
     capacity INT,
     attached_to_proposal BOOLEAN,
     is_deleted BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    INDEX(creator_ref)
 );
 
 CREATE TABLE attached_request
@@ -147,7 +158,8 @@ CREATE TABLE alimentation_bringing
     user_ref CHAR(36),
     quantity INT,
     is_deleted BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    INDEX (user_ref)
 );
 
 CREATE TABLE survey_bubble
@@ -171,7 +183,8 @@ CREATE TABLE users_survey_responses
     id INT NOT NULL AUTO_INCREMENT,
     user_ref CHAR(36),
     surveyresponse_id INT,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    INDEX(user_ref)
 );
 
 CREATE TABLE checkbox_bubble
@@ -195,7 +208,8 @@ CREATE TABLE users_checkbox_responses
     id INT NOT NULL AUTO_INCREMENT,
     user_ref CHAR(36) REFERENCES user(ref),
     checkboxresponse_id INT REFERENCES checkbox_response(id),
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    INDEX (user_ref)
 );
 
 CREATE TABLE planning_bubble
@@ -213,7 +227,8 @@ CREATE TABLE planning_entry
     end DATETIME,
     content VARCHAR(500),
     is_deleted BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    INDEX (creator_ref)
 );
 
 CREATE TABLE free_bubble
