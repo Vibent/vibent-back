@@ -23,4 +23,5 @@ public class CheckboxResponse {
     private Long bubbleId;
     @NonNull
     private String content;
+    private boolean isDeleted;
 }

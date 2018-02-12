@@ -29,5 +29,6 @@ public class Event {
     private Date startDate;
     @NonNull
     private Date endDate;
+    private boolean isDeleted;
 
 }

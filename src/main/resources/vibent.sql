@@ -10,6 +10,7 @@ CREATE TABLE user
     pays VARCHAR(255),
     password VARCHAR(255),
     salt VARCHAR(64),
+    is_deleted BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id)
 );
 
@@ -20,6 +21,7 @@ CREATE TABLE group_t
     name VARCHAR(64),
     image_path VARCHAR(255),
     has_default_admin BOOLEAN,
+    is_deleted BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id)
 );
 
@@ -42,6 +44,7 @@ CREATE TABLE event
     description VARCHAR(500),
     start_date DATETIME,
     end_date DATETIME,
+    is_deleted BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id)
 );
 
@@ -72,6 +75,7 @@ CREATE TABLE bubble_ownership
     bubble_type ENUM('TravelBubble', 'LocationBubble', 'AlimentationBubble', 'SurveyBubble','CheckBoxBubble', 'PlanningBubble', 'FreeBubble'),
     bubble_id INT,
     creator_ref CHAR(36),
+    is_deleted BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id)
 );
 
@@ -88,6 +92,7 @@ CREATE TABLE travel_proposal
     driver_ref CHAR(36),
     capacity INT,
     pass_by_cities VARCHAR(500),
+    is_deleted BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id)
 );
 
@@ -98,6 +103,7 @@ CREATE TABLE travel_request
     bubble_id INT,
     capacity INT,
     attached_to_proposal BOOLEAN,
+    is_deleted BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id)
 );
 
@@ -130,6 +136,7 @@ CREATE TABLE alimentation_entry
     total_requested INT,
     total_current INT,
     type ENUM('Food', 'Drink'),
+    is_deleted BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id)
 );
 
@@ -139,6 +146,7 @@ CREATE TABLE alimentation_bringing
     entry_id INT,
     user_ref CHAR(36),
     quantity INT,
+    is_deleted BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id)
 );
 
@@ -154,6 +162,7 @@ CREATE TABLE survey_response
     id INT NOT NULL AUTO_INCREMENT,
     survey_id INT,
     content VARCHAR(500),
+    is_deleted BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id)
 );
 
@@ -177,6 +186,7 @@ CREATE TABLE checkbox_response
    id INT NOT NULL AUTO_INCREMENT,
    bubble_id INT,
    content VARCHAR(500),
+   is_deleted BOOLEAN DEFAULT FALSE,
    PRIMARY KEY(id)
 );
 
@@ -202,6 +212,7 @@ CREATE TABLE planning_entry
     start DATETIME,
     end DATETIME,
     content VARCHAR(500),
+    is_deleted BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id)
 );
 
