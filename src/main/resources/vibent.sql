@@ -207,7 +207,7 @@ CREATE TABLE users_checkbox_responses
 (
     id INT NOT NULL AUTO_INCREMENT,
     user_ref CHAR(36) REFERENCES user(ref),
-    checkboxresponse_id INT REFERENCES checkbox_response(id),
+    checkbox_response_id INT REFERENCES checkbox_response(id),
     PRIMARY KEY(id),
     INDEX (user_ref)
 );
@@ -351,7 +351,7 @@ ALTER TABLE users_checkbox_responses
 ADD CONSTRAINT users_checkbox_responses_user__fk
 FOREIGN KEY (user_ref)REFERENCES user(ref),
 ADD CONSTRAINT users_checkbox_responses_bubble__fk
-FOREIGN KEY (checkboxresponse_id)REFERENCES checkbox_response(id);
+FOREIGN KEY (checkbox_response_id)REFERENCES checkbox_response(id);
 
 ALTER TABLE planning_entry
 ADD CONSTRAINT planning_entry_bubble__fk
