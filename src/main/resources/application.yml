@@ -16,7 +16,5 @@ spring:
 
 spring:
   datasource:
-    #driver-class-name: org.h2.Driver
-    #url: jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1
-    url: jdbc:h2:mem:test;MODE=mysql;INIT=RUNSCRIPT FROM './db/vibent.sql'
-spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQLDialect
+    url: jdbc:h2:mem:testdb;MODE=mysql;INIT=RUNSCRIPT FROM './db/vibent.sql';
+spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
