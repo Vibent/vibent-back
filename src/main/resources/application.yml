@@ -16,5 +16,13 @@ spring:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb;MODE=mysql;INIT=RUNSCRIPT FROM './db/vibent.sql';
+    url: jdbc:h2:./db/VIBENT_BACK;MODE=mysql;INIT=RUNSCRIPT FROM './db/vibent.sql';DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;TRACE_LEVEL_FIle=4;
+    # url: jdbc:h2:mem:VIBENT_BACK;MODE=mysql;INIT=RUNSCRIPT FROM './db/vibent.sql';DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;TRACE_LEVEL_FIle=4;
 spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+
+spring.jpa.properties.hibernate.show_sql: true
+spring.jpa.properties.hibernate.use_sql_comments: true
+spring.jpa.properties.hibernate.format_sql: true
+
+
+spring.jpa.properties.hibernate.type: trace
