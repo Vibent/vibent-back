@@ -1,8 +1,11 @@
 package com.gitlab.vibent.vibentback.bubble;
 
 import com.gitlab.vibent.vibentback.VibentTests;
-import com.gitlab.vibent.vibentback.bubble.checkbox.*;
 import com.gitlab.vibent.vibentback.bubble.survey.*;
+import com.gitlab.vibent.vibentback.bubble.survey.response.SurveyResponse;
+import com.gitlab.vibent.vibentback.bubble.survey.response.SurveyResponseRepository;
+import com.gitlab.vibent.vibentback.bubble.survey.usersResponses.UsersSurveyResponses;
+import com.gitlab.vibent.vibentback.bubble.survey.usersResponses.UsersSurveyResponsesRepository;
 import com.gitlab.vibent.vibentback.user.User;
 import com.gitlab.vibent.vibentback.user.UserRepository;
 import org.junit.Before;

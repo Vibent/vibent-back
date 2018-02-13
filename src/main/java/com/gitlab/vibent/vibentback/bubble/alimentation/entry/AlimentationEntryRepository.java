@@ -1,4 +1,4 @@
-package com.gitlab.vibent.vibentback.bubble.alimentation;
+package com.gitlab.vibent.vibentback.bubble.alimentation.entry;
 
 import org.springframework.data.repository.CrudRepository;
 

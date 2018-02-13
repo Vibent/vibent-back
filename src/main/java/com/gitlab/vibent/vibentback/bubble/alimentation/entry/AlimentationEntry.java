@@ -1,4 +1,4 @@
-package com.gitlab.vibent.vibentback.bubble.checkbox;
+package com.gitlab.vibent.vibentback.bubble.alimentation.entry;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,14 +14,19 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class UsersCheckboxResponses {
+public class AlimentationEntry {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @NonNull
-    private String userRef;
+    private Long bubbleId;
     @NonNull
-    private Long checkboxResponseId;
+    private String name;
+    private int totalRequested;
+    private int totalCurrent;
+    @NonNull
+    private String type;
+    private boolean isDeleted;
 
 }

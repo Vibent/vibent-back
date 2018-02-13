@@ -2,9 +2,10 @@ package com.gitlab.vibent.vibentback.bubble;
 
 import com.gitlab.vibent.vibentback.VibentTests;
 import com.gitlab.vibent.vibentback.bubble.alimentation.*;
-import com.gitlab.vibent.vibentback.bubble.checkbox.CheckboxBubble;
-import com.gitlab.vibent.vibentback.bubble.checkbox.CheckboxBubbleRepository;
-import com.gitlab.vibent.vibentback.groupT.GroupT;
+import com.gitlab.vibent.vibentback.bubble.alimentation.bringing.AlimentationBringing;
+import com.gitlab.vibent.vibentback.bubble.alimentation.bringing.AlimentationBringingRepository;
+import com.gitlab.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
+import com.gitlab.vibent.vibentback.bubble.alimentation.entry.AlimentationEntryRepository;
 import com.gitlab.vibent.vibentback.user.User;
 import com.gitlab.vibent.vibentback.user.UserRepository;
 import org.junit.Before;

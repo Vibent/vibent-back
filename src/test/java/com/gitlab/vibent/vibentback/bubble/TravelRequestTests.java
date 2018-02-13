@@ -1,16 +1,10 @@
 package com.gitlab.vibent.vibentback.bubble;
 
 import com.gitlab.vibent.vibentback.VibentTests;
-import com.gitlab.vibent.vibentback.bubble.checkbox.CheckboxBubble;
-import com.gitlab.vibent.vibentback.bubble.checkbox.CheckboxBubbleRepository;
-import com.gitlab.vibent.vibentback.bubble.free.FreeBubble;
-import com.gitlab.vibent.vibentback.bubble.free.FreeBubbleRepository;
-import com.gitlab.vibent.vibentback.bubble.survey.SurveyBubble;
-import com.gitlab.vibent.vibentback.bubble.survey.SurveyBubbleRepository;
 import com.gitlab.vibent.vibentback.bubble.travel.TravelBubble;
 import com.gitlab.vibent.vibentback.bubble.travel.TravelBubbleRepository;
-import com.gitlab.vibent.vibentback.bubble.travel.TravelRequest;
-import com.gitlab.vibent.vibentback.bubble.travel.TravelRequestRepository;
+import com.gitlab.vibent.vibentback.bubble.travel.request.TravelRequest;
+import com.gitlab.vibent.vibentback.bubble.travel.request.TravelRequestRepository;
 import com.gitlab.vibent.vibentback.user.User;
 import com.gitlab.vibent.vibentback.user.UserRepository;
 import org.junit.Before;

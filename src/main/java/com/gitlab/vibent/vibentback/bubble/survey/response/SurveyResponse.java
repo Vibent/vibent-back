@@ -1,4 +1,4 @@
-package com.gitlab.vibent.vibentback.bubble.survey;
+package com.gitlab.vibent.vibentback.bubble.survey.response;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,14 +14,17 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class UsersSurveyResponses {
+public class SurveyResponse {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @NonNull
-    private String userRef;
+    private Long bubbleId;
     @NonNull
-    private Long surveyResponseId;
+    private String creatorRef;
+    @NonNull
+    private String content;
+    private boolean isDeleted;
 
 }

@@ -1,4 +1,4 @@
-package com.gitlab.vibent.vibentback.bubble.survey;
+package com.gitlab.vibent.vibentback.bubble.survey.response;
 
 import org.springframework.data.repository.CrudRepository;
 

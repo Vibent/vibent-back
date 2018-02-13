@@ -1,4 +1,4 @@
-package com.gitlab.vibent.vibentback.bubble.checkbox;
+package com.gitlab.vibent.vibentback.bubble.checkbox.usersResponses;
 
 
 import org.springframework.data.repository.CrudRepository;

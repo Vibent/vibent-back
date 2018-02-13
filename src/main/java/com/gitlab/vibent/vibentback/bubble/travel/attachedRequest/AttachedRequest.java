@@ -1,4 +1,4 @@
-package com.gitlab.vibent.vibentback.bubble.planning;
+package com.gitlab.vibent.vibentback.bubble.travel.attachedRequest;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,28 +9,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.Date;
 
 @Data
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class PlanningEntry {
+public class AttachedRequest {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @NonNull
-    private Long bubbleId;
+    private Long proposalId;
     @NonNull
-    private String creatorRef;
-    @NonNull
-    private Date start;
-    @NonNull
-    private Date end;
-    @NonNull
-    private String content;
-    private boolean isDeleted;
-
-
+    private Long requestId;
 }

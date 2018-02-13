@@ -1,24 +1,10 @@
 package com.gitlab.vibent.vibentback.bubble;
 
 import com.gitlab.vibent.vibentback.VibentTests;
-import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationBubble;
-import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationBubbleRepository;
-import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationEntry;
-import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationEntryRepository;
-import com.gitlab.vibent.vibentback.bubble.checkbox.CheckboxBubble;
-import com.gitlab.vibent.vibentback.bubble.checkbox.CheckboxBubbleRepository;
-import com.gitlab.vibent.vibentback.bubble.checkbox.CheckboxResponse;
-import com.gitlab.vibent.vibentback.bubble.checkbox.CheckboxResponseRepository;
-import com.gitlab.vibent.vibentback.bubble.ownership.BubbleOwnership;
-import com.gitlab.vibent.vibentback.bubble.ownership.BubbleOwnershipRepository;
 import com.gitlab.vibent.vibentback.bubble.planning.PlanningBubble;
 import com.gitlab.vibent.vibentback.bubble.planning.PlanningBubbleRepository;
-import com.gitlab.vibent.vibentback.bubble.planning.PlanningEntry;
-import com.gitlab.vibent.vibentback.bubble.planning.PlanningEntryRepository;
-import com.gitlab.vibent.vibentback.event.Event;
-import com.gitlab.vibent.vibentback.event.EventRepository;
-import com.gitlab.vibent.vibentback.groupT.GroupT;
-import com.gitlab.vibent.vibentback.groupT.GroupTRepository;
+import com.gitlab.vibent.vibentback.bubble.planning.entry.PlanningEntry;
+import com.gitlab.vibent.vibentback.bubble.planning.entry.PlanningEntryRepository;
 import com.gitlab.vibent.vibentback.user.User;
 import com.gitlab.vibent.vibentback.user.UserRepository;
 import org.junit.Before;

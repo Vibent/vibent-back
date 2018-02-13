@@ -1,4 +1,4 @@
-package com.gitlab.vibent.vibentback.bubble.planning;
+package com.gitlab.vibent.vibentback.bubble.planning.entry;
 
 
 import org.springframework.data.repository.CrudRepository;

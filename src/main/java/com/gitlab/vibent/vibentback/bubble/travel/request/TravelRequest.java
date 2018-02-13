@@ -1,4 +1,4 @@
-package com.gitlab.vibent.vibentback.bubble.travel;
+package com.gitlab.vibent.vibentback.bubble.travel.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class TravelProposal {
+public class TravelRequest {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -22,9 +22,8 @@ public class TravelProposal {
     @NonNull
     private Long bubbleId;
     @NonNull
-    private String driverRef;
+    private String creatorRef;
     private int capacity;
-    @NonNull
-    private String passByCities;
+    private boolean attachedToProposal;
     private boolean isDeleted;
 }

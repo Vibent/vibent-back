@@ -1,4 +1,4 @@
-package com.gitlab.vibent.vibentback.bubble.travel;
+package com.gitlab.vibent.vibentback.bubble.travel.attachedRequest;
 
 import org.springframework.data.repository.CrudRepository;
 

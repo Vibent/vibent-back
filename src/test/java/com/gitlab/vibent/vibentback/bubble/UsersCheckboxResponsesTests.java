@@ -1,17 +1,11 @@
 package com.gitlab.vibent.vibentback.bubble;
 
 import com.gitlab.vibent.vibentback.VibentTests;
-import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationBubble;
-import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationBubbleRepository;
-import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationEntry;
-import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationEntryRepository;
 import com.gitlab.vibent.vibentback.bubble.checkbox.*;
-import com.gitlab.vibent.vibentback.bubble.ownership.BubbleOwnership;
-import com.gitlab.vibent.vibentback.bubble.ownership.BubbleOwnershipRepository;
-import com.gitlab.vibent.vibentback.event.Event;
-import com.gitlab.vibent.vibentback.event.EventRepository;
-import com.gitlab.vibent.vibentback.groupT.GroupT;
-import com.gitlab.vibent.vibentback.groupT.GroupTRepository;
+import com.gitlab.vibent.vibentback.bubble.checkbox.response.CheckboxResponse;
+import com.gitlab.vibent.vibentback.bubble.checkbox.response.CheckboxResponseRepository;
+import com.gitlab.vibent.vibentback.bubble.checkbox.usersResponses.UsersCheckboxResponses;
+import com.gitlab.vibent.vibentback.bubble.checkbox.usersResponses.UsersCheckboxResponsesRepository;
 import com.gitlab.vibent.vibentback.user.User;
 import com.gitlab.vibent.vibentback.user.UserRepository;
 import org.junit.Before;
@@ -21,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Date;
 import java.util.UUID;
 
 

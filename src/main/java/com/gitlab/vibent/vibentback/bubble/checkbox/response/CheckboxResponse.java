@@ -1,4 +1,4 @@
-package com.gitlab.vibent.vibentback.bubble.travel;
+package com.gitlab.vibent.vibentback.bubble.checkbox.response;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class TravelRequest {
+public class CheckboxResponse {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -22,8 +22,6 @@ public class TravelRequest {
     @NonNull
     private Long bubbleId;
     @NonNull
-    private String creatorRef;
-    private int capacity;
-    private boolean attachedToProposal;
+    private String content;
     private boolean isDeleted;
 }
