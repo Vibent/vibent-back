@@ -11,7 +11,6 @@ public class UserService {
     UserRepository userRepository;
 
     public User getUser(String ref){
-        User user = userRepository.findByRef(ref);
-        return user;
+        return userRepository.findByRef(ref);
     }
 }
