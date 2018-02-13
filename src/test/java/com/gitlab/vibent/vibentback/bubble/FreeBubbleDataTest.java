@@ -1,8 +1,6 @@
 package com.gitlab.vibent.vibentback.bubble;
 
-import com.gitlab.vibent.vibentback.VibentTests;
-import com.gitlab.vibent.vibentback.bubble.checkbox.CheckboxBubble;
-import com.gitlab.vibent.vibentback.bubble.checkbox.CheckboxBubbleRepository;
+import com.gitlab.vibent.vibentback.VibentInternalTest;
 import com.gitlab.vibent.vibentback.bubble.free.FreeBubble;
 import com.gitlab.vibent.vibentback.bubble.free.FreeBubbleRepository;
 import org.junit.Test;
@@ -14,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class FreeBubbleTests extends VibentTests {
+public class FreeBubbleDataTest extends VibentInternalTest {
 
     @Autowired
     FreeBubbleRepository repository;

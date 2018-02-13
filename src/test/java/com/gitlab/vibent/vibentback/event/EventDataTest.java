@@ -1,10 +1,9 @@
 package com.gitlab.vibent.vibentback.event;
 
-import com.gitlab.vibent.vibentback.VibentTests;
+import com.gitlab.vibent.vibentback.VibentInternalTest;
 import com.gitlab.vibent.vibentback.groupT.GroupT;
 import com.gitlab.vibent.vibentback.groupT.GroupTRepository;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class EventTests extends VibentTests {
+public class EventDataTest extends VibentInternalTest {
 
     @Autowired
     EventRepository repository;

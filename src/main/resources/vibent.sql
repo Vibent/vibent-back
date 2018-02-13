@@ -2,7 +2,15 @@ CREATE TABLE user
 (
     id INT NOT NULL AUTO_INCREMENT,
     ref CHAR(36) NOT NULL UNIQUE,
-
+    first_name VARCHAR(64),
+    last_name VARCHAR(64),
+    name VARCHAR(64),
+    email VARCHAR(320),
+    image_path VARCHAR(500),
+    pays VARCHAR(255),
+    password VARCHAR(255),
+    salt VARCHAR(64),
+    is_deleted BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id),
     INDEX(ref)
 );

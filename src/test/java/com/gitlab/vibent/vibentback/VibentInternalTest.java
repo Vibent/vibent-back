@@ -9,9 +9,6 @@
 
 package com.gitlab.vibent.vibentback;
 
-import org.springframework.test.context.ActiveProfiles;
-
-@ActiveProfiles(value = "test")
-public class VibentTests {
+public class VibentInternalTest extends VibentTest {
 
 }

@@ -1,12 +1,8 @@
 package com.gitlab.vibent.vibentback.bubble;
 
-import com.gitlab.vibent.vibentback.VibentTests;
+import com.gitlab.vibent.vibentback.VibentInternalTest;
 import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationBubbleRepository;
-import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationEntry;
-import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationEntryRepository;
-import com.gitlab.vibent.vibentback.bubble.checkbox.CheckboxBubble;
-import com.gitlab.vibent.vibentback.bubble.checkbox.CheckboxBubbleRepository;
 import com.gitlab.vibent.vibentback.bubble.ownership.BubbleOwnership;
 import com.gitlab.vibent.vibentback.bubble.ownership.BubbleOwnershipRepository;
 import com.gitlab.vibent.vibentback.event.Event;
@@ -28,7 +24,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BubbleOwnershipTests extends VibentTests {
+public class BubbleOwnershipDataTest extends VibentInternalTest {
 
     @Autowired
     BubbleOwnershipRepository repository;

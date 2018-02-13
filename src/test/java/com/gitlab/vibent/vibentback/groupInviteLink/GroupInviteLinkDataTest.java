@@ -1,0 +1,41 @@
+package com.gitlab.vibent.vibentback.groupInviteLink;
+
+import com.gitlab.vibent.vibentback.VibentInternalTest;
+import com.gitlab.vibent.vibentback.groupT.GroupT;
+import com.gitlab.vibent.vibentback.groupT.GroupTRepository;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Date;
+import java.util.UUID;
+
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class GroupInviteLinkDataTest extends VibentInternalTest {
+
+    @Autowired
+    GroupInviteLinkRepository repository;
+    @Autowired
+    GroupTRepository groupTRepository;
+
+    GroupT group;
+
+
+    @Before
+    public void init()
+    {
+        group = new GroupT(UUID.randomUUID().toString(), "groupTest");
+        groupTRepository.save(group);
+    }
+    @Test
+    public void testAddGroupInviteLink(){
+        GroupInviteLink eventParticipation = new GroupInviteLink(group.getRef(), "hash",new Date());
+        repository.save(eventParticipation);
+    }
+
+}
