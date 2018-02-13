@@ -184,7 +184,7 @@ CREATE TABLE users_survey_responses
 (
     id INT NOT NULL AUTO_INCREMENT,
     user_ref CHAR(36),
-    surveyresponse_id INT,
+    survey_response_id INT,
     PRIMARY KEY(id),
     INDEX(user_ref)
 );
@@ -345,7 +345,7 @@ ALTER TABLE users_survey_responses
 ADD CONSTRAINT users_survey_responses_user__fk
 FOREIGN KEY (user_ref)REFERENCES user(ref),
 ADD CONSTRAINT users_survey_responses_bubble__fk
-FOREIGN KEY (surveyresponse_id)REFERENCES survey_response(id);
+FOREIGN KEY (survey_response_id)REFERENCES survey_response(id);
 
 ALTER TABLE checkbox_response
 ADD CONSTRAINT checkbox_response_bubble__fk

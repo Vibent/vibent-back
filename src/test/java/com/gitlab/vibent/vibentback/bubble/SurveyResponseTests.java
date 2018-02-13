@@ -45,6 +45,7 @@ public class SurveyResponseTests extends VibentTests {
 
     User user;
     SurveyBubble surveyBubble;
+
     @Before
     public void init()
     {
