@@ -14,19 +14,16 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class AlimentationEntry {
+public class AlimentationBringing {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @NonNull
-    private Long bubbleId;
+    private Long entryId;
     @NonNull
-    private String name;
-    private int totalRequested;
-    private int totalCurrent;
-    @NonNull
-    private String type;
+    private String userRef;
+    private int quantity;
     private boolean isDeleted;
 
 }
