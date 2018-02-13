@@ -13,9 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.UUID;
 
 import static org.mockito.Mockito.when;
 
@@ -28,7 +25,7 @@ public class UserInternalTest extends VibentTest {
     @InjectMocks
     private UserController controller;
 
-    @Mock
+    @MockBean
     private UserRepository userRepository;
 
     @Before
@@ -36,6 +33,7 @@ public class UserInternalTest extends VibentTest {
         MockitoAnnotations.initMocks(this);
         when(userRepository.findByRef(RANDOM_USER.getRef())).thenReturn(RANDOM_USER);
         when(userRepository.save(RANDOM_USER)).thenReturn(RANDOM_USER);
+        when(userRepository.deleteByRef(RANDOM_USER.getRef())).thenReturn(1);
     }
 
     @Test
@@ -48,5 +46,10 @@ public class UserInternalTest extends VibentTest {
     public void addUser(){
         User user = controller.createUser(RANDOM_USER);
         Assert.assertEquals(RANDOM_USER.getRef(), user.getRef());
+    }
+
+    @Test
+    public void deleteUser(){
+        controller.deleteUser(RANDOM_USER.getRef());
     }
 }

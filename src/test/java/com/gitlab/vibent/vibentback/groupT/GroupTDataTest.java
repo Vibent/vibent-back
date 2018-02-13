@@ -1,6 +1,6 @@
 package com.gitlab.vibent.vibentback.groupT;
 
-import com.gitlab.vibent.vibentback.VibentInternalTest;
+import com.gitlab.vibent.vibentback.VibentTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class GroupTDataTest extends VibentInternalTest {
+public class GroupTDataTest extends VibentTest {
 
     @Autowired
     GroupTRepository repository;

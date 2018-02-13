@@ -1,6 +1,6 @@
 package com.gitlab.vibent.vibentback.groupInviteLink;
 
-import com.gitlab.vibent.vibentback.VibentInternalTest;
+import com.gitlab.vibent.vibentback.VibentTest;
 import com.gitlab.vibent.vibentback.groupT.GroupT;
 import com.gitlab.vibent.vibentback.groupT.GroupTRepository;
 import org.junit.Before;
@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class GroupInviteLinkDataTest extends VibentInternalTest {
+public class GroupInviteLinkDataTest extends VibentTest {
 
     @Autowired
     GroupInviteLinkRepository repository;

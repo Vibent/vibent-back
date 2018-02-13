@@ -19,9 +19,15 @@ public class UserController {
         return userService.getUser(userRef);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/")
+    @RequestMapping(method = RequestMethod.POST)
     User createUser(@RequestBody User user){
         log.info("Creating user with body : {}", user.toString());
         return userService.addUser(user);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{userRef}")
+    void deleteUser(@PathVariable String userRef){
+        log.info("Deleting user with ref : {}", userRef);
+        userService.deleteUser(userRef);
     }
 }

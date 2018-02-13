@@ -1,6 +1,6 @@
 package com.gitlab.vibent.vibentback.bubble;
 
-import com.gitlab.vibent.vibentback.VibentInternalTest;
+import com.gitlab.vibent.vibentback.VibentTest;
 import com.gitlab.vibent.vibentback.bubble.planning.PlanningBubble;
 import com.gitlab.vibent.vibentback.bubble.planning.PlanningBubbleRepository;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PlanningBubbleDataTest extends VibentInternalTest {
+public class PlanningBubbleDataTest extends VibentTest {
 
     @Autowired
     PlanningBubbleRepository repository;

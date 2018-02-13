@@ -1,6 +1,6 @@
 package com.gitlab.vibent.vibentback.groupMembership;
 
-import com.gitlab.vibent.vibentback.VibentInternalTest;
+import com.gitlab.vibent.vibentback.VibentTest;
 import com.gitlab.vibent.vibentback.groupT.GroupT;
 import com.gitlab.vibent.vibentback.groupT.GroupTRepository;
 import com.gitlab.vibent.vibentback.user.User;
@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class GroupMembershipDataTest extends VibentInternalTest {
+public class GroupMembershipDataTest extends VibentTest {
 
     @Autowired
     GroupMembershipRepository repository;

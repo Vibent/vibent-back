@@ -1,6 +1,6 @@
 package com.gitlab.vibent.vibentback.bubble;
 
-import com.gitlab.vibent.vibentback.VibentInternalTest;
+import com.gitlab.vibent.vibentback.VibentTest;
 import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationBubbleRepository;
 import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationEntry;
@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AlimentationEntryDataTest extends VibentInternalTest {
+public class AlimentationEntryDataTest extends VibentTest {
 
     @Autowired
     AlimentationEntryRepository repository;
