@@ -51,7 +51,7 @@ public class UsersSurveyResponsesTests extends VibentTests {
     }
 
     @Test
-    public void testAddCheckboxUserResponse(){
+    public void testAddUsersSurveyResponses(){
         UsersSurveyResponses usersSurveyResponse = new UsersSurveyResponses(user.getRef(), surveyResponse.getId());
         repository.save(usersSurveyResponse);
     }
