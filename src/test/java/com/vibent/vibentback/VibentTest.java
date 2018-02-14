@@ -1,5 +1,6 @@
 package com.vibent.vibentback;
 
+import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.groupT.GroupT;
@@ -8,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.nio.charset.Charset;
+import java.util.Date;
 import java.util.UUID;
 
 @ActiveProfiles("test")
@@ -17,4 +19,5 @@ public class VibentTest {
 
     public User RANDOM_USER = new User(UUID.randomUUID().toString(),"test","test","test@test.com","test","test");
     public GroupT RANDOM_GROUP = new GroupT(UUID.randomUUID().toString(), "test");
+    public Event RANDOM_EVENT = new Event(UUID.randomUUID().toString(), RANDOM_GROUP.getRef(), "test", "test",new Date(), new Date());
 }

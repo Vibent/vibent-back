@@ -1,5 +1,7 @@
 package com.vibent.vibentback.groupT;
 
+import com.vibent.vibentback.common.ObjectUpdater;
+import com.vibent.vibentback.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,12 @@ public class GroupTService {
         GroupT groupT = groupTRepository.findByRef(groupRef);
         groupT.setDeleted(true);
         groupTRepository.save(groupT);
+    }
+
+    public GroupT updateGroupT(String groupRef, GroupT newGroup) {
+        GroupT existing = groupTRepository.findByRef(groupRef);
+        ObjectUpdater.updateProperties(existing, newGroup);
+        return groupTRepository.save(existing);
     }
 
 }

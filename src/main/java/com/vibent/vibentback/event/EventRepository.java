@@ -2,6 +2,7 @@ package com.vibent.vibentback.event;
 
 import org.springframework.data.repository.CrudRepository;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -18,5 +19,9 @@ public interface EventRepository extends CrudRepository<Event, Long> {
     ArrayList<Event> findByStartDate(Date date);
 
     ArrayList<Event> findByEndDate(Date date);
+
+    @Transactional
+    int deleteByRef(String ref);
+
 
 }

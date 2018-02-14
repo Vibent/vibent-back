@@ -1,6 +1,7 @@
 package com.vibent.vibentback.groupT;
 
 import com.vibent.vibentback.VibentTest;
+import com.vibent.vibentback.user.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
@@ -46,6 +47,14 @@ public class GroupTInternalTest extends VibentTest {
     public void addGroupT(){
         GroupT groupT = controller.createGroupT(RANDOM_GROUP);
         Assert.assertEquals(RANDOM_GROUP.getRef(), groupT.getRef());
+    }
+
+    @Test
+    public void updateGroupT(){
+        GroupT groupT = RANDOM_GROUP;
+        groupT.setName("NewName");
+        controller.updateGroupT(RANDOM_GROUP.getRef(), groupT);
+        Assert.assertEquals(groupT, RANDOM_GROUP);
     }
 
     @Test

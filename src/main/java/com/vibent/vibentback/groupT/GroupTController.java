@@ -1,5 +1,6 @@
 package com.vibent.vibentback.groupT;
 
+import com.vibent.vibentback.user.User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ public class GroupTController {
     GroupT createGroupT(@RequestBody GroupT groupT){
         log.info("Creating group with body : {}", groupT.toString());
         return groupTService.addGroupT(groupT);
+    }
+
+    @RequestMapping(method = RequestMethod.PATCH, value = "/{groupRef}")
+    GroupT updateGroupT(@PathVariable String groupRef, @RequestBody GroupT groupT){
+        log.info("Update group with ref {} body : {}", groupRef, groupT.toString());
+        return groupTService.updateGroupT(groupRef, groupT);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)

@@ -34,7 +34,7 @@ public class UserDataTest extends VibentTest {
 
     @Test
     public void testAddUser() {
-        User user = new User(UUID.randomUUID().toString(), "first", "last", "bang@email.com", "secret", "salty");
+        User user = new User(UUID.randomUUID().toString(), "test", "test", "test@test.com", "test", "test");
         user = repository.save(user);
         Assert.assertNotNull(user.getRef());
 

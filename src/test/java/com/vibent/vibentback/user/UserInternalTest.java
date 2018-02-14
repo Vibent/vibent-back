@@ -58,7 +58,7 @@ public class UserInternalTest extends VibentTest {
     @Test
     public void updateUser(){
         User user = RANDOM_USER;
-        user.setFirstName("John");
+        user.setFirstName("UserNewName");
         controller.updateUser(RANDOM_USER.getRef(), user);
         Assert.assertEquals(user, RANDOM_USER);
     }
