@@ -13,6 +13,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 
+/**
+ * Configures the REST Documentation using Swagger.
+ * HTML format can be found at http://127.0.0.1:8080/swagger-ui.html for development.
+ * JSON format for real documentation is at http://127.0.0.1:8080/v2/api-docs
+ */
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
