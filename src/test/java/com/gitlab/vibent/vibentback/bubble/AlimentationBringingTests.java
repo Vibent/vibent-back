@@ -1,7 +1,8 @@
 package com.gitlab.vibent.vibentback.bubble;
 
-import com.gitlab.vibent.vibentback.VibentTests;
-import com.gitlab.vibent.vibentback.bubble.alimentation.*;
+import com.gitlab.vibent.vibentback.VibentTest;
+import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationBubble;
+import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationBubbleRepository;
 import com.gitlab.vibent.vibentback.bubble.alimentation.bringing.AlimentationBringing;
 import com.gitlab.vibent.vibentback.bubble.alimentation.bringing.AlimentationBringingRepository;
 import com.gitlab.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
@@ -20,7 +21,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AlimentationBringingTests extends VibentTests {
+public class AlimentationBringingTests extends VibentTest {
 
     @Autowired
     AlimentationBringingRepository repository;
@@ -39,10 +40,9 @@ public class AlimentationBringingTests extends VibentTests {
     AlimentationEntry alimentationEntry;
 
     @Before
-    public void init()
-    {
+    public void init() {
         /** User creation **/
-        user = new User(UUID.randomUUID().toString(),"conor","ryan","cr.sd.sd@gmail.com","secret","sel");
+        user = new User(UUID.randomUUID().toString(), "conor", "ryan", "cr.sd.sd@gmail.com", "secret", "sel");
         userRepository.save(user);
         /** Bubble creation **/
         alimentationBubble = new AlimentationBubble();
@@ -53,7 +53,7 @@ public class AlimentationBringingTests extends VibentTests {
     }
 
     @Test
-    public void testAddAlimentationBringing(){
+    public void testAddAlimentationBringing() {
         AlimentationBringing AlimentationBringing = new AlimentationBringing(alimentationEntry.getId(), user.getRef());
         repository.save(AlimentationBringing);
     }

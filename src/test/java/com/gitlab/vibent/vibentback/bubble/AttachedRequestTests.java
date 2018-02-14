@@ -1,7 +1,8 @@
 package com.gitlab.vibent.vibentback.bubble;
 
-import com.gitlab.vibent.vibentback.VibentTests;
-import com.gitlab.vibent.vibentback.bubble.travel.*;
+import com.gitlab.vibent.vibentback.VibentTest;
+import com.gitlab.vibent.vibentback.bubble.travel.TravelBubble;
+import com.gitlab.vibent.vibentback.bubble.travel.TravelBubbleRepository;
 import com.gitlab.vibent.vibentback.bubble.travel.attachedRequest.AttachedRequest;
 import com.gitlab.vibent.vibentback.bubble.travel.attachedRequest.AttachedRequestRepository;
 import com.gitlab.vibent.vibentback.bubble.travel.proposal.TravelProposal;
@@ -20,10 +21,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.UUID;
 
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AttachedRequestTests extends VibentTests {
+public class AttachedRequestTests extends VibentTest {
 
     @Autowired
     AttachedRequestRepository repository;
@@ -46,10 +46,9 @@ public class AttachedRequestTests extends VibentTests {
     TravelRequest travelRequest;
 
     @Before
-    public void init()
-    {
+    public void init() {
         /** User creation **/
-        user = new User(UUID.randomUUID().toString(),"conor","ryan","cr.sd.sd@gmail.com","secret","sel");
+        user = new User(UUID.randomUUID().toString(), "conor", "ryan", "cr.sd.sd@gmail.com", "secret", "sel");
         userRepository.save(user);
         /** Bubble creation **/
         travelBubble = new TravelBubble();
@@ -63,7 +62,7 @@ public class AttachedRequestTests extends VibentTests {
     }
 
     @Test
-    public void testAddAttachedRequest(){
+    public void testAddAttachedRequest() {
         AttachedRequest attachedRequest = new AttachedRequest(travelProposal.getId(), travelRequest.getId());
         repository.save(attachedRequest);
     }

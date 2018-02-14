@@ -1,6 +1,6 @@
 package com.gitlab.vibent.vibentback.bubble;
 
-import com.gitlab.vibent.vibentback.VibentTests;
+import com.gitlab.vibent.vibentback.VibentTest;
 import com.gitlab.vibent.vibentback.bubble.survey.SurveyBubble;
 import com.gitlab.vibent.vibentback.bubble.survey.SurveyBubbleRepository;
 import com.gitlab.vibent.vibentback.bubble.survey.response.SurveyResponse;
@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SurveyResponseTests extends VibentTests {
+public class SurveyResponseTests extends VibentTest {
 
     @Autowired
     SurveyResponseRepository repository;

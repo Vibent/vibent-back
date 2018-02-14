@@ -1,6 +1,6 @@
 package com.gitlab.vibent.vibentback.bubble;
 
-import com.gitlab.vibent.vibentback.VibentTests;
+import com.gitlab.vibent.vibentback.VibentTest;
 import com.gitlab.vibent.vibentback.bubble.travel.TravelBubble;
 import com.gitlab.vibent.vibentback.bubble.travel.TravelBubbleRepository;
 import com.gitlab.vibent.vibentback.bubble.travel.request.TravelRequest;
@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TravelRequestTests extends VibentTests {
+public class TravelRequestTests extends VibentTest {
 
     @Autowired
     TravelRequestRepository repository;

@@ -1,6 +1,6 @@
 package com.gitlab.vibent.vibentback.bubble;
 
-import com.gitlab.vibent.vibentback.VibentTests;
+import com.gitlab.vibent.vibentback.VibentTest;
 import com.gitlab.vibent.vibentback.bubble.travel.TravelBubble;
 import com.gitlab.vibent.vibentback.bubble.travel.TravelBubbleRepository;
 import com.gitlab.vibent.vibentback.bubble.travel.proposal.TravelProposal;
@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TravelProposalTests extends VibentTests {
+public class TravelProposalTests extends VibentTest {
 
     @Autowired
     TravelProposalRepository repository;
@@ -34,15 +34,15 @@ public class TravelProposalTests extends VibentTests {
     TravelBubble travelBubble;
 
     @Before
-    public void init()
-    {
-        user = new User(UUID.randomUUID().toString(),"conor","ryan","cr.sd.sd@gmail.com","secret","sel");
+    public void init() {
+        user = new User(UUID.randomUUID().toString(), "conor", "ryan", "cr.sd.sd@gmail.com", "secret", "sel");
         userRepository.save(user);
         travelBubble = new TravelBubble();
         travelRepository.save(travelBubble);
     }
+
     @Test
-    public void testAddTravelProposal(){
+    public void testAddTravelProposal() {
         TravelProposal travelProposal = new TravelProposal(travelBubble.getId(), user.getRef(), "{4685.92,85.29941;1989,528891");
         repository.save(travelProposal);
     }
