@@ -56,13 +56,13 @@ public class UserWebLayerTests extends VibentTest {
 
         mockMvc.perform(post("/user").contentType(APPLICATION_JSON_UTF8)
                 .content(requestJson))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().string(containsString("firstName")));
     }
 
     @Test
     public void testDeleteUser() throws Exception {
         mockMvc.perform(delete("/user/" + RANDOM_USER.getRef()))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }
