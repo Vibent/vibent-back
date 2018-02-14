@@ -5,11 +5,8 @@ import org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
 
 import java.io.Serializable;
-import java.util.Locale;
 
-import static com.google.common.base.CaseFormat.LOWER_CAMEL;
-import static com.google.common.base.CaseFormat.UPPER_CAMEL;
-import static com.google.common.base.CaseFormat.LOWER_UNDERSCORE;
+import static com.google.common.base.CaseFormat.*;
 
 public class VibentPhysicalNamingStrategy extends PhysicalNamingStrategyStandardImpl implements Serializable {
 
