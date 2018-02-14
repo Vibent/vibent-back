@@ -1,6 +1,6 @@
 # Default config
 
-spring.jpa.hibernate.naming.physical-strategy: com.gitlab.vibent.vibentback.config.VibentPhysicalNamingStrategy
+spring.jpa.hibernate.naming.physical-strategy: com.vibent.vibentback.config.VibentPhysicalNamingStrategy
 
 spring:
   datasource:
