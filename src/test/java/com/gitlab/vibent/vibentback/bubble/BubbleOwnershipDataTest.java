@@ -1,6 +1,6 @@
 package com.gitlab.vibent.vibentback.bubble;
 
-import com.gitlab.vibent.vibentback.VibentTests;
+import com.gitlab.vibent.vibentback.VibentTest;
 import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.gitlab.vibent.vibentback.bubble.alimentation.AlimentationBubbleRepository;
 import com.gitlab.vibent.vibentback.bubble.ownership.BubbleOwnership;
@@ -24,7 +24,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BubbleOwnershipTests extends VibentTests {
+public class BubbleOwnershipDataTest extends VibentTest {
 
     @Autowired
     BubbleOwnershipRepository repository;

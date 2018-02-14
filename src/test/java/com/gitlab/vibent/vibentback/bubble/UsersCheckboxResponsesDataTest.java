@@ -1,7 +1,8 @@
 package com.gitlab.vibent.vibentback.bubble;
 
-import com.gitlab.vibent.vibentback.VibentTests;
-import com.gitlab.vibent.vibentback.bubble.checkbox.*;
+import com.gitlab.vibent.vibentback.VibentTest;
+import com.gitlab.vibent.vibentback.bubble.checkbox.CheckboxBubble;
+import com.gitlab.vibent.vibentback.bubble.checkbox.CheckboxBubbleRepository;
 import com.gitlab.vibent.vibentback.bubble.checkbox.response.CheckboxResponse;
 import com.gitlab.vibent.vibentback.bubble.checkbox.response.CheckboxResponseRepository;
 import com.gitlab.vibent.vibentback.bubble.checkbox.usersResponses.UsersCheckboxResponses;
@@ -20,7 +21,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UsersCheckboxResponsesTests extends VibentTests {
+public class UsersCheckboxResponsesDataTest extends VibentTest {
 
     @Autowired
     UsersCheckboxResponsesRepository repository;
