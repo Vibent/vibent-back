@@ -1,5 +1,6 @@
 package com.gitlab.vibent.vibentback.user;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -29,5 +30,5 @@ public class User {
     private String password;
     @NonNull
     private String salt;
-    private boolean isDeleted;
+    private Boolean isDeleted;
 }
