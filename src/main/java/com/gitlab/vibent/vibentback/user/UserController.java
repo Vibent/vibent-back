@@ -27,6 +27,12 @@ public class UserController {
         return userService.addUser(user);
     }
 
+    @RequestMapping(method = RequestMethod.PATCH, value = "/{userRef}")
+    User updateUser(@PathVariable String userRef, @RequestBody User user){
+        log.info("Update user with ref {} body : {}", userRef, user.toString());
+        return userService.updateUser(userRef, user);
+    }
+
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/{userRef}")
     void deleteUser(@PathVariable String userRef){

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.jws.soap.SOAPBinding;
 import javax.transaction.Transactional;
 
 @Service
@@ -21,6 +22,14 @@ public class UserService {
     }
 
     public void deleteUser(String userRef){
-        userRepository.deleteByRef(userRef);
+        User user = userRepository.findByRef(userRef);
+        user.setDeleted(true);
+        userRepository.save(user);
+    }
+
+    public User updateUser(String userRef, User user){
+        User existing = userRepository.findByRef(userRef);
+        user.setId(existing.getId());
+        return userRepository.save(user);
     }
 }
