@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-@Transactional
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService {
 
