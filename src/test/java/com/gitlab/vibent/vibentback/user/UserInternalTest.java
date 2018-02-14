@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.jws.soap.SOAPBinding;
+
 import static org.mockito.Mockito.when;
 
 @Slf4j
@@ -51,5 +53,13 @@ public class UserInternalTest extends VibentTest {
     @Test
     public void deleteUser(){
         controller.deleteUser(RANDOM_USER.getRef());
+    }
+
+    @Test
+    public void updateUser(){
+        User user = RANDOM_USER;
+        user.setFirstName("John");
+        controller.updateUser(RANDOM_USER.getRef(), user);
+        Assert.assertEquals(user, RANDOM_USER);
     }
 }

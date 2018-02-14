@@ -1,5 +1,6 @@
 package com.gitlab.vibent.vibentback.user;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;

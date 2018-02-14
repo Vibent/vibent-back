@@ -53,4 +53,17 @@ public class UserDataTest extends VibentTest {
         Assert.assertEquals(1, deletedAmount.intValue());
     }
 
+    @Test
+    public void testUpdateUser() {
+        User user = new User();
+        User old = repository.findByRef(RANDOM_USER.getRef());
+
+        user.setRef(old.getRef());
+        user.setId(old.getId());
+        user.setFirstName("NewFirstName");
+
+
+        user = repository.save(user);
+        Assert.assertEquals(user, RANDOM_USER);
+    }
 }
