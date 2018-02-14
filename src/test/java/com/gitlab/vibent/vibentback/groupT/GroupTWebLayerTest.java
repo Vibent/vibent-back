@@ -1,4 +1,4 @@
-package com.gitlab.vibent.vibentback.user;
+package com.gitlab.vibent.vibentback.groupT;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -26,43 +26,43 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(UserController.class)
-public class UserWebLayerTests extends VibentTest {
+@WebMvcTest(GroupTController.class)
+public class GroupTWebLayerTest extends VibentTest {
 
     @Autowired
     public MockMvc mockMvc;
 
     @MockBean
-    UserService userService;
+    GroupTService groupTService;
 
     @Before
     public void setUp(){
-        when(userService.getUser(RANDOM_USER.getRef())).thenReturn(RANDOM_USER);
-        when(userService.addUser(RANDOM_USER)).thenReturn(RANDOM_USER);
+        when(groupTService.getGroupT(RANDOM_GROUP.getRef())).thenReturn(RANDOM_GROUP);
+        when(groupTService.addGroupT(RANDOM_GROUP)).thenReturn(RANDOM_GROUP);
     }
 
     @Test
-    public void testGetUser() throws Exception {
-        this.mockMvc.perform(get("/user/" + RANDOM_USER.getRef())).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("firstName")));
+    public void testGetGroupT() throws Exception {
+        this.mockMvc.perform(get("/group/" + RANDOM_GROUP.getRef())).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("name")));
     }
 
     @Test
-    public void testAddUser() throws Exception {
+    public void testAddGroupT() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        String requestJson=ow.writeValueAsString(RANDOM_USER);
+        String requestJson=ow.writeValueAsString(RANDOM_GROUP);
 
-        mockMvc.perform(post("/user").contentType(APPLICATION_JSON_UTF8)
+        mockMvc.perform(post("/group").contentType(APPLICATION_JSON_UTF8)
                 .content(requestJson))
                 .andExpect(status().isCreated())
-                .andExpect(content().string(containsString("firstName")));
+                .andExpect(content().string(containsString("name")));
     }
 
     @Test
-    public void testDeleteUser() throws Exception {
-        mockMvc.perform(delete("/user/" + RANDOM_USER.getRef()))
+    public void testDeleteGroupT() throws Exception {
+        mockMvc.perform(delete("/group/" + RANDOM_GROUP.getRef()))
                 .andExpect(status().isNoContent());
     }
 }

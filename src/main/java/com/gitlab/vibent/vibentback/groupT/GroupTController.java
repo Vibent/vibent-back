@@ -1,12 +1,11 @@
 package com.gitlab.vibent.vibentback.groupT;
 
+import com.gitlab.vibent.vibentback.user.User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -20,5 +19,19 @@ public class GroupTController {
     GroupT getGroupT(@PathVariable String groupRef) {
         log.info("Get group with ref : {}", groupRef);
         return groupTService.getGroupT(groupRef);
+    }
+
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @RequestMapping(method = RequestMethod.POST)
+    GroupT createGroupT(@RequestBody GroupT groupT){
+        log.info("Creating group with body : {}", groupT.toString());
+        return groupTService.addGroupT(groupT);
+    }
+
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{groupRef}")
+    void deleteGroupT(@PathVariable String groupRef){
+        log.info("Deleting group with ref : {}", groupRef);
+        groupTService.deleteGroupT(groupRef);
     }
 }
