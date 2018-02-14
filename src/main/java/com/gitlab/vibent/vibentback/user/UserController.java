@@ -20,12 +20,14 @@ public class UserController {
         return userService.getUser(userRef);
     }
 
+    @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
     User createUser(@RequestBody User user){
         log.info("Creating user with body : {}", user.toString());
         return userService.addUser(user);
     }
 
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/{userRef}")
     void deleteUser(@PathVariable String userRef){
         log.info("Deleting user with ref : {}", userRef);
