@@ -1,6 +1,7 @@
 package com.gitlab.vibent.vibentback.user;
 
 import com.gitlab.vibent.vibentback.VibentTest;
+import com.gitlab.vibent.vibentback.common.ObjectUpdater;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Assert;
@@ -55,15 +56,21 @@ public class UserDataTest extends VibentTest {
 
     @Test
     public void testUpdateUser() {
-        User user = new User();
+        // Set up
+        User newUser = new User();
+        newUser.setRef("newRefShouldNotUpdate");
+        newUser.setId(-1L);
+        newUser.setFirstName("NewFirstNameShouldUpdate");
         User old = repository.findByRef(RANDOM_USER.getRef());
+        String oldLastNameShouldNotUpdate = old.getLastName();
 
-        user.setRef(old.getRef());
-        user.setId(old.getId());
-        user.setFirstName("NewFirstName");
+        // To test
+        ObjectUpdater.updateProperties(newUser, old);
 
-
-        user = repository.save(user);
-        Assert.assertEquals(user, RANDOM_USER);
+        User checkUser = repository.save(old);
+        Assert.assertEquals("NewFirstNameShouldUpdate", checkUser.getFirstName());
+        Assert.assertNotEquals(-1L, checkUser.getId().longValue());
+        Assert.assertNotEquals("newRefShouldNotUpdate", checkUser.getRef());
+        Assert.assertEquals(oldLastNameShouldNotUpdate, checkUser.getLastName());
     }
 }
