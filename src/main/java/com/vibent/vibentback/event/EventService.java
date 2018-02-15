@@ -16,6 +16,11 @@ public class EventService {
         return eventRepository.findByRef(ref);
     }
 
+    public Event getAllEvent(String ref) {
+        // return all event data
+        return new Event();
+    }
+
     public Event addEvent(Event event) {
         return eventRepository.save(event);
     }

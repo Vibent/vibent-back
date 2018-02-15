@@ -18,14 +18,14 @@ public class GroupTService {
 
     GroupTRepository groupTRepository;
     GroupMembershipRepository getUserGroupMemberships;
-    //TODO Get current user
-    User user = new User();
 
     public GroupT getGroupT(String ref) {
         return groupTRepository.findByRef(ref);
     }
 
     public ArrayList<GroupT> getGroupT() {
+        //TODO Get current user
+        User user = new User();
         ArrayList<GroupMembership> groupMemberships = getUserGroupMemberships.findAllByUserRef(user.getRef());
         ArrayList<GroupT> groupTArrayList = new ArrayList<>();
         for (GroupMembership groupMembership: groupMemberships) {
