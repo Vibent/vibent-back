@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @Slf4j
 @RestController
 @RequestMapping("/group")
@@ -39,5 +41,11 @@ public class GroupTController {
     void deleteGroupT(@PathVariable String groupRef){
         log.info("Deleting group with ref : {}", groupRef);
         groupTService.deleteGroupT(groupRef);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    ArrayList<GroupT> getGroupT() {
+        log.info("Getting all groups");
+        return groupTService.getGroupT();
     }
 }

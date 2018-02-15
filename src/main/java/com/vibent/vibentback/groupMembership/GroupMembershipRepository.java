@@ -2,14 +2,14 @@ package com.vibent.vibentback.groupMembership;
 
 import org.springframework.data.repository.CrudRepository;
 
-
+import java.util.ArrayList;
 
 
 public interface GroupMembershipRepository extends CrudRepository<GroupMembership, Long> {
 
     GroupMembership findById(long id);
 
-    Iterable<GroupMembership> findByUserRef(String ref);
+    ArrayList<GroupMembership> findAllByUserRef(String ref);
 
-    Iterable<GroupMembership>  findByGroupRef(String ref);
+    ArrayList<GroupMembership>  findByGroupRef(String ref);
 }

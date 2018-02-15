@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 public enum VibentError {
     USER_NOT_FOUND("user-not-found", HttpStatus.NOT_FOUND, "The requested user could not be found"),
     USER_CANT_CREATE("user-cant-create", HttpStatus.INTERNAL_SERVER_ERROR, "User could not be created"),
+
+    GROUP_NOT_FOUND("group-not-found", HttpStatus.NOT_FOUND, "The requested group could not be found"),
     UNKNOWN("unknown", HttpStatus.INTERNAL_SERVER_ERROR, "An unknown error has occured");
 
     private final String code;
