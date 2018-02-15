@@ -1,4 +1,4 @@
-package com.vibent.vibentback.bubble.free;
+package com.vibent.vibentback.bubble.location;
 
 import com.vibent.vibentback.bubble.ownership.BubbleOwnership;
 import com.vibent.vibentback.bubble.ownership.BubbleOwnershipRepository;
@@ -13,37 +13,37 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class FreeBubbleService {
+public class LocationBubbleService {
 
-    FreeBubbleRepository freeBubbleRepository;
+    LocationBubbleRepository locationBubbleRepository;
     BubbleOwnershipRepository ownershipRepository;
 
-    public FreeBubble getBubble(long id) {
-        FreeBubble freeBubble = freeBubbleRepository.findById(id);
-        if (freeBubble == null)
+    public LocationBubble getBubble(long id) {
+        LocationBubble locationBubble = locationBubbleRepository.findById(id);
+        if (locationBubble == null)
             throw new VibentException(VibentError.BUBBLE_NOT_FOUND);
-        return freeBubble;
+        return locationBubble;
     }
 
-    public FreeBubble createBubble(String eventRef){
-        FreeBubble freeBubble = freeBubbleRepository.save(new FreeBubble());
+    public LocationBubble createBubble(String eventRef){
+        LocationBubble locationBubble = locationBubbleRepository.save(new LocationBubble());
         ownershipRepository.save(new BubbleOwnership(eventRef,
-                freeBubble.getId(),
-                "FreeBubble",
+                locationBubble.getId(),
+                "LocationBubble",
                 "CREATOR")); // TODO add creator as connected user
-        return freeBubble;
+        return locationBubble;
     }
 
     public void deleteBubble(long id) {
-        freeBubbleRepository.deleteById(id);
+        locationBubbleRepository.deleteById(id);
     }
 
-    public FreeBubble updateBubble(long id, FreeBubble newFreeBubble) {
-        FreeBubble existing = freeBubbleRepository.findById(id);
+    public LocationBubble updateBubble(long id, LocationBubble newLocationBubble) {
+        LocationBubble existing = locationBubbleRepository.findById(id);
         if(existing == null)
             throw new VibentException(VibentError.BUBBLE_NOT_FOUND);
-        ObjectUpdater.updateProperties(existing, newFreeBubble);
-        return freeBubbleRepository.save(existing);
+        ObjectUpdater.updateProperties(existing, newLocationBubble);
+        return locationBubbleRepository.save(existing);
 
     }
 }
