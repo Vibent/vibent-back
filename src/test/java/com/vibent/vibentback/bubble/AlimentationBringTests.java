@@ -3,16 +3,8 @@ package com.vibent.vibentback.bubble;
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubbleRepository;
-import com.vibent.vibentback.bubble.alimentation.bringing.AlimentationBringing;
-import com.vibent.vibentback.bubble.alimentation.bringing.AlimentationBringingRepository;
-import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
-import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntryRepository;
-import com.vibent.vibentback.user.User;
-import com.vibent.vibentback.user.UserRepository;
-import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
-import com.vibent.vibentback.bubble.alimentation.AlimentationBubbleRepository;
-import com.vibent.vibentback.bubble.alimentation.bringing.AlimentationBringing;
-import com.vibent.vibentback.bubble.alimentation.bringing.AlimentationBringingRepository;
+import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
+import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBringRepository;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntryRepository;
 import com.vibent.vibentback.user.User;
@@ -29,10 +21,10 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AlimentationBringingTests extends VibentTest {
+public class AlimentationBringTests extends VibentTest {
 
     @Autowired
-    AlimentationBringingRepository repository;
+    AlimentationBringRepository repository;
 
     @Autowired
     AlimentationBubbleRepository bubbleRepository;
@@ -62,7 +54,7 @@ public class AlimentationBringingTests extends VibentTest {
 
     @Test
     public void testAddAlimentationBringing() {
-        AlimentationBringing AlimentationBringing = new AlimentationBringing(alimentationEntry.getId(), user.getRef());
-        repository.save(AlimentationBringing);
+        AlimentationBring AlimentationBring = new AlimentationBring(alimentationEntry.getId(), user.getRef());
+        repository.save(AlimentationBring);
     }
 }

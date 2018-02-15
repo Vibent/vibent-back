@@ -2,6 +2,7 @@ package com.vibent.vibentback.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -13,7 +14,7 @@ import java.util.Collections;
 
 /**
  * Configures the REST Documentation using Swagger.
- * HTML format can be found at http://127.0.0.1:8080/swagger-ui.html for development.
+ * HTML format can be found at http://127.0.0.1:8080/swagger-ui.html  for development.
  * JSON format for real documentation is at http://127.0.0.1:8080/v2/api-docs
  */
 @Configuration
@@ -31,12 +32,12 @@ public class SwaggerConfig {
 
     //TODO set all info
     private ApiInfo apiInfo() {
-        return new ApiInfo(
-                "Vibent API",
-                "Vibent API allows developers from all over the world to implement our service with theirs.",
-                "1.0",
-                "Terms of service",
-                new Contact("Vibent", "www.vibent.com", "vibent@vibent.com"),
-                "License of API", "API license URL", Collections.emptyList());
+        return new ApiInfoBuilder()
+                .title("Vibent API")
+                .description("Vibent API allows developers from all over the world to implement our service with theirs.")
+                .termsOfServiceUrl("Somewhere")
+                .contact(new Contact("Vibent", "www.vibent.com", "vibent@vibent.com"))
+                .version("1.0")
+                .build();
     }
 }
