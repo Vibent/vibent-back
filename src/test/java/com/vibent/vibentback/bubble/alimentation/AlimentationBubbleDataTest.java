@@ -1,4 +1,4 @@
-package com.vibent.vibentback.bubble;
+package com.vibent.vibentback.bubble.alimentation;
 
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;

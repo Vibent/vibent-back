@@ -38,6 +38,16 @@ public class LocationBubbleService {
         locationBubbleRepository.deleteById(id);
     }
 
+    public LocationBubble addBubble(LocationBubble locationBubble)
+    {
+        try {
+            LocationBubble created = locationBubbleRepository.save(locationBubble);
+        } catch (Exception e){
+            throw new VibentException(VibentError.BUBBLE_CANT_CREATE);
+        }
+        return locationBubbleRepository.save(locationBubble);
+    }
+
     public LocationBubble updateBubble(long id, LocationBubble newLocationBubble) {
         LocationBubble existing = locationBubbleRepository.findById(id);
         if(existing == null)

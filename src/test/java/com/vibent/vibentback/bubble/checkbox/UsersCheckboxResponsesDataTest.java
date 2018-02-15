@@ -1,4 +1,4 @@
-package com.vibent.vibentback.bubble;
+package com.vibent.vibentback.bubble.checkbox;
 
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.bubble.checkbox.CheckboxBubble;

@@ -38,6 +38,16 @@ public class FreeBubbleService {
         freeBubbleRepository.deleteById(id);
     }
 
+    public FreeBubble addBubble(FreeBubble freeBubble)
+    {
+        try {
+            FreeBubble created = freeBubbleRepository.save(freeBubble);
+        } catch (Exception e){
+            throw new VibentException(VibentError.BUBBLE_CANT_CREATE);
+        }
+        return freeBubbleRepository.save(freeBubble);
+    }
+
     public FreeBubble updateBubble(long id, FreeBubble newFreeBubble) {
         FreeBubble existing = freeBubbleRepository.findById(id);
         if(existing == null)

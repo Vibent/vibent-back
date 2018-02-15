@@ -1,5 +1,6 @@
 package com.vibent.vibentback;
 
+import com.vibent.vibentback.bubble.free.FreeBubble;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.user.User;
@@ -23,4 +24,7 @@ public class VibentTest {
     public User RANDOM_USER = new User(UUID.randomUUID().toString(), "test", "test", "test@test.com", "test", "test");
     public GroupT RANDOM_GROUP = new GroupT(UUID.randomUUID().toString(), "test");
     public Event RANDOM_EVENT = new Event(UUID.randomUUID().toString(), RANDOM_GROUP.getRef(), "test", "test", new Date(), new Date());
+
+    //TODO decide if we do this
+    public FreeBubble RAMDOM_FREE_BUBBLE = new FreeBubble("free", "free");
 }
