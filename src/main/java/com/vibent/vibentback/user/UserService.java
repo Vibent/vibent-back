@@ -19,7 +19,7 @@ public class UserService {
         User user = userRepository.findByRef(ref);
         if (user == null)
             throw new VibentException(VibentError.USER_NOT_FOUND);
-        return userRepository.findByRef(ref);
+        return user;
     }
 
     public User addUser(User user) {
