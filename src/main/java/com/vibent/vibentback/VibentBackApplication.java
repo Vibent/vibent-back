@@ -4,7 +4,7 @@
  * This file is part of Vibent application
  *
  * Can not be copied and/or distributed without the express
- * permission of both fondators
+ * permission of both fondators 
  *******************************************************/
 
 package com.vibent.vibentback;
