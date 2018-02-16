@@ -1,8 +1,6 @@
-package com.vibent.vibentback.bubble;
+package com.vibent.vibentback.bubble.alimentation;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
-import com.vibent.vibentback.bubble.alimentation.AlimentationBubbleRepository;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBringRepository;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
@@ -16,45 +14,51 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.UUID;
-
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AlimentationBringTests extends VibentTest {
+public class AlimentationDataTest extends VibentTest {
 
     @Autowired
-    AlimentationBringRepository repository;
-
+    AlimentationBringRepository bringRepository;
     @Autowired
     AlimentationBubbleRepository bubbleRepository;
-
     @Autowired
-    AlimentationEntryRepository alimentationEntryRepository;
-
+    AlimentationEntryRepository entryRepository;
     @Autowired
     UserRepository userRepository;
 
-    User user;
-    AlimentationBubble alimentationBubble;
-    AlimentationEntry alimentationEntry;
+    private User user;
+    private AlimentationBubble alimentationBubble;
+    private AlimentationEntry alimentationEntry;
 
     @Before
-    public void init() {
+    public void setUp()
+    {
+        super.setUp();
         /** User creation **/
-        user = new User(UUID.randomUUID().toString(), "conor", "ryan", "cr.sd.sd@gmail.com", "secret", "sel");
-        userRepository.save(user);
+        user = userRepository.save(RANDOM_USER);
         /** Bubble creation **/
-        alimentationBubble = new AlimentationBubble();
-        bubbleRepository.save(alimentationBubble);
+        alimentationBubble = bubbleRepository.save(new AlimentationBubble());
         /**Entry creation**/
-        alimentationEntry = new AlimentationEntry(alimentationBubble.getId(), "Coca", "Drink");
-        alimentationEntryRepository.save(alimentationEntry);
+        alimentationEntry = entryRepository.save(new AlimentationEntry(alimentationBubble.getId(), "Coca", AlimentationEntry.Type.Drink));
     }
 
     @Test
     public void testAddAlimentationBring() {
         AlimentationBring AlimentationBring = new AlimentationBring(alimentationEntry.getId(), user.getRef());
-        repository.save(AlimentationBring);
+        bringRepository.save(AlimentationBring);
+    }
+
+    @Test
+    public void testAddAlimentationBubble(){
+        AlimentationBubble alimentationBubble = new AlimentationBubble();
+        bubbleRepository.save(alimentationBubble);
+    }
+
+    @Test
+    public void testAddAlimentationEntry(){
+        AlimentationEntry alimentationEntry = new AlimentationEntry(alimentationBubble.getId(), "Coca", AlimentationEntry.Type.Drink);
+        entryRepository.save(alimentationEntry);
     }
 }

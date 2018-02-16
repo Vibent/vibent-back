@@ -23,5 +23,5 @@ public class CheckboxAnswer {
     private Long bubbleId;
     @NonNull
     private String content;
-    private boolean isDeleted;
+    private boolean deleted;
 }

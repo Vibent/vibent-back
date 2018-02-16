@@ -30,7 +30,7 @@ public class PlanningEntry {
     private Date end;
     @NonNull
     private String content;
-    private boolean isDeleted;
+    private boolean deleted;
 
 
 }

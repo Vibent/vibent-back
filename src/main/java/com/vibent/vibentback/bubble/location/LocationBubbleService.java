@@ -1,5 +1,6 @@
 package com.vibent.vibentback.bubble.location;
 
+import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.ownership.BubbleOwnership;
 import com.vibent.vibentback.bubble.ownership.BubbleOwnershipRepository;
 import com.vibent.vibentback.common.ObjectUpdater;
@@ -8,8 +9,6 @@ import com.vibent.vibentback.error.VibentException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -25,11 +24,11 @@ public class LocationBubbleService {
         return locationBubble;
     }
 
-    public LocationBubble createBubble(String eventRef){
+    public LocationBubble createBubble(String eventRef) {
         LocationBubble locationBubble = locationBubbleRepository.save(new LocationBubble());
         ownershipRepository.save(new BubbleOwnership(eventRef,
                 locationBubble.getId(),
-                BubbleOwnership.Type.LocationBubble,
+                BubbleType.LocationBubble,
                 "CREATOR")); // TODO add creator as connected user
         return locationBubble;
     }
@@ -38,11 +37,10 @@ public class LocationBubbleService {
         locationBubbleRepository.deleteById(id);
     }
 
-    public LocationBubble addBubble(LocationBubble locationBubble)
-    {
+    public LocationBubble addBubble(LocationBubble locationBubble) {
         try {
             LocationBubble created = locationBubbleRepository.save(locationBubble);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new VibentException(VibentError.BUBBLE_CANT_CREATE);
         }
         return locationBubbleRepository.save(locationBubble);
@@ -50,7 +48,7 @@ public class LocationBubbleService {
 
     public LocationBubble updateBubble(long id, LocationBubble newLocationBubble) {
         LocationBubble existing = locationBubbleRepository.findById(id);
-        if(existing == null)
+        if (existing == null)
             throw new VibentException(VibentError.BUBBLE_NOT_FOUND);
         ObjectUpdater.updateProperties(existing, newLocationBubble);
         return locationBubbleRepository.save(existing);

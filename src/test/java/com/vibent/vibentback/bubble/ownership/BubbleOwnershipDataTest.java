@@ -1,20 +1,9 @@
 package com.vibent.vibentback.bubble.ownership;
 
 import com.vibent.vibentback.VibentTest;
+import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubbleRepository;
-import com.vibent.vibentback.bubble.ownership.BubbleOwnership;
-import com.vibent.vibentback.bubble.ownership.BubbleOwnershipRepository;
-import com.vibent.vibentback.event.Event;
-import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.groupT.GroupT;
-import com.vibent.vibentback.groupT.GroupTRepository;
-import com.vibent.vibentback.user.User;
-import com.vibent.vibentback.user.UserRepository;
-import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
-import com.vibent.vibentback.bubble.alimentation.AlimentationBubbleRepository;
-import com.vibent.vibentback.bubble.ownership.BubbleOwnership;
-import com.vibent.vibentback.bubble.ownership.BubbleOwnershipRepository;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
 import com.vibent.vibentback.groupT.GroupT;
@@ -57,8 +46,8 @@ public class BubbleOwnershipDataTest extends VibentTest {
     GroupT group;
 
     @Before
-    public void init()
-    {
+    public void setUp() {
+        super.setUp();
         /** Bubble creation **/
         alimentationBubble = new AlimentationBubble();
         bubbleRepository.save(alimentationBubble);
@@ -66,16 +55,16 @@ public class BubbleOwnershipDataTest extends VibentTest {
         group = new GroupT(UUID.randomUUID().toString(), "groupTest");
         groupRepository.save(group);
         /** User creation **/
-        user = new User(UUID.randomUUID().toString(),"conor","ryan","cr.sd.sd@gmail.com","secret","sel");
+        user = new User(UUID.randomUUID().toString(), "conor", "ryan", "cr.sd.sd@gmail.com", "secret", "sel");
         userRepository.save(user);
         /** Event creation **/
-        event = new Event(UUID.randomUUID().toString(), group.getRef(), "eventTest", "description",new Date(), new Date());
+        event = new Event(UUID.randomUUID().toString(), group.getRef(), "eventTest", "description", new Date(), new Date());
         eventRepository.save(event);
     }
 
     @Test
-    public void testAddBubbleOwnership(){
-        BubbleOwnership bubbleOwnership = new BubbleOwnership(event.getRef(), alimentationBubble.getId(), BubbleOwnership.Type.AlimentationBubble, user.getRef());
+    public void testAddBubbleOwnership() {
+        BubbleOwnership bubbleOwnership = new BubbleOwnership(event.getRef(), alimentationBubble.getId(), BubbleType.AlimentationBubble, user.getRef());
         repository.save(bubbleOwnership);
     }
 }

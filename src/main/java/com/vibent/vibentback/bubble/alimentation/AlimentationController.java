@@ -2,6 +2,7 @@ package com.vibent.vibentback.bubble.alimentation;
 
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
+import com.vibent.vibentback.api.AlimentationBubbleRes;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +17,16 @@ public class AlimentationController {
 
     AlimentationService service;
 
-    // Alimentation Bubble
+    // Alimentation Bubble -------------------------------------------------------------
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    AlimentationBubble getBubble(@PathVariable Long id) {
+    AlimentationBubbleRes getBubble(@PathVariable Long id) {
         log.info("Get alimentation bubble with id : {}", id);
         return service.getBubble(id);
     }
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
-    AlimentationBubble createBubble(@RequestBody String eventRef) {
+    AlimentationBubbleRes createBubble(@RequestBody String eventRef) {
         log.info("Creating alimentation bubble");
         return service.createBubble(eventRef);
     }
@@ -34,45 +35,47 @@ public class AlimentationController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     void deleteBubble(@PathVariable Long id) {
         log.info("Deleting alimentation bubble with id : {}", id);
-        // TODO
+        service.deleteBubble(id);
     }
 
-    // Alimentation Bubble Entry
+    // Alimentation Bubble Entry -------------------------------------------------------------
+
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/entry")
-    AlimentationBubble createBubbleEntry(@RequestBody AlimentationEntry entry) {
+    AlimentationBubbleRes createBubbleEntry(@RequestBody AlimentationEntry entry) {
         log.info("Creating alimentation entry with body : {}", entry.toString());
         return null;
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/entry/{id}")
-    AlimentationBubble updateBubbleEntry(@PathVariable Long id, @RequestBody AlimentationEntry entry) {
+    AlimentationBubbleRes updateBubbleEntry(@PathVariable Long id, @RequestBody AlimentationEntry entry) {
         log.info("Update alimentation entry with id {} and body : {}", id, entry.toString());
         return null;
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/entry/{id}")
-    AlimentationBubble deleteBubbleEntry(@PathVariable Long id) {
+    AlimentationBubbleRes deleteBubbleEntry(@PathVariable Long id) {
         log.info("Delete alimentation entry for with id {}", id);
         return null;
     }
 
-    // Alimentation Bubble Entry Bring
+    // Alimentation Bubble Entry Bring -------------------------------------------------------------
+
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/bring")
-    AlimentationBubble createBubbleBring(@RequestBody AlimentationBring bring) {
+    AlimentationBubbleRes createBubbleBring(@RequestBody AlimentationBring bring) {
         log.info("Creating alimentation bring with body : {}", bring.toString());
         return null;
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/bring/{id}")
-    AlimentationBubble updateBubbleBring(@PathVariable Long id, @RequestBody AlimentationBring bring) {
+    AlimentationBubbleRes updateBubbleBring(@PathVariable Long id, @RequestBody AlimentationBring bring) {
         log.info("Update alimentation bring with id {} with body : {}", id, bring.toString());
         return null;
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/bring/{id}")
-    AlimentationBubble deleteBubbleBring(@PathVariable Long bringId) {
+    AlimentationBubbleRes deleteBubbleBring(@PathVariable Long bringId) {
         log.info("Delete alimentation bring with id {}", bringId);
         return null;
     }

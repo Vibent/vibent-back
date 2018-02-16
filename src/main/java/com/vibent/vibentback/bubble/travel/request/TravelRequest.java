@@ -25,5 +25,5 @@ public class TravelRequest {
     private String creatorRef;
     private int capacity;
     private boolean attachedToProposal;
-    private boolean isDeleted;
+    private boolean deleted;
 }

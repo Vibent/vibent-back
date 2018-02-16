@@ -26,14 +26,14 @@ public class CheckboxAnswerDataTest extends VibentTest {
 
 
     @Before
-    public void init()
-    {
-       checkboxBubble = new CheckboxBubble("checkboxBubbleTitle");
-       bubbleRepository.save(checkboxBubble);
+    public void setUp() {
+        super.setUp();
+        checkboxBubble = new CheckboxBubble("checkboxBubbleTitle");
+        bubbleRepository.save(checkboxBubble);
     }
 
     @Test
-    public void testAddCheckboxAnswer(){
+    public void testAddCheckboxAnswer() {
         CheckboxAnswer checkboxAnswer = new CheckboxAnswer(checkboxBubble.getId(), "content");
         repository.save(checkboxAnswer);
     }

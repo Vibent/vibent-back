@@ -36,20 +36,19 @@ public class TravelRequestTests extends VibentTest {
     @Autowired
     UserRepository userRepository;
 
-    User user;
     TravelBubble travelBubble;
 
     @Before
-    public void init()
+    public void setUp()
     {
-        user = new User(UUID.randomUUID().toString(),"conor","ryan","cr.sd.sd@gmail.com","secret","sel");
-        userRepository.save(user);
+        super.setUp();
+        userRepository.save(RANDOM_USER);
         travelBubble = new TravelBubble();
         travelRepository.save(travelBubble);
     }
     @Test
     public void testAddTravelRequest(){
-        TravelRequest TravelRequest = new TravelRequest(travelBubble.getId(), user.getRef());
+        TravelRequest TravelRequest = new TravelRequest(travelBubble.getId(), RANDOM_USER.getRef());
         repository.save(TravelRequest);
     }
 

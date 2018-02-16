@@ -23,6 +23,6 @@ public class GroupT {
     private String name;
     private String imagePath;
     private boolean hasDefaultAdmin;
-    private boolean isDeleted;
+    private boolean deleted;
 
 }
