@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class AlimentationController {
 
-    @Autowired
     AlimentationService service;
 
     // Alimentation Bubble

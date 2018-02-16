@@ -1,5 +1,7 @@
 package com.vibent.vibentback.bubble.alimentation.entry;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -27,6 +29,7 @@ public class AlimentationEntry {
     private int totalCurrent;
     @NonNull
     private String type;
+    @JsonIgnore
     private boolean isDeleted;
 
 }
