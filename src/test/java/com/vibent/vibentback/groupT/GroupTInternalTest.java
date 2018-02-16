@@ -31,6 +31,7 @@ public class GroupTInternalTest extends VibentTest {
 
     @Before
     public void setUp(){
+        super.setUp();
         MockitoAnnotations.initMocks(this);
         when(groupTRepository.findByRef(RANDOM_GROUP.getRef())).thenReturn(RANDOM_GROUP);
         when(groupTRepository.save(RANDOM_GROUP)).thenReturn(RANDOM_GROUP);

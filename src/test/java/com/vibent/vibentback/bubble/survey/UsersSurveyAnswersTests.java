@@ -39,8 +39,9 @@ public class UsersSurveyAnswersTests extends VibentTest {
     SurveyBubble surveyBubble;
 
     @Before
-    public void init()
+    public void setUp()
     {
+        super.setUp();
         /** User creation **/
         user = new User(UUID.randomUUID().toString(),"conor","ryan","cr.sd.sd@gmail.com","secret","sel");
         userRepository.save(user);

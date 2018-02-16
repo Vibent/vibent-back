@@ -29,8 +29,9 @@ public class GroupInviteLinkDataTest extends VibentTest {
 
 
     @Before
-    public void init()
+    public void setUp()
     {
+        super.setUp();
         group = new GroupT(UUID.randomUUID().toString(), "groupTest");
         groupTRepository.save(group);
     }

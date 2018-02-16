@@ -32,5 +32,5 @@ public class User {
     private String password;
     @NonNull
     private String salt;
-    private Boolean isDeleted;
+    private Boolean deleted;
 }

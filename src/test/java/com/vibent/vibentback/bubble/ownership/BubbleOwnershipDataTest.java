@@ -57,8 +57,9 @@ public class BubbleOwnershipDataTest extends VibentTest {
     GroupT group;
 
     @Before
-    public void init()
+    public void setUp()
     {
+        super.setUp();
         /** Bubble creation **/
         alimentationBubble = new AlimentationBubble();
         bubbleRepository.save(alimentationBubble);

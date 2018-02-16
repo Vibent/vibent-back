@@ -1,16 +1,13 @@
 package com.vibent.vibentback.bubble.alimentation.entry;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 
 @Data
 @Entity
@@ -22,14 +19,20 @@ public class AlimentationEntry {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @NonNull
+    @JsonIgnore // ignored because when returned it is already in bubble object
     private Long bubbleId;
     @NonNull
     private String name;
     private int totalRequested;
     private int totalCurrent;
     @NonNull
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private Type type;
     @JsonIgnore
-    private boolean isDeleted;
+    private boolean deleted;
+
+    public enum Type {
+        Food, Drink
+    }
 
 }

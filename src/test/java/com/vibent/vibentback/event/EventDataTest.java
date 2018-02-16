@@ -30,6 +30,7 @@ public class EventDataTest extends VibentTest {
     @Before
     public void setUp()
     {
+        super.setUp();
         group = new GroupT(UUID.randomUUID().toString(), "groupTest");
         groupRepository.save(RANDOM_GROUP);
         groupRepository.save(group);

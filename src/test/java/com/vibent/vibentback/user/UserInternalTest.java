@@ -30,6 +30,7 @@ public class UserInternalTest extends VibentTest {
 
     @Before
     public void setUp() {
+        super.setUp();
         MockitoAnnotations.initMocks(this);
         when(userRepository.findByRef(RANDOM_USER.getRef())).thenReturn(RANDOM_USER);
         when(userRepository.save(RANDOM_USER)).thenReturn(RANDOM_USER);

@@ -26,5 +26,5 @@ public class TravelProposal {
     private int capacity;
     @NonNull
     private String passByCities;
-    private boolean isDeleted;
+    private boolean deleted;
 }

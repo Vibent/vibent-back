@@ -38,10 +38,10 @@ public class UsersCheckboxAnswersDataTest extends VibentTest {
     CheckboxBubble checkboxBubble;
 
     @Before
-    public void init()
-    {
+    public void setUp() {
+        super.setUp();
         /** User creation **/
-        user = new User(UUID.randomUUID().toString(),"conor","ryan","cr.sd.sd@gmail.com","secret","sel");
+        user = new User(UUID.randomUUID().toString(), "conor", "ryan", "cr.sd.sd@gmail.com", "secret", "sel");
         userRepository.save(user);
         /** Bubble creation **/
         checkboxBubble = new CheckboxBubble("checkboxBubbleTitle");
@@ -52,7 +52,7 @@ public class UsersCheckboxAnswersDataTest extends VibentTest {
     }
 
     @Test
-    public void testAddUsersCheckboxAnswers(){
+    public void testAddUsersCheckboxAnswers() {
         UsersCheckboxAnswers usersCheckboxAnswers = new UsersCheckboxAnswers(user.getRef(), checkboxAnswer.getId());
         repository.save(usersCheckboxAnswers);
     }

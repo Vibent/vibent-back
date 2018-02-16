@@ -40,8 +40,9 @@ public class PlanningEntryDataTest extends VibentTest {
 
 
     @Before
-    public void init()
+    public void setUp()
     {
+        super.setUp();
         planningBubble = new PlanningBubble();
         bubbleRepository.save(planningBubble);
         user = new User(UUID.randomUUID().toString(),"conor","ryan","cr.sd.sd@gmail.com","secret","sel");

@@ -37,6 +37,7 @@ public class EventWebLayerTest extends VibentTest {
 
     @Before
     public void setUp(){
+        super.setUp();
         when(eventService.getEvent(RANDOM_EVENT.getRef())).thenReturn(RANDOM_EVENT);
         when(eventService.addEvent(RANDOM_EVENT)).thenReturn(RANDOM_EVENT);
     }

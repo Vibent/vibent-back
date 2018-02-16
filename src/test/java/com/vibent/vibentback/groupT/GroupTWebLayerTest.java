@@ -37,6 +37,7 @@ public class GroupTWebLayerTest extends VibentTest {
 
     @Before
     public void setUp(){
+        super.setUp();
         when(groupTService.getGroupT(RANDOM_GROUP.getRef())).thenReturn(RANDOM_GROUP);
         when(groupTService.addGroupT(RANDOM_GROUP)).thenReturn(RANDOM_GROUP);
     }

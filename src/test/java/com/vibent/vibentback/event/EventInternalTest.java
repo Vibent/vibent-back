@@ -31,6 +31,7 @@ public class EventInternalTest extends VibentTest {
 
     @Before
     public void setUp(){
+        super.setUp();
         MockitoAnnotations.initMocks(this);
         when(eventRepository.findByRef(RANDOM_EVENT.getRef())).thenReturn(RANDOM_EVENT);
         when(eventRepository.save(RANDOM_EVENT)).thenReturn(RANDOM_EVENT);

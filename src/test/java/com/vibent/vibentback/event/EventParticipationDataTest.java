@@ -37,8 +37,9 @@ public class EventParticipationDataTest extends VibentTest {
     User user;
 
     @Before
-    public void init()
+    public void setUp()
     {
+        super.setUp();
         group = new GroupT(UUID.randomUUID().toString(), "groupTest");
         user = new User(UUID.randomUUID().toString(), "Theo", "Joubert", "theojoubertmoureaud@gmail.com","password", "salt");
         userRepository.save(user);

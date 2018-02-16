@@ -9,7 +9,7 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 @Configuration
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class GeneralConfiguration {
+public class GeneralConfig {
 
     @Bean
     public CommonsRequestLoggingFilter requestLoggingFilter() {

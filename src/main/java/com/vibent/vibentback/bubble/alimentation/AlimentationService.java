@@ -29,7 +29,10 @@ public class AlimentationService {
         AlimentationBubble bubble = bubbleRepository.findById(id);
         if (bubble == null)
             throw new VibentException(VibentError.BUBBLE_NOT_FOUND);
+        return getAlimentationBubbleResponse(bubble);
+    }
 
+    public AlimentationBubbleRes getAlimentationBubbleResponse(AlimentationBubble bubble) {
         AlimentationBubbleRes response = new AlimentationBubbleRes(bubble);
         Iterable<AlimentationEntry> entries = entryRepository.findByBubbleId(bubble.getId());
         for (AlimentationEntry entry : entries) {
@@ -39,28 +42,26 @@ public class AlimentationService {
         return response;
     }
 
-    public AlimentationBubble getBubble(long id) {
-        AlimentationBubble bubble = bubbleRepository.findById(id);
-        if (bubble == null)
-            throw new VibentException(VibentError.BUBBLE_NOT_FOUND);
-        return bubble;
+    public AlimentationBubbleRes getBubble(long id) {
+        return getAlimentationBubbleResponse(id);
     }
 
-    public AlimentationBubble createBubble(String eventRef) {
+    public AlimentationBubbleRes createBubble(String eventRef) {
         AlimentationBubble alimentationBubble = bubbleRepository.save(new AlimentationBubble());
         ownershipRepository.save(new BubbleOwnership(eventRef,
                 alimentationBubble.getId(),
                 BubbleOwnership.Type.AlimentationBubble,
                 "CREATOR")); // TODO add creator as connected user
-        return alimentationBubble;
+        return getAlimentationBubbleResponse(alimentationBubble);
     }
 
-    public AlimentationBubble updateBubble(long id, AlimentationBubble bubble) {
+    public AlimentationBubbleRes updateBubble(long id, AlimentationBubble bubble) {
         AlimentationBubble old = bubbleRepository.findById(id);
         if (bubble == null)
             throw new VibentException(VibentError.BUBBLE_NOT_FOUND);
         ObjectUpdater.updateProperties(bubble, old);
-        return bubbleRepository.save(old);
+        bubble = bubbleRepository.save(old);
+        return getAlimentationBubbleResponse(bubble);
     }
 
     public void deleteBubble(long id) {

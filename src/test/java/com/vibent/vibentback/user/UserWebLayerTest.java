@@ -34,6 +34,7 @@ public class UserWebLayerTest extends VibentTest {
 
     @Before
     public void setUp() {
+        super.setUp();
         when(userService.getUser(RANDOM_USER.getRef())).thenReturn(RANDOM_USER);
         when(userService.addUser(RANDOM_USER)).thenReturn(RANDOM_USER);
     }
@@ -46,10 +47,7 @@ public class UserWebLayerTest extends VibentTest {
 
     @Test
     public void testAddUser() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        String requestJson = ow.writeValueAsString(RANDOM_USER);
+        String requestJson = getJsonString(RANDOM_USER);
 
         mockMvc.perform(post("/user").contentType(APPLICATION_JSON_UTF8)
                 .content(requestJson))

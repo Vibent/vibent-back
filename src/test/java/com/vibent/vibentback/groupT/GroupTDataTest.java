@@ -22,6 +22,7 @@ public class GroupTDataTest extends VibentTest {
 
     @Before
     public void setUp() {
+        super.setUp();
         repository.save(RANDOM_GROUP);
     }
 

@@ -27,7 +27,7 @@ public class BubbleOwnership {
     private Type bubbleType;
     @NonNull
     private String creatorRef;
-    private boolean isDeleted;
+    private boolean deleted;
 
     public enum Type {
         TravelBubble, LocationBubble, AlimentationBubble, SurveyBubble, CheckBoxBubble, PlanningBubble, FreeBubble;

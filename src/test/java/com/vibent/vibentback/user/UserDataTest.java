@@ -24,6 +24,7 @@ public class UserDataTest extends VibentTest {
 
     @Before
     public void setUp() {
+        super.setUp();
         repository.save(RANDOM_USER);
     }
 

@@ -1,5 +1,7 @@
 package com.vibent.vibentback.bubble.alimentation.bring;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -20,10 +22,12 @@ public class AlimentationBring {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @NonNull
+    @JsonIgnore // ignore as when returned it is already in entry object
     private Long entryId;
     @NonNull
     private String userRef;
     private int quantity;
-    private boolean isDeleted;
+    @JsonIgnore
+    private boolean deleted;
 
 }

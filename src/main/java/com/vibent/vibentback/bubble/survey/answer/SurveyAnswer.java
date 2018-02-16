@@ -25,6 +25,6 @@ public class SurveyAnswer {
     private String creatorRef;
     @NonNull
     private String content;
-    private boolean isDeleted;
+    private boolean deleted;
 
 }
