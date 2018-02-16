@@ -11,8 +11,26 @@ import java.util.stream.Stream;
 
 public class ObjectUpdater {
 
+    private static final String[] EXCLUDE_FIELDS = {"ref", "id"};
+
+    /**
+     * Copies all the non null properties, excluding specific fields ("ref" and
+     * "id" for example) from the source object to the target one
+     */
     public static void updateProperties(Object src, Object target) {
         // BeanUtils.copyProperties(Object source, Object target, String... ignoreProperties)
+        String[] nullPropertyNames = getNullPropertyNames(src);
+        String[] toIgnore = Stream.concat(
+                Arrays.stream(nullPropertyNames), Arrays.stream(EXCLUDE_FIELDS))
+                .toArray(String[]::new);
+        BeanUtils.copyProperties(src, target, toIgnore);
+    }
+
+    /**
+     * Copies all the non null properties, including normally excluded fields ("ref" and
+     * "id" for example) from the source object to the target one
+     */
+    public static void updateAllProperties(Object src, Object target) {
         BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
     }
 

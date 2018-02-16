@@ -3,7 +3,7 @@ package com.vibent.vibentback.bubble.alimentation;
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
-import com.vibent.vibentback.bubble.api.AlimentationBubbleRes;
+import com.vibent.vibentback.api.AlimentationBubbleRes;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class AlimentationWebLayerTest extends VibentTest {
     /**
      * String used to check the response (i.e. response body must contain this string)
      */
-    private final static String EXPECTED_CONTAIN = "eventRef";
+    private final static String EXPECTED_CONTAIN = "\"brings\"";
 
     @Autowired
     public MockMvc mockMvc;
@@ -70,7 +70,7 @@ public class AlimentationWebLayerTest extends VibentTest {
         RANDOM_RESPONSE = new AlimentationBubbleRes(RANDOM_BUBBLE);
         log.info("{}",RANDOM_RESPONSE.getId());
         RANDOM_RESPONSE.addEntry(RANDOM_ENTRY, Arrays.asList(RANDOM_BRING));
-        log.info("{}", RANDOM_RESPONSE.toString());
+        log.info("{}", RANDOM_RESPONSE.getEntries().get(0));
 
         when(service.getBubble(RANDOM_BUBBLE.getId())).thenReturn(RANDOM_RESPONSE);
         when(service.createBubble(RANDOM_EVENT.getRef())).thenReturn(RANDOM_RESPONSE);
@@ -80,16 +80,17 @@ public class AlimentationWebLayerTest extends VibentTest {
     @Test
     public void testGetBubble() throws Exception {
         this.mockMvc.perform(get(ROOT_URL + "/" + RANDOM_BUBBLE.getId()))
-                .andDo(print()).andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().string(containsString(EXPECTED_CONTAIN)));
     }
 
     @Test
     public void testCreateBubble() throws Exception {
-        String json = getJsonString(RANDOM_BUBBLE);
+        String body = RANDOM_EVENT.getRef(); // use super.getJsonString(Object) if needed
 
         mockMvc.perform(post(ROOT_URL).contentType(APPLICATION_JSON_UTF8)
-                .content(json))
+                .content(body))
                 .andExpect(status().isCreated())
                 .andExpect(content().string(containsString(EXPECTED_CONTAIN)));
     }

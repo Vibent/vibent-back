@@ -5,19 +5,14 @@ import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBringRepository;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntryRepository;
-import com.vibent.vibentback.bubble.api.AlimentationBubbleRes;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
-import lombok.AllArgsConstructor;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Collections;
 
 
 @RunWith(SpringRunner.class)

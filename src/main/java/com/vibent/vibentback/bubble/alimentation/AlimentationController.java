@@ -2,7 +2,7 @@ package com.vibent.vibentback.bubble.alimentation;
 
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
-import com.vibent.vibentback.bubble.api.AlimentationBubbleRes;
+import com.vibent.vibentback.api.AlimentationBubbleRes;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

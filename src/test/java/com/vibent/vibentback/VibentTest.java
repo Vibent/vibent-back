@@ -4,10 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
-import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
-import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
-import com.vibent.vibentback.bubble.api.AlimentationBubbleRes;
 import com.vibent.vibentback.bubble.free.FreeBubble;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.groupT.GroupT;
@@ -18,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.nio.charset.Charset;
-import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
 
@@ -49,4 +44,6 @@ public class VibentTest {
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
         return ow.writeValueAsString(object);
     }
+
+
 }

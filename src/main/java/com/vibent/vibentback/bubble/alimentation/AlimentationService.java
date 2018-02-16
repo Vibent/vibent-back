@@ -4,17 +4,17 @@ import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBringRepository;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntryRepository;
-import com.vibent.vibentback.bubble.api.AlimentationBubbleRes;
+import com.vibent.vibentback.api.AlimentationBubbleRes;
 import com.vibent.vibentback.bubble.ownership.BubbleOwnership;
 import com.vibent.vibentback.bubble.ownership.BubbleOwnershipRepository;
 import com.vibent.vibentback.common.ObjectUpdater;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
+import com.vibent.vibentback.event.Event;
+import com.vibent.vibentback.event.EventRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -24,6 +24,7 @@ public class AlimentationService {
     AlimentationBubbleRepository bubbleRepository;
     AlimentationEntryRepository entryRepository;
     AlimentationBringRepository bringRepository;
+    EventRepository eventRepository;
 
     public AlimentationBubbleRes getAlimentationBubbleResponse(long id) {
         AlimentationBubble bubble = bubbleRepository.findById(id);
@@ -47,6 +48,10 @@ public class AlimentationService {
     }
 
     public AlimentationBubbleRes createBubble(String eventRef) {
+        Event event = eventRepository.findByRef(eventRef);
+        if(event == null){
+            throw  new VibentException(VibentError.EVENT_NOT_FOUND);
+        }
         AlimentationBubble alimentationBubble = bubbleRepository.save(new AlimentationBubble());
         ownershipRepository.save(new BubbleOwnership(eventRef,
                 alimentationBubble.getId(),

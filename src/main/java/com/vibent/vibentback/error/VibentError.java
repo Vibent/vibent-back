@@ -19,6 +19,8 @@ public enum VibentError {
 
     GROUP_NOT_FOUND("group-not-found", HttpStatus.NOT_FOUND, "The requested group could not be found"),
 
+    EVENT_NOT_FOUND("event-not-found", HttpStatus.NOT_FOUND, "The requested event could not be found"),
+
     BUBBLE_NOT_FOUND("bubble-not-found", HttpStatus.NOT_FOUND, "The requested bubble can not be found"),
     BUBBLE_CANT_CREATE("bubble-cant-create", HttpStatus.NOT_FOUND, "Bubble can not be created"),
 

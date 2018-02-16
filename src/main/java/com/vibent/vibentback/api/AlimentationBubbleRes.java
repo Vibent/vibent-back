@@ -1,4 +1,4 @@
-package com.vibent.vibentback.bubble.api;
+package com.vibent.vibentback.api;
 
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
@@ -14,7 +14,7 @@ public class AlimentationBubbleRes extends AlimentationBubble {
 
     public AlimentationBubbleRes(AlimentationBubble bubble) {
         super();
-        ObjectUpdater.updateProperties(bubble, this);
+        ObjectUpdater.updateAllProperties(bubble, this);
         entries = new ArrayList<>();
     }
 
@@ -33,7 +33,7 @@ public class AlimentationBubbleRes extends AlimentationBubble {
 
         public AlimentationEntryRes(AlimentationEntry entry) {
             super();
-            ObjectUpdater.updateProperties(entry, this);
+            ObjectUpdater.updateAllProperties(entry, this);
             brings = new ArrayList<>();
         }
 
@@ -46,7 +46,7 @@ public class AlimentationBubbleRes extends AlimentationBubble {
         private class AlimentationBringRes extends AlimentationBring {
             public AlimentationBringRes(AlimentationBring bring) {
                 super();
-                ObjectUpdater.updateProperties(bring, this);
+                ObjectUpdater.updateAllProperties(bring, this);
             }
         }
     }
