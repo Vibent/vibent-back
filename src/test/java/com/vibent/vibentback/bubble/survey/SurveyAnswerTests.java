@@ -1,16 +1,8 @@
 package com.vibent.vibentback.bubble.survey;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.bubble.survey.SurveyBubble;
-import com.vibent.vibentback.bubble.survey.SurveyBubbleRepository;
-import com.vibent.vibentback.bubble.survey.response.SurveyResponse;
-import com.vibent.vibentback.bubble.survey.response.SurveyResponseRepository;
-import com.vibent.vibentback.user.User;
-import com.vibent.vibentback.user.UserRepository;
-import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.bubble.survey.SurveyBubble;
-import com.vibent.vibentback.bubble.survey.response.SurveyResponse;
-import com.vibent.vibentback.bubble.survey.response.SurveyResponseRepository;
+import com.vibent.vibentback.bubble.survey.answer.SurveyAnswer;
+import com.vibent.vibentback.bubble.survey.answer.SurveyAnswerRepository;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
 import org.junit.Before;
@@ -25,10 +17,10 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SurveyResponseTests extends VibentTest {
+public class SurveyAnswerTests extends VibentTest {
 
     @Autowired
-    SurveyResponseRepository repository;
+    SurveyAnswerRepository repository;
 
     @Autowired
     UserRepository userRepository;
@@ -52,8 +44,8 @@ public class SurveyResponseTests extends VibentTest {
     }
 
     @Test
-    public void testAddSurveyResponse(){
-        SurveyResponse surveyResponse = new SurveyResponse( surveyBubble.getId(),user.getRef(),"responseContent");
-        repository.save(surveyResponse);
+    public void testAddSurveyAnswer(){
+        SurveyAnswer surveyAnswer = new SurveyAnswer( surveyBubble.getId(),user.getRef(),"answerContent");
+        repository.save(surveyAnswer);
     }
 }

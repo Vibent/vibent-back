@@ -169,7 +169,7 @@ CREATE TABLE survey_bubble
     PRIMARY KEY (id)
 );
 
-CREATE TABLE survey_response
+CREATE TABLE survey_answer
 (
     id INT NOT NULL AUTO_INCREMENT,
     bubble_id INT,
@@ -180,11 +180,11 @@ CREATE TABLE survey_response
     INDEX (creator_ref)
 );
 
-CREATE TABLE users_survey_responses
+CREATE TABLE users_survey_answers
 (
     id INT NOT NULL AUTO_INCREMENT,
     user_ref CHAR(36),
-    survey_response_id INT,
+    survey_answer_id INT,
     PRIMARY KEY(id),
     INDEX(user_ref)
 );
@@ -196,7 +196,7 @@ CREATE TABLE checkbox_bubble
    PRIMARY KEY (id)
 );
 
-CREATE TABLE checkbox_response
+CREATE TABLE checkbox_answer
 (
    id INT NOT NULL AUTO_INCREMENT,
    bubble_id INT,
@@ -205,11 +205,11 @@ CREATE TABLE checkbox_response
    PRIMARY KEY(id)
 );
 
-CREATE TABLE users_checkbox_responses
+CREATE TABLE users_checkbox_answers
 (
     id INT NOT NULL AUTO_INCREMENT,
     user_ref CHAR(36) REFERENCES user(ref),
-    checkbox_response_id INT REFERENCES checkbox_response(id),
+    checkbox_answer_id INT REFERENCES checkbox_answer(id),
     PRIMARY KEY(id),
     INDEX (user_ref)
 );
@@ -250,8 +250,8 @@ ADD UNIQUE KEY group_ref (ref);
 ALTER TABLE checkbox_bubble
 ADD UNIQUE KEY checkbox_bubble_id (id);
 
-ALTER TABLE checkbox_response
-ADD UNIQUE KEY checkbox_response_id(id);
+ALTER TABLE checkbox_answer
+ADD UNIQUE KEY checkbox_answer_id(id);
 
 ALTER TABLE event
 ADD UNIQUE KEY event_id (id);
@@ -276,8 +276,8 @@ ADD UNIQUE KEY alimentation_entry_id (id);
 ALTER TABLE survey_bubble
 ADD UNIQUE KEY survey_bubble_id(id);
 
-ALTER TABLE survey_response
-ADD UNIQUE KEY survey_response_id(id);
+ALTER TABLE survey_answer
+ADD UNIQUE KEY survey_answer_id(id);
 
 ALTER TABLE planning_bubble
 ADD UNIQUE KEY planning_bubble_id(id);
@@ -342,30 +342,30 @@ ALTER TABLE alimentation_bringing
 ADD CONSTRAINT alimentation_bringing_alimentry__fk
 FOREIGN KEY (entry_id)REFERENCES alimentation_entry(id);
 
-ALTER TABLE survey_response
-ADD CONSTRAINT survey_response_bubble__fk
+ALTER TABLE survey_answer
+ADD CONSTRAINT survey_answer_bubble__fk
 FOREIGN KEY (bubble_id)REFERENCES survey_bubble(id);
-ALTER TABLE survey_response
-ADD CONSTRAINT survey_response_user__fk
+ALTER TABLE survey_answer
+ADD CONSTRAINT survey_answer_user__fk
 FOREIGN KEY (creator_ref)REFERENCES user(ref);
 
-ALTER TABLE users_survey_responses
-ADD CONSTRAINT users_survey_responses_user__fk
+ALTER TABLE users_survey_answers
+ADD CONSTRAINT users_survey_answers_user__fk
 FOREIGN KEY (user_ref)REFERENCES user(ref);
-ALTER TABLE users_survey_responses
-ADD CONSTRAINT users_survey_responses_bubble__fk
-FOREIGN KEY (survey_response_id)REFERENCES survey_response(id);
+ALTER TABLE users_survey_answers
+ADD CONSTRAINT users_survey_answers_bubble__fk
+FOREIGN KEY (survey_answer_id)REFERENCES survey_answer(id);
 
-ALTER TABLE checkbox_response
-ADD CONSTRAINT checkbox_response_bubble__fk
+ALTER TABLE checkbox_answer
+ADD CONSTRAINT checkbox_answer_bubble__fk
 FOREIGN KEY (bubble_id)REFERENCES checkbox_bubble(id);
 
-ALTER TABLE users_checkbox_responses
-ADD CONSTRAINT users_checkbox_responses_user__fk
+ALTER TABLE users_checkbox_answers
+ADD CONSTRAINT users_checkbox_answers_user__fk
 FOREIGN KEY (user_ref)REFERENCES user(ref);
-ALTER TABLE users_checkbox_responses
-ADD CONSTRAINT users_checkbox_responses_bubble__fk
-FOREIGN KEY (checkbox_response_id)REFERENCES checkbox_response(id);
+ALTER TABLE users_checkbox_answers
+ADD CONSTRAINT users_checkbox_answers_bubble__fk
+FOREIGN KEY (checkbox_answer_id)REFERENCES checkbox_answer(id);
 
 ALTER TABLE planning_entry
 ADD CONSTRAINT planning_entry_bubble__fk

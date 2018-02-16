@@ -1,4 +1,4 @@
-package com.vibent.vibentback.bubble.checkbox.usersResponses;
+package com.vibent.vibentback.bubble.checkbox.answer;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,14 +14,14 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class UsersCheckboxResponses {
+public class CheckboxAnswer {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @NonNull
-    private String userRef;
+    private Long bubbleId;
     @NonNull
-    private Long checkboxResponseId;
-
+    private String content;
+    private boolean isDeleted;
 }

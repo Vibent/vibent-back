@@ -25,6 +25,5 @@ public class VibentTest {
     public GroupT RANDOM_GROUP = new GroupT(UUID.randomUUID().toString(), "test");
     public Event RANDOM_EVENT = new Event(UUID.randomUUID().toString(), RANDOM_GROUP.getRef(), "test", "test", new Date(), new Date());
 
-    //TODO decide if we do this
-    public FreeBubble RAMDOM_FREE_BUBBLE = new FreeBubble("free", "free");
+    public FreeBubble RANDOM_FREE_BUBBLE = new FreeBubble("free", "free");
 }

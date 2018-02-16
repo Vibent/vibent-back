@@ -1,4 +1,4 @@
-package com.vibent.vibentback.bubble.survey.response;
+package com.vibent.vibentback.bubble.survey.answer;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class SurveyResponse {
+public class SurveyAnswer {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

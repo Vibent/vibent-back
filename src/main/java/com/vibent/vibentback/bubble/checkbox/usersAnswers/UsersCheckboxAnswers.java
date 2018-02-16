@@ -1,4 +1,4 @@
-package com.vibent.vibentback.bubble.survey.usersResponses;
+package com.vibent.vibentback.bubble.checkbox.usersAnswers;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class UsersSurveyResponses {
+public class UsersCheckboxAnswers {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -22,6 +22,6 @@ public class UsersSurveyResponses {
     @NonNull
     private String userRef;
     @NonNull
-    private Long surveyResponseId;
+    private Long checkboxAnswerId;
 
 }
