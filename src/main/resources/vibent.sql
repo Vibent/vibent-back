@@ -151,7 +151,7 @@ CREATE TABLE alimentation_entry
     PRIMARY KEY(id)
 );
 
-CREATE TABLE alimentation_bringing
+CREATE TABLE alimentation_bring
 (
     id INT NOT NULL AUTO_INCREMENT,
     entry_id INT,
@@ -338,8 +338,8 @@ ALTER TABLE alimentation_entry
 ADD CONSTRAINT alimentation_entry_bubble__fk
 FOREIGN KEY (bubble_id)REFERENCES alimentation_bubble(id);
 
-ALTER TABLE alimentation_bringing
-ADD CONSTRAINT alimentation_bringing_alimentry__fk
+ALTER TABLE alimentation_bring
+ADD CONSTRAINT alimentation_bring_alimentry__fk
 FOREIGN KEY (entry_id)REFERENCES alimentation_entry(id);
 
 ALTER TABLE survey_answer

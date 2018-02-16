@@ -22,6 +22,7 @@ public enum VibentError {
     BUBBLE_NOT_FOUND("bubble-not-found", HttpStatus.NOT_FOUND, "The requested bubble can not be found"),
     BUBBLE_CANT_CREATE("bubble-cant-create", HttpStatus.NOT_FOUND, "Bubble can not be created"),
 
+
     UNKNOWN("unknown", HttpStatus.INTERNAL_SERVER_ERROR, "An unknown error has occured");
 
     private final String code;

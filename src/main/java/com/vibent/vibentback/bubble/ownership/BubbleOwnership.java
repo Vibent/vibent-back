@@ -24,8 +24,13 @@ public class BubbleOwnership {
     @NonNull
     private Long bubbleId;
     @NonNull
-    private String bubbleType;
+    private Type bubbleType;
     @NonNull
     private String creatorRef;
     private boolean isDeleted;
+
+    public enum Type {
+        TravelBubble, LocationBubble, AlimentationBubble, SurveyBubble, CheckBoxBubble, PlanningBubble, FreeBubble;
+    };
+
 }

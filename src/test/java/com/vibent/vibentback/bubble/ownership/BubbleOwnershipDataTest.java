@@ -75,7 +75,7 @@ public class BubbleOwnershipDataTest extends VibentTest {
 
     @Test
     public void testAddBubbleOwnership(){
-        BubbleOwnership bubbleOwnership = new BubbleOwnership(event.getRef(), alimentationBubble.getId(), "AlimentationBubble", user.getRef());
+        BubbleOwnership bubbleOwnership = new BubbleOwnership(event.getRef(), alimentationBubble.getId(), BubbleOwnership.Type.AlimentationBubble, user.getRef());
         repository.save(bubbleOwnership);
     }
 }

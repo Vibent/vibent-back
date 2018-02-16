@@ -1,4 +1,4 @@
-package com.vibent.vibentback.bubble.alimentation.bringing;
+package com.vibent.vibentback.bubble.alimentation.bring;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class AlimentationBringing {
+public class AlimentationBring {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

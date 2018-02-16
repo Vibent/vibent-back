@@ -29,7 +29,7 @@ public class LocationBubbleService {
         LocationBubble locationBubble = locationBubbleRepository.save(new LocationBubble());
         ownershipRepository.save(new BubbleOwnership(eventRef,
                 locationBubble.getId(),
-                "LocationBubble",
+                BubbleOwnership.Type.LocationBubble,
                 "CREATOR")); // TODO add creator as connected user
         return locationBubble;
     }

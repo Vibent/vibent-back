@@ -29,7 +29,7 @@ public class FreeBubbleService {
         FreeBubble freeBubble = freeBubbleRepository.save(new FreeBubble());
         ownershipRepository.save(new BubbleOwnership(eventRef,
                 freeBubble.getId(),
-                "FreeBubble",
+                BubbleOwnership.Type.FreeBubble,
                 "CREATOR")); // TODO add creator as connected user
         return freeBubble;
     }
