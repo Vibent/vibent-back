@@ -1,5 +1,6 @@
 package com.vibent.vibentback.bubble.ownership;
 
+import com.vibent.vibentback.bubble.BubbleType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -24,13 +25,9 @@ public class BubbleOwnership {
     @NonNull
     private Long bubbleId;
     @NonNull
-    private Type bubbleType;
+    private BubbleType bubbleType;
     @NonNull
     private String creatorRef;
     private boolean deleted;
-
-    public enum Type {
-        TravelBubble, LocationBubble, AlimentationBubble, SurveyBubble, CheckBoxBubble, PlanningBubble, FreeBubble;
-    };
 
 }

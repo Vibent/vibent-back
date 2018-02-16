@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.when;
@@ -68,9 +69,7 @@ public class AlimentationWebLayerTest extends VibentTest {
         RANDOM_BRING.setUserRef(RANDOM_USER.getRef());
 
         RANDOM_RESPONSE = new AlimentationBubbleRes(RANDOM_BUBBLE);
-        log.info("{}",RANDOM_RESPONSE.getId());
-        RANDOM_RESPONSE.addEntry(RANDOM_ENTRY, Arrays.asList(RANDOM_BRING));
-        log.info("{}", RANDOM_RESPONSE.getEntries().get(0));
+        RANDOM_RESPONSE.addEntry(RANDOM_ENTRY, Collections.singletonList(RANDOM_BRING));
 
         when(service.getBubble(RANDOM_BUBBLE.getId())).thenReturn(RANDOM_RESPONSE);
         when(service.createBubble(RANDOM_EVENT.getRef())).thenReturn(RANDOM_RESPONSE);

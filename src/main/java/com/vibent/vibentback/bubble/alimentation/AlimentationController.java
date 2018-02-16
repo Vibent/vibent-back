@@ -35,7 +35,7 @@ public class AlimentationController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     void deleteBubble(@PathVariable Long id) {
         log.info("Deleting alimentation bubble with id : {}", id);
-        // TODO
+        service.deleteBubble(id);
     }
 
     // Alimentation Bubble Entry -------------------------------------------------------------
