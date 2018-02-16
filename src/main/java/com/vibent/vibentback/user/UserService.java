@@ -33,9 +33,7 @@ public class UserService {
     }
 
     public void deleteUser(String userRef) {
-        User user = userRepository.findByRef(userRef);
-        user.setDeleted(true);
-        userRepository.save(user);
+        userRepository.deleteByRef(userRef);
     }
 
     public User updateUser(String userRef, User newUser) {
