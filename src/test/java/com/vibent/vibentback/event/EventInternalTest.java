@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 import static org.mockito.Mockito.when;
 
 @Slf4j
@@ -33,7 +35,7 @@ public class EventInternalTest extends VibentTest {
     public void setUp(){
         super.setUp();
         MockitoAnnotations.initMocks(this);
-        when(eventRepository.findByRef(RANDOM_EVENT.getRef())).thenReturn(RANDOM_EVENT);
+        when(eventRepository.findByRef(RANDOM_EVENT.getRef())).thenReturn(Optional.of(RANDOM_EVENT));
         when(eventRepository.save(RANDOM_EVENT)).thenReturn(RANDOM_EVENT);
         when(eventRepository.deleteByRef(RANDOM_EVENT.getRef())).thenReturn(1);
     }

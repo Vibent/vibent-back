@@ -27,5 +27,4 @@ public interface GroupTRepository extends CrudRepository<GroupT, Long> {
 
     @Query(value = "SELECT deleted FROM group_t WHERE ref = :ref", nativeQuery = true)
     boolean isDeleted(@Param("ref") String ref);
-
 }

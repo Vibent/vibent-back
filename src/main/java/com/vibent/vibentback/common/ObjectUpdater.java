@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 public class ObjectUpdater {
 
-    private static final String[] EXCLUDE_FIELDS = {"ref", "id"};
+    private static final String[] EXCLUDE_FIELDS = {"ref", "id", "deleted"};
 
     /**
      * Copies all the non null properties, excluding specific fields ("ref" and

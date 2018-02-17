@@ -8,31 +8,21 @@ import org.springframework.data.repository.query.Param;
 import javax.transaction.Transactional;
 
 import java.util.Date;
+import java.util.Optional;
 
 public interface EventRepository extends CrudRepository<Event, Long> {
 
-    Event findById(long id);
-
-    Event findByRef(String ref);
-
-    Iterable<Event> findByGroupRef(String groupRef);
-
-    Iterable<Event> findByTitle(String title);
-
-    Iterable<Event> findByStartDate(Date date);
-
-    Iterable<Event> findByEndDate(Date date);
+    Optional<Event> findByRef(String ref);
 
     @Transactional
     int deleteByRef(String ref);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE user SET event = FALSE WHERE ref = :ref", nativeQuery = true)
+    @Query(value = "UPDATE event SET deleted = FALSE WHERE ref = :ref", nativeQuery = true)
     int recover(@Param("ref") String ref);
 
     @Query(value = "SELECT deleted FROM event WHERE ref = :ref", nativeQuery = true)
     boolean isDeleted(@Param("ref") String ref);
-
 
 }

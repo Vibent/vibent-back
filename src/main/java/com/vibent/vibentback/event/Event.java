@@ -15,7 +15,7 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-@SQLDelete(sql = "UPDATE user SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE event SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class Event {
 
