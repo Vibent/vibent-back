@@ -41,9 +41,7 @@ public class GroupTService {
     }
 
     public void deleteGroupT(String groupRef) {
-        GroupT groupT = groupTRepository.findByRef(groupRef);
-        groupT.setDeleted(true);
-        groupTRepository.save(groupT);
+        groupTRepository.deleteByRef(groupRef);
     }
 
     public GroupT updateGroupT(String groupRef, GroupT newGroup) {

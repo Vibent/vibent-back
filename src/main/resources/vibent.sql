@@ -185,6 +185,7 @@ CREATE TABLE users_survey_answers
     id INT NOT NULL AUTO_INCREMENT,
     user_ref CHAR(36),
     survey_answer_id INT,
+    deleted BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id),
     INDEX(user_ref)
 );
@@ -210,6 +211,7 @@ CREATE TABLE users_checkbox_answers
     id INT NOT NULL AUTO_INCREMENT,
     user_ref CHAR(36) REFERENCES user(ref),
     checkbox_answer_id INT REFERENCES checkbox_answer(id),
+    deleted BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id),
     INDEX (user_ref)
 );

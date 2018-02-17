@@ -26,9 +26,7 @@ public class EventService {
     }
 
     public void deleteEvent(String eventRef) {
-        Event event = eventRepository.findByRef(eventRef);
-        event.setDeleted(true);
-        eventRepository.save(event);
+        eventRepository.deleteByRef(eventRef);
     }
 
     public Event updateEvent(String eventRef, Event newEvent) {

@@ -6,16 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
+@SQLDelete(sql = "UPDATE alimentation_bring SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class AlimentationBring {
 
     @Id
@@ -27,6 +28,7 @@ public class AlimentationBring {
     @NonNull
     private String userRef;
     private int quantity;
+    @Column(insertable = false, updatable = false)
     @JsonIgnore
     private boolean deleted;
 

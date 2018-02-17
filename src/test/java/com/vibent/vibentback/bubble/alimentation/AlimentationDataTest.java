@@ -40,7 +40,7 @@ public class AlimentationDataTest extends VibentTest {
         user = userRepository.save(RANDOM_USER);
         /** Bubble creation **/
         alimentationBubble = bubbleRepository.save(new AlimentationBubble());
-        /**Entry creation**/
+        /** Entry creation **/
         alimentationEntry = entryRepository.save(new AlimentationEntry(alimentationBubble.getId(), "Coca", AlimentationEntry.Type.Drink));
     }
 

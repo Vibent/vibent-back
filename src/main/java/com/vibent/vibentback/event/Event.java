@@ -1,9 +1,12 @@
 package com.vibent.vibentback.event;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,6 +15,8 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
+@SQLDelete(sql = "UPDATE user SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Event {
 
     @Id
@@ -29,6 +34,8 @@ public class Event {
     private Date startDate;
     @NonNull
     private Date endDate;
+    @Column(insertable = false, updatable = false)
+    @JsonIgnore
     private boolean deleted;
 
 }
