@@ -146,7 +146,7 @@ CREATE TABLE alimentation_entry
     name VARCHAR(64),
     total_requested INT,
     total_current INT,
-    type ENUM('Food', 'Drink'),
+    type ENUM('Food', 'Drink', 'Other'),
     deleted BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id)
 );

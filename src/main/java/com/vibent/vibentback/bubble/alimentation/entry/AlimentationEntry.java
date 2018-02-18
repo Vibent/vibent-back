@@ -37,7 +37,7 @@ public class AlimentationEntry {
     private boolean deleted;
 
     public enum Type {
-        Food, Drink
+        Food, Drink, Other
     }
 
 }

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
  */
 @JsonSerialize(using = VibentErrorSerializer.class)
 public enum VibentError {
+    // Model level errors
     USER_NOT_FOUND("user-not-found", HttpStatus.NOT_FOUND, "The requested user could not be found"),
     USER_CANT_CREATE("user-cant-create", HttpStatus.INTERNAL_SERVER_ERROR, "User could not be created"),
 
@@ -24,6 +25,12 @@ public enum VibentError {
     BUBBLE_NOT_FOUND("bubble-not-found", HttpStatus.NOT_FOUND, "The requested bubble can not be found"),
     BUBBLE_CANT_CREATE("bubble-cant-create", HttpStatus.NOT_FOUND, "Bubble can not be created"),
 
+    ENTRY_NOT_FOUND("entry-not-found", HttpStatus.NOT_FOUND, "The requested entry can not be found"),
+    BRING_NOT_FOUND("bring-not-found", HttpStatus.NOT_FOUND, "The requested bring can not be found"),
+
+
+    // General erros
+    INVALID_BODY("invalid-body", HttpStatus.BAD_REQUEST, "The request body is badly formed, please check API documentation"),
 
     UNKNOWN("unknown", HttpStatus.INTERNAL_SERVER_ERROR, "An unknown error has occured");
 

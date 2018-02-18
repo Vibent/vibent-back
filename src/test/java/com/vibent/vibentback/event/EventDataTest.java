@@ -2,6 +2,8 @@ package com.vibent.vibentback.event;
 
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.common.ObjectUpdater;
+import com.vibent.vibentback.error.VibentError;
+import com.vibent.vibentback.error.VibentException;
 import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.groupT.GroupTRepository;
 import com.vibent.vibentback.user.User;
@@ -25,15 +27,12 @@ public class EventDataTest extends VibentTest {
     EventRepository repository;
     @Autowired
     GroupTRepository groupRepository;
-    GroupT group;
 
     @Before
     public void setUp()
     {
         super.setUp();
-        group = new GroupT(UUID.randomUUID().toString(), "groupTest");
         groupRepository.save(RANDOM_GROUP);
-        groupRepository.save(group);
         repository.save(RANDOM_EVENT);
     }
 
@@ -41,12 +40,11 @@ public class EventDataTest extends VibentTest {
     public void tearDown() {
         repository.deleteByRef(RANDOM_EVENT.getRef());
         groupRepository.deleteByRef(RANDOM_GROUP.getRef());
-        groupRepository.deleteByRef(group.getRef());
     }
 
     @Test
     public void testAddEvent(){
-        Event event = new Event(UUID.randomUUID().toString(), group.getRef(), "eventTest", "description",new Date(), new Date());
+        Event event = new Event(UUID.randomUUID().toString(), RANDOM_GROUP.getRef(), "eventTest", "description",new Date(), new Date());
         Assert.assertNotNull(event.getRef());
         repository.save(event);
 
@@ -56,7 +54,7 @@ public class EventDataTest extends VibentTest {
 
     @Test
     public void testGetEvent() {
-        Event event = repository.findByRef(RANDOM_EVENT.getRef());
+        Event event = repository.findByRef(RANDOM_EVENT.getRef()).orElseThrow(()->new VibentException(VibentError.EVENT_NOT_FOUND));;
         Assert.assertNotNull(event.getRef());
     }
 
@@ -73,7 +71,7 @@ public class EventDataTest extends VibentTest {
         newEvent.setRef("newRefShouldNotUpdate");
         newEvent.setId(-1L);
         newEvent.setTitle("NewTitleShouldUpdate");
-        Event old = repository.findByRef(RANDOM_EVENT.getRef());
+        Event old = repository.findByRef(RANDOM_EVENT.getRef()).orElseThrow(()->new VibentException(VibentError.EVENT_NOT_FOUND));
         String oldDescriptionShouldNotUpdate = old.getDescription();
 
         // To test

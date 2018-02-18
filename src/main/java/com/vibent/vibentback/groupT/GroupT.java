@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-@SQLDelete(sql = "UPDATE user SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE group_t SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class GroupT {
 

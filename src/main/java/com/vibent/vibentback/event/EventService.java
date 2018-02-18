@@ -1,6 +1,8 @@
 package com.vibent.vibentback.event;
 
 import com.vibent.vibentback.common.ObjectUpdater;
+import com.vibent.vibentback.error.VibentError;
+import com.vibent.vibentback.error.VibentException;
 import com.vibent.vibentback.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,8 @@ public class EventService {
     EventRepository eventRepository;
 
     public Event getEvent(String ref) {
-        return eventRepository.findByRef(ref);
+        return eventRepository.findByRef(ref)
+                .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
     }
 
     public Event getAllEvent(String ref) {
@@ -30,7 +33,8 @@ public class EventService {
     }
 
     public Event updateEvent(String eventRef, Event newEvent) {
-        Event existing = eventRepository.findByRef(eventRef);
+        Event existing = eventRepository.findByRef(eventRef)
+                .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         ObjectUpdater.updateProperties(existing, newEvent);
         return eventRepository.save(existing);
     }
