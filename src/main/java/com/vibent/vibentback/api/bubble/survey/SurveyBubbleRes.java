@@ -1,8 +1,5 @@
-package com.vibent.vibentback.api;
+package com.vibent.vibentback.api.bubble.survey;
 
-import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
-import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
-import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import com.vibent.vibentback.bubble.survey.SurveyBubble;
 import com.vibent.vibentback.bubble.survey.answer.SurveyAnswer;
 import com.vibent.vibentback.bubble.survey.usersAnswers.UsersSurveyAnswers;

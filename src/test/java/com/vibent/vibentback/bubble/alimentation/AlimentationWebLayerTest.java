@@ -4,7 +4,6 @@ import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.api.bubble.alimentation.*;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
-import com.vibent.vibentback.error.VibentException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
