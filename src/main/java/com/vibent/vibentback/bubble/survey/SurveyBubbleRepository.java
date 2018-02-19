@@ -4,6 +4,4 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface SurveyBubbleRepository extends CrudRepository<SurveyBubble, Long> {
 
-    SurveyBubble findById(long id);
-
 }
