@@ -1,5 +1,6 @@
 # Default config
 spring.jpa.hibernate.naming.physical-strategy: com.vibent.vibentback.config.VibentPhysicalNamingStrategy
+spring.jpa.show-sql: true
 
 # Default data source
 spring:

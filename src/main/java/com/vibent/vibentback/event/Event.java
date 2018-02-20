@@ -9,6 +9,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
@@ -17,7 +18,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @SQLDelete(sql = "UPDATE event SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
-public class Event {
+public class Event implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
