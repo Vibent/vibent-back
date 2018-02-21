@@ -1,6 +1,7 @@
 package com.vibent.vibentback.bubble.alimentation.bring;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import com.vibent.vibentback.user.User;
@@ -12,9 +13,6 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
 public class AlimentationBring {
 
     @Id
@@ -28,5 +26,57 @@ public class AlimentationBring {
     @JoinColumn(name="user_ref", nullable=false)
     private User user;
     private int quantity;
-    Boolean deleted;
+    private Boolean deleted;
+
+    public Long getId() {
+        return id;
+    }
+
+    @JsonIgnore
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @JsonIgnore
+    public AlimentationEntry getEntry() {
+        return entry;
+    }
+
+    @JsonIgnore
+    public void setEntry(AlimentationEntry entry) {
+        this.entry = entry;
+    }
+
+    @JsonIgnore
+    public User getUser() {
+        return user;
+    }
+
+    @JsonProperty
+    public String getUserRef(){
+        return user.getRef();
+    }
+
+    @JsonIgnore
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    @JsonIgnore
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    @JsonIgnore
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
 }

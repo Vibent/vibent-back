@@ -1,6 +1,7 @@
 package com.vibent.vibentback.bubble.alimentation.entry;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import lombok.*;
@@ -14,9 +15,6 @@ import java.util.Set;
 
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
 public class AlimentationEntry {
 
     @Id
@@ -24,7 +22,6 @@ public class AlimentationEntry {
     private Long id;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name="bubble_id", nullable=false)
     private AlimentationBubble bubble;
 
@@ -36,16 +33,77 @@ public class AlimentationEntry {
     private int totalCurrent;
     @Enumerated(EnumType.STRING)
     private Type type;
-    Boolean deleted;
+    private Boolean deleted;
 
-    public enum Type {
-        Food, Drink, Other
+    public Long getId() {
+        return id;
     }
 
-    public AlimentationEntry(AlimentationBubble bubble, String name, Type type) {
+    @JsonIgnore
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @JsonIgnore
+    public AlimentationBubble getBubble() {
+        return bubble;
+    }
+
+    @JsonIgnore
+    public void setBubble(AlimentationBubble bubble) {
         this.bubble = bubble;
+    }
+
+    @JsonProperty
+    public Set<AlimentationBring> getBrings() {
+        return brings;
+    }
+
+    @JsonIgnore
+    public void setBrings(Set<AlimentationBring> brings) {
+        this.brings = brings;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public int getTotalRequested() {
+        return totalRequested;
+    }
+
+    public void setTotalRequested(int totalRequested) {
+        this.totalRequested = totalRequested;
+    }
+
+    public int getTotalCurrent() {
+        return totalCurrent;
+    }
+
+    public void setTotalCurrent(int totalCurrent) {
+        this.totalCurrent = totalCurrent;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
         this.type = type;
+    }
+
+    @JsonIgnore
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    @JsonIgnore
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Override
@@ -72,5 +130,9 @@ public class AlimentationEntry {
     public int hashCode() {
 
         return Objects.hash(id);
+    }
+
+    public enum Type {
+        Food, Drink, Other
     }
 }
