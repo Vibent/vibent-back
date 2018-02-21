@@ -1,10 +1,17 @@
 package com.vibent.vibentback.bubble.alimentation;
 
 import com.vibent.vibentback.Mock;
+import com.vibent.vibentback.api.alimentation.AlimentationBringRequest;
+import com.vibent.vibentback.api.alimentation.AlimentationBringUpdateRequest;
+import com.vibent.vibentback.api.alimentation.AlimentationEntryRequest;
+import com.vibent.vibentback.api.alimentation.AlimentationEntryUpdateRequest;
 import com.vibent.vibentback.bubble.BubbleType;
+import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBringRepository;
+import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntryRepository;
 import com.vibent.vibentback.bubble.ownership.BubbleOwnershipRepository;
+import com.vibent.vibentback.common.ObjectUpdater;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
 import com.vibent.vibentback.event.Event;
@@ -43,8 +50,58 @@ public class AlimentationService {
     }
 
     public void deleteBubble(long id) {
-        AlimentationBubble bubble = bubbleRepository.findById(id)
+        bubbleRepository.deleteById(id);
+    }
+
+    // Alimentation Entry -------------------------------------------------------------
+    public AlimentationBubble createEntry(AlimentationEntryRequest request){
+        AlimentationBubble bubble = bubbleRepository.findById(request.getBubbleId())
                 .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
-        bubbleRepository.deleteById(bubble.getId());
+        AlimentationEntry entry = new AlimentationEntry();
+        entry.setBubble(bubble);
+        entry.setName(request.getName());
+        entry.setTotalCurrent(0);
+        entry.setTotalRequested(request.getTotalRequested());
+        entry.setDeleted(false);
+        entryRepository.save(entry);
+        return bubble;
+    }
+
+    public AlimentationBubble updateEntry(Long id, AlimentationEntryUpdateRequest request){
+        AlimentationEntry entry = entryRepository.findById(id)
+                .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
+        ObjectUpdater.updateProperties(request, entry);
+        entryRepository.save(entry);
+        return entry.getBubble();
+    }
+
+    public void deleteEntry(Long id){
+        entryRepository.deleteById(id);
+    }
+
+    // Alimentation Bring -------------------------------------------------------------
+    public AlimentationBubble createBring(AlimentationBringRequest request){
+        AlimentationEntry entry = entryRepository.findById(request.getEntryId())
+                .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
+        AlimentationBring bring = new AlimentationBring();
+        bring.setQuantity(request.getQuantity());
+        bring.setUser(Mock.getConnectedUser(userRepository));
+        bring.setEntry(entry);
+        bring.setDeleted(false);
+        bringRepository.save(bring);
+        return entry.getBubble();
+    }
+
+    public AlimentationBubble updateBring(Long id, AlimentationBringUpdateRequest request){
+        if(request.getQuantity() == 0)
+            deleteBring(id);
+        AlimentationBring bring = bringRepository.findById(id)
+                .orElseThrow(() -> new VibentException(VibentError.BRING_NOT_FOUND));
+        bring.setQuantity(request.getQuantity());
+        return bring.getEntry().getBubble();
+    }
+
+    public void deleteBring(Long id){
+        bringRepository.deleteById(id);
     }
 }

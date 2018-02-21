@@ -13,70 +13,33 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 public class AlimentationBring {
 
     @Id
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name="entry_id", nullable=false)
     private AlimentationEntry entry;
+
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="user_ref", nullable=false)
     private User user;
-    private int quantity;
+
+    private Integer quantity;
+
+    @JsonIgnore
     private Boolean deleted;
 
-    public Long getId() {
-        return id;
-    }
-
-    @JsonIgnore
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @JsonIgnore
-    public AlimentationEntry getEntry() {
-        return entry;
-    }
-
-    @JsonIgnore
-    public void setEntry(AlimentationEntry entry) {
-        this.entry = entry;
-    }
-
-    @JsonIgnore
-    public User getUser() {
-        return user;
-    }
 
     @JsonProperty
     public String getUserRef(){
         return user.getRef();
-    }
-
-    @JsonIgnore
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    @JsonIgnore
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    @JsonIgnore
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
     }
 }
