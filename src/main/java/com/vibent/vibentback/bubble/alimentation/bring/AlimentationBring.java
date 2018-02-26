@@ -15,6 +15,8 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE alimentation_bring SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class AlimentationBring {
 
     @Id
@@ -24,7 +26,7 @@ public class AlimentationBring {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="entry_id", nullable=false)
+    @PrimaryKeyJoinColumn
     private AlimentationEntry entry;
 
     @ManyToOne

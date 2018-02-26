@@ -1,8 +1,5 @@
 package com.vibent.vibentback.bubble.free;
 
-import com.vibent.vibentback.bubble.BubbleType;
-import com.vibent.vibentback.bubble.ownership.BubbleOwnership;
-import com.vibent.vibentback.bubble.ownership.BubbleOwnershipRepository;
 import com.vibent.vibentback.common.ObjectUpdater;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
@@ -15,7 +12,6 @@ import org.springframework.stereotype.Service;
 public class FreeBubbleService {
 
     FreeBubbleRepository freeBubbleRepository;
-    BubbleOwnershipRepository ownershipRepository;
 
     public FreeBubble getBubble(long id) {
         FreeBubble freeBubble = freeBubbleRepository.findById(id);
@@ -26,11 +22,7 @@ public class FreeBubbleService {
 
     public FreeBubble createBubble(String eventRef) {
         FreeBubble freeBubble = freeBubbleRepository.save(new FreeBubble());
-        ownershipRepository.save(new BubbleOwnership(eventRef,
-                freeBubble.getId(),
-                BubbleType.FreeBubble,
-                "CREATOR")); // TODO add creator as connected user
-        return freeBubble;
+        return null;
     }
 
     public void deleteBubble(long id) {

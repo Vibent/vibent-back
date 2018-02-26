@@ -7,6 +7,8 @@ import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -16,6 +18,8 @@ import java.util.Set;
 @Setter
 @Getter
 @ToString(exclude = "bubble")
+@SQLDelete(sql = "UPDATE alimentation_entry SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class AlimentationEntry {
 
     @Id
@@ -25,7 +29,7 @@ public class AlimentationEntry {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="bubble_id", nullable=false)
+    @PrimaryKeyJoinColumn
     private AlimentationBubble bubble;
 
     @JsonIgnore
@@ -59,7 +63,6 @@ public class AlimentationEntry {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id);
     }
 

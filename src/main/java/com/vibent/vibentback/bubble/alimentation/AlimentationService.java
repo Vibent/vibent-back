@@ -10,7 +10,6 @@ import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBringRepository;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntryRepository;
-import com.vibent.vibentback.bubble.ownership.BubbleOwnershipRepository;
 import com.vibent.vibentback.common.ObjectUpdater;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
@@ -25,7 +24,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class AlimentationService {
 
-    BubbleOwnershipRepository ownershipRepository;
     AlimentationBubbleRepository bubbleRepository;
     AlimentationEntryRepository entryRepository;
     AlimentationBringRepository bringRepository;
@@ -54,7 +52,7 @@ public class AlimentationService {
     }
 
     // Alimentation Entry -------------------------------------------------------------
-    public AlimentationBubble createEntry(AlimentationEntryRequest request){
+    public AlimentationBubble createEntry(AlimentationEntryRequest request) {
         AlimentationBubble bubble = bubbleRepository.findById(request.getBubbleId())
                 .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
         AlimentationEntry entry = new AlimentationEntry();
@@ -67,7 +65,7 @@ public class AlimentationService {
         return bubble;
     }
 
-    public AlimentationBubble updateEntry(Long id, AlimentationEntryUpdateRequest request){
+    public AlimentationBubble updateEntry(Long id, AlimentationEntryUpdateRequest request) {
         AlimentationEntry entry = entryRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
         ObjectUpdater.updateProperties(request, entry);
@@ -75,12 +73,12 @@ public class AlimentationService {
         return entry.getBubble();
     }
 
-    public void deleteEntry(Long id){
+    public void deleteEntry(Long id) {
         entryRepository.deleteById(id);
     }
 
     // Alimentation Bring -------------------------------------------------------------
-    public AlimentationBubble createBring(AlimentationBringRequest request){
+    public AlimentationBubble createBring(AlimentationBringRequest request) {
         AlimentationEntry entry = entryRepository.findById(request.getEntryId())
                 .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
         AlimentationBring bring = new AlimentationBring();
@@ -92,8 +90,8 @@ public class AlimentationService {
         return entry.getBubble();
     }
 
-    public AlimentationBubble updateBring(Long id, AlimentationBringUpdateRequest request){
-        if(request.getQuantity() == 0)
+    public AlimentationBubble updateBring(Long id, AlimentationBringUpdateRequest request) {
+        if (request.getQuantity() == 0)
             deleteBring(id);
         AlimentationBring bring = bringRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.BRING_NOT_FOUND));
@@ -101,7 +99,7 @@ public class AlimentationService {
         return bring.getEntry().getBubble();
     }
 
-    public void deleteBring(Long id){
+    public void deleteBring(Long id) {
         bringRepository.deleteById(id);
     }
 }

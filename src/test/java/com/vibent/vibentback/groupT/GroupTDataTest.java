@@ -1,7 +1,6 @@
 package com.vibent.vibentback.groupT;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.response.EventResponse;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

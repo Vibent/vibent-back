@@ -1,8 +1,5 @@
 package com.vibent.vibentback.bubble.location;
 
-import com.vibent.vibentback.bubble.BubbleType;
-import com.vibent.vibentback.bubble.ownership.BubbleOwnership;
-import com.vibent.vibentback.bubble.ownership.BubbleOwnershipRepository;
 import com.vibent.vibentback.common.ObjectUpdater;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
@@ -15,7 +12,6 @@ import org.springframework.stereotype.Service;
 public class LocationBubbleService {
 
     LocationBubbleRepository locationBubbleRepository;
-    BubbleOwnershipRepository ownershipRepository;
 
     public LocationBubble getBubble(long id) {
         LocationBubble locationBubble = locationBubbleRepository.findById(id);
@@ -25,12 +21,7 @@ public class LocationBubbleService {
     }
 
     public LocationBubble createBubble(String eventRef) {
-        LocationBubble locationBubble = locationBubbleRepository.save(new LocationBubble());
-        ownershipRepository.save(new BubbleOwnership(eventRef,
-                locationBubble.getId(),
-                BubbleType.LocationBubble,
-                "CREATOR")); // TODO add creator as connected user
-        return locationBubble;
+        return null;
     }
 
     public void deleteBubble(long id) {
