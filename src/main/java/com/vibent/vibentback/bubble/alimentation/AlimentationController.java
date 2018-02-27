@@ -1,17 +1,19 @@
 package com.vibent.vibentback.bubble.alimentation;
 
-import com.vibent.vibentback.api.bubble.alimentation.*;
+import com.vibent.vibentback.api.alimentation.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping("/bubble/alimentation")
+@RequestMapping(value = "/bubble/alimentation",
+        produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class AlimentationController {
 
@@ -19,16 +21,17 @@ public class AlimentationController {
 
     // Alimentation Bubble -------------------------------------------------------------
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    AlimentationBubbleRes getBubble(@PathVariable Long id) {
+    AlimentationBubble getBubble(@PathVariable Long id) {
         log.info("Get alimentation bubble with id : {}", id);
         return service.getBubble(id);
     }
 
     @ResponseStatus(value = HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST)
-    AlimentationBubbleRes createBubble(@RequestBody AlimentationBubbleReq request) {
-        log.info("Creating alimentation bubble");
-        return service.createBubble(request);
+    @RequestMapping(method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    AlimentationBubble createBubble(@Valid @RequestBody AlimentationBubbleRequest request) {
+        log.info("Creating alimentation bubble for event with ref {}", request.getEventRef());
+        return service.createBubble(request.getEventRef());
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
@@ -38,47 +41,50 @@ public class AlimentationController {
         service.deleteBubble(id);
     }
 
-    // Alimentation Bubble Entry -------------------------------------------------------------
-
+    // Alimentation Entry -------------------------------------------------------------
     @ResponseStatus(value = HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST, value = "/entry")
-    AlimentationBubbleRes createBubbleEntry(@RequestBody AlimentationEntryReq entry) {
-        log.info("Creating alimentation entry with body : {}", entry.toString());
-        return service.createBubbleEntry(entry);
+    @RequestMapping(method = RequestMethod.POST, value = "/entry",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    AlimentationBubble createEntry(@Valid @RequestBody AlimentationEntryRequest request) {
+        log.info("Creating alimentation entry with body {}", request.toString());
+        return service.createEntry(request);
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, value = "/entry/{id}")
-    AlimentationBubbleRes updateBubbleEntry(@PathVariable Long id, @RequestBody AlimentationEntryUpdateReq entry) {
-        log.info("Update alimentation entry with id {} and body : {}", id, entry.toString());
-        return service.updateBubbleEntry(id, entry);
+    @RequestMapping(method = RequestMethod.PATCH, value = "/entry/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    AlimentationBubble updateEntry(@PathVariable("id") Long id, @Valid @RequestBody AlimentationEntryUpdateRequest request) {
+        log.info("Updating alimentation entry {} with body {}", id, request.toString());
+        return service.updateEntry(id, request);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/entry/{id}")
-    void deleteBubbleEntry(@PathVariable Long id) {
-        log.info("Delete alimentation entry for with id {}", id);
-        service.deleteBubbleEntry(id);
+    void deleteEntry(@PathVariable Long id) {
+        log.info("Deleting alimentation entry with id : {}", id);
+        service.deleteEntry(id);
     }
 
-    // Alimentation Bubble Entry Bring -------------------------------------------------------------
 
+    // Alimentation Bring -------------------------------------------------------------
     @ResponseStatus(value = HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST, value = "/bring")
-    AlimentationBubbleRes createBubbleBring(@RequestBody AlimentationBringReq bring) {
-        log.info("Creating alimentation bring with body : {}", bring.toString());
-        return service.createBubbleBring(bring);
+    @RequestMapping(method = RequestMethod.POST, value = "/bring",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    AlimentationBubble createBring(@Valid @RequestBody AlimentationBringRequest request) {
+        log.info("Creating alimentation entry with body {}", request.toString());
+        return service.createBring(request);
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, value = "/bring/{id}")
-    AlimentationBubbleRes updateBubbleBring(@PathVariable Long id, @Valid @RequestBody AlimentationBringUpdateReq bring) {
-        log.info("Update alimentation bring with id {} with body : {}", id, bring.toString());
-        return service.updateBubbleBring(id, bring);
+    @RequestMapping(method = RequestMethod.PATCH, value = "/bring/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    AlimentationBubble updateBring(@PathVariable("id") Long id, @Valid @RequestBody AlimentationBringUpdateRequest request) {
+        log.info("Updating alimentation bring {} with body {}", id, request.toString());
+        return service.updateBring(id, request);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/bring/{id}")
-    void deleteBubbleBring(@PathVariable Long id) {
-        log.info("Delete alimentation bring with id {}", id);
-        service.deleteBubbleBring(id);
+    void deleteBring(@PathVariable Long id) {
+        log.info("Deleting alimentation bring with id : {}", id);
+        service.deleteBring(id);
     }
 }

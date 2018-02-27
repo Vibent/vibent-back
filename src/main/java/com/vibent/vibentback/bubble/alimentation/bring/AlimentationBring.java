@@ -1,35 +1,47 @@
 package com.vibent.vibentback.bubble.alimentation.bring;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
+import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
+import com.vibent.vibentback.user.User;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
-@Data
 @Entity
-@NoArgsConstructor
-@RequiredArgsConstructor
+@Getter
+@Setter
 @SQLDelete(sql = "UPDATE alimentation_bring SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class AlimentationBring {
 
     @Id
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @NonNull
-    @JsonIgnore // ignore as when returned it is already in entry object
-    private Long entryId;
-    @NonNull
-    private String userRef;
-    private int quantity;
-    @Column(insertable = false, updatable = false)
-    @JsonIgnore
-    private boolean deleted;
 
+    @ManyToOne
+    @JsonIgnore
+    @PrimaryKeyJoinColumn
+    private AlimentationEntry entry;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name="user_ref", nullable=false)
+    private User user;
+
+    private Integer quantity;
+
+    @JsonIgnore
+    private Boolean deleted;
+
+
+    @JsonProperty
+    public String getUserRef(){
+        return user.getRef();
+    }
 }
