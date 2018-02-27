@@ -12,6 +12,7 @@ import com.vibent.vibentback.groupT.GroupTRepository;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -76,11 +77,23 @@ public class AlimentationDataTest extends VibentTest {
     }
 
     @Test
-    public void testAddAlimentationBring() {
+    public void testAddAlimentationBubble() {
         RANDOM_BUBBLE = bubbleRepository.save(RANDOM_BUBBLE);
 
-        bubbleRepository.findById(RANDOM_BUBBLE.getId());
+        Assert.assertNotNull(bubbleRepository.findById(RANDOM_BUBBLE.getId()));
     }
 
+    @Test
+    public void testAddAlimentationEntry() {
+        RANDOM_ENTRY = entryRepository.save(RANDOM_ENTRY);
 
+        Assert.assertNotNull(entryRepository.findById(RANDOM_ENTRY.getId()));
+    }
+
+    @Test
+    public void testAddAlimentationBring() {
+        RANDOM_BRING = bringRepository.save(RANDOM_BRING);
+
+        Assert.assertNotNull(bringRepository.findById(RANDOM_BRING.getId()));
+    }
 }
