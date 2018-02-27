@@ -24,4 +24,10 @@ public interface UsersSurveyAnswersRepository extends CrudRepository<UsersSurvey
 
     @Query(value = "SELECT deleted FROM users_survey_answers WHERE id = :id", nativeQuery = true)
     boolean isDeleted(@Param("id") long id);
+
+    @Query(value = "SELECT bubble.id FROM survey_bubble bubble\n" +
+            "JOIN survey_answer answer ON bubble.id = answer.bubble_id\n" +
+            "JOIN users_survey_answers userAnswer ON answer.id = userAnswer.survey_answer_id\n" +
+            "WHERE userAnswer.id = :id", nativeQuery = true)
+    Long getBubbleId(@Param("id") Long id);
 }

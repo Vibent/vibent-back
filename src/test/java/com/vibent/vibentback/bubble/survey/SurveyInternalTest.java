@@ -1,19 +1,33 @@
 package com.vibent.vibentback.bubble.survey;
 
 import com.vibent.vibentback.VibentTest;
+import com.vibent.vibentback.api.bubble.survey.*;
+import com.vibent.vibentback.bubble.BubbleType;
+import com.vibent.vibentback.bubble.ownership.BubbleOwnership;
+import com.vibent.vibentback.bubble.ownership.BubbleOwnershipRepository;
 import com.vibent.vibentback.bubble.survey.answer.SurveyAnswer;
 import com.vibent.vibentback.bubble.survey.answer.SurveyAnswerRepository;
+import com.vibent.vibentback.bubble.survey.usersAnswers.UsersSurveyAnswers;
+import com.vibent.vibentback.bubble.survey.usersAnswers.UsersSurveyAnswersRepository;
+import com.vibent.vibentback.error.VibentException;
+import com.vibent.vibentback.event.EventRepository;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
+import java.util.Optional;
 import java.util.UUID;
+
+import static org.mockito.Mockito.when;
 
 
 @RunWith(SpringRunner.class)
@@ -22,28 +36,28 @@ public class SurveyInternalTest extends VibentTest {
 
     @Autowired
     @InjectMocks
-    private SurveyBubbleC controller;
+    private SurveyController controller;
 
     @MockBean
-    private AlimentationBubbleRepository bubbleRepository;
+    private SurveyBubbleRepository bubbleRepository;
     @MockBean
-    private AlimentationEntryRepository entryRepository;
+    private SurveyAnswerRepository surveyAnswerRepository;
     @MockBean
-    private AlimentationBringRepository bringRepository;
+    private UsersSurveyAnswersRepository usersSurveyAnswersRepository;
     @MockBean
     private BubbleOwnershipRepository ownershipRepository;
     @MockBean
     private EventRepository eventRepository;
 
-    AlimentationBubble RANDOM_BUBBLE;
-    AlimentationEntry RANDOM_ENTRY;
-    AlimentationBring RANDOM_BRING;
+    SurveyBubble RANDOM_BUBBLE;
+    SurveyAnswer RANDOM_ANSWER;
+    UsersSurveyAnswers RANDOM_USER_ANSWER;
     BubbleOwnership RANDOM_OWNERSHIP;
-    AlimentationBubbleReq RANDOM_BUBBLE_REQUEST;
-    AlimentationEntryReq RANDOM_ENTRY_REQUEST;
-    AlimentationEntryUpdateReq RANDOM_ENTRY_UPDATE_REQUEST;
-    AlimentationBringReq RANDOM_BRING_REQUEST;
-    AlimentationBringUpdateReq RANDOM_BRING_UPDATE_REQUEST;
+    SurveyBubbleReq RANDOM_BUBBLE_REQUEST;
+    SurveyAnswerReq RANDOM_ANSWER_REQUEST;
+    SurveyAnswerUpdateReq RANDOM_ANSWER_UPDATE_REQUEST;
+    UsersSurveyAnswersReq RANDOM_USER_ANSWER_REQUEST;
+    SurveyBubbleUpdateReq RANDOM_BUBBLE_UPDATE_REQUEST;
 
 
     @Before
@@ -51,24 +65,22 @@ public class SurveyInternalTest extends VibentTest {
         super.setUp();
         MockitoAnnotations.initMocks(this);
 
-        RANDOM_BUBBLE = new AlimentationBubble();
+        RANDOM_BUBBLE = new SurveyBubble();
         RANDOM_BUBBLE.setId(666L);
+        RANDOM_BUBBLE.setTitle("title");
 
-        RANDOM_ENTRY = new AlimentationEntry();
-        RANDOM_ENTRY.setId(123L);
-        RANDOM_ENTRY.setBubbleId(RANDOM_BUBBLE.getId());
-        RANDOM_ENTRY.setDeleted(false);
-        RANDOM_ENTRY.setName("Coke");
-        RANDOM_ENTRY.setType(AlimentationEntry.Type.Drink);
-        RANDOM_ENTRY.setTotalCurrent(5);
-        RANDOM_ENTRY.setTotalRequested(10);
+        RANDOM_ANSWER = new SurveyAnswer();
+        RANDOM_ANSWER.setId(123L);
+        RANDOM_ANSWER.setBubbleId(RANDOM_BUBBLE.getId());
+        RANDOM_ANSWER.setDeleted(false);
+        RANDOM_ANSWER.setContent("Response");
+        RANDOM_ANSWER.setCreatorRef(RANDOM_USER.getRef());
 
-        RANDOM_BRING = new AlimentationBring();
-        RANDOM_BRING.setId(546L);
-        RANDOM_BRING.setEntryId(RANDOM_ENTRY.getId());
-        RANDOM_BRING.setDeleted(false);
-        RANDOM_BRING.setQuantity(5);
-        RANDOM_BRING.setUserRef(RANDOM_USER.getRef());
+        RANDOM_USER_ANSWER = new UsersSurveyAnswers();
+        RANDOM_USER_ANSWER.setId(546L);
+        RANDOM_USER_ANSWER.setSurveyAnswerId(RANDOM_ANSWER.getId());
+        RANDOM_USER_ANSWER.setDeleted(false);
+        RANDOM_USER_ANSWER.setUserRef(RANDOM_USER.getRef());
 
         RANDOM_OWNERSHIP = new BubbleOwnership();
         RANDOM_OWNERSHIP.setId(789L);
@@ -76,46 +88,39 @@ public class SurveyInternalTest extends VibentTest {
         RANDOM_OWNERSHIP.setCreatorRef(RANDOM_USER.getRef());
         RANDOM_OWNERSHIP.setBubbleId(RANDOM_BUBBLE.getId());
         RANDOM_OWNERSHIP.setEventRef(RANDOM_EVENT.getRef());
-        RANDOM_OWNERSHIP.setBubbleType(BubbleType.AlimentationBubble);
+        RANDOM_OWNERSHIP.setBubbleType(BubbleType.SurveyBubble);
 
-        RANDOM_BUBBLE_REQUEST = new AlimentationBubbleReq();
+        RANDOM_BUBBLE_REQUEST = new SurveyBubbleReq();
         RANDOM_BUBBLE_REQUEST.setEventRef(RANDOM_EVENT.getRef());
 
-        RANDOM_ENTRY_REQUEST = new AlimentationEntryReq();
-        RANDOM_ENTRY_REQUEST.setBubbleId(RANDOM_BUBBLE.getId());
-        RANDOM_ENTRY_REQUEST.setName("Frites");
-        RANDOM_ENTRY_REQUEST.setTotalCurrent(0);
-        RANDOM_ENTRY_REQUEST.setTotalRequested(10);
-        RANDOM_ENTRY_REQUEST.setType(AlimentationEntry.Type.Food);
+        RANDOM_ANSWER_REQUEST = new SurveyAnswerReq(RANDOM_BUBBLE.getId(),RANDOM_USER.getRef(),"content");
 
-        RANDOM_ENTRY_UPDATE_REQUEST = new AlimentationEntryUpdateReq();
-        RANDOM_ENTRY_UPDATE_REQUEST.setTotalRequested(15);
+        RANDOM_ANSWER_UPDATE_REQUEST = new SurveyAnswerUpdateReq("content");
 
-        RANDOM_BRING_REQUEST = new AlimentationBringReq();
-        RANDOM_BRING_REQUEST.setEntryId(RANDOM_ENTRY.getId());
-        RANDOM_BRING_REQUEST.setQuantity(10);
+        RANDOM_USER_ANSWER_REQUEST = new UsersSurveyAnswersReq(RANDOM_USER.getRef(), RANDOM_ANSWER.getId());
 
-        RANDOM_BRING_UPDATE_REQUEST = new AlimentationBringUpdateReq();
-        RANDOM_BRING_UPDATE_REQUEST.setQuantity(15);
+        RANDOM_BUBBLE_UPDATE_REQUEST = new SurveyBubbleUpdateReq();
+        RANDOM_BUBBLE_REQUEST = new SurveyBubbleReq();
+        RANDOM_BUBBLE_REQUEST.setTitle("newTitle");
 
         when(bubbleRepository.findById(RANDOM_BUBBLE.getId())).thenReturn(Optional.of(RANDOM_BUBBLE));
         when(bubbleRepository.existsById(RANDOM_BUBBLE.getId())).thenReturn(true);
-        when(bubbleRepository.save(new AlimentationBubble())).thenReturn(RANDOM_BUBBLE);
+        when(bubbleRepository.save(new SurveyBubble())).thenReturn(RANDOM_BUBBLE);
         when(eventRepository.findByRef(RANDOM_EVENT.getRef())).thenReturn(Optional.of(RANDOM_EVENT));
-        when(ownershipRepository.findByIdAndBubbleType(RANDOM_BUBBLE.getId(), BubbleType.AlimentationBubble))
+        when(ownershipRepository.findByIdAndBubbleType(RANDOM_BUBBLE.getId(), BubbleType.SurveyBubble))
                 .thenReturn(Optional.of(RANDOM_OWNERSHIP));
-        when(entryRepository.findById(RANDOM_ENTRY.getId())).thenReturn(Optional.of(RANDOM_ENTRY));
-        when(entryRepository.save(RANDOM_ENTRY)).thenReturn(RANDOM_ENTRY);
-        when(entryRepository.existsById(RANDOM_ENTRY.getId())).thenReturn(true);
-        when(bringRepository.findById(RANDOM_BRING.getId())).thenReturn(Optional.of(RANDOM_BRING));
-        when(bringRepository.save(RANDOM_BRING)).thenReturn(RANDOM_BRING);
-        when(bringRepository.existsById(RANDOM_BRING.getId())).thenReturn(true);
-        when(bringRepository.getBubbleId(RANDOM_BRING.getId())).thenReturn(RANDOM_BUBBLE.getId());
+        when(surveyAnswerRepository.findById(RANDOM_ANSWER.getId())).thenReturn(Optional.of(RANDOM_ANSWER));
+        when(surveyAnswerRepository.save(RANDOM_ANSWER)).thenReturn(RANDOM_ANSWER);
+        when(surveyAnswerRepository.existsById(RANDOM_ANSWER.getId())).thenReturn(true);
+        when(usersSurveyAnswersRepository.findById(RANDOM_USER_ANSWER.getId())).thenReturn(Optional.of(RANDOM_USER_ANSWER));
+        when(usersSurveyAnswersRepository.save(RANDOM_USER_ANSWER)).thenReturn(RANDOM_USER_ANSWER);
+        when(usersSurveyAnswersRepository.existsById(RANDOM_USER_ANSWER.getId())).thenReturn(true);
+        when(usersSurveyAnswersRepository.getBubbleId(RANDOM_USER_ANSWER.getId())).thenReturn(RANDOM_BUBBLE.getId());
     }
 
     @Test
     public void getBubble() {
-        AlimentationBubbleRes bubble = controller.getBubble(RANDOM_BUBBLE.getId());
+        SurveyBubble bubble = controller.getBubble(RANDOM_BUBBLE.getId());
         Assert.assertEquals(RANDOM_BUBBLE.getId(), bubble.getId());
     }
 
@@ -129,7 +134,7 @@ public class SurveyInternalTest extends VibentTest {
 
     @Test
     public void createBubble() {
-        AlimentationBubbleRes bubble = controller.createBubble(RANDOM_BUBBLE_REQUEST);
+        SurveyBubbleRes bubble = controller.createBubble(RANDOM_BUBBLE_REQUEST);
         Assert.assertEquals(bubble.getId(), bubble.getId());
     }
 
@@ -138,7 +143,7 @@ public class SurveyInternalTest extends VibentTest {
         exception.expect(VibentException.class);
         exception.expectMessage("event-not-found");
 
-        AlimentationBubbleRes bubble = controller.createBubble(new AlimentationBubbleReq());
+        SurveyBubbleRes bubble = controller.createBubble(new SurveyBubbleReq());
     }
 
     @Test
@@ -154,72 +159,72 @@ public class SurveyInternalTest extends VibentTest {
         controller.deleteBubble(-1L);
     }
 
-    // entry
     @Test
-    public void createBubbleEntry(){
-        AlimentationBubbleRes res = controller.createBubbleEntry(RANDOM_ENTRY_REQUEST);
-        Assert.assertEquals(res.getId(), RANDOM_BUBBLE.getId());
-    }
-
-    @Test
-    public void updateBubbleEntry(){
-        AlimentationBubbleRes res = controller.updateBubbleEntry(RANDOM_ENTRY.getId(), RANDOM_ENTRY_UPDATE_REQUEST);
+    public void updateBubble(){
+        SurveyBubbleRes res = controller.updateBubble(RANDOM_BUBBLE.getId(), RANDOM_BUBBLE_UPDATE_REQUEST);
         Assert.assertNotNull(res);
     }
 
     @Test
-    public void updateBubbleEntryWringId(){
+    public void updateBubbleWrongId(){
         exception.expect(VibentException.class);
-        exception.expectMessage("entry-not-found");
+        exception.expectMessage("bubble-not-found");
 
-        controller.updateBubbleEntry(-1L, RANDOM_ENTRY_UPDATE_REQUEST);
+        controller.updateBubble(-1L, RANDOM_BUBBLE_UPDATE_REQUEST);
     }
 
+    // answer
     @Test
-    public void deleteEntry(){
-        controller.deleteBubbleEntry(RANDOM_ENTRY.getId());
-    }
-
-    @Test
-    public void deleteEntryWrongId(){
-        exception.expect(VibentException.class);
-        exception.expectMessage("entry-not-found");
-
-        controller.deleteBubbleEntry(-1L);
-    }
-
-    // Bring
-    @Test
-    public void createBubbleBring(){
-        AlimentationBubbleRes res = controller.createBubbleBring(RANDOM_BRING_REQUEST);
+    public void createBubbleAnswer(){
+        SurveyBubbleRes res = controller.createBubbleAnswer(RANDOM_ANSWER_REQUEST);
         Assert.assertEquals(res.getId(), RANDOM_BUBBLE.getId());
     }
 
     @Test
-    public void updateBubbleBring(){
-        AlimentationBubbleRes res = controller.updateBubbleBring(RANDOM_BRING.getId(), RANDOM_BRING_UPDATE_REQUEST);
+    public void updateBubbleAnswer(){
+        SurveyBubbleRes res = controller.updateBubbleAnswer(RANDOM_ANSWER.getId(), RANDOM_ANSWER_UPDATE_REQUEST);
         Assert.assertNotNull(res);
     }
 
     @Test
-    public void updateBubbleBringWringId(){
+    public void updateBubbleAnswerWrongId(){
         exception.expect(VibentException.class);
-        exception.expectMessage("bring-not-found");
+        exception.expectMessage("answer-not-found");
 
-        controller.updateBubbleBring(-1L, RANDOM_BRING_UPDATE_REQUEST);
+        controller.updateBubbleAnswer(-1L, RANDOM_ANSWER_UPDATE_REQUEST);
     }
 
     @Test
-    public void deleteBring(){
-        controller.deleteBubbleBring(RANDOM_BRING.getId());
+    public void deleteAnswer(){
+        controller.deleteBubbleAnswer(RANDOM_ANSWER.getId());
     }
 
     @Test
-    public void deleteBringWrongId(){
+    public void deleteAnswerWrongId(){
         exception.expect(VibentException.class);
-        exception.expectMessage("bring-not-found");
+        exception.expectMessage("answer-not-found");
 
-        controller.deleteBubbleBring(-1L);
+        controller.deleteBubbleAnswer(-1L);
+    }
+
+    // UserAnswer
+    @Test
+    public void createBubbleUserAnswer(){
+        SurveyBubbleRes res = controller.createBubbleUserAnswer(RANDOM_USER_ANSWER_REQUEST);
+        Assert.assertEquals(res.getId(), RANDOM_BUBBLE.getId());
+    }
+
+    @Test
+    public void deleteUserAnswer(){
+        controller.deleteBubbleUserAnswer(RANDOM_USER_ANSWER.getId());
+    }
+
+    @Test
+    public void deleteUserAnswerWrongId(){
+        exception.expect(VibentException.class);
+        exception.expectMessage("user-answer-not-found");
+
+        controller.deleteBubbleUserAnswer(-1L);
     }
 
 }

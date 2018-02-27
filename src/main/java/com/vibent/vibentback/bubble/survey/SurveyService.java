@@ -61,18 +61,18 @@ public class SurveyService {
         return getBubbleResponse(surveyBubble);
     }
 
-    public SurveyBubbleRes updateBubble(long id, SurveyBubble bubble) {
+    public SurveyBubbleRes updateBubble(long id, SurveyBubbleUpdateReq update) {
         SurveyBubble old = bubbleRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
-        ObjectUpdater.updateProperties(bubble, old);
-        bubble = bubbleRepository.save(old);
-        return getBubbleResponse(bubble);
+        ObjectUpdater.updateProperties(update, old);
+        bubbleRepository.save(old);
+        return getBubbleResponse(old.getId());
     }
 
     public void deleteBubble(long id) {
         SurveyBubble bubble = bubbleRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
-        BubbleOwnership ownership = ownershipRepository.findByIdAndBubbleType(id, BubbleType.AlimentationBubble)
+        BubbleOwnership ownership = ownershipRepository.findByIdAndBubbleType(id, BubbleType.SurveyBubble)
                 .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
         ownershipRepository.deleteById(ownership.getId());
     }

@@ -31,6 +31,12 @@ public class SurveyController {
         return service.createBubble(request);
     }
 
+    @RequestMapping(method = RequestMethod.PATCH, value = "/{id}")
+    SurveyBubbleRes updateBubble(@PathVariable Long id, @RequestBody SurveyBubbleUpdateReq request) {
+        log.info("Update survey bubble with id {} and body : {}", id, request.toString());
+        return service.updateBubble(id, request);
+    }
+
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     void deleteBubble(@PathVariable Long id) {

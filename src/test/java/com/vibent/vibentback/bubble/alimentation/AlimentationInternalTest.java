@@ -180,7 +180,7 @@ public class AlimentationInternalTest extends VibentTest {
     }
 
     @Test
-    public void updateBubbleEntryWringId(){
+    public void updateBubbleEntryWrongId(){
         exception.expect(VibentException.class);
         exception.expectMessage("entry-not-found");
 
@@ -214,7 +214,7 @@ public class AlimentationInternalTest extends VibentTest {
     }
 
     @Test
-    public void updateBubbleBringWringId(){
+    public void updateBubbleBringWrongId(){
         exception.expect(VibentException.class);
         exception.expectMessage("bring-not-found");
 
