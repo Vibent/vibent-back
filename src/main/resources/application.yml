@@ -6,7 +6,6 @@ spring:
     password: root
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
-    database-platform: com.mysql.cj.jdbc.Driver
     show-sql: true
     hibernate.naming.physical-strategy: com.vibent.vibentback.config.VibentPhysicalNamingStrategy
 
