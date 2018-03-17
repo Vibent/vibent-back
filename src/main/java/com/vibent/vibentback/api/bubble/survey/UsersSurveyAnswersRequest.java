@@ -10,12 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Data
-public class SurveyAnswerReq {
+public class UsersSurveyAnswersRequest {
 
     @NonNull
-    private Long bubbleId;
+    private String userRef;
     @NonNull
-    private String creatorRef;
-    @NonNull
-    private String content;
+    private Long surveyAnswerId;
 }

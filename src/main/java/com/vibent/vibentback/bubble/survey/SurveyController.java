@@ -5,13 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping("/bubble/survey")
+@RequestMapping(value = "/bubble/survey",
+        produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class SurveyController {
 
@@ -19,21 +19,22 @@ public class SurveyController {
 
     // Survey Bubble -------------------------------------------------------------
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    SurveyBubbleRes getBubble(@PathVariable Long id) {
+    SurveyBubble getBubble(@PathVariable Long id) {
         log.info("Get survey bubble with id : {}", id);
         return service.getBubble(id);
     }
 
     @ResponseStatus(value = HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST)
-    SurveyBubbleRes createBubble(@RequestBody SurveyBubbleReq request) {
-        log.info("Creating survey bubble");
-        return service.createBubble(request);
+    @RequestMapping(method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    SurveyBubble createBubble(@RequestBody SurveyBubbleRequest request) {
+        log.info("Creating survey bubble for event with ref {}", request.getEventRef());
+        return service.createBubble(request.getEventRef());
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/{id}")
-    SurveyBubbleRes updateBubble(@PathVariable Long id, @RequestBody SurveyBubbleUpdateReq request) {
-        log.info("Update survey bubble with id {} and body : {}", id, request.toString());
+    SurveyBubble updateBubble(@PathVariable Long id, @RequestBody SurveyBubbleUpdateRequest request) {
+        log.info("Updating survey bubble with id {} and body : {}", id, request.toString());
         return service.updateBubble(id, request);
     }
 
@@ -47,38 +48,41 @@ public class SurveyController {
     // Survey Bubble Answer -------------------------------------------------------------
 
     @ResponseStatus(value = HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST, value = "/answer")
-    SurveyBubbleRes createBubbleAnswer(@RequestBody SurveyAnswerReq answer) {
+    @RequestMapping(method = RequestMethod.POST, value = "/answer",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    SurveyBubble createAnswer(@RequestBody SurveyAnswerRequest answer) {
         log.info("Creating survey answer with body : {}", answer.toString());
-        return service.createBubbleAnswer(answer);
+        return service.createAnswer(answer);
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, value = "/answer/{id}")
-    SurveyBubbleRes updateBubbleAnswer(@PathVariable Long id, @RequestBody SurveyAnswerUpdateReq answer) {
-        log.info("Update survey answer with id {} and body : {}", id, answer.toString());
-        return service.updateBubbleAnswer(id, answer);
+    @RequestMapping(method = RequestMethod.PATCH, value = "/answer/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    SurveyBubble updateAnswer(@PathVariable Long id, @RequestBody SurveyAnswerUpdateRequest answer) {
+        log.info("Updating survey answer with id {} and body : {}", id, answer.toString());
+        return service.updateAnswer(id, answer);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/answer/{id}")
-    void deleteBubbleAnswer(@PathVariable Long id) {
-        log.info("Delete survey answer for with id {}", id);
-        service.deleteBubbleAnswer(id);
+    void deleteAnswer(@PathVariable Long id) {
+        log.info("Deleting survey answer for with id {}", id);
+        service.deleteAnswer(id);
     }
 
     // Survey Bubble User answer -------------------------------------------------------------
 
     @ResponseStatus(value = HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST, value = "/useranswer")
-    SurveyBubbleRes createBubbleUserAnswer(@RequestBody UsersSurveyAnswersReq userAnswer) {
+    @RequestMapping(method = RequestMethod.POST, value = "/useranswer",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    SurveyBubble createUserAnswer(@RequestBody UsersSurveyAnswersRequest userAnswer) {
         log.info("Creating survey user answer with body : {}", userAnswer.toString());
-        return service.createBubbleUserAnswer(userAnswer);
+        return service.createUserAnswer(userAnswer);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/useranswer/{id}")
     void deleteBubbleUserAnswer(@PathVariable Long id) {
-        log.info("Delete survey user answer with id {}", id);
-        service.deleteBubbleUserAnswer(id);
+        log.info("Deleting survey user answer with id {}", id);
+        service.deleteUserAnswer(id);
     }
 }

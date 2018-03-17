@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class SurveyBubbleReq {
+public class SurveyBubbleRequest {
     @NotNull
     private String eventRef;
     @NotNull

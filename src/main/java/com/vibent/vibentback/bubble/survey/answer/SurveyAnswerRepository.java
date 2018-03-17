@@ -10,12 +10,6 @@ import javax.transaction.Transactional;
 
 public interface SurveyAnswerRepository extends CrudRepository<SurveyAnswer, Long> {
 
-    SurveyAnswer findById(long id);
-    Iterable<SurveyAnswer> findByBubbleId(long id);
-    Iterable<SurveyAnswer> findByCreatorRef(String ref);
-    @Transactional
-    int deleteById(long id);
-
     @Modifying
     @Transactional
     @Query(value = "UPDATE survey_answer SET deleted = FALSE WHERE id = :id", nativeQuery = true)

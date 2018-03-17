@@ -10,13 +10,6 @@ import javax.transaction.Transactional;
 
 public interface UsersSurveyAnswersRepository extends CrudRepository<UsersSurveyAnswers, Long> {
 
-    UsersSurveyAnswers findById(long id);
-    Iterable<UsersSurveyAnswers> findBySurveyAnswerId(long id);
-    Iterable<UsersSurveyAnswers> findByUserRef(String ref);
-
-    @Transactional
-    int deleteById(long id);
-
     @Modifying
     @Transactional
     @Query(value = "UPDATE users_survey_answers SET deleted = FALSE WHERE id = :id", nativeQuery = true)

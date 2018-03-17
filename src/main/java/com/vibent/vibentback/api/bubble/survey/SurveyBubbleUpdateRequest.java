@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class SurveyBubbleUpdateReq {
+public class SurveyBubbleUpdateRequest {
     @NotNull
     private String title;
 }
