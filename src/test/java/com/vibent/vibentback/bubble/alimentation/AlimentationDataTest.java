@@ -1,6 +1,7 @@
 package com.vibent.vibentback.bubble.alimentation;
 
 import com.vibent.vibentback.VibentTest;
+import com.vibent.vibentback.api.alimentation.AlimentationBubbleRequest;
 import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBringRepository;
@@ -92,6 +93,7 @@ public class AlimentationDataTest extends VibentTest {
 
     @Test
     public void testAddAlimentationBring() {
+        RANDOM_BRING.setEntry(entryRepository.save(RANDOM_ENTRY));
         RANDOM_BRING = bringRepository.save(RANDOM_BRING);
 
         Assert.assertNotNull(bringRepository.findById(RANDOM_BRING.getId()));

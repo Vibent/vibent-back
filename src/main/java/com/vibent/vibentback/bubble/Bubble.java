@@ -23,13 +23,11 @@ public abstract class Bubble {
     @ManyToOne
     @JsonIgnore
     @PrimaryKeyJoinColumn
-    // @JoinColumn(name = "event_ref", referencedColumnName = "ref", nullable = false)
     private Event event;
 
     @ManyToOne
     @JsonIgnore
     @PrimaryKeyJoinColumn
-    // @JoinColumn(name = "creator_ref", referencedColumnName = "ref", nullable = false)
     private User creator;
 
     @JsonIgnore
