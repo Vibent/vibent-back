@@ -480,15 +480,15 @@ DROP TABLE IF EXISTS `survey_answer`;
 CREATE TABLE `survey_answer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bubble_id` int(11) DEFAULT NULL,
-  `creator_ref` char(36) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `content` varchar(500) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `survey_answer_id` (`id`),
-  KEY `creator_ref` (`creator_ref`),
+  KEY `user_id` (`user_id`),
   KEY `survey_answer_bubble__fk` (`bubble_id`),
   CONSTRAINT `survey_answer_bubble__fk` FOREIGN KEY (`bubble_id`) REFERENCES `survey_bubble` (`id`),
-  CONSTRAINT `survey_answer_user__fk` FOREIGN KEY (`creator_ref`) REFERENCES `user` (`ref`)
+  CONSTRAINT `survey_answer_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -511,8 +511,15 @@ DROP TABLE IF EXISTS `survey_bubble`;
 CREATE TABLE `survey_bubble` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(500) DEFAULT NULL,
+  `event_id` int(11) NOT NULL,
+  `creator_id` int(11) NOT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckBoxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
+  `type` varchar(20) DEFAULT 'SurveyBubble',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `survey_bubble_id` (`id`)
+  UNIQUE KEY `survey_bubble_id` (`id`),
+  CONSTRAINT `survey_bubble_user__fk` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `survey_bubble_event__fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -683,14 +690,14 @@ DROP TABLE IF EXISTS `users_survey_answers`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users_survey_answers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_ref` char(36) DEFAULT NULL,
-  `survey_answer_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `answer_id` int(11) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `user_ref` (`user_ref`),
-  KEY `users_survey_answers_bubble__fk` (`survey_answer_id`),
-  CONSTRAINT `users_survey_answers_bubble__fk` FOREIGN KEY (`survey_answer_id`) REFERENCES `survey_answer` (`id`),
-  CONSTRAINT `users_survey_answers_user__fk` FOREIGN KEY (`user_ref`) REFERENCES `user` (`ref`)
+  KEY `user_id` (`user_id`),
+  KEY `users_survey_answers_bubble__fk` (`answer_id`),
+  CONSTRAINT `users_survey_answers_bubble__fk` FOREIGN KEY (`answer_id`) REFERENCES `survey_answer` (`id`),
+  CONSTRAINT `users_survey_answers_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

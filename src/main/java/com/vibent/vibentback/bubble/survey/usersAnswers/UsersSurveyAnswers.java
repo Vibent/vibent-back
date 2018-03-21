@@ -1,31 +1,36 @@
 package com.vibent.vibentback.bubble.survey.usersAnswers;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vibent.vibentback.bubble.survey.answer.SurveyAnswer;
+import com.vibent.vibentback.user.User;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
-@Data
 @Entity
-@NoArgsConstructor
-@RequiredArgsConstructor
+@Getter
+@Setter
 @SQLDelete(sql = "UPDATE users_survey_answers SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class UsersSurveyAnswers {
 
     @Id
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @NonNull
-    private String userRef;
-    @NonNull
-    private Long surveyAnswerId;
-    @Column(insertable = false, updatable = false)
+
+    @ManyToOne
+    @JsonIgnore
+    @PrimaryKeyJoinColumn
+    private SurveyAnswer answer;
+
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    private User user;
+
     @JsonIgnore
     private boolean deleted;
 

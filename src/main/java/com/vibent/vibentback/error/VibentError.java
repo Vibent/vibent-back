@@ -28,6 +28,9 @@ public enum VibentError {
     ENTRY_NOT_FOUND("entry-not-found", HttpStatus.NOT_FOUND, "The requested entry can not be found"),
     BRING_NOT_FOUND("bring-not-found", HttpStatus.NOT_FOUND, "The requested bring can not be found"),
 
+    ANSWER_NOT_FOUND("answer-not-found", HttpStatus.NOT_FOUND, "The requested answer can not be found"),
+    USER_ANSWER_NOT_FOUND("user-answer-not-found", HttpStatus.NOT_FOUND, "The requested user answer can not be found"),
+
 
     // General erros
     INVALID_BODY("invalid-body", HttpStatus.BAD_REQUEST, "The request body is badly formed, please check API documentation"),
