@@ -40,8 +40,7 @@ public class SurveyAnswer {
     private Set<UsersSurveyAnswers> usersAnswers;
 
     @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name="user_ref", nullable=false)
+    @PrimaryKeyJoinColumn
     private User user;
 
     @NonNull
