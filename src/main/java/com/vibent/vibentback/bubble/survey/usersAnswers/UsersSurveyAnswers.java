@@ -28,8 +28,7 @@ public class UsersSurveyAnswers {
     private SurveyAnswer answer;
 
     @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name="user_ref", nullable=false)
+    @PrimaryKeyJoinColumn
     private User user;
 
     @JsonIgnore

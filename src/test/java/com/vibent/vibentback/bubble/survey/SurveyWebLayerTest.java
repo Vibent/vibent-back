@@ -1,6 +1,8 @@
 package com.vibent.vibentback.bubble.survey;
 
 import com.vibent.vibentback.VibentTest;
+import com.vibent.vibentback.api.bubble.survey.SurveyBubbleRequest;
+import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.survey.answer.SurveyAnswer;
 import com.vibent.vibentback.bubble.survey.usersAnswers.UsersSurveyAnswers;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +45,7 @@ public class SurveyWebLayerTest extends VibentTest {
     SurveyBubble RANDOM_BUBBLE;
     SurveyAnswer RANDOM_ANSWER;
     UsersSurveyAnswers RANDOM_USER_ANSWER;
+    SurveyBubbleRequest RANDOM_REQ;
 
 
 
@@ -53,10 +56,18 @@ public class SurveyWebLayerTest extends VibentTest {
         RANDOM_ANSWER = new SurveyAnswer();
         RANDOM_USER_ANSWER = new UsersSurveyAnswers();
 
+        RANDOM_REQ = new SurveyBubbleRequest();
+        RANDOM_REQ.setEventRef(RANDOM_EVENT.getRef());
+
+
         RANDOM_BUBBLE.setId(666L);
         RANDOM_BUBBLE.setAnswers(new HashSet<SurveyAnswer>(){{
             add(RANDOM_ANSWER);
         }});
+        RANDOM_BUBBLE.setType(BubbleType.SurveyBubble);
+        RANDOM_BUBBLE.setEvent(RANDOM_EVENT);
+        RANDOM_BUBBLE.setCreator(RANDOM_USER);
+        RANDOM_BUBBLE.setDeleted(false);
 
         RANDOM_ANSWER.setId(123L);
         RANDOM_ANSWER.setBubble(RANDOM_BUBBLE);
@@ -85,9 +96,7 @@ public class SurveyWebLayerTest extends VibentTest {
 
     @Test
     public void testCreateBubble() throws Exception {
-        JSONObject object = new JSONObject();
-        object.put("eventRef", RANDOM_EVENT.getRef());
-        String body = super.getJsonString(RANDOM_EVENT.getRef());
+        String body = super.getJsonString(RANDOM_REQ);
 
         mockMvc.perform(post(ROOT_URL).contentType(APPLICATION_JSON_UTF8)
                 .content(body))

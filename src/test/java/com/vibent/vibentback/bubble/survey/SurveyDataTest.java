@@ -92,6 +92,7 @@ public class SurveyDataTest extends VibentTest {
 
     @Test
     public void testAddUserAnswer() {
+        RANDOM_USER_ANSWER.setAnswer(answerRepository.save(RANDOM_ANSWER));
         RANDOM_USER_ANSWER = usersSurveyAnswersRepository.save(RANDOM_USER_ANSWER);
 
         Assert.assertNotNull(usersSurveyAnswersRepository.findById(RANDOM_USER_ANSWER.getId()));
