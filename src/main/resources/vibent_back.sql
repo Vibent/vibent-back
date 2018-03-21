@@ -27,13 +27,14 @@ DROP TABLE IF EXISTS `alimentation_bring`;
 CREATE TABLE `alimentation_bring` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `entry_id` int(11) DEFAULT NULL,
-  `user_ref` char(36) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `user_ref` (`user_ref`),
+  KEY `user_id` (`user_id`),
   KEY `alimentation_bring_alimentry__fk` (`entry_id`),
-  CONSTRAINT `alimentation_bring_alimentry__fk` FOREIGN KEY (`entry_id`) REFERENCES `alimentation_entry` (`id`)
+  CONSTRAINT `alimentation_bring_alimentry__fk` FOREIGN KEY (`entry_id`) REFERENCES `alimentation_entry` (`id`),
+  CONSTRAINT `alimentation_bring_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -55,14 +56,14 @@ DROP TABLE IF EXISTS `alimentation_bubble`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `alimentation_bubble` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `event_ref` char(36) NOT NULL,
+  `event_id` int(11) NOT NULL,
   `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckBoxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
-  `creator_ref` char(36) DEFAULT NULL,
+  `creator_id` int(11) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `type` varchar(20) DEFAULT 'AlimentationBubble',
   PRIMARY KEY (`id`),
-  CONSTRAINT `alimentation_bubble_event__fk` FOREIGN KEY (`event_ref`) REFERENCES `event` (`ref`),
-  CONSTRAINT `alimentation_bubble_user__fk` FOREIGN KEY (`creator_ref`) REFERENCES `user` (`ref`)
+  CONSTRAINT `alimentation_bubble_event__fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`),
+  CONSTRAINT `alimentation_bubble_user__fk` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -631,9 +632,7 @@ CREATE TABLE `user` (
   `salt` varchar(64) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `ref` (`ref`),
-  UNIQUE KEY `user_ref` (`ref`),
-  KEY `ref_2` (`ref`)
+  UNIQUE KEY `ref` (`ref`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
