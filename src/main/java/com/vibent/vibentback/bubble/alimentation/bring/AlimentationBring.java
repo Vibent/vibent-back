@@ -30,8 +30,7 @@ public class AlimentationBring {
     private AlimentationEntry entry;
 
     @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name="user_ref", nullable=false)
+    @PrimaryKeyJoinColumn
     private User user;
 
     private Integer quantity;

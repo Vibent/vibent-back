@@ -1,6 +1,8 @@
 package com.vibent.vibentback.bubble.alimentation;
 
 import com.vibent.vibentback.VibentTest;
+import com.vibent.vibentback.api.alimentation.AlimentationBubbleRequest;
+import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +45,7 @@ public class AlimentationWebLayerTest extends VibentTest {
     AlimentationBubble RANDOM_BUBBLE;
     AlimentationEntry RANDOM_ENTRY;
     AlimentationBring RANDOM_BRING;
+    AlimentationBubbleRequest RANDOM_REQ;
 
     @Before
     public void setUp() {
@@ -51,7 +54,15 @@ public class AlimentationWebLayerTest extends VibentTest {
         RANDOM_ENTRY = new AlimentationEntry();
         RANDOM_BRING = new AlimentationBring();
 
+
+        RANDOM_REQ = new AlimentationBubbleRequest();
+        RANDOM_REQ.setEventRef(RANDOM_EVENT.getRef());
+
         RANDOM_BUBBLE.setId(666L);
+        RANDOM_BUBBLE.setType(BubbleType.AlimentationBubble);
+        RANDOM_BUBBLE.setDeleted(false);
+        RANDOM_BUBBLE.setEvent(RANDOM_EVENT);
+        RANDOM_BUBBLE.setCreator(RANDOM_USER);
         RANDOM_BUBBLE.setEntries(new HashSet<AlimentationEntry>(){{
             add(RANDOM_ENTRY);
         }});
@@ -88,9 +99,7 @@ public class AlimentationWebLayerTest extends VibentTest {
 
     @Test
     public void testCreateBubble() throws Exception {
-        JSONObject object = new JSONObject();
-        object.put("eventRef", RANDOM_EVENT.getRef());
-        String body = super.getJsonString(RANDOM_EVENT.getRef());
+        String body = super.getJsonString(RANDOM_REQ);
 
         mockMvc.perform(post(ROOT_URL).contentType(APPLICATION_JSON_UTF8)
                 .content(body))

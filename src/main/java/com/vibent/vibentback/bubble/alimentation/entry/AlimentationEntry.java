@@ -39,8 +39,10 @@ public class AlimentationEntry {
     private String name;
     private Integer totalRequested;
     private Integer totalCurrent;
+
     @Enumerated(EnumType.STRING)
     private Type type;
+
     @JsonIgnore
     private Boolean deleted;
 
