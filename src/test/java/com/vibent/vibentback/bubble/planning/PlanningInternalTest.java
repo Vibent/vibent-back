@@ -24,34 +24,6 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PlanningEntryDataTest extends VibentTest {
+public class PlanningInternalTest extends VibentTest {
 
-    @Autowired
-    PlanningEntryRepository repository;
-
-    @Autowired
-    PlanningBubbleRepository bubbleRepository;
-
-    @Autowired
-    UserRepository userRepository;
-
-    PlanningBubble planningBubble;
-
-    User user;
-
-    @Before
-    public void setUp()
-    {
-        super.setUp();
-        planningBubble = new PlanningBubble();
-        bubbleRepository.save(planningBubble);
-        user = new User(UUID.randomUUID().toString(),"conor","ryan","cr.sd.sd@gmail.com","secret","sel");
-        userRepository.save(user);
-    }
-
-    @Test
-    public void testAddPlanningEntry(){
-        PlanningEntry planningEntry = new PlanningEntry(planningBubble.getId(),user.getRef(), new Date(), new Date(), "planningContent");
-        repository.save(planningEntry);
-    }
 }

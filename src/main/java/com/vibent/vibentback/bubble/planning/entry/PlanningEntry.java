@@ -1,6 +1,10 @@
 package com.vibent.vibentback.bubble.planning.entry;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vibent.vibentback.bubble.planning.PlanningBubble;
+import com.vibent.vibentback.bubble.survey.SurveyBubble;
+import com.vibent.vibentback.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -10,6 +14,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -20,21 +25,43 @@ import java.util.Date;
 public class PlanningEntry {
 
     @Id
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @NonNull
-    private Long bubbleId;
-    @NonNull
-    private String creatorRef;
+
+    @ManyToOne
+    @JsonIgnore
+    @PrimaryKeyJoinColumn
+    private PlanningBubble bubble;
+
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    private User user;
+
     @NonNull
     private Date start;
+
     @NonNull
     private Date end;
+
     @NonNull
     private String content;
+
     @Column(insertable = false, updatable = false)
     @JsonIgnore
     private boolean deleted;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlanningEntry entry = (PlanningEntry) o;
+        return Objects.equals(id, entry.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
 }
