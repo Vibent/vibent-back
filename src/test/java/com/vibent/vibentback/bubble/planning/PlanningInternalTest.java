@@ -36,8 +36,8 @@ public class PlanningEntryDataTest extends VibentTest {
     UserRepository userRepository;
 
     PlanningBubble planningBubble;
-    User user;
 
+    User user;
 
     @Before
     public void setUp()
