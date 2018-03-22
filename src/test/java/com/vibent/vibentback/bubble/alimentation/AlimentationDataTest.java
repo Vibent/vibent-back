@@ -12,6 +12,7 @@ import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.groupT.GroupTRepository;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
+import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,8 +25,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.HashSet;
 
 @Slf4j
-@RunWith(SpringRunner.class)
+@Transactional
 @SpringBootTest
+@RunWith(SpringRunner.class)
 public class AlimentationDataTest extends VibentTest {
 
     @Autowired

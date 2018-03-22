@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TravelBubbleTests extends VibentTest {
+public class TravelBubbleTest extends VibentTest {
 
     @Autowired
     TravelBubbleRepository repository;

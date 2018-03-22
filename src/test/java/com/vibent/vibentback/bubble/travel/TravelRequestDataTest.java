@@ -13,6 +13,7 @@ import com.vibent.vibentback.bubble.travel.request.TravelRequest;
 import com.vibent.vibentback.bubble.travel.request.TravelRequestRepository;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
+import javax.transaction.Transactional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,10 +23,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.UUID;
 
-
-@RunWith(SpringRunner.class)
+@Transactional
 @SpringBootTest
-public class TravelRequestTests extends VibentTest {
+@RunWith(SpringRunner.class)
+public class TravelRequestDataTest extends VibentTest {
 
     @Autowired
     TravelRequestRepository repository;

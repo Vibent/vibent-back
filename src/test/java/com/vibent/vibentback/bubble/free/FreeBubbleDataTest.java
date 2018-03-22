@@ -5,15 +5,16 @@ import com.vibent.vibentback.bubble.free.FreeBubble;
 import com.vibent.vibentback.bubble.free.FreeBubbleRepository;
 import com.vibent.vibentback.bubble.free.FreeBubble;
 import com.vibent.vibentback.bubble.free.FreeBubbleRepository;
+import javax.transaction.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
-@RunWith(SpringRunner.class)
+@Transactional
 @SpringBootTest
+@RunWith(SpringRunner.class)
 public class FreeBubbleDataTest extends VibentTest {
 
     @Autowired

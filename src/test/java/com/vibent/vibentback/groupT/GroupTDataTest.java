@@ -1,6 +1,7 @@
 package com.vibent.vibentback.groupT;
 
 import com.vibent.vibentback.VibentTest;
+import javax.transaction.Transactional;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,8 +13,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.UUID;
 
-@RunWith(SpringRunner.class)
+@Transactional
 @SpringBootTest
+@RunWith(SpringRunner.class)
 public class GroupTDataTest extends VibentTest {
 
     @Autowired

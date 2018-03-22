@@ -3,6 +3,7 @@ package com.vibent.vibentback.common;
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
+import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,9 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @Slf4j
-@RunWith(SpringRunner.class)
+@Transactional
 @SpringBootTest
-public class DeletingAndRecoverTests extends VibentTest {
+@RunWith(SpringRunner.class)
+public class DeletingAndRecoverTest extends VibentTest {
 
     @Autowired
     UserRepository repository;

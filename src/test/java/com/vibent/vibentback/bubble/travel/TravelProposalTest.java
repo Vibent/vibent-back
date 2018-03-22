@@ -25,7 +25,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TravelProposalTests extends VibentTest {
+public class TravelProposalTest extends VibentTest {
 
     @Autowired
     TravelProposalRepository repository;

@@ -6,10 +6,7 @@ import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.survey.SurveyBubble;
 import com.vibent.vibentback.bubble.survey.usersAnswers.UsersSurveyAnswers;
 import com.vibent.vibentback.user.User;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -21,8 +18,9 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-@SQLDelete(sql = "UPDATE survey_answer SET deleted = true WHERE id = ?")
+@EqualsAndHashCode(of = "id")
 @Where(clause = "deleted = false")
+@SQLDelete(sql = "UPDATE survey_answer SET deleted = true WHERE id = ?")
 public class SurveyAnswer {
 
     @Id
@@ -47,19 +45,4 @@ public class SurveyAnswer {
     private String content;
     @JsonIgnore
     private boolean deleted;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SurveyAnswer entry = (SurveyAnswer) o;
-        return Objects.equals(id, entry.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-
 }

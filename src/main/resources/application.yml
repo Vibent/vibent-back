@@ -12,7 +12,7 @@ spring:
 
 # Logging config
 logging.level:
-  org.springframework.web.filter.CommonsRequestLoggingFilter: INFO #DEBUG for more info
+  org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG #DEBUG for more info
 
 ---
 # Deployed config

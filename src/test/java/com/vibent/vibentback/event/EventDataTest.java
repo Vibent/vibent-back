@@ -7,6 +7,7 @@ import com.vibent.vibentback.error.VibentException;
 import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.groupT.GroupTRepository;
 import com.vibent.vibentback.user.User;
+import javax.transaction.Transactional;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,8 +20,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Date;
 import java.util.UUID;
 
-@RunWith(SpringRunner.class)
+@Transactional
 @SpringBootTest
+@RunWith(SpringRunner.class)
 public class EventDataTest extends VibentTest {
 
     @Autowired
