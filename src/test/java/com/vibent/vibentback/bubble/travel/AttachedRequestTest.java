@@ -24,7 +24,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AttachedRequestTests extends VibentTest {
+public class AttachedRequestTest extends VibentTest {
 
     @Autowired
     AttachedRequestRepository repository;

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.user.User;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
 
 @Setter
 @Getter
+@EqualsAndHashCode(of = {"id", "type"})
 @MappedSuperclass
 public abstract class Bubble {
     @Id
@@ -45,19 +47,5 @@ public abstract class Bubble {
     @JsonProperty
     public String getCreatorRef() {
         return creator.getRef();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Bubble bubble = (Bubble) o;
-        return Objects.equals(id, bubble.id) &&
-                type == bubble.type;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, type);
     }
 }

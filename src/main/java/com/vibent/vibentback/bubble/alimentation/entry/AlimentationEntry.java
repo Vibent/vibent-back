@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
+import java.util.Set;
+import javax.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
-import java.util.Objects;
-import java.util.Set;
-
 @Entity
 @Setter
 @Getter
+@EqualsAndHashCode(of = "id")
 @ToString(exclude = "bubble")
 @SQLDelete(sql = "UPDATE alimentation_entry SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
@@ -53,19 +53,6 @@ public class AlimentationEntry {
     @JsonProperty
     public Set<AlimentationBring> getBrings() {
         return brings;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AlimentationEntry entry = (AlimentationEntry) o;
-        return Objects.equals(id, entry.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 
     public enum Type {

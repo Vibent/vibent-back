@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.UUID;
 
-public class ObjectUpdaterTests extends VibentTest {
+public class ObjectUpdaterTest extends VibentTest {
 
     @Before
     public void setUp(){

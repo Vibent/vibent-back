@@ -136,37 +136,6 @@ LOCK TABLES `attached_request` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `bubble_ownership`
---
-
-DROP TABLE IF EXISTS `bubble_ownership`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bubble_ownership` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `event_ref` char(36) NOT NULL,
-  `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckBoxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
-  `bubble_id` int(11) DEFAULT NULL,
-  `creator_ref` char(36) DEFAULT NULL,
-  `deleted` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `event_ref` (`event_ref`),
-  KEY `bubble_ownership_user__fk` (`creator_ref`),
-  CONSTRAINT `bubble_ownership_event__fk` FOREIGN KEY (`event_ref`) REFERENCES `event` (`ref`),
-  CONSTRAINT `bubble_ownership_user__fk` FOREIGN KEY (`creator_ref`) REFERENCES `user` (`ref`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bubble_ownership`
---
-
-LOCK TABLES `bubble_ownership` WRITE;
-/*!40000 ALTER TABLE `bubble_ownership` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bubble_ownership` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `checkbox_answer`
 --
 
@@ -341,16 +310,13 @@ DROP TABLE IF EXISTS `group_membership`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `group_membership` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_ref` char(36) NOT NULL,
-  `group_ref` char(36) NOT NULL,
-  `is_admin` tinyint(1) NOT NULL,
-  `is_accepted` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `group_ref` (`group_ref`),
-  KEY `user_ref` (`user_ref`),
-  CONSTRAINT `group_membership_group__fk` FOREIGN KEY (`group_ref`) REFERENCES `group_t` (`ref`),
-  CONSTRAINT `group_membership_user__fk` FOREIGN KEY (`user_ref`) REFERENCES `user` (`ref`)
+  `user_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`, `group_id`),
+  KEY `user_id` (`user_id`),
+  KEY `group_id` (`group_id`),
+  CONSTRAINT `group_membership_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `group_membership_group__fk` FOREIGN KEY (`group_id`) REFERENCES `group_t` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -362,6 +328,61 @@ LOCK TABLES `group_membership` WRITE;
 /*!40000 ALTER TABLE `group_membership` DISABLE KEYS */;
 /*!40000 ALTER TABLE `group_membership` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `group_adminship`
+--
+
+DROP TABLE IF EXISTS `group_adminship`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `group_adminship` (
+  `user_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`, `group_id`),
+  KEY `user_id` (`user_id`),
+  KEY `group_id` (`group_id`),
+  CONSTRAINT `group_adminship_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `group_adminship_group__fk` FOREIGN KEY (`group_id`) REFERENCES `group_t` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `group_adminship`
+--
+
+LOCK TABLES `group_adminship` WRITE;
+/*!40000 ALTER TABLE `group_adminship` DISABLE KEYS */;
+/*!40000 ALTER TABLE `group_adminship` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `group_inviteship`
+--
+
+DROP TABLE IF EXISTS `group_inviteship`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `group_inviteship` (
+  `user_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`, `group_id`),
+  KEY `user_id` (`user_id`),
+  KEY `group_id` (`group_id`),
+  CONSTRAINT `group_inviteship_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `group_inviteship_group__fk` FOREIGN KEY (`group_id`) REFERENCES `group_t` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `group_inviteship`
+--
+
+LOCK TABLES `group_inviteship` WRITE;
+/*!40000 ALTER TABLE `group_inviteship` DISABLE KEYS */;
+/*!40000 ALTER TABLE `group_inviteship` ENABLE KEYS */;
+UNLOCK TABLES;
+
 
 --
 -- Table structure for table `group_t`
