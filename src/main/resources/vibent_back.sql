@@ -260,9 +260,17 @@ DROP TABLE IF EXISTS `free_bubble`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `free_bubble` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) DEFAULT NULL,
+  `title` varchar(500) DEFAULT NULL,
   `content` varchar(1000) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `event_id` int(11) NOT NULL,
+  `creator_id` int(11) NOT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckBoxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
+  `type` varchar(20) DEFAULT 'FreeBubble',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `free_bubble_id` (`id`),
+  CONSTRAINT `free_bubble_user__fk` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `free_bubble_event__fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

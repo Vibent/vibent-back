@@ -1,26 +1,20 @@
 package com.vibent.vibentback.bubble.free;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-
+import com.vibent.vibentback.bubble.Bubble;
+import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
-@Data
+@Setter
+@Getter
 @Entity
-@NoArgsConstructor
-@RequiredArgsConstructor
-public class FreeBubble {
+@SQLDelete(sql = "UPDATE alimentation_bubble SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
+public class FreeBubble extends Bubble {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
     @NonNull
     private String title;
-    @NonNull
+
     private String content;
 }
