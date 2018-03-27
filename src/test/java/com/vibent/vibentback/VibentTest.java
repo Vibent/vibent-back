@@ -29,13 +29,10 @@ public class VibentTest {
     protected GroupT RANDOM_GROUP;
     protected Event RANDOM_EVENT;
 
-    protected FreeBubble RANDOM_FREE_BUBBLE;
-
     protected void setUp() {
         RANDOM_USER = new User(UUID.randomUUID().toString(), "test", "test", "test@test.com", "test", "test");
         RANDOM_GROUP = new GroupT(UUID.randomUUID().toString(), "test");
         RANDOM_EVENT = new Event(UUID.randomUUID().toString(), RANDOM_GROUP.getRef(), "test", "test", new Date(), new Date());
-        RANDOM_FREE_BUBBLE = new FreeBubble("free", "free");
     }
 
     protected String getJsonString(Object object) throws JsonProcessingException {
