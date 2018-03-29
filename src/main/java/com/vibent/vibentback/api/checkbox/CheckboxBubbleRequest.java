@@ -12,6 +12,5 @@ public class CheckboxBubbleRequest {
     private String eventRef;
     @NotNull
     @Size(max = 500, min = 1)
-    @NotNull
     private String title;
 }

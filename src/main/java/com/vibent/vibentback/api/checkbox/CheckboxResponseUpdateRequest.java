@@ -10,6 +10,5 @@ import javax.validation.constraints.Size;
 public class CheckboxResponseUpdateRequest {
     @NotNull
     @Size(max = 500, min = 1)
-    @NonNull
     private String content;
 }
