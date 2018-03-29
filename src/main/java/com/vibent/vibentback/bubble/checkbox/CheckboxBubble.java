@@ -1,25 +1,33 @@
 package com.vibent.vibentback.bubble.checkbox;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vibent.vibentback.bubble.Bubble;
+import com.vibent.vibentback.bubble.checkbox.entry.CheckboxResponse;
+import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
-@Data
+@Setter
+@Getter
 @Entity
-@NoArgsConstructor
-@RequiredArgsConstructor
-public class CheckboxBubble {
+@SQLDelete(sql = "UPDATE checkbox_bubble SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
+public class CheckboxBubble extends Bubble{
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
     @NonNull
     private String title;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bubble", cascade = CascadeType.ALL)
+    private Set<CheckboxResponse> responses;
+
+    @JsonProperty
+    public Set<CheckboxResponse> getResponses(){
+        return responses;
+    }
 
 }

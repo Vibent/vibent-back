@@ -81,7 +81,7 @@ public class SurveyService {
         answerRepository.deleteById(id);
     }
 
-    // Survey Bubble user answer -------------------------------------------------------------
+    // Survey Bubble user entry -------------------------------------------------------------
 
     public SurveyBubble createUserAnswer(UsersSurveyAnswersRequest request) {
         SurveyAnswer answer = answerRepository.findById(request.getSurveyAnswerId())

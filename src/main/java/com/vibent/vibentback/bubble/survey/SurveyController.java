@@ -48,41 +48,41 @@ public class SurveyController {
     // Survey Bubble Answer -------------------------------------------------------------
 
     @ResponseStatus(value = HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST, value = "/answer",
+    @RequestMapping(method = RequestMethod.POST, value = "/entry",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     SurveyBubble createAnswer(@RequestBody SurveyAnswerRequest answer) {
-        log.info("Creating survey answer with body : {}", answer.toString());
+        log.info("Creating survey entry with body : {}", answer.toString());
         return service.createAnswer(answer);
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, value = "/answer/{id}",
+    @RequestMapping(method = RequestMethod.PATCH, value = "/entry/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     SurveyBubble updateAnswer(@PathVariable Long id, @RequestBody SurveyAnswerUpdateRequest answer) {
-        log.info("Updating survey answer with id {} and body : {}", id, answer.toString());
+        log.info("Updating survey entry with id {} and body : {}", id, answer.toString());
         return service.updateAnswer(id, answer);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @RequestMapping(method = RequestMethod.DELETE, value = "/answer/{id}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/entry/{id}")
     void deleteAnswer(@PathVariable Long id) {
-        log.info("Deleting survey answer for with id {}", id);
+        log.info("Deleting survey entry for with id {}", id);
         service.deleteAnswer(id);
     }
 
-    // Survey Bubble User answer -------------------------------------------------------------
+    // Survey Bubble User entry -------------------------------------------------------------
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/useranswer",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     SurveyBubble createUserAnswer(@RequestBody UsersSurveyAnswersRequest userAnswer) {
-        log.info("Creating survey user answer with body : {}", userAnswer.toString());
+        log.info("Creating survey user entry with body : {}", userAnswer.toString());
         return service.createUserAnswer(userAnswer);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/useranswer/{id}")
     void deleteBubbleUserAnswer(@PathVariable Long id) {
-        log.info("Deleting survey user answer with id {}", id);
+        log.info("Deleting survey user entry with id {}", id);
         service.deleteUserAnswer(id);
     }
 }

@@ -57,7 +57,7 @@ DROP TABLE IF EXISTS `alimentation_bubble`;
 CREATE TABLE `alimentation_bubble` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) NOT NULL,
-  `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckBoxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
+  `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckboxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
   `creator_id` int(11) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `type` varchar(20) DEFAULT 'AlimentationBubble',
@@ -136,31 +136,34 @@ LOCK TABLES `attached_request` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `checkbox_answer`
+-- Table structure for table `checkbox_response`
 --
 
-DROP TABLE IF EXISTS `checkbox_answer`;
+DROP TABLE IF EXISTS `checkbox_response`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `checkbox_answer` (
+CREATE TABLE `checkbox_response` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bubble_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `content` varchar(500) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `checkbox_answer_id` (`id`),
-  KEY `checkbox_answer_bubble__fk` (`bubble_id`),
-  CONSTRAINT `checkbox_answer_bubble__fk` FOREIGN KEY (`bubble_id`) REFERENCES `checkbox_bubble` (`id`)
+  UNIQUE KEY `checkbox_response_id` (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `checkbox_response_bubble__fk` (`bubble_id`),
+  CONSTRAINT `checkbox_response_bubble__fk` FOREIGN KEY (`bubble_id`) REFERENCES `checkbox_bubble` (`id`),
+  CONSTRAINT `checkbox_response_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `checkbox_answer`
+-- Dumping data for table `checkbox_response`
 --
 
-LOCK TABLES `checkbox_answer` WRITE;
-/*!40000 ALTER TABLE `checkbox_answer` DISABLE KEYS */;
-/*!40000 ALTER TABLE `checkbox_answer` ENABLE KEYS */;
+LOCK TABLES `checkbox_response` WRITE;
+/*!40000 ALTER TABLE `checkbox_response` DISABLE KEYS */;
+/*!40000 ALTER TABLE `checkbox_response` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -173,8 +176,15 @@ DROP TABLE IF EXISTS `checkbox_bubble`;
 CREATE TABLE `checkbox_bubble` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(500) DEFAULT NULL,
+  `event_id` int(11) NOT NULL,
+  `creator_id` int(11) NOT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckboxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
+  `type` varchar(20) DEFAULT 'CheckboxBubble',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `checkbox_bubble_id` (`id`)
+  UNIQUE KEY `checkbox_bubble_id` (`id`),
+  CONSTRAINT `checkbox_bubble_user__fk` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `checkbox_bubble_event__fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -265,7 +275,7 @@ CREATE TABLE `free_bubble` (
   `event_id` int(11) NOT NULL,
   `creator_id` int(11) NOT NULL,
   `deleted` tinyint(1) DEFAULT '0',
-  `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckBoxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
+  `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckboxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
   `type` varchar(20) DEFAULT 'FreeBubble',
   PRIMARY KEY (`id`),
   UNIQUE KEY `free_bubble_id` (`id`),
@@ -457,7 +467,7 @@ CREATE TABLE `planning_bubble` (
   `event_id` int(11) NOT NULL,
   `creator_id` int(11) NOT NULL,
   `deleted` tinyint(1) DEFAULT '0',
-  `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckBoxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
+  `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckboxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
   `type` varchar(20) DEFAULT 'PlanningBubble',
   PRIMARY KEY (`id`),
   UNIQUE KEY `planning_bubble_id` (`id`),
@@ -552,7 +562,7 @@ CREATE TABLE `survey_bubble` (
   `event_id` int(11) NOT NULL,
   `creator_id` int(11) NOT NULL,
   `deleted` tinyint(1) DEFAULT '0',
-  `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckBoxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
+  `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckboxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
   `type` varchar(20) DEFAULT 'SurveyBubble',
   PRIMARY KEY (`id`),
   UNIQUE KEY `survey_bubble_id` (`id`),
@@ -691,32 +701,32 @@ LOCK TABLES `user` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `users_checkbox_answers`
+-- Table structure for table `users_checkbox_responses`
 --
 
-DROP TABLE IF EXISTS `users_checkbox_answers`;
+DROP TABLE IF EXISTS `users_checkbox_responses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users_checkbox_answers` (
+CREATE TABLE `users_checkbox_responses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_ref` char(36) DEFAULT NULL,
-  `checkbox_answer_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `response_id` int(11) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `user_ref` (`user_ref`),
-  KEY `users_checkbox_answers_bubble__fk` (`checkbox_answer_id`),
-  CONSTRAINT `users_checkbox_answers_bubble__fk` FOREIGN KEY (`checkbox_answer_id`) REFERENCES `checkbox_answer` (`id`),
-  CONSTRAINT `users_checkbox_answers_user__fk` FOREIGN KEY (`user_ref`) REFERENCES `user` (`ref`)
+  KEY `user_id` (`user_id`),
+  KEY `users_checkbox_responses_bubble__fk` (`response_id`),
+  CONSTRAINT `users_checkbox_responses_bubble__fk` FOREIGN KEY (`response_id`) REFERENCES `checkbox_response` (`id`),
+  CONSTRAINT `users_checkbox_responses_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users_checkbox_answers`
+-- Dumping data for table `users_checkbox_responses`
 --
 
-LOCK TABLES `users_checkbox_answers` WRITE;
-/*!40000 ALTER TABLE `users_checkbox_answers` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users_checkbox_answers` ENABLE KEYS */;
+LOCK TABLES `users_checkbox_responses` WRITE;
+/*!40000 ALTER TABLE `users_checkbox_responses` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users_checkbox_responses` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
