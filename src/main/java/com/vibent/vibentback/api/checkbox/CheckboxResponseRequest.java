@@ -17,6 +17,5 @@ public class CheckboxResponseRequest {
 
     @NotNull
     @Size(max = 500, min = 1)
-    @NonNull
     private String content;
 }

@@ -8,7 +8,6 @@ import javax.validation.constraints.Size;
 
 @Data
 public class SurveyAnswerUpdateRequest {
-    @NotNull
     @Size(max = 500, min = 1)
     @NonNull
     private String content;
