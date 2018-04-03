@@ -13,7 +13,6 @@ public class SurveyAnswerRequest {
     @Min(0)
     private Long bubbleId;
 
-    @NotNull
     @Size(max = 500, min = 1)
     @NonNull
     private String content;

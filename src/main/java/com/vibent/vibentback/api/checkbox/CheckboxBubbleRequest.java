@@ -1,4 +1,4 @@
-package com.vibent.vibentback.api.bubble.survey;
+package com.vibent.vibentback.api.checkbox;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-public class SurveyBubbleRequest {
+public class CheckboxBubbleRequest {
     @NotNull
     @Size(max = 36, min = 36)
     private String eventRef;

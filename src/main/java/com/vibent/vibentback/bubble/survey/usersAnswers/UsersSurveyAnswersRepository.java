@@ -22,5 +22,6 @@ public interface UsersSurveyAnswersRepository extends CrudRepository<UsersSurvey
             "JOIN survey_answer answer ON bubble.id = answer.bubble_id\n" +
             "JOIN users_survey_answers userAnswer ON answer.id = userAnswer.survey_answer_id\n" +
             "WHERE userAnswer.id = :id", nativeQuery = true)
+
     Long getBubbleId(@Param("id") Long id);
 }
