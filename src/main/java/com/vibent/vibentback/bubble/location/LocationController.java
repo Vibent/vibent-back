@@ -1,7 +1,5 @@
 package com.vibent.vibentback.bubble.location;
 
-import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
-import com.vibent.vibentback.user.User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class LocationBubbleController {
 
     @Autowired
-    LocationBubbleService service;
+    LocationService service;
 
     // Location Bubble
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
