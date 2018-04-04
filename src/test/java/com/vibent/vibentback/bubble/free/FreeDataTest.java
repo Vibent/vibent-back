@@ -54,7 +54,7 @@ public class FreeDataTest extends VibentTest {
     }
 
     @Test
-    public void testAddAlimentationBubble() {
+    public void testAddFreeBubble() {
         RANDOM_BUBBLE = bubbleRepository.save(RANDOM_BUBBLE);
 
         Assert.assertNotNull(bubbleRepository.findById(RANDOM_BUBBLE.getId()));

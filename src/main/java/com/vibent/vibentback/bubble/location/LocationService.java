@@ -1,48 +1,52 @@
 package com.vibent.vibentback.bubble.location;
 
+import com.vibent.vibentback.Mock;
+import com.vibent.vibentback.api.location.LocationBubbleUpdateRequest;
+import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.common.ObjectUpdater;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
+import com.vibent.vibentback.event.Event;
+import com.vibent.vibentback.event.EventRepository;
+import com.vibent.vibentback.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class LocationBubbleService {
+public class LocationService {
 
-    LocationBubbleRepository locationBubbleRepository;
+    LocationBubbleRepository bubbleRepository;
+    EventRepository eventRepository;
+    UserRepository userRepository;
 
+    // Location Bubble -------------------------------------------------------------
     public LocationBubble getBubble(long id) {
-        LocationBubble locationBubble = locationBubbleRepository.findById(id);
-        if (locationBubble == null)
-            throw new VibentException(VibentError.BUBBLE_NOT_FOUND);
-        return locationBubble;
+        return bubbleRepository.findById(id).orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
     }
 
     public LocationBubble createBubble(String eventRef) {
-        return null;
+        Event event = eventRepository.findByRef(eventRef)
+                .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
+        LocationBubble locationBubble = new LocationBubble();
+        locationBubble.setEvent(event);
+        locationBubble.setCreator(Mock.getConnectedUser(userRepository));
+        locationBubble.setDeleted(false);
+        locationBubble.setType(BubbleType.LocationBubble);
+        locationBubble = bubbleRepository.save(locationBubble);
+        return locationBubble;
+    }
+
+    public LocationBubble updateBubble(long id, LocationBubbleUpdateRequest update) {
+        LocationBubble bubble = bubbleRepository.findById(id)
+                .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
+        ObjectUpdater.updateProperties(update, bubble);
+        bubbleRepository.save(bubble);
+        return bubble;
     }
 
     public void deleteBubble(long id) {
-        locationBubbleRepository.deleteById(id);
-    }
-
-    public LocationBubble addBubble(LocationBubble locationBubble) {
-        try {
-            LocationBubble created = locationBubbleRepository.save(locationBubble);
-        } catch (Exception e) {
-            throw new VibentException(VibentError.BUBBLE_CANT_CREATE);
-        }
-        return locationBubbleRepository.save(locationBubble);
-    }
-
-    public LocationBubble updateBubble(long id, LocationBubble newLocationBubble) {
-        LocationBubble existing = locationBubbleRepository.findById(id);
-        if (existing == null)
-            throw new VibentException(VibentError.BUBBLE_NOT_FOUND);
-        ObjectUpdater.updateProperties(existing, newLocationBubble);
-        return locationBubbleRepository.save(existing);
-
+        bubbleRepository.deleteById(id);
     }
 }
