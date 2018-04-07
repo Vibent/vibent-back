@@ -1,5 +1,6 @@
 package com.vibent.vibentback.bubble.location;
 
+import com.vibent.vibentback.api.location.LocationBubbleRequest;
 import com.vibent.vibentback.api.location.LocationBubbleUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,10 +27,11 @@ public class LocationController {
     }
 
     @ResponseStatus(value = HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST)
-    LocationBubble createBubble(@RequestBody String eventRef) {
-        log.info("Creating location bubble");
-        return service.createBubble(eventRef);
+    @RequestMapping(method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    LocationBubble createBubble(@RequestBody LocationBubbleRequest request) {
+        log.info("Creating free bubble for event with ref {}", request.getEventRef());
+        return service.createBubble(request.getEventRef());
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
