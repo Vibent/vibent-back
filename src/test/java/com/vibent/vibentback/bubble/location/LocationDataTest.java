@@ -1,7 +1,10 @@
-package com.vibent.vibentback.bubble.free;
+package com.vibent.vibentback.bubble.location;
 
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.bubble.BubbleType;
+import com.vibent.vibentback.bubble.free.FreeBubbleRepository;
+import com.vibent.vibentback.bubble.location.LocationBubble;
+import com.vibent.vibentback.bubble.location.LocationBubbleRepository;
 import javax.transaction.Transactional;
 
 import com.vibent.vibentback.event.EventRepository;
@@ -20,10 +23,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 @Transactional
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class FreeDataTest extends VibentTest {
+public class LocationDataTest extends VibentTest {
+
 
     @Autowired
-    FreeBubbleRepository bubbleRepository;
+    LocationBubbleRepository bubbleRepository;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -31,7 +35,7 @@ public class FreeDataTest extends VibentTest {
     @Autowired
     GroupTRepository groupTRepository;
 
-    FreeBubble RANDOM_BUBBLE;
+    LocationBubble RANDOM_BUBBLE;
 
     @Before
     public void setUp() {
@@ -43,22 +47,20 @@ public class FreeDataTest extends VibentTest {
 
         log.info("{}",RANDOM_EVENT.getRef());
 
-        RANDOM_BUBBLE = new FreeBubble();
+        RANDOM_BUBBLE = new LocationBubble();
         RANDOM_BUBBLE.setDeleted(false);
         RANDOM_BUBBLE.setCreator(RANDOM_USER);
         RANDOM_BUBBLE.setEvent(RANDOM_EVENT);
         RANDOM_BUBBLE.setType(BubbleType.FreeBubble);
-        RANDOM_BUBBLE.setContent("Content For Test");
-        RANDOM_BUBBLE.setTitle("Title For Test");
+        RANDOM_BUBBLE.setCoord("Coord For Test");
         RANDOM_BUBBLE = bubbleRepository.save(RANDOM_BUBBLE);
     }
 
     @Test
-    public void testAddFreeBubble() {
+    public void testAddLocationBubble() {
         RANDOM_BUBBLE = bubbleRepository.save(RANDOM_BUBBLE);
 
         Assert.assertNotNull(bubbleRepository.findById(RANDOM_BUBBLE.getId()));
     }
-
 
 }

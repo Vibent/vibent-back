@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class FreeController {
 
-    @Autowired
     FreeService service;
 
 // Free Bubble -------------------------------------------------------------

@@ -441,7 +441,15 @@ DROP TABLE IF EXISTS `location_bubble`;
 CREATE TABLE `location_bubble` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `coord` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `event_id` int(11) NOT NULL,
+  `creator_id` int(11) NOT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckboxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
+  `type` varchar(20) DEFAULT 'LocationBubble',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `location_bubble_id` (`id`),
+  CONSTRAINT `location_bubble_user__fk` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `location_bubble_event__fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
