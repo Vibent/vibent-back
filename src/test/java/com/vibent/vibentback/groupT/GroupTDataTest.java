@@ -2,6 +2,9 @@ package com.vibent.vibentback.groupT;
 
 import com.vibent.vibentback.VibentTest;
 import javax.transaction.Transactional;
+
+import com.vibent.vibentback.error.VibentError;
+import com.vibent.vibentback.error.VibentException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -44,7 +47,8 @@ public class GroupTDataTest extends VibentTest {
 
     @Test
     public void testGetGroupT() {
-        GroupT groupT = repository.findByRef(RANDOM_GROUP.getRef());
+        GroupT groupT = repository.findByRef(RANDOM_GROUP.getRef())
+                .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
         Assert.assertNotNull(groupT.getRef());
     }
 

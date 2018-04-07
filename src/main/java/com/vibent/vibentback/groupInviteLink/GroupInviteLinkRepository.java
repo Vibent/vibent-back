@@ -2,7 +2,7 @@ package com.vibent.vibentback.groupInviteLink;
 
 import org.springframework.data.repository.CrudRepository;
 
-
+import java.util.Set;
 
 
 public interface GroupInviteLinkRepository extends CrudRepository<GroupInviteLink, Long> {
@@ -11,6 +11,6 @@ public interface GroupInviteLinkRepository extends CrudRepository<GroupInviteLin
 
     GroupInviteLink findByHash(String hash);
 
-    Iterable<GroupInviteLink> findByGroupRef(String ref);
+    Set<GroupInviteLink> findByGroupRef(String ref);
 
 }

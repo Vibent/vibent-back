@@ -2,6 +2,8 @@ package com.vibent.vibentback.user;
 
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.common.ObjectUpdater;
+import com.vibent.vibentback.error.VibentError;
+import com.vibent.vibentback.error.VibentException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Assert;
@@ -45,7 +47,8 @@ public class UserDataTest extends VibentTest {
 
     @Test
     public void testGetUser() {
-        User user = repository.findByRef(RANDOM_USER.getRef());
+        User user = repository.findByRef(RANDOM_USER.getRef())
+                .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         Assert.assertNotNull(user.getRef());
     }
 
@@ -62,7 +65,8 @@ public class UserDataTest extends VibentTest {
         newUser.setRef("newRefShouldNotUpdate");
         newUser.setId(-1L);
         newUser.setFirstName("NewFirstNameShouldUpdate");
-        User old = repository.findByRef(RANDOM_USER.getRef());
+        User old = repository.findByRef(RANDOM_USER.getRef())
+                .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         String oldLastNameShouldNotUpdate = old.getLastName();
 
         // To test

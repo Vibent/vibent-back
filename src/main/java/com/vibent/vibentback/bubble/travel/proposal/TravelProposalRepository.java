@@ -6,13 +6,16 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.Set;
 
 
 public interface TravelProposalRepository extends CrudRepository<TravelProposal, Long> {
 
     TravelProposal findById(long id);
-    Iterable<TravelProposal> findByBubbleId(long id);
-    Iterable<TravelProposal> findByDriverRef(String ref);
+
+    Set<TravelProposal> findByBubbleId(long id);
+
+    Set<TravelProposal> findByDriverRef(String ref);
 
     @Transactional
     int deleteById(long id);

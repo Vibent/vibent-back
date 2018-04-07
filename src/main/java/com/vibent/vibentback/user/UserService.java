@@ -16,9 +16,8 @@ public class UserService {
     UserRepository userRepository;
 
     public User getUser(String ref) {
-        User user = userRepository.findByRef(ref);
-        if (user == null)
-            throw new VibentException(VibentError.USER_NOT_FOUND);
+        User user = userRepository.findByRef(ref)
+                .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         return user;
     }
 
@@ -37,7 +36,8 @@ public class UserService {
     }
 
     public User updateUser(String userRef, User newUser) {
-        User existing = userRepository.findByRef(userRef);
+        User existing = userRepository.findByRef(userRef)
+                .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         ObjectUpdater.updateProperties(existing, newUser);
         return userRepository.save(existing);
     }
