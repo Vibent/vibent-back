@@ -6,16 +6,17 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
-
+import java.util.Optional;
+import java.util.Set;
 
 
 public interface GroupTRepository extends CrudRepository<GroupT, Long> {
 
-    GroupT findById(long id);
+    Optional<GroupT> findById(long id);
 
-    GroupT findByRef(String ref);
+    Optional<GroupT> findByRef(String ref);
 
-    Iterable<GroupT> findByName(String name);
+    Set<GroupT> findByName(String name);
 
     @Transactional
     int deleteByRef(String ref);

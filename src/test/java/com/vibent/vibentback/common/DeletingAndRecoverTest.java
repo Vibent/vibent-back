@@ -1,6 +1,8 @@
 package com.vibent.vibentback.common;
 
 import com.vibent.vibentback.VibentTest;
+import com.vibent.vibentback.error.VibentError;
+import com.vibent.vibentback.error.VibentException;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
 import javax.transaction.Transactional;
@@ -30,17 +32,18 @@ public class DeletingAndRecoverTest extends VibentTest {
     @Test
     public void deleteTest(){
         User user = repository.save(RANDOM_USER);
-        user = repository.findByRef(user.getRef());
+        user = repository.findByRef(user.getRef())
+                .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         Assert.assertNotNull(repository.findByRef(user.getRef()));
         repository.deleteByRef(user.getRef());
-        Assert.assertNull(repository.findByRef(user.getRef()));
+        Assert.assertFalse(repository.findByRef(user.getRef()).isPresent());
     }
 
     @Test
     public void recoverTest(){
         User user = repository.save(RANDOM_USER);
         repository.deleteByRef(user.getRef());
-        Assert.assertNull(repository.findByRef(user.getRef()));
+        Assert.assertFalse(repository.findByRef(user.getRef()).isPresent());
 
         Assert.assertEquals(1, repository.recover(user.getRef()));
         Assert.assertNotNull(repository.findByRef(user.getRef()));

@@ -1,6 +1,7 @@
 package com.vibent.vibentback.groupT;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.vibent.vibentback.eventParticipation.EventParticipation;
 import com.vibent.vibentback.user.User;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;

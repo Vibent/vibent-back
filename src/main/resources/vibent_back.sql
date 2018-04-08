@@ -240,15 +240,15 @@ DROP TABLE IF EXISTS `event_participation`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `event_participation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_ref` char(36) DEFAULT NULL,
-  `group_ref` char(36) DEFAULT NULL,
-  `answer` enum('Yes','No','Maybe','Unanswered') DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
+  `answer` enum('YES','NO','MAYBE','UNANSWERED') DEFAULT 'UNANSWERED',
   `is_visible` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_ref` (`user_ref`),
-  KEY `group_ref` (`group_ref`),
-  CONSTRAINT `event_participation_group__fk` FOREIGN KEY (`group_ref`) REFERENCES `group_t` (`ref`),
-  CONSTRAINT `event_participation_user__fk` FOREIGN KEY (`user_ref`) REFERENCES `user` (`ref`)
+  KEY `user_id` (`user_id`),
+  KEY `event_id` (`event_id`),
+  CONSTRAINT `event_participation_event__fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`),
+  CONSTRAINT `event_participation_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

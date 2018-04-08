@@ -1,24 +1,48 @@
 package com.vibent.vibentback.eventParticipation;
 
+import com.vibent.vibentback.api.eventParticipation.UpdateEventParticipationRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.Set;
 
 @Slf4j
 @RestController
-@RequestMapping("/eventparticipation")
+@RequestMapping("/participation")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class EventParticipationController {
 
     private final EventParticipationService eventParticipationService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    EventParticipation getEventParticipation(@PathVariable long id) {
-        log.info("Get group with id : {}", id);
-        return eventParticipationService.getEventParticipation(id);
+    /**
+     * Get all EventParticipations relating to a specific event
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/event/{eventRef}")
+    Set<EventParticipation> getEventParticipations(@PathVariable String eventRef) {
+        log.info("Get event participations for event : {}", eventRef);
+        return eventParticipationService.getEventParticipations(eventRef);
+    }
+
+    /**
+     * Get all EventParticipations relating to a specific user
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/user/{userRef}")
+    Set<EventParticipation> getUserParticipations(@PathVariable String userRef) {
+        log.info("Get event participations for user : {}", userRef);
+        return eventParticipationService.getUsersEventParticipations(userRef);
+    }
+
+    /**
+     * Update an event participation - this can be to set it to visible or not or to change
+     * the answer
+     */
+    @RequestMapping(method = RequestMethod.PATCH, value = "/{participationId}")
+    EventParticipation updateEventParticipation(@PathVariable Long participationId, @Valid @RequestBody UpdateEventParticipationRequest request) {
+        log.info("Update event participation with id {} and body {}", participationId, request);
+        return eventParticipationService.updateEventParticipation(participationId, request);
     }
 }

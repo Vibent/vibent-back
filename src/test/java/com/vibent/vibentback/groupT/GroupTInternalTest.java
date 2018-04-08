@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 import static org.mockito.Mockito.when;
 
 @Slf4j
@@ -33,7 +35,7 @@ public class GroupTInternalTest extends VibentTest {
     public void setUp(){
         super.setUp();
         MockitoAnnotations.initMocks(this);
-        when(groupTRepository.findByRef(RANDOM_GROUP.getRef())).thenReturn(RANDOM_GROUP);
+        when(groupTRepository.findByRef(RANDOM_GROUP.getRef())).thenReturn(Optional.ofNullable(RANDOM_GROUP));
         when(groupTRepository.save(RANDOM_GROUP)).thenReturn(RANDOM_GROUP);
         when(groupTRepository.deleteByRef(RANDOM_GROUP.getRef())).thenReturn(1);
     }

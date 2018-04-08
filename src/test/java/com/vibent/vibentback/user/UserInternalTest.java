@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 import static org.mockito.Mockito.when;
 
 @Slf4j
@@ -32,7 +34,7 @@ public class UserInternalTest extends VibentTest {
     public void setUp() {
         super.setUp();
         MockitoAnnotations.initMocks(this);
-        when(userRepository.findByRef(RANDOM_USER.getRef())).thenReturn(RANDOM_USER);
+        when(userRepository.findByRef(RANDOM_USER.getRef())).thenReturn(Optional.ofNullable(RANDOM_USER));
         when(userRepository.save(RANDOM_USER)).thenReturn(RANDOM_USER);
         when(userRepository.deleteByRef(RANDOM_USER.getRef())).thenReturn(1);
     }

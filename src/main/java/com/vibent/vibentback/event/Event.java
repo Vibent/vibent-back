@@ -3,22 +3,22 @@ package com.vibent.vibentback.event;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import com.vibent.vibentback.eventParticipation.EventParticipation;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
+@EqualsAndHashCode(of = "id")
 @SQLDelete(sql = "UPDATE event SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class Event implements Serializable {
@@ -44,6 +44,10 @@ public class Event implements Serializable {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
-    private Set<AlimentationBubble> alimentationBubbles;
+    private Set<EventParticipation> participations = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
+    private Set<AlimentationBubble> alimentationBubbles = new HashSet<>();
 
 }

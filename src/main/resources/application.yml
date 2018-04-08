@@ -1,28 +1,33 @@
-# Default data source
+spring.profiles.active: local
+
+# All envs
 spring:
   datasource:
-    url: jdbc:mysql://localhost/vibent_back?useUnicode=yes&characterEncoding=UTF-8
-    username: root
-    password: root
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
     show-sql: true
     hibernate.naming.physical-strategy: com.vibent.vibentback.config.VibentPhysicalNamingStrategy
 
+---
+# Local configuration
+spring:
+  profiles: local, test
+  datasource:
+    url: jdbc:mysql://localhost/vibent_back?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: root
 
-# Logging config
 logging.level:
   org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG #DEBUG for more info
 
 ---
-# Deployed config
+# Deployed configuration
 spring:
   profiles: prod
 
   datasource:
-    url: #fill in
+    url: #fill in. Should have SSL active
     username: #fill
     password: #fill
-
 
 ---

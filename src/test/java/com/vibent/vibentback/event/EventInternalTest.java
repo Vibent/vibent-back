@@ -1,6 +1,9 @@
 package com.vibent.vibentback.event;
 
 import com.vibent.vibentback.VibentTest;
+import com.vibent.vibentback.eventParticipation.EventParticipation;
+import com.vibent.vibentback.eventParticipation.EventParticipationRepository;
+import com.vibent.vibentback.groupT.GroupTRepository;
 import com.vibent.vibentback.user.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -15,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -31,13 +35,28 @@ public class EventInternalTest extends VibentTest {
     @MockBean
     private EventRepository eventRepository;
 
+    @MockBean
+    EventParticipationRepository eventParticipationRepository;
+
+    @MockBean
+    GroupTRepository groupTRepository;
+
     @Before
     public void setUp(){
         super.setUp();
         MockitoAnnotations.initMocks(this);
+
+        EventParticipation participation = new EventParticipation();
+        participation.setUser(RANDOM_USER);
+        participation.setEvent(RANDOM_EVENT);
+        participation.setVisible(true);
+        participation.setAnswer(EventParticipation.Answer.UNANSWERED);
+
         when(eventRepository.findByRef(RANDOM_EVENT.getRef())).thenReturn(Optional.of(RANDOM_EVENT));
         when(eventRepository.save(RANDOM_EVENT)).thenReturn(RANDOM_EVENT);
         when(eventRepository.deleteByRef(RANDOM_EVENT.getRef())).thenReturn(1);
+        when(eventParticipationRepository.save(participation)).thenReturn(participation);
+        when(groupTRepository.findByRef(RANDOM_GROUP.getRef())).thenReturn(Optional.ofNullable(RANDOM_GROUP));
     }
 
     @Test

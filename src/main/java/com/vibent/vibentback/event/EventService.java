@@ -3,6 +3,9 @@ package com.vibent.vibentback.event;
 import com.vibent.vibentback.common.ObjectUpdater;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
+import com.vibent.vibentback.eventParticipation.EventParticipation;
+import com.vibent.vibentback.eventParticipation.EventParticipationRepository;
+import com.vibent.vibentback.eventParticipation.EventParticipationService;
 import com.vibent.vibentback.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,8 @@ import org.springframework.stereotype.Service;
 public class EventService {
 
     EventRepository eventRepository;
+
+    EventParticipationService eventParticipationService;
 
     public Event getEvent(String ref) {
         return eventRepository.findByRef(ref)
@@ -25,6 +30,8 @@ public class EventService {
     }
 
     public Event addEvent(Event event) {
+        event = eventRepository.save(event);
+        eventParticipationService.createAllEventParticipations(event);
         return eventRepository.save(event);
     }
 
