@@ -597,8 +597,14 @@ DROP TABLE IF EXISTS `travel_bubble`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `travel_bubble` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_id` int(11) NOT NULL,
+  `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckboxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
+  `creator_id` int(11) DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `type` varchar(20) DEFAULT 'TravelBubble',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `travel_bubble_id` (`id`)
+  CONSTRAINT `travel_bubble_event__fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`),
+  CONSTRAINT `travel_bubble_user__fk` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -621,16 +627,16 @@ DROP TABLE IF EXISTS `travel_proposal`;
 CREATE TABLE `travel_proposal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bubble_id` int(11) DEFAULT NULL,
-  `driver_ref` char(36) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `capacity` int(11) DEFAULT NULL,
   `pass_by_cities` varchar(500) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `travel_proposal_id` (`id`),
-  KEY `driver_ref` (`driver_ref`),
+  KEY `user_id` (`user_id`),
   KEY `travel_proposal_bubble__fk` (`bubble_id`),
   CONSTRAINT `travel_proposal_bubble__fk` FOREIGN KEY (`bubble_id`) REFERENCES `travel_bubble` (`id`),
-  CONSTRAINT `travel_proposal_driver__fk` FOREIGN KEY (`driver_ref`) REFERENCES `user` (`ref`)
+  CONSTRAINT `travel_proposal_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -652,17 +658,17 @@ DROP TABLE IF EXISTS `travel_request`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `travel_request` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `creator_ref` char(36) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `bubble_id` int(11) DEFAULT NULL,
   `capacity` int(11) DEFAULT NULL,
-  `attached_to_proposal` tinyint(1) DEFAULT NULL,
+  `is_attached_to_proposal` tinyint(1) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `travel_request_id` (`id`),
-  KEY `creator_ref` (`creator_ref`),
+  KEY `user_id` (`user_id`),
   KEY `travel_request_bubble__fk` (`bubble_id`),
   CONSTRAINT `travel_request_bubble__fk` FOREIGN KEY (`bubble_id`) REFERENCES `travel_bubble` (`id`),
-  CONSTRAINT `travel_request_creator__fk` FOREIGN KEY (`creator_ref`) REFERENCES `user` (`ref`)
+  CONSTRAINT `travel_request_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

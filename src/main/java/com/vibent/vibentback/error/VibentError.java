@@ -28,6 +28,9 @@ public enum VibentError {
     ENTRY_NOT_FOUND("entry-not-found", HttpStatus.NOT_FOUND, "The requested entry can not be found"),
     BRING_NOT_FOUND("bring-not-found", HttpStatus.NOT_FOUND, "The requested bring can not be found"),
 
+    PROPOSAL_NOT_FOUND("proposal-not-found", HttpStatus.NOT_FOUND, "The requested proposal can not be found"),
+    REQUEST_NOT_FOUND("travel-request-not-found", HttpStatus.NOT_FOUND, "The requested travel request can not be found"),
+
     ANSWER_NOT_FOUND("entry-not-found", HttpStatus.NOT_FOUND, "The requested entry can not be found"),
     USER_ANSWER_NOT_FOUND("user-entry-not-found", HttpStatus.NOT_FOUND, "The requested user entry can not be found"),
 

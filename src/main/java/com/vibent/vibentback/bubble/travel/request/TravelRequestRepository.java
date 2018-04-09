@@ -10,19 +10,12 @@ import javax.transaction.Transactional;
 
 public interface TravelRequestRepository extends CrudRepository<TravelRequest, Long> {
 
-    TravelRequest findById(long id);
-    Iterable<TravelRequest> findByBubbleId(long id);
-    Iterable<TravelRequest> findByCreatorRef(String ref);
-
-    @Transactional
-    int deleteById(long id);
-
     @Modifying
     @Transactional
     @Query(value = "UPDATE travel_request SET deleted = FALSE WHERE id = :id", nativeQuery = true)
-    int recover(@Param("id") long id);
+    int recover(@Param("id") Long id);
 
     @Query(value = "SELECT deleted FROM travel_request WHERE id = :id", nativeQuery = true)
-    boolean isDeleted(@Param("id") long id);
+    boolean isDeleted(@Param("id") Long id);
 
 }
