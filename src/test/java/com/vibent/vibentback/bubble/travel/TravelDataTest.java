@@ -62,7 +62,7 @@ public class TravelDataTest extends VibentTest {
         RANDOM_BUBBLE = bubbleRepository.save(RANDOM_BUBBLE);
 
         RANDOM_REQUEST = new TravelRequest();
-        RANDOM_REQUEST.setIsAttachedToProposal(true);
+        RANDOM_REQUEST.setProposal(RANDOM_PROPOSAL);
         RANDOM_REQUEST.setUser(RANDOM_USER);
         RANDOM_REQUEST.setDeleted(false);
         RANDOM_REQUEST.setCapacity(1);

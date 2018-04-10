@@ -93,7 +93,6 @@ public class TravelService {
         TravelRequest travelRequest = new TravelRequest();
         travelRequest.setCapacity(request.getCapacity());
         travelRequest.setUser(Mock.getConnectedUser(userRepository));
-        travelRequest.setIsAttachedToProposal(request.getIsAttachedToProposal());
         travelRequest.setDeleted(false);
         requestRepository.save(travelRequest);
         return bubble;
@@ -102,7 +101,6 @@ public class TravelService {
     public TravelBubble updateRequest(Long id, TravelRequestUpdateRequest request) {
         TravelRequest travelRequest = requestRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.TRAVEL_REQUEST_NOT_FOUND));
-        travelRequest.setIsAttachedToProposal(request.getIsAttachedToProposal());
         travelRequest.setCapacity(request.getCapacity());
         return travelRequest.getBubble();
     }

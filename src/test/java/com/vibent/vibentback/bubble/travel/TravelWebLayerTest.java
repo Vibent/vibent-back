@@ -79,7 +79,7 @@ public class TravelWebLayerTest extends VibentTest {
         RANDOM_REQUEST.setId(546L);
         RANDOM_REQUEST.setBubble(RANDOM_BUBBLE);
         RANDOM_REQUEST.setDeleted(false);
-        RANDOM_REQUEST.setIsAttachedToProposal(true);
+        RANDOM_REQUEST.setProposal(RANDOM_PROPOSAL);
         RANDOM_REQUEST.setUser(RANDOM_USER);
         RANDOM_REQUEST.setCapacity(1);
 

@@ -2,7 +2,9 @@ package com.vibent.vibentback.bubble.travel.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import com.vibent.vibentback.bubble.travel.TravelBubble;
+import com.vibent.vibentback.bubble.travel.proposal.TravelProposal;
 import com.vibent.vibentback.user.User;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -36,8 +38,10 @@ public class TravelRequest {
 
     private Integer capacity;
 
+    @ManyToOne
     @JsonIgnore
-    private Boolean isAttachedToProposal;
+    @PrimaryKeyJoinColumn
+    private TravelProposal proposal;
 
     @JsonIgnore
     private Boolean deleted;

@@ -13,5 +13,5 @@ public class TravelRequestRequest {
     @NotNull
     @Min(1)
     private Integer capacity;
-    private Boolean isAttachedToProposal;
+
 }

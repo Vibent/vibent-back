@@ -32,7 +32,7 @@ public class TravelProposal {
     private TravelBubble bubble;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bubble", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "proposal", cascade = CascadeType.ALL)
     private Set<TravelRequest> requests;
 
     @ManyToOne

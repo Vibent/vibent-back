@@ -661,12 +661,14 @@ CREATE TABLE `travel_request` (
   `user_id` int(11) DEFAULT NULL,
   `bubble_id` int(11) DEFAULT NULL,
   `capacity` int(11) DEFAULT NULL,
-  `is_attached_to_proposal` tinyint(1) DEFAULT NULL,
+  `proposal_id`  int(11) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `travel_request_id` (`id`),
   KEY `user_id` (`user_id`),
   KEY `travel_request_bubble__fk` (`bubble_id`),
+  KEY `travel_request_proposal__fk` (`proposal_id`),
+  CONSTRAINT `travel_request_proposal__fk` FOREIGN KEY (`proposal_id`) REFERENCES `travel_propsal` (`id`),
   CONSTRAINT `travel_request_bubble__fk` FOREIGN KEY (`bubble_id`) REFERENCES `travel_bubble` (`id`),
   CONSTRAINT `travel_request_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
