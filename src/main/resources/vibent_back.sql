@@ -58,12 +58,12 @@ CREATE TABLE `alimentation_bubble` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) NOT NULL,
   `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckboxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
-  `creator_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `type` varchar(20) DEFAULT 'AlimentationBubble',
   PRIMARY KEY (`id`),
   CONSTRAINT `alimentation_bubble_event__fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`),
-  CONSTRAINT `alimentation_bubble_user__fk` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`)
+  CONSTRAINT `alimentation_bubble_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -89,7 +89,7 @@ CREATE TABLE `alimentation_entry` (
   `name` varchar(64) DEFAULT NULL,
   `total_requested` int(11) DEFAULT NULL,
   `total_current` int(11) DEFAULT NULL,
-  `type` enum('Food','Drink','Other') DEFAULT NULL,
+  `type` enum('FOOD','DRINK','OTHER') DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `alimentation_entry_id` (`id`),
@@ -136,34 +136,34 @@ LOCK TABLES `attached_request` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `checkbox_response`
+-- Table structure for table `checkbox_option`
 --
 
-DROP TABLE IF EXISTS `checkbox_response`;
+DROP TABLE IF EXISTS `checkbox_option`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `checkbox_response` (
+CREATE TABLE `checkbox_option` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bubble_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `content` varchar(500) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `checkbox_response_id` (`id`),
+  UNIQUE KEY `checkbox_option_id` (`id`),
   KEY `user_id` (`user_id`),
-  KEY `checkbox_response_bubble__fk` (`bubble_id`),
-  CONSTRAINT `checkbox_response_bubble__fk` FOREIGN KEY (`bubble_id`) REFERENCES `checkbox_bubble` (`id`),
-  CONSTRAINT `checkbox_response_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  KEY `checkbox_option_bubble__fk` (`bubble_id`),
+  CONSTRAINT `checkbox_option_bubble__fk` FOREIGN KEY (`bubble_id`) REFERENCES `checkbox_bubble` (`id`),
+  CONSTRAINT `checkbox_option_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `checkbox_response`
+-- Dumping data for table `checkbox_option`
 --
 
-LOCK TABLES `checkbox_response` WRITE;
-/*!40000 ALTER TABLE `checkbox_response` DISABLE KEYS */;
-/*!40000 ALTER TABLE `checkbox_response` ENABLE KEYS */;
+LOCK TABLES `checkbox_option` WRITE;
+/*!40000 ALTER TABLE `checkbox_option` DISABLE KEYS */;
+/*!40000 ALTER TABLE `checkbox_option` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -177,13 +177,13 @@ CREATE TABLE `checkbox_bubble` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(500) DEFAULT NULL,
   `event_id` int(11) NOT NULL,
-  `creator_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckboxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
   `type` varchar(20) DEFAULT 'CheckboxBubble',
   PRIMARY KEY (`id`),
   UNIQUE KEY `checkbox_bubble_id` (`id`),
-  CONSTRAINT `checkbox_bubble_user__fk` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `checkbox_bubble_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `checkbox_bubble_event__fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -207,8 +207,8 @@ DROP TABLE IF EXISTS `event`;
 CREATE TABLE `event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ref` char(36) NOT NULL,
-  `group_ref` char(36) NOT NULL,
-  `title` varchar(255) DEFAULT NULL,
+  `group_id` int(11) NOT NULL,
+  `title` varchar(64) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
   `start_date` datetime DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
@@ -217,8 +217,8 @@ CREATE TABLE `event` (
   UNIQUE KEY `event_id` (`id`),
   UNIQUE KEY `event_ref` (`ref`),
   KEY `ref` (`ref`),
-  KEY `event_group__fk` (`group_ref`),
-  CONSTRAINT `event_group__fk` FOREIGN KEY (`group_ref`) REFERENCES `group_t` (`ref`)
+  KEY `event_group__fk` (`group_id`),
+  CONSTRAINT `event_group__fk` FOREIGN KEY (`group_id`) REFERENCES `group_t` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -273,13 +273,13 @@ CREATE TABLE `free_bubble` (
   `title` varchar(500) DEFAULT NULL,
   `content` varchar(1000) DEFAULT NULL,
   `event_id` int(11) NOT NULL,
-  `creator_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckboxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
   `type` varchar(20) DEFAULT 'FreeBubble',
   PRIMARY KEY (`id`),
   UNIQUE KEY `free_bubble_id` (`id`),
-  CONSTRAINT `free_bubble_user__fk` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `free_bubble_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `free_bubble_event__fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -442,13 +442,13 @@ CREATE TABLE `location_bubble` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `coord` varchar(255) DEFAULT NULL,
   `event_id` int(11) NOT NULL,
-  `creator_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckboxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
   `type` varchar(20) DEFAULT 'LocationBubble',
   PRIMARY KEY (`id`),
   UNIQUE KEY `location_bubble_id` (`id`),
-  CONSTRAINT `location_bubble_user__fk` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `location_bubble_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `location_bubble_event__fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -473,13 +473,13 @@ CREATE TABLE `planning_bubble` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(500) DEFAULT NULL,
   `event_id` int(11) NOT NULL,
-  `creator_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckboxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
   `type` varchar(20) DEFAULT 'PlanningBubble',
   PRIMARY KEY (`id`),
   UNIQUE KEY `planning_bubble_id` (`id`),
-  CONSTRAINT `planning_bubble_user__fk` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `planning_bubble_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `planning_bubble_event__fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -527,34 +527,34 @@ LOCK TABLES `planning_entry` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `survey_answer`
+-- Table structure for table `survey_option`
 --
 
-DROP TABLE IF EXISTS `survey_answer`;
+DROP TABLE IF EXISTS `survey_option`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `survey_answer` (
+CREATE TABLE `survey_option` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bubble_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `content` varchar(500) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `survey_answer_id` (`id`),
+  UNIQUE KEY `survey_option_id` (`id`),
   KEY `user_id` (`user_id`),
-  KEY `survey_answer_bubble__fk` (`bubble_id`),
-  CONSTRAINT `survey_answer_bubble__fk` FOREIGN KEY (`bubble_id`) REFERENCES `survey_bubble` (`id`),
-  CONSTRAINT `survey_answer_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  KEY `survey_option_bubble__fk` (`bubble_id`),
+  CONSTRAINT `survey_option_bubble__fk` FOREIGN KEY (`bubble_id`) REFERENCES `survey_bubble` (`id`),
+  CONSTRAINT `survey_option_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `survey_answer`
+-- Dumping data for table `survey_option`
 --
 
-LOCK TABLES `survey_answer` WRITE;
-/*!40000 ALTER TABLE `survey_answer` DISABLE KEYS */;
-/*!40000 ALTER TABLE `survey_answer` ENABLE KEYS */;
+LOCK TABLES `survey_option` WRITE;
+/*!40000 ALTER TABLE `survey_option` DISABLE KEYS */;
+/*!40000 ALTER TABLE `survey_option` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -568,13 +568,13 @@ CREATE TABLE `survey_bubble` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(500) DEFAULT NULL,
   `event_id` int(11) NOT NULL,
-  `creator_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckboxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
   `type` varchar(20) DEFAULT 'SurveyBubble',
   PRIMARY KEY (`id`),
   UNIQUE KEY `survey_bubble_id` (`id`),
-  CONSTRAINT `survey_bubble_user__fk` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `survey_bubble_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `survey_bubble_event__fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -599,12 +599,12 @@ CREATE TABLE `travel_bubble` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) NOT NULL,
   `bubble_type` enum('TravelBubble','LocationBubble','AlimentationBubble','SurveyBubble','CheckboxBubble','PlanningBubble','FreeBubble') DEFAULT NULL,
-  `creator_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `type` varchar(20) DEFAULT 'TravelBubble',
   PRIMARY KEY (`id`),
   CONSTRAINT `travel_bubble_event__fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`),
-  CONSTRAINT `travel_bubble_user__fk` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`)
+  CONSTRAINT `travel_bubble_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -668,7 +668,7 @@ CREATE TABLE `travel_request` (
   KEY `user_id` (`user_id`),
   KEY `travel_request_bubble__fk` (`bubble_id`),
   KEY `travel_request_proposal__fk` (`proposal_id`),
-  CONSTRAINT `travel_request_proposal__fk` FOREIGN KEY (`proposal_id`) REFERENCES `travel_propsal` (`id`),
+  CONSTRAINT `travel_request_proposal__fk` FOREIGN KEY (`proposal_id`) REFERENCES `travel_proposal` (`id`),
   CONSTRAINT `travel_request_bubble__fk` FOREIGN KEY (`bubble_id`) REFERENCES `travel_bubble` (`id`),
   CONSTRAINT `travel_request_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -692,18 +692,22 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL,
   `ref` char(36) NOT NULL,
+  `email` varchar(64),
   `first_name` varchar(64) DEFAULT NULL,
   `last_name` varchar(64) DEFAULT NULL,
-  `name` varchar(64) DEFAULT NULL,
-  `email` varchar(320) DEFAULT NULL,
-  `image_path` varchar(500) DEFAULT NULL,
-  `pays` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `salt` varchar(64) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
+
+  `password` varchar(255) DEFAULT NULL,
+  `account_non_expired` tinyint(1) DEFAULT '1',
+  `account_non_locked` tinyint(1) DEFAULT '1',
+  `credentials_non_expired` tinyint(1) DEFAULT '1',
+  `last_password_reset` datetime DEFAULT NULL,
+  `enabled` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `ref` (`ref`)
+  UNIQUE KEY `ref` (`ref`),
+  UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -717,61 +721,61 @@ LOCK TABLES `user` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `users_checkbox_responses`
+-- Table structure for table `checkbox_answer`
 --
 
-DROP TABLE IF EXISTS `users_checkbox_responses`;
+DROP TABLE IF EXISTS `checkbox_answer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users_checkbox_responses` (
+CREATE TABLE `checkbox_answer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
-  `response_id` int(11) DEFAULT NULL,
+  option_id int(11) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  KEY `users_checkbox_responses_bubble__fk` (`response_id`),
-  CONSTRAINT `users_checkbox_responses_bubble__fk` FOREIGN KEY (`response_id`) REFERENCES `checkbox_response` (`id`),
-  CONSTRAINT `users_checkbox_responses_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  KEY `checkbox_answer_bubble__fk` (`option_id`),
+  CONSTRAINT `checkbox_answer_bubble__fk` FOREIGN KEY (`option_id`) REFERENCES `checkbox_option` (`id`),
+  CONSTRAINT `checkbox_answer_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users_checkbox_responses`
+-- Dumping data for table `checkbox_answer`
 --
 
-LOCK TABLES `users_checkbox_responses` WRITE;
-/*!40000 ALTER TABLE `users_checkbox_responses` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users_checkbox_responses` ENABLE KEYS */;
+LOCK TABLES `checkbox_answer` WRITE;
+/*!40000 ALTER TABLE `checkbox_answer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `checkbox_answer` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
 -- Table structure for table `users_survey_answers`
 --
 
-DROP TABLE IF EXISTS `users_survey_answers`;
+DROP TABLE IF EXISTS `survey_answer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users_survey_answers` (
+CREATE TABLE `survey_answer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
-  `answer_id` int(11) DEFAULT NULL,
+  `option_id` int(11) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  KEY `users_survey_answers_bubble__fk` (`answer_id`),
-  CONSTRAINT `users_survey_answers_bubble__fk` FOREIGN KEY (`answer_id`) REFERENCES `survey_answer` (`id`),
-  CONSTRAINT `users_survey_answers_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  KEY `survey_answer_bubble__fk` (`option_id`),
+  CONSTRAINT `survey_answer_bubble__fk` FOREIGN KEY (`option_id`) REFERENCES `survey_option` (`id`),
+  CONSTRAINT `survey_answer_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users_survey_answers`
+-- Dumping data for table `survey_answer`
 --
 
-LOCK TABLES `users_survey_answers` WRITE;
-/*!40000 ALTER TABLE `users_survey_answers` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users_survey_answers` ENABLE KEYS */;
+LOCK TABLES `survey_answer` WRITE;
+/*!40000 ALTER TABLE `survey_answer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `survey_answer` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

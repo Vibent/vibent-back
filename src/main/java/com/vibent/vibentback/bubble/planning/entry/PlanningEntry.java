@@ -3,7 +3,6 @@ package com.vibent.vibentback.bubble.planning.entry;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.planning.PlanningBubble;
-import com.vibent.vibentback.bubble.survey.SurveyBubble;
 import com.vibent.vibentback.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,7 +34,8 @@ public class PlanningEntry {
     private PlanningBubble bubble;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn
+    @JsonIgnore
+    @JoinColumn(name = "user_id")
     private User user;
 
     @NonNull
@@ -64,4 +64,8 @@ public class PlanningEntry {
         return Objects.hash(id);
     }
 
+    @JsonProperty
+    public String getUserRef(){
+        return user.getRef();
+    }
 }

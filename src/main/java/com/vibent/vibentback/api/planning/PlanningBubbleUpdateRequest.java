@@ -8,7 +8,6 @@ import javax.validation.constraints.Size;
 public class PlanningBubbleUpdateRequest {
 
     @NotNull
-    @NotNull
     @Size(max = 500, min = 1)
     private String title;
 

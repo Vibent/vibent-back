@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @Slf4j
 @RestController
@@ -30,13 +32,13 @@ public class FreeController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    FreeBubble createBubble(@RequestBody FreeBubbleRequest request) {
+    FreeBubble createBubble(@Valid @RequestBody FreeBubbleRequest request) {
         log.info("Creating free bubble for event with ref {}", request.getEventRef());
         return service.createBubble(request.getEventRef());
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/{id}")
-    FreeBubble updateBubble(@PathVariable Long id, @RequestBody FreeBubbleUpdateRequest request) {
+    FreeBubble updateBubble(@PathVariable Long id, @Valid @RequestBody FreeBubbleUpdateRequest request) {
         log.info("Updating free bubble with id {} and body : {}", id, request.toString());
         return service.updateBubble(id, request);
     }

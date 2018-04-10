@@ -1,13 +1,12 @@
 package com.vibent.vibentback.bubble.location;
 
-import com.vibent.vibentback.Mock;
-import com.vibent.vibentback.api.location.LocationBubbleUpdateRequest;
+import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.bubble.BubbleType;
-import com.vibent.vibentback.common.ObjectUpdater;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
+import com.vibent.vibentback.api.location.LocationBubbleUpdateRequest;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ public class LocationService {
     LocationBubbleRepository bubbleRepository;
     EventRepository eventRepository;
     UserRepository userRepository;
+    ConnectedUserUtils userUtils;
 
     // Location Bubble -------------------------------------------------------------
     public LocationBubble getBubble(long id) {
@@ -31,17 +31,17 @@ public class LocationService {
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         LocationBubble locationBubble = new LocationBubble();
         locationBubble.setEvent(event);
-        locationBubble.setCreator(Mock.getConnectedUser(userRepository));
+        locationBubble.setCreator(userUtils.getConnectedUser());
         locationBubble.setDeleted(false);
         locationBubble.setType(BubbleType.LocationBubble);
         locationBubble = bubbleRepository.save(locationBubble);
         return locationBubble;
     }
 
-    public LocationBubble updateBubble(long id, LocationBubbleUpdateRequest update) {
+    public LocationBubble updateBubble(long id, LocationBubbleUpdateRequest request) {
         LocationBubble bubble = bubbleRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
-        ObjectUpdater.updateProperties(update, bubble);
+        bubble.setCoord(request.getCoord());
         bubbleRepository.save(bubble);
         return bubble;
     }

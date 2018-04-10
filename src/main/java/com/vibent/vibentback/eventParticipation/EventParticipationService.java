@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Set;
 
@@ -29,7 +28,7 @@ public class EventParticipationService {
 
     /**
      * Creates all default event participations when event is created
-     * @param event
+     * @param event the event to add the participations to
      */
     public void createAllEventParticipations(Event event){
         // If there are already participations, then this would create duplicates
@@ -37,8 +36,7 @@ public class EventParticipationService {
             throw new VibentException(VibentError.EVENT_PARTICIPATION_ALREADY_EXISTS);
         }
 
-        GroupT groupT = groupTRepository.findByRef(event.getGroupRef())
-                .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        GroupT groupT = event.getGroup();
         for(User user : groupT.getMembers()){
             EventParticipation participation = new EventParticipation();
             participation.setUser(user);

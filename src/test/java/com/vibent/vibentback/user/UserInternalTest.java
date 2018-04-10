@@ -1,6 +1,7 @@
 package com.vibent.vibentback.user;
 
 import com.vibent.vibentback.VibentTest;
+import com.vibent.vibentback.api.user.SimpleUserResponse;
 import com.vibent.vibentback.error.VibentException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -41,22 +42,16 @@ public class UserInternalTest extends VibentTest {
 
     @Test
     public void getUser() {
-        User user = controller.getUser(RANDOM_USER.getRef());
+        SimpleUserResponse user = controller.getUser(RANDOM_USER.getRef());
         Assert.assertEquals(RANDOM_USER.getRef(), user.getRef());
     }
 
     @Test
     public void getNonExistingUser() throws VibentException {
         exception.expect(VibentException.class);
-        exception.expectMessage("user-not-found");
+        exception.expectMessage("user_not_found");
 
         controller.getUser("doesntExist");
-    }
-
-    @Test
-    public void addUser() {
-        User user = controller.createUser(RANDOM_USER);
-        Assert.assertEquals(RANDOM_USER.getRef(), user.getRef());
     }
 
     @Test

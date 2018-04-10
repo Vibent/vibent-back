@@ -7,7 +7,7 @@ public class VibentException extends RuntimeException {
     private final VibentError error;
 
     public VibentException(VibentError error) {
-        super(error.getCode());
+        super(error.name().toLowerCase());
         this.error = error;
     }
 }

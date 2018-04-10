@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController
 @RequestMapping(value = "/bubble/checkbox",
@@ -27,13 +29,13 @@ public class CheckboxController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    CheckboxBubble createBubble(@RequestBody CheckboxBubbleRequest request) {
+    CheckboxBubble createBubble(@Valid @RequestBody CheckboxBubbleRequest request) {
         log.info("Creating checkbox bubble for event with ref {}", request.getEventRef());
         return service.createBubble(request.getEventRef());
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/{id}")
-    CheckboxBubble updateBubble(@PathVariable Long id, @RequestBody CheckboxBubbleUpdateRequest request) {
+    CheckboxBubble updateBubble(@PathVariable Long id, @Valid @RequestBody CheckboxBubbleUpdateRequest request) {
         log.info("Updating checkbox bubble with id {} and body : {}", id, request.toString());
         return service.updateBubble(id, request);
     }
@@ -45,44 +47,44 @@ public class CheckboxController {
         service.deleteBubble(id);
     }
 
-    // Checkbox Bubble Response -------------------------------------------------------------
+    // Checkbox Bubble Option -------------------------------------------------------------
 
     @ResponseStatus(value = HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST, value = "/response",
+    @RequestMapping(method = RequestMethod.POST, value = "/option",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    CheckboxBubble createResponse(@RequestBody CheckboxResponseRequest responseRequest) {
-        log.info("Creating checkbox response with body : {}", responseRequest.toString());
-        return service.createResponse(responseRequest);
+    CheckboxBubble createOption(@Valid @RequestBody CheckboxOptionRequest request) {
+        log.info("Creating checkbox option with body : {}", request.toString());
+        return service.createOption(request);
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, value = "/response/{id}",
+    @RequestMapping(method = RequestMethod.PATCH, value = "/option/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    CheckboxBubble updateResponse(@PathVariable Long id, @RequestBody CheckboxResponseUpdateRequest response) {
-        log.info("Updating checkbox response with id {} and body : {}", id, response.toString());
-        return service.updateResponse(id, response);
+    CheckboxBubble updateOption(@PathVariable Long id, @Valid @RequestBody CheckboxOptionUpdateRequest request) {
+        log.info("Updating checkbox option with id {} and body : {}", id, request.toString());
+        return service.updateOption(id, request);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @RequestMapping(method = RequestMethod.DELETE, value = "/response/{id}")
-    void deleteResponse(@PathVariable Long id) {
-        log.info("Deleting checkbox response for with id {}", id);
-        service.deleteResponse(id);
+    @RequestMapping(method = RequestMethod.DELETE, value = "/option/{id}")
+    void deleteOption(@PathVariable Long id) {
+        log.info("Deleting checkbox option for with id {}", id);
+        service.deleteOption(id);
     }
 
-    // Checkbox Bubble User Response -------------------------------------------------------------
+    // Checkbox Bubble Answer -------------------------------------------------------------
 
     @ResponseStatus(value = HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST, value = "/userresponse",
+    @RequestMapping(method = RequestMethod.POST, value = "/answer",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    CheckboxBubble createUserAnswer(@RequestBody UsersCheckboxResponsesRequest userResponse) {
-        log.info("Creating checkbox user response with body : {}", userResponse.toString());
-        return service.createUserResponse(userResponse);
+    CheckboxBubble createAnswer(@Valid @RequestBody CheckboxAnswerRequest request) {
+        log.info("Creating checkbox answer with body : {}", request.toString());
+        return service.createAnswer(request);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @RequestMapping(method = RequestMethod.DELETE, value = "/userresponse/{id}")
-    void deleteBubbleUserResponse(@PathVariable Long id) {
-        log.info("Deleting checkbox user response with id {}", id);
-        service.deleteUserResponse(id);
+    @RequestMapping(method = RequestMethod.DELETE, value = "/answer/{id}")
+    void deleteAnswer(@PathVariable Long id) {
+        log.info("Deleting checkbox answer with id {}", id);
+        service.deleteAnswer(id);
     }
 }

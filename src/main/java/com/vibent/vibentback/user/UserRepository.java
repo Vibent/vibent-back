@@ -12,10 +12,12 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     Optional<User> findByRef(String ref);
 
-    Optional<User> findByEmail(String email);
+    Optional<User> findByUsername(String username);
 
     @Transactional
     int deleteByRef(String ref);
+
+    boolean existsByUsername(String username);
 
     @Modifying
     @Transactional

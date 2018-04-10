@@ -14,23 +14,18 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
 @RunWith(SpringRunner.class)
-@WebMvcTest(PlanningController.class)
+@WebMvcTest(value = PlanningController.class, secure = false)
 public class PlanningWebLayerTest extends VibentTest {
 
     private final static String ROOT_URL = "/bubble/planning";
@@ -57,6 +52,7 @@ public class PlanningWebLayerTest extends VibentTest {
 
         RANDOM_REQ = new PlanningBubbleRequest();
         RANDOM_REQ.setEventRef(RANDOM_EVENT.getRef());
+        RANDOM_REQ.setTitle("Here's a title");
 
         RANDOM_BUBBLE.setId(666L);
         RANDOM_BUBBLE.setEntries(new HashSet<PlanningEntry>(){{
@@ -73,8 +69,8 @@ public class PlanningWebLayerTest extends VibentTest {
         RANDOM_ENTRY.setDeleted(false);
         RANDOM_ENTRY.setContent("Entry Content For Test");
         RANDOM_ENTRY.setUser(RANDOM_USER);
-        RANDOM_ENTRY.setStart(new GregorianCalendar(1970, Calendar.JANUARY, 1).getTime());
-        RANDOM_ENTRY.setEnd(new GregorianCalendar(1970, Calendar.JANUARY, 2).getTime());
+        RANDOM_ENTRY.setStart(getFutureDate(4));
+        RANDOM_ENTRY.setEnd(getFutureDate(5));
 
         when(service.getBubble(RANDOM_BUBBLE.getId())).thenReturn(RANDOM_BUBBLE);
         when(service.createBubble(RANDOM_EVENT.getRef())).thenReturn(RANDOM_BUBBLE);}

@@ -4,14 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
-import java.util.Set;
-import javax.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -34,7 +36,7 @@ public class AlimentationEntry {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "entry", cascade = CascadeType.ALL)
-    private Set<AlimentationBring> brings;
+    private Set<AlimentationBring> brings = new HashSet<>();
 
     private String name;
     private Integer totalRequested;
@@ -44,18 +46,14 @@ public class AlimentationEntry {
     private Type type;
 
     @JsonIgnore
-    private Boolean deleted;
+    private boolean deleted;
 
-    @JsonIgnore
-    public void setBrings(Set<AlimentationBring> brings){
-        this.brings = brings;
-    }
     @JsonProperty
     public Set<AlimentationBring> getBrings() {
         return brings;
     }
 
     public enum Type {
-        Food, Drink, Other
+        FOOD, DRINK, OTHER
     }
 }

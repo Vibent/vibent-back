@@ -1,32 +1,26 @@
 package com.vibent.vibentback.groupT;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.vibent.vibentback.VibentTest;
+import com.vibent.vibentback.api.groupT.GroupRequest;
+import com.vibent.vibentback.api.groupT.GroupUpdateRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.nio.charset.Charset;
-
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(GroupTController.class)
+@WebMvcTest(value = GroupTController.class, secure = false)
 public class GroupTWebLayerTest extends VibentTest {
 
     @Autowired
@@ -35,11 +29,23 @@ public class GroupTWebLayerTest extends VibentTest {
     @MockBean
     GroupTService groupTService;
 
+    private GroupRequest RANDOM_GROUP_REQUEST;
+    private GroupUpdateRequest RANDOM_GROUP_UPDATE_REQUEST;
+
     @Before
     public void setUp(){
         super.setUp();
+
+        RANDOM_GROUP_REQUEST = new GroupRequest();
+        RANDOM_GROUP_REQUEST.setName("Name for group");
+        RANDOM_GROUP_REQUEST.setAllAdmins(true);
+
+        RANDOM_GROUP_UPDATE_REQUEST = new GroupUpdateRequest();
+        RANDOM_GROUP_UPDATE_REQUEST.setName("New name");
+
         when(groupTService.getGroupT(RANDOM_GROUP.getRef())).thenReturn(RANDOM_GROUP);
-        when(groupTService.addGroupT(RANDOM_GROUP)).thenReturn(RANDOM_GROUP);
+        when(groupTService.createGroupT(RANDOM_GROUP_REQUEST)).thenReturn(RANDOM_GROUP);
+        when(groupTService.updateGroupT(RANDOM_GROUP.getRef(), RANDOM_GROUP_UPDATE_REQUEST)).thenReturn(RANDOM_GROUP);
     }
 
     @Test
@@ -50,14 +56,21 @@ public class GroupTWebLayerTest extends VibentTest {
 
     @Test
     public void testAddGroupT() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        String requestJson=ow.writeValueAsString(RANDOM_GROUP);
+        String body = super.getJsonString(RANDOM_GROUP_REQUEST);
 
         mockMvc.perform(post("/group").contentType(APPLICATION_JSON_UTF8)
-                .content(requestJson))
+                .content(body))
                 .andExpect(status().isCreated())
+                .andExpect(content().string(containsString("name")));
+    }
+
+    @Test
+    public void testUpdateGroup() throws Exception {
+        String body = super.getJsonString(RANDOM_GROUP_UPDATE_REQUEST);
+
+        mockMvc.perform(patch("/group/" + RANDOM_GROUP.getRef()).contentType(APPLICATION_JSON_UTF8)
+                .content(body))
+                .andExpect(status().isOk())
                 .andExpect(content().string(containsString("name")));
     }
 

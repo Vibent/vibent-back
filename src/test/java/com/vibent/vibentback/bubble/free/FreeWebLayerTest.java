@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Slf4j
 @RunWith(SpringRunner.class)
-@WebMvcTest(FreeController.class)
+@WebMvcTest(value = FreeController.class, secure = false)
 public class FreeWebLayerTest extends VibentTest {
 
 
@@ -49,6 +49,8 @@ public class FreeWebLayerTest extends VibentTest {
 
         RANDOM_REQ = new FreeBubbleRequest();
         RANDOM_REQ.setEventRef(RANDOM_EVENT.getRef());
+        RANDOM_REQ.setTitle("Free bubble title");
+        RANDOM_REQ.setContent("Here is content");
 
         RANDOM_BUBBLE.setId(666L);
         RANDOM_BUBBLE.setType(BubbleType.FreeBubble);

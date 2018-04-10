@@ -1,13 +1,14 @@
 package com.vibent.vibentback.groupT;
 
-import com.vibent.vibentback.user.User;
+import com.vibent.vibentback.api.groupT.GroupRequest;
+import com.vibent.vibentback.api.groupT.GroupUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -25,15 +26,15 @@ public class GroupTController {
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
-    GroupT createGroupT(@RequestBody GroupT groupT){
-        log.info("Creating group with body : {}", groupT.toString());
-        return groupTService.addGroupT(groupT);
+    GroupT createGroupT(@Valid @RequestBody GroupRequest request){
+        log.info("Creating group with body : {}", request.toString());
+        return groupTService.createGroupT(request);
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/{groupRef}")
-    GroupT updateGroupT(@PathVariable String groupRef, @RequestBody GroupT groupT){
-        log.info("Update group with ref {} body : {}", groupRef, groupT.toString());
-        return groupTService.updateGroupT(groupRef, groupT);
+    GroupT updateGroupT(@PathVariable String groupRef, @Valid @RequestBody GroupUpdateRequest request){
+        log.info("Update group with ref {} body : {}", groupRef, request.toString());
+        return groupTService.updateGroupT(groupRef, request);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
@@ -41,11 +42,5 @@ public class GroupTController {
     void deleteGroupT(@PathVariable String groupRef){
         log.info("Deleting group with ref : {}", groupRef);
         groupTService.deleteGroupT(groupRef);
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    ArrayList<GroupT> getGroupT() {
-        log.info("Getting all groups");
-        return groupTService.getGroupT();
     }
 }

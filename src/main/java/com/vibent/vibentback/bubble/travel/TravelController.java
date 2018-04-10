@@ -1,9 +1,6 @@
 package com.vibent.vibentback.bubble.travel;
 
-import com.vibent.vibentback.api.alimentation.*;
 import com.vibent.vibentback.api.travel.*;
-import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
-import com.vibent.vibentback.bubble.travel.proposal.TravelProposal;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

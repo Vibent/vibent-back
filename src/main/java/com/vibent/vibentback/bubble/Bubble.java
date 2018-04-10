@@ -4,13 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.user.User;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Setter
 @Getter
@@ -29,7 +27,7 @@ public abstract class Bubble {
 
     @ManyToOne
     @JsonIgnore
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "user_id")
     private User creator;
 
     @JsonIgnore
@@ -37,7 +35,7 @@ public abstract class Bubble {
     private BubbleType type;
 
     @JsonIgnore
-    private Boolean deleted;
+    private boolean deleted;
 
     @JsonProperty
     public String getEventRef() {

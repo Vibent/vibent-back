@@ -4,7 +4,6 @@ import com.vibent.vibentback.api.eventParticipation.UpdateEventParticipationRequ
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,7 +37,7 @@ public class EventParticipationController {
 
     /**
      * Update an event participation - this can be to set it to visible or not or to change
-     * the answer
+     * the option
      */
     @RequestMapping(method = RequestMethod.PATCH, value = "/{participationId}")
     EventParticipation updateEventParticipation(@PathVariable Long participationId, @Valid @RequestBody UpdateEventParticipationRequest request) {

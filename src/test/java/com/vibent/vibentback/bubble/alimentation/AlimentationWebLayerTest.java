@@ -5,8 +5,8 @@ import com.vibent.vibentback.api.alimentation.AlimentationBubbleRequest;
 import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
+import com.vibent.vibentback.user.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Slf4j
 @RunWith(SpringRunner.class)
-@WebMvcTest(AlimentationController.class)
+@WebMvcTest(value = AlimentationController.class, secure = false)
 public class AlimentationWebLayerTest extends VibentTest {
 
     private final static String ROOT_URL = "/bubble/alimentation";
@@ -37,10 +37,12 @@ public class AlimentationWebLayerTest extends VibentTest {
     private final static String EXPECTED_CONTAIN = "\"brings\"";
 
     @Autowired
-    public MockMvc mockMvc;
+    MockMvc mockMvc;
 
     @MockBean
-    AlimentationService service;
+    AlimentationService alimentationService;
+    @MockBean
+    UserService userService;
 
     AlimentationBubble RANDOM_BUBBLE;
     AlimentationEntry RANDOM_ENTRY;
@@ -63,7 +65,7 @@ public class AlimentationWebLayerTest extends VibentTest {
         RANDOM_BUBBLE.setDeleted(false);
         RANDOM_BUBBLE.setEvent(RANDOM_EVENT);
         RANDOM_BUBBLE.setCreator(RANDOM_USER);
-        RANDOM_BUBBLE.setEntries(new HashSet<AlimentationEntry>(){{
+        RANDOM_BUBBLE.setEntries(new HashSet<AlimentationEntry>() {{
             add(RANDOM_ENTRY);
         }});
 
@@ -72,10 +74,10 @@ public class AlimentationWebLayerTest extends VibentTest {
         RANDOM_ENTRY.setBubble(RANDOM_BUBBLE);
         RANDOM_ENTRY.setDeleted(false);
         RANDOM_ENTRY.setName("Coke");
-        RANDOM_ENTRY.setType(AlimentationEntry.Type.Drink);
+        RANDOM_ENTRY.setType(AlimentationEntry.Type.DRINK);
         RANDOM_ENTRY.setTotalCurrent(5);
         RANDOM_ENTRY.setTotalRequested(10);
-        RANDOM_ENTRY.setBrings(new HashSet<AlimentationBring>(){{
+        RANDOM_ENTRY.setBrings(new HashSet<AlimentationBring>() {{
             add(RANDOM_BRING);
         }});
 
@@ -85,8 +87,9 @@ public class AlimentationWebLayerTest extends VibentTest {
         RANDOM_BRING.setQuantity(5);
         RANDOM_BRING.setUser(RANDOM_USER);
 
-        when(service.getBubble(RANDOM_BUBBLE.getId())).thenReturn(RANDOM_BUBBLE);
-        when(service.createBubble(RANDOM_EVENT.getRef())).thenReturn(RANDOM_BUBBLE);
+        when(userService.getUserByUsername(RANDOM_USER.getUsername())).thenReturn(RANDOM_USER);
+        when(alimentationService.getBubble(RANDOM_BUBBLE.getId())).thenReturn(RANDOM_BUBBLE);
+        when(alimentationService.createBubble(RANDOM_EVENT.getRef())).thenReturn(RANDOM_BUBBLE);
     }
 
     @Test

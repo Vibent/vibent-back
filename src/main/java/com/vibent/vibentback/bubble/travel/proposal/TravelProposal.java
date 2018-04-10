@@ -36,13 +36,18 @@ public class TravelProposal {
     private Set<TravelRequest> requests;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn
+    @JsonIgnore
+    @JoinColumn(name = "user_id")
     private User user;
 
     private Integer capacity;
     private String passByCities;
 
     @JsonIgnore
-    private Boolean deleted;
+    private boolean deleted;
 
+    @JsonProperty
+    public String getUserRef(){
+        return user.getRef();
+    }
 }

@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Slf4j
 @RunWith(SpringRunner.class)
-@WebMvcTest(LocationController.class)
+@WebMvcTest(value = LocationController.class, secure = false)
 public class LocationWebLayerTest extends VibentTest {
 
 

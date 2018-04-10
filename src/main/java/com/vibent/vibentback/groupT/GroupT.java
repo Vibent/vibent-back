@@ -1,7 +1,7 @@
 package com.vibent.vibentback.groupT;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vibent.vibentback.eventParticipation.EventParticipation;
+import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.user.User;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -16,6 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
+@ToString(of = {"id", "ref", "name","imagePath", "hasDefaultAdmin","deleted"})
 @NoArgsConstructor
 @RequiredArgsConstructor
 @SQLDelete(sql = "UPDATE group_t SET deleted = true WHERE id = ?")
@@ -23,6 +24,7 @@ import java.util.Set;
 public class GroupT {
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
@@ -35,6 +37,9 @@ public class GroupT {
     private String imagePath;
 
     private boolean hasDefaultAdmin;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
+    private Set<Event> events = new HashSet<>();
 
     @JsonIgnore
     @Column(insertable = false, updatable = false)
@@ -67,18 +72,26 @@ public class GroupT {
     )
     Set<User> invites = new HashSet<>();
 
+    @JsonIgnore
+    public void addEvent(Event event){
+        events.add(event);
+    }
+
+    @JsonIgnore
     public void addMember(User user){
         members.add(user);
         if(!user.getMemberships().contains(this))
             user.addMembership(this);
     }
 
+    @JsonIgnore
     public void addAdmin(User user){
         admins.add(user);
         if(!user.getAdminships().contains(this))
             user.addAdminship(this);
     }
 
+    @JsonIgnore
     public void addInvite(User user){
         invites.add(user);
         if(!user.getInviteships().contains(this))

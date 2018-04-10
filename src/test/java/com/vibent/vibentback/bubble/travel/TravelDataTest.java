@@ -52,7 +52,7 @@ public class TravelDataTest extends VibentTest {
         RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
         RANDOM_EVENT = eventRepository.save(RANDOM_EVENT);
 
-        log.info("{}",RANDOM_EVENT.getRef());
+        log.info("{}", RANDOM_EVENT.getRef());
 
         RANDOM_BUBBLE = new TravelBubble();
         RANDOM_BUBBLE.setDeleted(false);
@@ -73,7 +73,7 @@ public class TravelDataTest extends VibentTest {
         RANDOM_PROPOSAL.setBubble(RANDOM_BUBBLE);
         RANDOM_PROPOSAL.setPassByCities("Cities For Tests");
         RANDOM_PROPOSAL.setCapacity(5);
-        RANDOM_PROPOSAL.setRequests(new HashSet<TravelRequest>(){{
+        RANDOM_PROPOSAL.setRequests(new HashSet<TravelRequest>() {{
             add(RANDOM_REQUEST);
         }});
     }

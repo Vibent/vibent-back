@@ -2,8 +2,6 @@ package com.vibent.vibentback.bubble.free;
 
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.bubble.BubbleType;
-import javax.transaction.Transactional;
-
 import com.vibent.vibentback.event.EventRepository;
 import com.vibent.vibentback.groupT.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;
@@ -15,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.transaction.Transactional;
 
 @Slf4j
 @Transactional

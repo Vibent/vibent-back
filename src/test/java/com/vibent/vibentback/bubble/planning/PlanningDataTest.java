@@ -6,7 +6,6 @@ import com.vibent.vibentback.bubble.planning.entry.PlanningEntry;
 import com.vibent.vibentback.bubble.planning.entry.PlanningEntryRepository;
 import com.vibent.vibentback.event.EventRepository;
 import com.vibent.vibentback.groupT.GroupTRepository;
-import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -17,12 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import javax.transaction.Transactional;
 
 
 @Slf4j
+@Transactional
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PlanningDataTest extends VibentTest {
@@ -42,15 +40,14 @@ public class PlanningDataTest extends VibentTest {
     PlanningBubble RANDOM_BUBBLE;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         super.setUp();
 
         RANDOM_USER = userRepository.save(RANDOM_USER);
         RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
         RANDOM_EVENT = eventRepository.save(RANDOM_EVENT);
 
-        log.info("{}",RANDOM_EVENT.getRef());
+        log.info("{}", RANDOM_EVENT.getRef());
 
         RANDOM_BUBBLE = new PlanningBubble();
         RANDOM_BUBBLE.setDeleted(false);
@@ -66,20 +63,20 @@ public class PlanningDataTest extends VibentTest {
         RANDOM_ENTRY.setBubble(RANDOM_BUBBLE);
 
         RANDOM_ENTRY.setContent("Entry For Test");
-        RANDOM_ENTRY.setStart(new GregorianCalendar(1970, Calendar.JANUARY, 1).getTime());
-        RANDOM_ENTRY.setEnd(new GregorianCalendar(1970, Calendar.JANUARY, 2).getTime());
+        RANDOM_ENTRY.setStart(getFutureDate(4));
+        RANDOM_ENTRY.setEnd(getFutureDate(5));
 
     }
 
     @Test
-    public void testAddPlanningBubble(){
+    public void testAddPlanningBubble() {
         RANDOM_BUBBLE = bubbleRepository.save(RANDOM_BUBBLE);
 
         Assert.assertNotNull(bubbleRepository.findById(RANDOM_BUBBLE.getId()));
     }
 
     @Test
-    public void testAddPlanningEntry(){
+    public void testAddPlanningEntry() {
         RANDOM_ENTRY = entryRepository.save(RANDOM_ENTRY);
 
         Assert.assertNotNull(entryRepository.findById(RANDOM_ENTRY.getId()));

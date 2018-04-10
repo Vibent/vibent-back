@@ -3,7 +3,7 @@ package com.vibent.vibentback.bubble.checkbox;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.Bubble;
-import com.vibent.vibentback.bubble.checkbox.entry.CheckboxResponse;
+import com.vibent.vibentback.bubble.checkbox.option.CheckboxOption;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -23,11 +23,10 @@ public class CheckboxBubble extends Bubble{
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "bubble", cascade = CascadeType.ALL)
-    private Set<CheckboxResponse> responses;
+    private Set<CheckboxOption> options;
 
     @JsonProperty
-    public Set<CheckboxResponse> getResponses(){
-        return responses;
+    public Set<CheckboxOption> getOptions(){
+        return options;
     }
-
 }

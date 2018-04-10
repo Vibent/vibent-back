@@ -1,21 +1,20 @@
 package com.vibent.vibentback.bubble.checkbox;
 
 
-import com.vibent.vibentback.Mock;
-import com.vibent.vibentback.api.checkbox.CheckboxBubbleUpdateRequest;
-import com.vibent.vibentback.api.checkbox.CheckboxResponseRequest;
-import com.vibent.vibentback.api.checkbox.CheckboxResponseUpdateRequest;
-import com.vibent.vibentback.api.checkbox.UsersCheckboxResponsesRequest;
+import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.bubble.BubbleType;
-import com.vibent.vibentback.bubble.checkbox.entry.CheckboxResponse;
-import com.vibent.vibentback.bubble.checkbox.entry.CheckboxResponseRepository;
-import com.vibent.vibentback.bubble.checkbox.usersResponses.UsersCheckboxResponses;
-import com.vibent.vibentback.bubble.checkbox.usersResponses.UsersCheckboxResponsesRepository;
-import com.vibent.vibentback.common.ObjectUpdater;
+import com.vibent.vibentback.bubble.checkbox.answer.CheckboxAnswer;
+import com.vibent.vibentback.bubble.checkbox.answer.CheckboxAnswerRepository;
+import com.vibent.vibentback.bubble.checkbox.option.CheckboxOption;
+import com.vibent.vibentback.bubble.checkbox.option.CheckboxOptionRepository;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
+import com.vibent.vibentback.api.checkbox.CheckboxAnswerRequest;
+import com.vibent.vibentback.api.checkbox.CheckboxBubbleUpdateRequest;
+import com.vibent.vibentback.api.checkbox.CheckboxOptionRequest;
+import com.vibent.vibentback.api.checkbox.CheckboxOptionUpdateRequest;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +25,10 @@ import org.springframework.stereotype.Service;
 public class CheckboxService {
 
     CheckboxRepository bubbleRepository;
-    CheckboxResponseRepository responseRepository;
-    UsersCheckboxResponsesRepository usersCheckboxResponsesRepository;
+    CheckboxOptionRepository responseRepository;
+    CheckboxAnswerRepository checkboxAnswerRepository;
     EventRepository eventRepository;
-    UserRepository userRepository;
+    ConnectedUserUtils userUtils;
 
     // Checkbox Bubble -------------------------------------------------------------
     public CheckboxBubble getBubble(long id) {
@@ -41,18 +40,18 @@ public class CheckboxService {
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         CheckboxBubble checkboxBubble = new CheckboxBubble();
         checkboxBubble.setEvent(event);
-        checkboxBubble.setCreator(Mock.getConnectedUser(userRepository));
+        checkboxBubble.setCreator(userUtils.getConnectedUser());
         checkboxBubble.setDeleted(false);
         checkboxBubble.setType(BubbleType.SurveyBubble);
         checkboxBubble = bubbleRepository.save(checkboxBubble);
         return checkboxBubble;
     }
 
-    public CheckboxBubble updateBubble(long id, CheckboxBubbleUpdateRequest update) {
+    public CheckboxBubble updateBubble(long id, CheckboxBubbleUpdateRequest request) {
         CheckboxBubble bubble = bubbleRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
-        ObjectUpdater.updateProperties(update, bubble);
-        bubbleRepository.save(bubble);
+        bubble.setTitle(request.getTitle());
+        bubble = bubbleRepository.save(bubble);
         return bubble;
     }
 
@@ -60,45 +59,44 @@ public class CheckboxService {
         bubbleRepository.deleteById(id);
     }
 
-    // Checkbox Bubble Response -------------------------------------------------------------
+    // Checkbox Bubble Option -------------------------------------------------------------
 
-    public CheckboxBubble createResponse(CheckboxResponseRequest request) {
+    public CheckboxBubble createOption(CheckboxOptionRequest request) {
         CheckboxBubble bubble = bubbleRepository.findById(request.getBubbleId())
                 .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
-        CheckboxResponse response = new CheckboxResponse();
-        response.setBubble(bubble);
-        response.setContent(request.getContent());
-        response.setDeleted(false);
-        responseRepository.save(response);
+        CheckboxOption option = new CheckboxOption();
+        option.setBubble(bubble);
+        option.setContent(request.getContent());
+        option.setUser(userUtils.getConnectedUser());
+        responseRepository.save(option);
         return bubble;
     }
 
-    public CheckboxBubble updateResponse(Long id, CheckboxResponseUpdateRequest request) {
-        CheckboxResponse response = responseRepository.findById(id)
-                .orElseThrow(() -> new VibentException(VibentError.ANSWER_NOT_FOUND));
-        ObjectUpdater.updateProperties(request, response);
-        responseRepository.save(response);
-        return response.getBubble();
+    public CheckboxBubble updateOption(Long id, CheckboxOptionUpdateRequest request) {
+        CheckboxOption option = responseRepository.findById(id)
+                .orElseThrow(() -> new VibentException(VibentError.SURVEY_OPTION_NOT_FOUND));
+        request.setContent(request.getContent());
+        responseRepository.save(option);
+        return option.getBubble();
     }
 
-    public void deleteResponse(Long id) {
+    public void deleteOption(Long id) {
         responseRepository.deleteById(id);
     }
 
-    // Checkbox Bubble user response -------------------------------------------------------------
+    // Checkbox Bubble Answer -------------------------------------------------------------
 
-    public CheckboxBubble createUserResponse(UsersCheckboxResponsesRequest request) {
-        CheckboxResponse response = responseRepository.findById(request.getCheckboxResponseId())
-                .orElseThrow(() -> new VibentException(VibentError.ANSWER_NOT_FOUND));
-        UsersCheckboxResponses usersCheckboxResponses = new UsersCheckboxResponses();
-        usersCheckboxResponses.setUser(Mock.getConnectedUser(userRepository));
-        usersCheckboxResponses.setResponse(response);
-        usersCheckboxResponses.setDeleted(false);
-        usersCheckboxResponsesRepository.save(usersCheckboxResponses);
-        return response.getBubble();
+    public CheckboxBubble createAnswer(CheckboxAnswerRequest request) {
+        CheckboxOption option = responseRepository.findById(request.getCheckboxResponseId())
+                .orElseThrow(() -> new VibentException(VibentError.SURVEY_OPTION_NOT_FOUND));
+        CheckboxAnswer answer = new CheckboxAnswer();
+        answer.setUser(userUtils.getConnectedUser());
+        answer.setOption(option);
+        checkboxAnswerRepository.save(answer);
+        return option.getBubble();
     }
 
-    public void deleteUserResponse(Long id) {
-        usersCheckboxResponsesRepository.deleteById(id);
+    public void deleteAnswer(Long id) {
+        checkboxAnswerRepository.deleteById(id);
     }
 }

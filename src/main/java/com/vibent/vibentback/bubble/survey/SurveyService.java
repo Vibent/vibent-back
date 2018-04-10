@@ -1,17 +1,19 @@
 package com.vibent.vibentback.bubble.survey;
 
-import com.vibent.vibentback.Mock;
-import com.vibent.vibentback.api.bubble.survey.*;
+import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.bubble.BubbleType;
-import com.vibent.vibentback.bubble.survey.answer.SurveyAnswer;
-import com.vibent.vibentback.bubble.survey.answer.SurveyAnswerRepository;
-import com.vibent.vibentback.bubble.survey.usersAnswers.UsersSurveyAnswers;
-import com.vibent.vibentback.bubble.survey.usersAnswers.UsersSurveyAnswersRepository;
-import com.vibent.vibentback.common.ObjectUpdater;
+import com.vibent.vibentback.bubble.survey.option.SurveyOption;
+import com.vibent.vibentback.bubble.survey.option.SurveyOptionRepository;
+import com.vibent.vibentback.bubble.survey.usersAnswers.SurveyAnswer;
+import com.vibent.vibentback.bubble.survey.usersAnswers.SurveyAnswersRepository;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
+import com.vibent.vibentback.api.survey.SurveyAnswerRequest;
+import com.vibent.vibentback.api.survey.SurveyBubbleUpdateRequest;
+import com.vibent.vibentback.api.survey.SurveyOptionRequest;
+import com.vibent.vibentback.api.survey.SurveyOptionUpdateRequest;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +24,11 @@ import org.springframework.stereotype.Service;
 public class SurveyService {
 
     SurveyBubbleRepository bubbleRepository;
-    SurveyAnswerRepository answerRepository;
-    UsersSurveyAnswersRepository usersSurveyAnswersRepository;
+    SurveyOptionRepository optionRepository;
+    SurveyAnswersRepository surveyAnswersRepository;
     EventRepository eventRepository;
     UserRepository userRepository;
+    ConnectedUserUtils userUtils;
 
     // Survey Bubble -------------------------------------------------------------
     public SurveyBubble getBubble(long id) {
@@ -37,8 +40,7 @@ public class SurveyService {
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         SurveyBubble surveyBubble = new SurveyBubble();
         surveyBubble.setEvent(event);
-        surveyBubble.setCreator(Mock.getConnectedUser(userRepository));
-        surveyBubble.setDeleted(false);
+        surveyBubble.setCreator(userUtils.getConnectedUser());
         surveyBubble.setType(BubbleType.SurveyBubble);
         surveyBubble = bubbleRepository.save(surveyBubble);
         return surveyBubble;
@@ -47,7 +49,7 @@ public class SurveyService {
     public SurveyBubble updateBubble(long id, SurveyBubbleUpdateRequest update) {
         SurveyBubble bubble = bubbleRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
-        ObjectUpdater.updateProperties(update, bubble);
+        bubble.setTitle(update.getTitle());
         bubbleRepository.save(bubble);
         return bubble;
     }
@@ -56,45 +58,44 @@ public class SurveyService {
         bubbleRepository.deleteById(id);
     }
 
-    // Survey Bubble Answer -------------------------------------------------------------
+    // Survey Bubble Option -------------------------------------------------------------
 
-    public SurveyBubble createAnswer(SurveyAnswerRequest request) {
+    public SurveyBubble createOption(SurveyOptionRequest request) {
         SurveyBubble bubble = bubbleRepository.findById(request.getBubbleId())
-                .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
-        SurveyAnswer answer = new SurveyAnswer();
-        answer.setBubble(bubble);
-        answer.setContent(request.getContent());
-        answer.setDeleted(false);
-        answerRepository.save(answer);
+                .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
+        SurveyOption option = new SurveyOption();
+        option.setBubble(bubble);
+        option.setContent(request.getContent());
+        option.setUser(userUtils.getConnectedUser());
+        optionRepository.save(option);
         return bubble;
     }
 
-    public SurveyBubble updateAnswer(Long id, SurveyAnswerUpdateRequest request) {
-        SurveyAnswer answer = answerRepository.findById(id)
-                .orElseThrow(() -> new VibentException(VibentError.ANSWER_NOT_FOUND));
-        ObjectUpdater.updateProperties(request, answer);
-        answerRepository.save(answer);
-        return answer.getBubble();
+    public SurveyBubble updateOption(Long id, SurveyOptionUpdateRequest request) {
+        SurveyOption option = optionRepository.findById(id)
+                .orElseThrow(() -> new VibentException(VibentError.SURVEY_OPTION_NOT_FOUND));
+        option.setContent(request.getContent());
+        option = optionRepository.save(option);
+        return option.getBubble();
+    }
+
+    public void deleteOption(Long id) {
+        optionRepository.deleteById(id);
+    }
+
+    // Survey Bubble Answer -------------------------------------------------------------
+
+    public SurveyBubble createAnswer(SurveyAnswerRequest request) {
+        SurveyOption option = optionRepository.findById(request.getSurveyOptionId())
+                .orElseThrow(() -> new VibentException(VibentError.SURVEY_OPTION_NOT_FOUND));
+        SurveyAnswer answer = new SurveyAnswer();
+        answer.setUser(userUtils.getConnectedUser());
+        answer.setOption(option);
+        surveyAnswersRepository.save(answer);
+        return option.getBubble();
     }
 
     public void deleteAnswer(Long id) {
-        answerRepository.deleteById(id);
-    }
-
-    // Survey Bubble user entry -------------------------------------------------------------
-
-    public SurveyBubble createUserAnswer(UsersSurveyAnswersRequest request) {
-        SurveyAnswer answer = answerRepository.findById(request.getSurveyAnswerId())
-                .orElseThrow(() -> new VibentException(VibentError.ANSWER_NOT_FOUND));
-        UsersSurveyAnswers usersSurveyAnswer = new UsersSurveyAnswers();
-        usersSurveyAnswer.setUser(Mock.getConnectedUser(userRepository));
-        usersSurveyAnswer.setAnswer(answer);
-        usersSurveyAnswer.setDeleted(false);
-        usersSurveyAnswersRepository.save(usersSurveyAnswer);
-        return answer.getBubble();
-    }
-
-    public void deleteUserAnswer(Long id) {
-        usersSurveyAnswersRepository.deleteById(id);
+        surveyAnswersRepository.deleteById(id);
     }
 }

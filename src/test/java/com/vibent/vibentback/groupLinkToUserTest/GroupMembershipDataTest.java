@@ -7,7 +7,6 @@ import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.groupT.GroupTRepository;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
-import java.util.HashSet;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 
 
 @Slf4j
@@ -32,8 +32,7 @@ public class GroupMembershipDataTest extends VibentTest {
     GroupTRepository groupTRepository;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         super.setUp();
         RANDOM_USER = userRepository.save(RANDOM_USER);
         RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
@@ -41,33 +40,33 @@ public class GroupMembershipDataTest extends VibentTest {
 
     // Memberships
     @Test
-    public void testAddGroupMembershipFromGroupSide(){
+    public void testAddGroupMembershipFromGroupSide() {
         RANDOM_GROUP.addMember(RANDOM_USER);
 
         RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
 
-        GroupT group =  groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-        Assert.assertNotEquals(0,group.getMembers().size());
+        GroupT group = groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        Assert.assertNotEquals(0, group.getMembers().size());
 
         User user = userRepository.findById(RANDOM_USER.getId()).orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         Assert.assertNotEquals(0, user.getMemberships().size());
     }
 
     @Test
-    public void testAddGroupMembershipFromUserSide(){
+    public void testAddGroupMembershipFromUserSide() {
         RANDOM_USER.addMembership(RANDOM_GROUP);
 
         RANDOM_USER = userRepository.save(RANDOM_USER);
 
-        GroupT group =  groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-        Assert.assertNotEquals(0,group.getMembers().size());
+        GroupT group = groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        Assert.assertNotEquals(0, group.getMembers().size());
 
         User user = userRepository.findById(RANDOM_USER.getId()).orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         Assert.assertNotEquals(0, user.getMemberships().size());
     }
 
     @Test
-    public void deleteGroupMembershipFromUserShouldNotDeleteGroup(){
+    public void deleteGroupMembershipFromUserShouldNotDeleteGroup() {
         RANDOM_USER.addMembership(RANDOM_GROUP);
         RANDOM_USER = userRepository.save(RANDOM_USER);
 
@@ -82,7 +81,7 @@ public class GroupMembershipDataTest extends VibentTest {
     }
 
     @Test
-    public void deleteUserMembershipFromGroupShouldNotDeleteUser(){
+    public void deleteUserMembershipFromGroupShouldNotDeleteUser() {
         RANDOM_GROUP.addMember(RANDOM_USER);
         RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
 
@@ -98,33 +97,33 @@ public class GroupMembershipDataTest extends VibentTest {
 
     // Adminships
     @Test
-    public void testAddGroupAdminshipFromGroupSide(){
+    public void testAddGroupAdminshipFromGroupSide() {
         RANDOM_GROUP.addAdmin(RANDOM_USER);
 
         RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
 
-        GroupT group =  groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-        Assert.assertNotEquals(0,group.getAdmins().size());
+        GroupT group = groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        Assert.assertNotEquals(0, group.getAdmins().size());
 
         User user = userRepository.findById(RANDOM_USER.getId()).orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         Assert.assertNotEquals(0, user.getAdminships().size());
     }
 
     @Test
-    public void testAddGroupAdminshipFromUserSide(){
+    public void testAddGroupAdminshipFromUserSide() {
         RANDOM_USER.addAdminship(RANDOM_GROUP);
 
         RANDOM_USER = userRepository.save(RANDOM_USER);
 
-        GroupT group =  groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-        Assert.assertNotEquals(0,group.getAdmins().size());
+        GroupT group = groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        Assert.assertNotEquals(0, group.getAdmins().size());
 
         User user = userRepository.findById(RANDOM_USER.getId()).orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         Assert.assertNotEquals(0, user.getAdminships().size());
     }
 
     @Test
-    public void deleteGroupAdminshipFromUserShouldNotDeleteGroup(){
+    public void deleteGroupAdminshipFromUserShouldNotDeleteGroup() {
         RANDOM_USER.addAdminship(RANDOM_GROUP);
         RANDOM_USER = userRepository.save(RANDOM_USER);
 
@@ -139,7 +138,7 @@ public class GroupMembershipDataTest extends VibentTest {
     }
 
     @Test
-    public void deleteUserAdminshipFromGroupShouldNotDeleteUser(){
+    public void deleteUserAdminshipFromGroupShouldNotDeleteUser() {
         RANDOM_GROUP.addAdmin(RANDOM_USER);
         RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
 
@@ -155,33 +154,33 @@ public class GroupMembershipDataTest extends VibentTest {
 
     // Inviteships
     @Test
-    public void testAddGroupInviteshipFromGroupSide(){
+    public void testAddGroupInviteshipFromGroupSide() {
         RANDOM_GROUP.addInvite(RANDOM_USER);
 
         RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
 
-        GroupT group =  groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-        Assert.assertNotEquals(0,group.getInvites().size());
+        GroupT group = groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        Assert.assertNotEquals(0, group.getInvites().size());
 
         User user = userRepository.findById(RANDOM_USER.getId()).orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         Assert.assertNotEquals(0, user.getInviteships().size());
     }
 
     @Test
-    public void testAddGroupInviteshipFromUserSide(){
+    public void testAddGroupInviteshipFromUserSide() {
         RANDOM_USER.addInviteship(RANDOM_GROUP);
 
         RANDOM_USER = userRepository.save(RANDOM_USER);
 
-        GroupT group =  groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-        Assert.assertNotEquals(0,group.getInvites().size());
+        GroupT group = groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        Assert.assertNotEquals(0, group.getInvites().size());
 
         User user = userRepository.findById(RANDOM_USER.getId()).orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         Assert.assertNotEquals(0, user.getInviteships().size());
     }
 
     @Test
-    public void deleteGroupInviteshipFromUserShouldNotDeleteGroup(){
+    public void deleteGroupInviteshipFromUserShouldNotDeleteGroup() {
         RANDOM_USER.addInviteship(RANDOM_GROUP);
         RANDOM_USER = userRepository.save(RANDOM_USER);
 
@@ -196,7 +195,7 @@ public class GroupMembershipDataTest extends VibentTest {
     }
 
     @Test
-    public void deleteUserInviteshipFromGroupShouldNotDeleteUser(){
+    public void deleteUserInviteshipFromGroupShouldNotDeleteUser() {
         RANDOM_GROUP.addInvite(RANDOM_USER);
         RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
 

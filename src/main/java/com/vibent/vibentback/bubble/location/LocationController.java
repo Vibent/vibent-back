@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @Slf4j
 @RestController
@@ -29,7 +31,7 @@ public class LocationController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    LocationBubble createBubble(@RequestBody LocationBubbleRequest request) {
+    LocationBubble createBubble(@Valid @RequestBody LocationBubbleRequest request) {
         log.info("Creating free bubble for event with ref {}", request.getEventRef());
         return service.createBubble(request.getEventRef());
     }
@@ -42,7 +44,7 @@ public class LocationController {
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/{id}")
-    LocationBubble updateBubble(@PathVariable Long id, @RequestBody LocationBubbleUpdateRequest locationBubble) {
+    LocationBubble updateBubble(@PathVariable Long id, @Valid @RequestBody LocationBubbleUpdateRequest locationBubble) {
         log.info("Update location bubble with id {} and body : {}", id, locationBubble.toString());
         return service.updateBubble(id,locationBubble);
     }

@@ -1,11 +1,14 @@
 package com.vibent.vibentback.event;
 
-import com.vibent.vibentback.user.User;
+import com.vibent.vibentback.api.event.EventRequest;
+import com.vibent.vibentback.api.event.EventUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -23,15 +26,15 @@ public class EventController {
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
-    Event createEvent(@RequestBody Event event){
-        log.info("Creating event with body : {}", event.toString());
-        return eventService.addEvent(event);
+    Event createEvent(@Valid @RequestBody EventRequest request){
+        log.info("Creating event with body : {}", request.toString());
+        return eventService.createEvent(request);
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/{eventRef}")
-    Event updateEvent(@PathVariable String eventRef, @RequestBody Event event){
-        log.info("Update event with ref {} body : {}", eventRef, event.toString());
-        return eventService.updateEvent(eventRef, event);
+    Event updateEvent(@PathVariable String eventRef, @Valid @RequestBody EventUpdateRequest request){
+        log.info("Update event with ref {} body : {}", eventRef, request.toString());
+        return eventService.updateEvent(eventRef, request);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)

@@ -17,6 +17,7 @@ public class GeneralConfig {
         loggingFilter.setIncludeClientInfo(true);
         loggingFilter.setIncludeQueryString(true);
         loggingFilter.setIncludePayload(true);
+        loggingFilter.setMaxPayloadLength(200);
         return loggingFilter;
     }
 }

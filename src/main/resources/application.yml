@@ -8,6 +8,19 @@ spring:
     show-sql: true
     hibernate.naming.physical-strategy: com.vibent.vibentback.config.VibentPhysicalNamingStrategy
 
+vibent:
+  auth:
+    header:
+      key: Authorization
+    secret: zCGAq7Yn9NKFQ3GzpYNDDUashbUDeVcbJP59hwc7ANgq2grRX6Xw69nVAHNf8fEy
+    issuer: Vibent
+    expirationSeconds: 86400 # equivalent to one day
+    mock:
+      username: vibentUser
+      password: $2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O
+
+spring.jackson.date-format: dd.MM.yyyy
+
 ---
 # Local configuration
 spring:
@@ -18,7 +31,9 @@ spring:
     password: root
 
 logging.level:
-  org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG #DEBUG for more info
+  org.springframework:
+    web.filter.CommonsRequestLoggingFilter: DEBUG
+    boot.autoconfigure.security: INFO
 
 ---
 # Deployed configuration

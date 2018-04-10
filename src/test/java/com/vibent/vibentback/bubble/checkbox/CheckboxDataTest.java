@@ -2,10 +2,10 @@ package com.vibent.vibentback.bubble.checkbox;
 
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.bubble.BubbleType;
-import com.vibent.vibentback.bubble.checkbox.entry.CheckboxResponse;
-import com.vibent.vibentback.bubble.checkbox.entry.CheckboxResponseRepository;
-import com.vibent.vibentback.bubble.checkbox.usersResponses.UsersCheckboxResponses;
-import com.vibent.vibentback.bubble.checkbox.usersResponses.UsersCheckboxResponsesRepository;
+import com.vibent.vibentback.bubble.checkbox.answer.CheckboxAnswer;
+import com.vibent.vibentback.bubble.checkbox.answer.CheckboxAnswerRepository;
+import com.vibent.vibentback.bubble.checkbox.option.CheckboxOption;
+import com.vibent.vibentback.bubble.checkbox.option.CheckboxOptionRepository;
 import com.vibent.vibentback.event.EventRepository;
 import com.vibent.vibentback.groupT.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;
@@ -27,11 +27,11 @@ import javax.transaction.Transactional;
 public class CheckboxDataTest extends VibentTest {
 
     @Autowired
-    UsersCheckboxResponsesRepository usersCheckboxResponsesRepository;
+    CheckboxAnswerRepository checkboxAnswerRepository;
     @Autowired
     CheckboxRepository bubbleRepository;
     @Autowired
-    CheckboxResponseRepository responseRepository;
+    CheckboxOptionRepository responseRepository;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -39,20 +39,20 @@ public class CheckboxDataTest extends VibentTest {
     @Autowired
     GroupTRepository groupTRepository;
 
-    CheckboxResponse RANDOM_RESPONSE;
+    CheckboxOption RANDOM_OPTION;
     CheckboxBubble RANDOM_BUBBLE;
-    UsersCheckboxResponses RANDOM_USER_RESPONSE;
+    CheckboxAnswer RANDOM_ANSWER;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         super.setUp();
 
         RANDOM_USER = userRepository.save(RANDOM_USER);
+        log.info("{}", RANDOM_USER.getId());
         RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
         RANDOM_EVENT = eventRepository.save(RANDOM_EVENT);
 
-        log.info("{}",RANDOM_EVENT.getRef());
+        log.info("{}", RANDOM_EVENT.getRef());
 
         RANDOM_BUBBLE = new CheckboxBubble();
         RANDOM_BUBBLE.setDeleted(false);
@@ -62,38 +62,38 @@ public class CheckboxDataTest extends VibentTest {
         RANDOM_BUBBLE.setTitle("Title For Test");
         RANDOM_BUBBLE = bubbleRepository.save(RANDOM_BUBBLE);
 
-        RANDOM_RESPONSE = new CheckboxResponse();
-        RANDOM_RESPONSE.setDeleted(false);
-        RANDOM_RESPONSE.setUser(RANDOM_USER);
-        RANDOM_RESPONSE.setBubble(RANDOM_BUBBLE);
-        RANDOM_RESPONSE.setContent("Response For Test");
+        RANDOM_OPTION = new CheckboxOption();
+        RANDOM_OPTION.setDeleted(false);
+        RANDOM_OPTION.setUser(RANDOM_USER);
+        RANDOM_OPTION.setBubble(RANDOM_BUBBLE);
+        RANDOM_OPTION.setContent("Response For Test");
 
-        RANDOM_USER_RESPONSE = new UsersCheckboxResponses();
-        RANDOM_USER_RESPONSE.setResponse(RANDOM_RESPONSE);
-        RANDOM_USER_RESPONSE.setUser(RANDOM_USER);
-        RANDOM_USER_RESPONSE.setDeleted(false);
+        RANDOM_ANSWER = new CheckboxAnswer();
+        RANDOM_ANSWER.setOption(RANDOM_OPTION);
+        RANDOM_ANSWER.setUser(RANDOM_USER);
+        RANDOM_ANSWER.setDeleted(false);
 
     }
 
     @Test
-    public void testAddCheckboxBubble(){
+    public void testAddCheckboxBubble() {
         RANDOM_BUBBLE = bubbleRepository.save(RANDOM_BUBBLE);
 
         Assert.assertNotNull(bubbleRepository.findById(RANDOM_BUBBLE.getId()));
     }
 
     @Test
-    public void testAddCheckboxResponse(){
-        RANDOM_RESPONSE = responseRepository.save(RANDOM_RESPONSE);
+    public void testAddCheckboxResponse() {
+        RANDOM_OPTION = responseRepository.save(RANDOM_OPTION);
 
-        Assert.assertNotNull(responseRepository.findById(RANDOM_RESPONSE.getId()));
+        Assert.assertNotNull(responseRepository.findById(RANDOM_OPTION.getId()));
     }
 
     @Test
     public void testAddUserResponse() {
-        RANDOM_USER_RESPONSE.setResponse(responseRepository.save(RANDOM_RESPONSE));
-        RANDOM_USER_RESPONSE = usersCheckboxResponsesRepository.save(RANDOM_USER_RESPONSE);
+        RANDOM_ANSWER.setOption(responseRepository.save(RANDOM_OPTION));
+        RANDOM_ANSWER = checkboxAnswerRepository.save(RANDOM_ANSWER);
 
-        Assert.assertNotNull(usersCheckboxResponsesRepository.findById(RANDOM_USER_RESPONSE.getId()));
+        Assert.assertNotNull(checkboxAnswerRepository.findById(RANDOM_ANSWER.getId()));
     }
 }

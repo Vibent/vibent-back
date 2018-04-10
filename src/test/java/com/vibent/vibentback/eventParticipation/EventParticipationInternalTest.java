@@ -2,7 +2,6 @@ package com.vibent.vibentback.eventParticipation;
 
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.api.eventParticipation.UpdateEventParticipationRequest;
-import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
 import com.vibent.vibentback.groupT.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;

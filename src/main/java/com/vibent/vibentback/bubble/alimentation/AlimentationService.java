@@ -1,23 +1,23 @@
 package com.vibent.vibentback.bubble.alimentation;
 
-import com.vibent.vibentback.Mock;
-import com.vibent.vibentback.api.alimentation.AlimentationBringRequest;
-import com.vibent.vibentback.api.alimentation.AlimentationBringUpdateRequest;
-import com.vibent.vibentback.api.alimentation.AlimentationEntryRequest;
-import com.vibent.vibentback.api.alimentation.AlimentationEntryUpdateRequest;
+import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBringRepository;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntryRepository;
-import com.vibent.vibentback.common.ObjectUpdater;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
+import com.vibent.vibentback.api.alimentation.AlimentationBringRequest;
+import com.vibent.vibentback.api.alimentation.AlimentationBringUpdateRequest;
+import com.vibent.vibentback.api.alimentation.AlimentationEntryRequest;
+import com.vibent.vibentback.api.alimentation.AlimentationEntryUpdateRequest;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,8 +29,10 @@ public class AlimentationService {
     AlimentationBringRepository bringRepository;
     EventRepository eventRepository;
     UserRepository userRepository;
+    ConnectedUserUtils userUtils;
 
     // Alimentation Bubble -------------------------------------------------------------
+    @PreAuthorize(value = "hasPermission(#id, 'AlimentationBubble', 'GET')")
     public AlimentationBubble getBubble(long id) {
         return bubbleRepository.findById(id).orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
     }
@@ -40,7 +42,7 @@ public class AlimentationService {
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         AlimentationBubble alimentationBubble = new AlimentationBubble();
         alimentationBubble.setEvent(event);
-        alimentationBubble.setCreator(Mock.getConnectedUser(userRepository));
+        alimentationBubble.setCreator(userUtils.getConnectedUser());
         alimentationBubble.setDeleted(false);
         alimentationBubble.setType(BubbleType.AlimentationBubble);
         alimentationBubble = bubbleRepository.save(alimentationBubble);
@@ -60,16 +62,25 @@ public class AlimentationService {
         entry.setName(request.getName());
         entry.setTotalCurrent(0);
         entry.setTotalRequested(request.getTotalRequested());
+        entry.setType(request.getType());
         entry.setDeleted(false);
-        entryRepository.save(entry);
-        return bubble;
+        entry = entryRepository.save(entry);
+
+        bubble.addEntry(entry);
+        return entry.getBubble();
     }
 
     public AlimentationBubble updateEntry(Long id, AlimentationEntryUpdateRequest request) {
         AlimentationEntry entry = entryRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
-        ObjectUpdater.updateProperties(request, entry);
-        entryRepository.save(entry);
+        if(request.getName() != null)
+            entry.setName(request.getName());
+        if(request.getTotalRequested() != null)
+            entry.setTotalRequested(request.getTotalRequested());
+        if(request.getType() != null){
+            entry.setType(request.getType());
+        }
+        entry = entryRepository.save(entry);
         return entry.getBubble();
     }
 
@@ -83,7 +94,7 @@ public class AlimentationService {
                 .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
         AlimentationBring bring = new AlimentationBring();
         bring.setQuantity(request.getQuantity());
-        bring.setUser(Mock.getConnectedUser(userRepository));
+        bring.setUser(userUtils.getConnectedUser());
         bring.setEntry(entry);
         bring.setDeleted(false);
         bringRepository.save(bring);

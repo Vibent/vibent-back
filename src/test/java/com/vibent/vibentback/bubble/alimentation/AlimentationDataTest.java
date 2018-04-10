@@ -1,18 +1,14 @@
 package com.vibent.vibentback.bubble.alimentation;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.api.alimentation.AlimentationBubbleRequest;
 import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBringRepository;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntryRepository;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.groupT.GroupTRepository;
-import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
-import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashSet;
+import javax.transaction.Transactional;
 
 @Slf4j
 @Transactional
@@ -70,7 +66,7 @@ public class AlimentationDataTest extends VibentTest {
         RANDOM_ENTRY.setName("coke");
         RANDOM_ENTRY.setTotalCurrent(5);
         RANDOM_ENTRY.setTotalRequested(100);
-        RANDOM_ENTRY.setType(AlimentationEntry.Type.Food);
+        RANDOM_ENTRY.setType(AlimentationEntry.Type.FOOD);
 
         RANDOM_BRING = new AlimentationBring();
         RANDOM_BRING.setEntry(RANDOM_ENTRY);

@@ -3,7 +3,7 @@ package com.vibent.vibentback.bubble.survey;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.Bubble;
-import com.vibent.vibentback.bubble.survey.answer.SurveyAnswer;
+import com.vibent.vibentback.bubble.survey.option.SurveyOption;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -20,12 +20,12 @@ public class SurveyBubble extends Bubble {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "bubble", cascade = CascadeType.ALL)
-    private Set<SurveyAnswer> answers;
+    private Set<SurveyOption> options;
 
     private String title;
 
     @JsonProperty
-    public Set<SurveyAnswer> getAnswers(){
-        return answers;
+    public Set<SurveyOption> getOptions(){
+        return options;
     }
 }

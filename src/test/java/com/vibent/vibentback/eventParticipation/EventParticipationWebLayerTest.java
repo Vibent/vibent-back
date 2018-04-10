@@ -1,13 +1,7 @@
 package com.vibent.vibentback.eventParticipation;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.api.eventParticipation.UpdateEventParticipationRequest;
-import com.vibent.vibentback.event.Event;
-import com.vibent.vibentback.event.EventController;
-import com.vibent.vibentback.event.EventService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,10 +23,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(EventParticipationController.class)
+@WebMvcTest(value = EventParticipationController.class, secure = false)
 public class EventParticipationWebLayerTest extends VibentTest {
 
-    private final static String EXPECTED_CONTAIN = "\"answer\"";
+    private final static String EXPECTED_CONTAIN_USER = "\"userRef\"";
+    private final static String EXPECTED_CONTAIN_EVENT = "\"eventRef\"";
 
     @Autowired
     public MockMvc mockMvc;
@@ -72,14 +67,16 @@ public class EventParticipationWebLayerTest extends VibentTest {
     public void getUsersEventParticipations() throws Exception {
         this.mockMvc.perform(get("/participation/user/" + RANDOM_USER.getRef())).andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString(EXPECTED_CONTAIN)));
+                .andExpect(content().string(containsString(EXPECTED_CONTAIN_USER)))
+                .andExpect(content().string(containsString(EXPECTED_CONTAIN_EVENT)));
     }
 
     @Test
     public void getEventParticipations() throws Exception {
         this.mockMvc.perform(get("/participation/event/" + RANDOM_EVENT.getRef())).andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString(EXPECTED_CONTAIN)));
+                .andExpect(content().string(containsString(EXPECTED_CONTAIN_USER)))
+                .andExpect(content().string(containsString(EXPECTED_CONTAIN_EVENT)));
     }
 
     @Test
@@ -91,7 +88,8 @@ public class EventParticipationWebLayerTest extends VibentTest {
                 .content(body))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString(EXPECTED_CONTAIN)));
+                .andExpect(content().string(containsString(EXPECTED_CONTAIN_USER)))
+                .andExpect(content().string(containsString(EXPECTED_CONTAIN_EVENT)));
     }
 
 }

@@ -2,16 +2,17 @@ package com.vibent.vibentback.bubble.travel.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import com.vibent.vibentback.bubble.travel.TravelBubble;
 import com.vibent.vibentback.bubble.travel.proposal.TravelProposal;
 import com.vibent.vibentback.user.User;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Setter
@@ -33,7 +34,8 @@ public class TravelRequest {
     private TravelBubble bubble;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn
+    @JsonIgnore
+    @JoinColumn(name = "user_id")
     private User user;
 
     private Integer capacity;
@@ -44,5 +46,10 @@ public class TravelRequest {
     private TravelProposal proposal;
 
     @JsonIgnore
-    private Boolean deleted;
+    private boolean deleted;
+
+    @JsonProperty
+    public String getUserRef(){
+        return user.getRef();
+    }
 }

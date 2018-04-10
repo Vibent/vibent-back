@@ -1,30 +1,19 @@
 package com.vibent.vibentback.bubble.travel;
 
-import com.vibent.vibentback.Mock;
-import com.vibent.vibentback.api.alimentation.AlimentationBringRequest;
-import com.vibent.vibentback.api.alimentation.AlimentationBringUpdateRequest;
-import com.vibent.vibentback.api.alimentation.AlimentationEntryRequest;
-import com.vibent.vibentback.api.alimentation.AlimentationEntryUpdateRequest;
-import com.vibent.vibentback.api.travel.TravelProposalRequest;
-import com.vibent.vibentback.api.travel.TravelProposalUpdateRequest;
-import com.vibent.vibentback.api.travel.TravelRequestRequest;
-import com.vibent.vibentback.api.travel.TravelRequestUpdateRequest;
+import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.bubble.BubbleType;
-import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
-import com.vibent.vibentback.bubble.alimentation.AlimentationBubbleRepository;
-import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
-import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBringRepository;
-import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
-import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntryRepository;
 import com.vibent.vibentback.bubble.travel.proposal.TravelProposal;
 import com.vibent.vibentback.bubble.travel.proposal.TravelProposalRepository;
 import com.vibent.vibentback.bubble.travel.request.TravelRequest;
 import com.vibent.vibentback.bubble.travel.request.TravelRequestRepository;
-import com.vibent.vibentback.common.ObjectUpdater;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
+import com.vibent.vibentback.api.travel.TravelProposalRequest;
+import com.vibent.vibentback.api.travel.TravelProposalUpdateRequest;
+import com.vibent.vibentback.api.travel.TravelRequestRequest;
+import com.vibent.vibentback.api.travel.TravelRequestUpdateRequest;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +28,7 @@ public class TravelService {
     TravelProposalRepository proposalRepository;
     EventRepository eventRepository;
     UserRepository userRepository;
+    ConnectedUserUtils userUtils;
 
     // Travel Bubble -------------------------------------------------------------
     public TravelBubble getBubble(long id) {
@@ -50,7 +40,7 @@ public class TravelService {
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         TravelBubble travelBubble = new TravelBubble();
         travelBubble.setEvent(event);
-        travelBubble.setCreator(Mock.getConnectedUser(userRepository));
+        travelBubble.setCreator(userUtils.getConnectedUser());
         travelBubble.setDeleted(false);
         travelBubble.setType(BubbleType.TravelBubble);
         travelBubble = bubbleRepository.save(travelBubble);
@@ -77,7 +67,10 @@ public class TravelService {
     public TravelBubble updateProposal(Long id, TravelProposalUpdateRequest request) {
         TravelProposal proposal = proposalRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.TRAVEL_PROPOSAL_NOT_FOUND));
-        ObjectUpdater.updateProperties(request, proposal);
+        if(request.getCapacity() != null)
+            proposal.setCapacity(request.getCapacity());
+        if(request.getPassByCities() != null)
+            proposal.setPassByCities(request.getPassByCities());
         proposalRepository.save(proposal);
         return proposal.getBubble();
     }
@@ -92,7 +85,7 @@ public class TravelService {
                 .orElseThrow(() -> new VibentException(VibentError.TRAVEL_REQUEST_NOT_FOUND));
         TravelRequest travelRequest = new TravelRequest();
         travelRequest.setCapacity(request.getCapacity());
-        travelRequest.setUser(Mock.getConnectedUser(userRepository));
+        travelRequest.setUser(userUtils.getConnectedUser());
         travelRequest.setDeleted(false);
         requestRepository.save(travelRequest);
         return bubble;

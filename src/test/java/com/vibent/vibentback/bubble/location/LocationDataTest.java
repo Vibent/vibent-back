@@ -2,11 +2,6 @@ package com.vibent.vibentback.bubble.location;
 
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.bubble.BubbleType;
-import com.vibent.vibentback.bubble.free.FreeBubbleRepository;
-import com.vibent.vibentback.bubble.location.LocationBubble;
-import com.vibent.vibentback.bubble.location.LocationBubbleRepository;
-import javax.transaction.Transactional;
-
 import com.vibent.vibentback.event.EventRepository;
 import com.vibent.vibentback.groupT.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;
@@ -19,17 +14,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
+
 @Slf4j
 @Transactional
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class LocationDataTest extends VibentTest {
 
-
-    @Autowired
-    LocationBubbleRepository bubbleRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    LocationBubbleRepository bubbleRepository;
     @Autowired
     EventRepository eventRepository;
     @Autowired
@@ -45,7 +41,7 @@ public class LocationDataTest extends VibentTest {
         RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
         RANDOM_EVENT = eventRepository.save(RANDOM_EVENT);
 
-        log.info("{}",RANDOM_EVENT.getRef());
+        log.info("{}", RANDOM_EVENT.getRef());
 
         RANDOM_BUBBLE = new LocationBubble();
         RANDOM_BUBBLE.setDeleted(false);

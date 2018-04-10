@@ -1,5 +1,6 @@
 package com.vibent.vibentback.api.alimentation;
 
+import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
@@ -15,4 +16,5 @@ public class AlimentationEntryRequest {
     @Size(max = 64, min = 1)
     private String name;
     private Integer totalRequested;
+    private AlimentationEntry.Type type;
 }

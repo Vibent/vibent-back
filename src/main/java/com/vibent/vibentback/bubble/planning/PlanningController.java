@@ -1,6 +1,5 @@
 package com.vibent.vibentback.bubble.planning;
 
-import com.vibent.vibentback.api.bubble.survey.*;
 import com.vibent.vibentback.api.planning.PlanningBubbleRequest;
 import com.vibent.vibentback.api.planning.PlanningBubbleUpdateRequest;
 import com.vibent.vibentback.api.planning.PlanningEntryRequest;
@@ -11,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -32,13 +33,13 @@ public class PlanningController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    PlanningBubble createBubble(@RequestBody PlanningBubbleRequest request) {
+    PlanningBubble createBubble(@Valid @RequestBody PlanningBubbleRequest request) {
         log.info("Creating planning bubble for event with ref {}", request.getEventRef());
         return service.createBubble(request.getEventRef());
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/{id}")
-    PlanningBubble updateBubble(@PathVariable Long id, @RequestBody PlanningBubbleUpdateRequest request) {
+    PlanningBubble updateBubble(@PathVariable Long id, @Valid @RequestBody PlanningBubbleUpdateRequest request) {
         log.info("Updating planning bubble with id {} and body : {}", id, request.toString());
         return service.updateBubble(id, request);
     }
@@ -53,24 +54,24 @@ public class PlanningController {
     // Planning Bubble Entry -------------------------------------------------------------
 
     @ResponseStatus(value = HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST, value = "/entry",
+    @RequestMapping(method = RequestMethod.POST, value = "/option",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    PlanningBubble createEntry(@RequestBody PlanningEntryRequest entry) {
-        log.info("Creating planning entry with body : {}", entry.toString());
+    PlanningBubble createEntry(@Valid @RequestBody PlanningEntryRequest entry) {
+        log.info("Creating planning option with body : {}", entry.toString());
         return service.createEntry(entry);
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, value = "/entry/{id}",
+    @RequestMapping(method = RequestMethod.PATCH, value = "/option/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    PlanningBubble updateEntry(@PathVariable Long id, @RequestBody PlanningEntryUpdateRequest entry) {
-        log.info("Updating planning entry with id {} and body : {}", id, entry.toString());
+    PlanningBubble updateEntry(@PathVariable Long id, @Valid @RequestBody PlanningEntryUpdateRequest entry) {
+        log.info("Updating planning option with id {} and body : {}", id, entry.toString());
         return service.updateEntry(id, entry);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @RequestMapping(method = RequestMethod.DELETE, value = "/entry/{id}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/option/{id}")
     void deleteEntry(@PathVariable Long id) {
-        log.info("Deleting planning entry for with id {}", id);
+        log.info("Deleting planning option for with id {}", id);
         service.deleteEntry(id);
     }
 }

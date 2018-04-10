@@ -1,11 +1,9 @@
 package com.vibent.vibentback.user;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.common.ObjectUpdater;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,68 +12,65 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.UUID;
 
 @Slf4j
+@Transactional
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class UserDataTest extends VibentTest {
 
     @Autowired
-    UserRepository repository;
+    UserRepository userRepository;
 
     @Before
     public void setUp() {
         super.setUp();
-        repository.save(RANDOM_USER);
-    }
-
-    @After
-    public void tearDown() {
-        repository.deleteByRef(RANDOM_USER.getRef());
     }
 
     @Test
     public void testAddUser() {
-        User user = new User(UUID.randomUUID().toString(), "test", "test", "test@test.com", "test", "test");
-        user = repository.save(user);
-        Assert.assertNotNull(user.getRef());
-
-        // Clean up
-        repository.delete(user);
+        RANDOM_USER = userRepository.save(RANDOM_USER);
+        Assert.assertNotNull(RANDOM_USER.getRef());
     }
 
     @Test
     public void testGetUser() {
-        User user = repository.findByRef(RANDOM_USER.getRef())
+        RANDOM_USER = userRepository.save(RANDOM_USER);
+        log.info(RANDOM_USER.toString());
+        User authUser = userRepository.findById(RANDOM_USER.getId())
                 .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
+        User user = userRepository.findByRef(RANDOM_USER.getRef())
+                .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
+        Assert.assertNotNull(authUser.getUsername());
         Assert.assertNotNull(user.getRef());
     }
 
     @Test
     public void testDeleteUser() {
-        Integer deletedAmount = repository.deleteByRef(RANDOM_USER.getRef());
-        Assert.assertEquals(1, deletedAmount.intValue());
+        RANDOM_USER = userRepository.save(RANDOM_USER);
+
+        userRepository.delete(RANDOM_USER);
+
+        boolean found = userRepository.findById(RANDOM_USER.getId()).isPresent();
+        Assert.assertFalse(found);
     }
 
     @Test
     public void testUpdateUser() {
-        // Set up
-        User newUser = new User();
-        newUser.setRef("newRefShouldNotUpdate");
-        newUser.setId(-1L);
-        newUser.setFirstName("NewFirstNameShouldUpdate");
-        User old = repository.findByRef(RANDOM_USER.getRef())
-                .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
-        String oldLastNameShouldNotUpdate = old.getLastName();
+        String randomFirstName = UUID.randomUUID().toString();
+        String randomUsername = UUID.randomUUID().toString();
+        RANDOM_USER = userRepository.save(RANDOM_USER);
 
-        // To test
-        ObjectUpdater.updateProperties(newUser, old);
+        RANDOM_USER.setFirstName(randomFirstName);
+        userRepository.save(RANDOM_USER);
+        Assert.assertTrue(userRepository.findById(RANDOM_USER.getId()).isPresent());
+        Assert.assertEquals(randomFirstName, userRepository.findById(RANDOM_USER.getId()).get().getFirstName());
 
-        User checkUser = repository.save(old);
-        Assert.assertEquals("NewFirstNameShouldUpdate", checkUser.getFirstName());
-        Assert.assertNotEquals(-1L, checkUser.getId().longValue());
-        Assert.assertNotEquals("newRefShouldNotUpdate", checkUser.getRef());
-        Assert.assertEquals(oldLastNameShouldNotUpdate, checkUser.getLastName());
+        RANDOM_USER.setUsername(randomUsername);
+        userRepository.save(RANDOM_USER);
+        Assert.assertTrue(userRepository.findById(RANDOM_USER.getId()).isPresent());
+        Assert.assertEquals(randomUsername, userRepository.findById(RANDOM_USER.getId()).get().getUsername());
     }
 }

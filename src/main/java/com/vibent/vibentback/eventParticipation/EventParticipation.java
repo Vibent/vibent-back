@@ -2,8 +2,8 @@
 package com.vibent.vibentback.eventParticipation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.event.Event;
-import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.user.User;
 import lombok.*;
 
@@ -22,11 +22,13 @@ public class EventParticipation {
 
     @NonNull
     @ManyToOne
-    @PrimaryKeyJoinColumn
+    @JsonIgnore
+    @JoinColumn(name = "user_id")
     private User user;
 
     @NonNull
     @ManyToOne
+    @JsonIgnore
     @PrimaryKeyJoinColumn
     private Event event;
 
@@ -41,4 +43,13 @@ public class EventParticipation {
         YES, NO, MAYBE, UNANSWERED
     }
 
+    @JsonProperty
+    public String getUserRef(){
+        return user.getRef();
+    }
+
+    @JsonProperty
+    public String getEventRef(){
+        return event.getRef();
+    }
 }

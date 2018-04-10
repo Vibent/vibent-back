@@ -1,13 +1,12 @@
 package com.vibent.vibentback.bubble.free;
 
-import com.vibent.vibentback.Mock;
-import com.vibent.vibentback.api.free.FreeBubbleUpdateRequest;
+import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.bubble.BubbleType;
-import com.vibent.vibentback.common.ObjectUpdater;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
+import com.vibent.vibentback.api.free.FreeBubbleUpdateRequest;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ public class FreeService {
     FreeBubbleRepository bubbleRepository;
     EventRepository eventRepository;
     UserRepository userRepository;
+    ConnectedUserUtils userUtils;
 
     // Free Bubble -------------------------------------------------------------
     public FreeBubble getBubble(long id) {
@@ -31,18 +31,21 @@ public class FreeService {
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         FreeBubble freeBubble = new FreeBubble();
         freeBubble.setEvent(event);
-        freeBubble.setCreator(Mock.getConnectedUser(userRepository));
+        freeBubble.setCreator(userUtils.getConnectedUser());
         freeBubble.setDeleted(false);
         freeBubble.setType(BubbleType.AlimentationBubble);
         freeBubble = bubbleRepository.save(freeBubble);
         return freeBubble;
     }
 
-    public FreeBubble updateBubble(long id, FreeBubbleUpdateRequest update) {
+    public FreeBubble updateBubble(long id, FreeBubbleUpdateRequest request) {
         FreeBubble bubble = bubbleRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
-        ObjectUpdater.updateProperties(update, bubble);
-        bubbleRepository.save(bubble);
+        if(request.getTitle() != null)
+            bubble.setTitle(request.getTitle());
+        if(request.getContent() != null)
+            bubble.setContent(request.getContent());
+        bubble = bubbleRepository.save(bubble);
         return bubble;
     }
 

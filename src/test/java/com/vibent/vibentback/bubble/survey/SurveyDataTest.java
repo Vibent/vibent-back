@@ -2,17 +2,13 @@ package com.vibent.vibentback.bubble.survey;
 
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.bubble.BubbleType;
-import com.vibent.vibentback.bubble.survey.SurveyBubble;
-import com.vibent.vibentback.bubble.survey.SurveyBubbleRepository;
-import com.vibent.vibentback.bubble.survey.answer.SurveyAnswer;
-import com.vibent.vibentback.bubble.survey.answer.SurveyAnswerRepository;
-import com.vibent.vibentback.bubble.survey.usersAnswers.UsersSurveyAnswers;
-import com.vibent.vibentback.bubble.survey.usersAnswers.UsersSurveyAnswersRepository;
+import com.vibent.vibentback.bubble.survey.option.SurveyOption;
+import com.vibent.vibentback.bubble.survey.option.SurveyOptionRepository;
+import com.vibent.vibentback.bubble.survey.usersAnswers.SurveyAnswer;
+import com.vibent.vibentback.bubble.survey.usersAnswers.SurveyAnswersRepository;
 import com.vibent.vibentback.event.EventRepository;
 import com.vibent.vibentback.groupT.GroupTRepository;
-import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
-import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
+
 
 @Slf4j
 @Transactional
@@ -30,11 +28,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class SurveyDataTest extends VibentTest {
 
     @Autowired
-    UsersSurveyAnswersRepository usersSurveyAnswersRepository;
+    SurveyAnswersRepository surveyAnswersRepository;
     @Autowired
     SurveyBubbleRepository bubbleRepository;
     @Autowired
-    SurveyAnswerRepository answerRepository;
+    SurveyOptionRepository answerRepository;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -42,9 +40,9 @@ public class SurveyDataTest extends VibentTest {
     @Autowired
     GroupTRepository groupTRepository;
 
-    SurveyAnswer RANDOM_ANSWER;
+    SurveyOption RANDOM_OPTION;
     SurveyBubble RANDOM_BUBBLE;
-    UsersSurveyAnswers RANDOM_USER_ANSWER;
+    SurveyAnswer RANDOM_ANSWER;
 
     @Before
     public void setUp()
@@ -65,16 +63,16 @@ public class SurveyDataTest extends VibentTest {
         RANDOM_BUBBLE.setTitle("Title For Test");
         RANDOM_BUBBLE = bubbleRepository.save(RANDOM_BUBBLE);
 
-        RANDOM_ANSWER = new SurveyAnswer();
-        RANDOM_ANSWER.setDeleted(false);
-        RANDOM_ANSWER.setUser(RANDOM_USER);
-        RANDOM_ANSWER.setBubble(RANDOM_BUBBLE);
-        RANDOM_ANSWER.setContent("Answer For Test");
+        RANDOM_OPTION = new SurveyOption();
+        RANDOM_OPTION.setDeleted(false);
+        RANDOM_OPTION.setUser(RANDOM_USER);
+        RANDOM_OPTION.setBubble(RANDOM_BUBBLE);
+        RANDOM_OPTION.setContent("Answer For Test");
 
-        RANDOM_USER_ANSWER = new UsersSurveyAnswers();
-        RANDOM_USER_ANSWER.setAnswer(RANDOM_ANSWER);
-        RANDOM_USER_ANSWER.setUser(RANDOM_USER);
-        RANDOM_USER_ANSWER.setDeleted(false);
+        RANDOM_ANSWER = new SurveyAnswer();
+        RANDOM_ANSWER.setOption(RANDOM_OPTION);
+        RANDOM_ANSWER.setUser(RANDOM_USER);
+        RANDOM_ANSWER.setDeleted(false);
 
     }
 
@@ -87,17 +85,17 @@ public class SurveyDataTest extends VibentTest {
 
     @Test
     public void testAddSurveyAnswer(){
-        RANDOM_ANSWER = answerRepository.save(RANDOM_ANSWER);
+        RANDOM_OPTION = answerRepository.save(RANDOM_OPTION);
 
-        Assert.assertNotNull(answerRepository.findById(RANDOM_ANSWER.getId()));
+        Assert.assertNotNull(answerRepository.findById(RANDOM_OPTION.getId()));
     }
 
     @Test
     public void testAddUserAnswer() {
-        RANDOM_USER_ANSWER.setAnswer(answerRepository.save(RANDOM_ANSWER));
-        RANDOM_USER_ANSWER = usersSurveyAnswersRepository.save(RANDOM_USER_ANSWER);
+        RANDOM_ANSWER.setOption(answerRepository.save(RANDOM_OPTION));
+        RANDOM_ANSWER = surveyAnswersRepository.save(RANDOM_ANSWER);
 
-        Assert.assertNotNull(usersSurveyAnswersRepository.findById(RANDOM_USER_ANSWER.getId()));
+        Assert.assertNotNull(surveyAnswersRepository.findById(RANDOM_ANSWER.getId()));
     }
 
 }

@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Slf4j
 @RunWith(SpringRunner.class)
-@WebMvcTest(TravelController.class)
+@WebMvcTest(value = TravelController.class, secure = false)
 public class TravelWebLayerTest extends VibentTest {
 
     private final static String ROOT_URL = "/bubble/travel";

@@ -1,8 +1,5 @@
 package com.vibent.vibentback.user;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.vibent.vibentback.VibentTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,15 +12,13 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(UserController.class)
+@WebMvcTest(value = UserController.class, secure = false)
 public class UserWebLayerTest extends VibentTest {
 
     @Autowired
@@ -35,7 +30,7 @@ public class UserWebLayerTest extends VibentTest {
     @Before
     public void setUp() {
         super.setUp();
-        when(userService.getUser(RANDOM_USER.getRef())).thenReturn(RANDOM_USER);
+        when(userService.getUserByRef(RANDOM_USER.getRef())).thenReturn(RANDOM_USER);
         when(userService.addUser(RANDOM_USER)).thenReturn(RANDOM_USER);
     }
 
@@ -43,21 +38,5 @@ public class UserWebLayerTest extends VibentTest {
     public void testGetUser() throws Exception {
         this.mockMvc.perform(get("/user/" + RANDOM_USER.getRef())).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("firstName")));
-    }
-
-    @Test
-    public void testAddUser() throws Exception {
-        String requestJson = getJsonString(RANDOM_USER);
-
-        mockMvc.perform(post("/user").contentType(APPLICATION_JSON_UTF8)
-                .content(requestJson))
-                .andExpect(status().isCreated())
-                .andExpect(content().string(containsString("firstName")));
-    }
-
-    @Test
-    public void testDeleteUser() throws Exception {
-        mockMvc.perform(delete("/user/" + RANDOM_USER.getRef()))
-                .andExpect(status().isNoContent());
     }
 }

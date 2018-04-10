@@ -13,6 +13,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 @Setter
@@ -24,10 +25,14 @@ public class AlimentationBubble extends Bubble {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "bubble", cascade = CascadeType.ALL)
-    private Set<AlimentationEntry> entries;
+    private Set<AlimentationEntry> entries = new HashSet<>();
 
     @JsonProperty
     public Set<AlimentationEntry> getEntries(){
         return entries;
+    }
+
+    public void addEntry(AlimentationEntry entry){
+        this.entries.add(entry);
     }
 }

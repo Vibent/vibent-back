@@ -2,11 +2,10 @@ package com.vibent.vibentback.bubble.alimentation.bring;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import com.vibent.vibentback.user.User;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -30,14 +29,13 @@ public class AlimentationBring {
     private AlimentationEntry entry;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "user_id")
     private User user;
 
     private Integer quantity;
 
     @JsonIgnore
-    private Boolean deleted;
-
+    private boolean deleted;
 
     @JsonProperty
     public String getUserRef(){
