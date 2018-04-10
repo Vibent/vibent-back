@@ -76,7 +76,7 @@ public class TravelService {
 
     public TravelBubble updateProposal(Long id, TravelProposalUpdateRequest request) {
         TravelProposal proposal = proposalRepository.findById(id)
-                .orElseThrow(() -> new VibentException(VibentError.PROPOSAL_NOT_FOUND));
+                .orElseThrow(() -> new VibentException(VibentError.TRAVEL_PROPOSAL_NOT_FOUND));
         ObjectUpdater.updateProperties(request, proposal);
         proposalRepository.save(proposal);
         return proposal.getBubble();
@@ -89,7 +89,7 @@ public class TravelService {
     // Travel request -------------------------------------------------------------
     public TravelBubble createRequest(TravelRequestRequest request) {
         TravelBubble bubble = bubbleRepository.findById(request.getBubbleId())
-                .orElseThrow(() -> new VibentException(VibentError.REQUEST_NOT_FOUND));
+                .orElseThrow(() -> new VibentException(VibentError.TRAVEL_REQUEST_NOT_FOUND));
         TravelRequest travelRequest = new TravelRequest();
         travelRequest.setCapacity(request.getCapacity());
         travelRequest.setUser(Mock.getConnectedUser(userRepository));
@@ -101,7 +101,7 @@ public class TravelService {
 
     public TravelBubble updateRequest(Long id, TravelRequestUpdateRequest request) {
         TravelRequest travelRequest = requestRepository.findById(id)
-                .orElseThrow(() -> new VibentException(VibentError.REQUEST_NOT_FOUND));
+                .orElseThrow(() -> new VibentException(VibentError.TRAVEL_REQUEST_NOT_FOUND));
         travelRequest.setIsAttachedToProposal(request.getIsAttachedToProposal());
         travelRequest.setCapacity(request.getCapacity());
         return travelRequest.getBubble();
