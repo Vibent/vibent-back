@@ -10,6 +10,8 @@ public class TravelProposalRequest {
     @NotNull
     @Min(0)
     private Long bubbleId;
+    @NotNull
+    @Min(1)
     private Integer capacity;
     private String passByCities;
 }
