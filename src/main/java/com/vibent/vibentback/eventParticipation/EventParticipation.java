@@ -1,28 +1,44 @@
 
 package com.vibent.vibentback.eventParticipation;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.vibent.vibentback.event.Event;
+import com.vibent.vibentback.groupT.GroupT;
+import com.vibent.vibentback.user.User;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
 @Entity
 @NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 @RequiredArgsConstructor
 public class EventParticipation {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NonNull
-    private String userRef;
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    private User user;
+
     @NonNull
-    private String groupRef;
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    private Event event;
+
     @NonNull
-    private String answer;
+    @Enumerated(EnumType.STRING)
+    private Answer answer = Answer.UNANSWERED;
+
+    @JsonIgnore
     private boolean isVisible;
+
+    public enum Answer {
+        YES, NO, MAYBE, UNANSWERED
+    }
 
 }

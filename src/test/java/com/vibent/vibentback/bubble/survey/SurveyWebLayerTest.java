@@ -114,7 +114,7 @@ public class SurveyWebLayerTest extends VibentTest {
     public void testCreateAnswer() throws Exception {
         String body = super.getJsonString(RANDOM_ANSWER_REQUEST);
 
-        mockMvc.perform(post(ROOT_URL + "/entry").contentType(APPLICATION_JSON_UTF8)
+        mockMvc.perform(post(ROOT_URL + "/response").contentType(APPLICATION_JSON_UTF8)
                 .content(body))
                 .andExpect(status().isCreated())
                 .andExpect(content().string(containsString(EXPECTED_CONTAIN)));
@@ -122,7 +122,7 @@ public class SurveyWebLayerTest extends VibentTest {
 
     @Test
     public void testDeleteAnswer() throws Exception {
-        mockMvc.perform(delete(ROOT_URL + "/entry/" + RANDOM_ANSWER.getId()))
+        mockMvc.perform(delete(ROOT_URL + "/response/" + RANDOM_ANSWER.getId()))
                 .andExpect(status().isNoContent());
     }
 
@@ -130,7 +130,7 @@ public class SurveyWebLayerTest extends VibentTest {
     public void testUpdateAnswer() throws Exception {
         String body = super.getJsonString(RANDOM_ANSWER_UPDATE_REQUEST);
 
-        mockMvc.perform(patch(ROOT_URL + "/entry/" + RANDOM_ANSWER.getId())
+        mockMvc.perform(patch(ROOT_URL + "/response/" + RANDOM_ANSWER.getId())
                 .contentType(APPLICATION_JSON_UTF8).content(body))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString(EXPECTED_CONTAIN)));

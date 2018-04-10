@@ -4,10 +4,7 @@ import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.common.ObjectUpdater;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
-import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.groupT.GroupTRepository;
-import com.vibent.vibentback.user.User;
-import javax.transaction.Transactional;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.UUID;
 
 @Transactional
@@ -31,8 +31,7 @@ public class EventDataTest extends VibentTest {
     GroupTRepository groupRepository;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         super.setUp();
         groupRepository.save(RANDOM_GROUP);
         repository.save(RANDOM_EVENT);
@@ -45,8 +44,10 @@ public class EventDataTest extends VibentTest {
     }
 
     @Test
-    public void testAddEvent(){
-        Event event = new Event(UUID.randomUUID().toString(), RANDOM_GROUP.getRef(), "eventTest", "description",new Date(), new Date());
+    public void testAddEvent() {
+        Event event = new Event(UUID.randomUUID().toString(), RANDOM_GROUP.getRef(), "eventTest", "description",
+                new GregorianCalendar(1970, Calendar.JANUARY, 1).getTime(),
+                new GregorianCalendar(1970, Calendar.JANUARY, 2).getTime());
         Assert.assertNotNull(event.getRef());
         repository.save(event);
 
@@ -56,7 +57,8 @@ public class EventDataTest extends VibentTest {
 
     @Test
     public void testGetEvent() {
-        Event event = repository.findByRef(RANDOM_EVENT.getRef()).orElseThrow(()->new VibentException(VibentError.EVENT_NOT_FOUND));;
+        Event event = repository.findByRef(RANDOM_EVENT.getRef()).orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
+        ;
         Assert.assertNotNull(event.getRef());
     }
 
@@ -73,7 +75,7 @@ public class EventDataTest extends VibentTest {
         newEvent.setRef("newRefShouldNotUpdate");
         newEvent.setId(-1L);
         newEvent.setTitle("NewTitleShouldUpdate");
-        Event old = repository.findByRef(RANDOM_EVENT.getRef()).orElseThrow(()->new VibentException(VibentError.EVENT_NOT_FOUND));
+        Event old = repository.findByRef(RANDOM_EVENT.getRef()).orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         String oldDescriptionShouldNotUpdate = old.getDescription();
 
         // To test

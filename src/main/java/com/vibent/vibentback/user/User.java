@@ -1,6 +1,7 @@
 package com.vibent.vibentback.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.vibent.vibentback.eventParticipation.EventParticipation;
 import com.vibent.vibentback.groupT.GroupT;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -49,6 +50,10 @@ public class User implements Serializable {
     @JsonIgnore
     @Column(insertable = false, updatable = false)
     private Boolean deleted;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<EventParticipation> participations;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "members", cascade = { CascadeType.ALL })

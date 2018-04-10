@@ -1,6 +1,8 @@
 package com.vibent.vibentback.groupT;
 
 import com.vibent.vibentback.common.ObjectUpdater;
+import com.vibent.vibentback.error.VibentError;
+import com.vibent.vibentback.error.VibentException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,8 @@ public class GroupTService {
     GroupTRepository groupTRepository;
 
     public GroupT getGroupT(String ref) {
-        return groupTRepository.findByRef(ref);
+        return groupTRepository.findByRef(ref)
+                .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
     }
 
     public ArrayList<GroupT> getGroupT() {
@@ -43,7 +46,8 @@ public class GroupTService {
     }
 
     public GroupT updateGroupT(String groupRef, GroupT newGroup) {
-        GroupT existing = groupTRepository.findByRef(groupRef);
+        GroupT existing = groupTRepository.findByRef(groupRef)
+                .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
         ObjectUpdater.updateProperties(existing, newGroup);
         return groupTRepository.save(existing);
     }

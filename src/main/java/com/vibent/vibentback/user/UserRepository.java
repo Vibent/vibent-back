@@ -6,14 +6,13 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    User findById(long id);
+    Optional<User> findByRef(String ref);
 
-    User findByRef(String ref);
-
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
     @Transactional
     int deleteByRef(String ref);

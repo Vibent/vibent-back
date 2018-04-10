@@ -22,17 +22,20 @@ public enum VibentError {
 
     EVENT_NOT_FOUND("event-not-found", HttpStatus.NOT_FOUND, "The requested event could not be found"),
 
+    EVENT_PARTICIPATION_NOT_FOUND("event-participation-not-found", HttpStatus.NOT_FOUND, "The requested event participation could not be found"),
+    EVENT_PARTICIPATION_ALREADY_EXISTS("event-participation-already-exists", HttpStatus.BAD_REQUEST, "There should be no event participation duplicates"),
+
     BUBBLE_NOT_FOUND("bubble-not-found", HttpStatus.NOT_FOUND, "The requested bubble can not be found"),
     BUBBLE_CANT_CREATE("bubble-cant-create", HttpStatus.NOT_FOUND, "Bubble can not be created"),
 
-    ENTRY_NOT_FOUND("entry-not-found", HttpStatus.NOT_FOUND, "The requested entry can not be found"),
+    ENTRY_NOT_FOUND("response-not-found", HttpStatus.NOT_FOUND, "The requested response can not be found"),
     BRING_NOT_FOUND("bring-not-found", HttpStatus.NOT_FOUND, "The requested bring can not be found"),
 
     PROPOSAL_NOT_FOUND("proposal-not-found", HttpStatus.NOT_FOUND, "The requested proposal can not be found"),
     REQUEST_NOT_FOUND("travel-request-not-found", HttpStatus.NOT_FOUND, "The requested travel request can not be found"),
 
-    ANSWER_NOT_FOUND("entry-not-found", HttpStatus.NOT_FOUND, "The requested entry can not be found"),
-    USER_ANSWER_NOT_FOUND("user-entry-not-found", HttpStatus.NOT_FOUND, "The requested user entry can not be found"),
+    ANSWER_NOT_FOUND("response-not-found", HttpStatus.NOT_FOUND, "The requested response can not be found"),
+    USER_ANSWER_NOT_FOUND("user-response-not-found", HttpStatus.NOT_FOUND, "The requested user response can not be found"),
 
 
     // General erros
