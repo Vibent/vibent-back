@@ -1,8 +1,11 @@
 package com.vibent.vibentback.validate;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+@Slf4j
 public class BCryptValidator implements ConstraintValidator<BCrypt, String> {
 
     @Override
@@ -11,7 +14,10 @@ public class BCryptValidator implements ConstraintValidator<BCrypt, String> {
 
     @Override
     public boolean isValid(String field, ConstraintValidatorContext constraintValidatorContext) {
-        return field.matches("^\\$2[aby]?\\$\\d{1,2}\\$[./A-Za-z0-9]{53}$");
+        boolean isOk = field.matches("^\\$2[aby]?\\$\\d{1,2}\\$[./A-Za-z0-9]{53}$");
+        if(!isOk)
+            log.error("Invalid password : {}", field);
+        return isOk;
     }
 
 }

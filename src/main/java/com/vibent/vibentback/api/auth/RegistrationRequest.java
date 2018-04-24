@@ -23,7 +23,6 @@ public class RegistrationRequest {
     @NotNull
     private String email;
 
-    @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date birthday;
 
