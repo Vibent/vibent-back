@@ -88,7 +88,6 @@ CREATE TABLE `alimentation_entry` (
   `bubble_id` int(11) DEFAULT NULL,
   `name` varchar(64) DEFAULT NULL,
   `total_requested` int(11) DEFAULT NULL,
-  `total_current` int(11) DEFAULT NULL,
   `type` enum('FOOD','DRINK','OTHER') DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),

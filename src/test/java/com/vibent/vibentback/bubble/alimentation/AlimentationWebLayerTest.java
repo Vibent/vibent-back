@@ -75,7 +75,6 @@ public class AlimentationWebLayerTest extends VibentTest {
         RANDOM_ENTRY.setDeleted(false);
         RANDOM_ENTRY.setName("Coke");
         RANDOM_ENTRY.setType(AlimentationEntry.Type.DRINK);
-        RANDOM_ENTRY.setTotalCurrent(5);
         RANDOM_ENTRY.setTotalRequested(10);
         RANDOM_ENTRY.setBrings(new HashSet<AlimentationBring>() {{
             add(RANDOM_BRING);

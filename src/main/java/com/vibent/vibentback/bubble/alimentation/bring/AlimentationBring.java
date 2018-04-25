@@ -29,6 +29,7 @@ public class AlimentationBring {
     private AlimentationEntry entry;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 

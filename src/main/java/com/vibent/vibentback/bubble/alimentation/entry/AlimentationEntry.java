@@ -40,7 +40,6 @@ public class AlimentationEntry {
 
     private String name;
     private Integer totalRequested;
-    private Integer totalCurrent;
 
     @Enumerated(EnumType.STRING)
     private Type type;
@@ -51,6 +50,15 @@ public class AlimentationEntry {
     @JsonProperty
     public Set<AlimentationBring> getBrings() {
         return brings;
+    }
+
+    public void addBring(AlimentationBring bring){
+        this.brings.add(bring);
+    }
+
+    @JsonProperty
+    public int getCurrentBringing(){
+        return brings.stream().mapToInt(AlimentationBring::getQuantity).sum();
     }
 
     public enum Type {
