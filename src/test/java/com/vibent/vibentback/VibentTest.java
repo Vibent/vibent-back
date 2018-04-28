@@ -39,9 +39,9 @@ public class VibentTest {
         RANDOM_USER.setRef(UUID.randomUUID().toString());
         RANDOM_USER.setFirstName("firstName");
         RANDOM_USER.setLastName("lastName");
-        RANDOM_USER.setUsername("VibentUser");
+        RANDOM_USER.setUsername("VibentUserJUnit");
         RANDOM_USER.setPassword("$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O");
-        RANDOM_USER.setEmail("vibent@vibent.com");
+        RANDOM_USER.setEmail("vibentJUnit@vibent.com");
 
         RANDOM_GROUP = new GroupT(UUID.randomUUID().toString(), "test");
         RANDOM_EVENT = new Event(UUID.randomUUID().toString(), RANDOM_GROUP, "test", "test", getFutureDate(5));

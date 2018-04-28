@@ -64,7 +64,6 @@ public class AlimentationDataTest extends VibentTest {
         RANDOM_ENTRY.setDeleted(false);
         RANDOM_ENTRY.setBubble(RANDOM_BUBBLE);
         RANDOM_ENTRY.setName("coke");
-        RANDOM_ENTRY.setTotalCurrent(5);
         RANDOM_ENTRY.setTotalRequested(100);
         RANDOM_ENTRY.setType(AlimentationEntry.Type.FOOD);
 
