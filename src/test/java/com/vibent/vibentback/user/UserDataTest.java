@@ -5,6 +5,7 @@ import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +38,7 @@ public class UserDataTest extends VibentTest {
 
     @Test
     public void testGetUser() {
+        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
         RANDOM_USER = userRepository.save(RANDOM_USER);
         log.info(RANDOM_USER.toString());
         User authUser = userRepository.findById(RANDOM_USER.getId())

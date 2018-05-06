@@ -10,20 +10,23 @@ import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.user.User;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
-@ActiveProfiles("test")
 public class VibentTest {
 
     @Value("${vibent.auth.secret")
     private String secret;
+
+    @Autowired
+    protected Environment env;
 
     @Rule
     public ExpectedException exception = ExpectedException.none();

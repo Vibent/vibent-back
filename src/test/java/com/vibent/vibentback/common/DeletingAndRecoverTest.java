@@ -7,6 +7,7 @@ import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,6 +53,7 @@ public class DeletingAndRecoverTest extends VibentTest {
 
     @Test
     public void isDeletedTest(){
+        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
         RANDOM_USER = repository.save(RANDOM_USER);
         Assert.assertFalse(repository.isDeleted(RANDOM_USER.getRef()));
         repository.delete(RANDOM_USER);

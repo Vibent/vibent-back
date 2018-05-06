@@ -5,6 +5,7 @@ import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
 import com.vibent.vibentback.groupT.GroupTRepository;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,13 +47,14 @@ public class EventDataTest extends VibentTest {
 
     @Test
     public void testGetEvent() {
+        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
         Event event = repository.findByRef(RANDOM_EVENT.getRef()).orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
-        ;
         Assert.assertNotNull(event.getRef());
     }
 
     @Test
     public void testDeleteEvent() {
+        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
         Integer deletedAmount = repository.deleteByRef(RANDOM_EVENT.getRef());
         Assert.assertEquals(1, deletedAmount.intValue());
     }

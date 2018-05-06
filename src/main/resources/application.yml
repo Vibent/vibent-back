@@ -2,10 +2,7 @@ spring.profiles.active: local
 
 # All envs
 spring:
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
   jpa:
-    show-sql: true
     hibernate.naming.physical-strategy: com.vibent.vibentback.config.VibentPhysicalNamingStrategy
 
 vibent:
@@ -21,14 +18,28 @@ vibent:
 
 spring.jackson.date-format: dd.MM.yyyy
 
+
 ---
 # Local configuration
 spring:
-  profiles: local, test
+  profiles: gitlab-ci
   datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:${java.io.tmpdir}/database/vibent_back;AUTO_SERVER=TRUE
+    username: user
+    password: pass
+
+---
+# Local configuration
+spring:
+  profiles: local
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost/vibent_back?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
     username: root
     password: root
+  jpa:
+    show-sql: true
 
 logging.level:
   org.springframework:
@@ -41,6 +52,7 @@ spring:
   profiles: prod
 
   datasource:
+    driver-class-name: com.mysql.jdbc.Driver
     url: #fill in. Should have SSL active
     username: #fill
     password: #fill
