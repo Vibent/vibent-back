@@ -20,7 +20,8 @@ spring.jackson.date-format: dd.MM.yyyy
 
 
 ---
-# Local configuration
+
+# Profile for GitlabCI
 spring:
   profiles: gitlab-ci
   datasource:
@@ -30,6 +31,20 @@ spring:
     password: pass
 
 ---
+
+# Profile for Conors AWS Dev Server
+spring:
+  profiles: conor-aws
+
+  datasource:
+    url: jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}?useUnicode=yes&characterEncoding=UTF-8
+    username: ${RDS_USERNAME}
+    password: ${RDS_PASSWORD}
+
+server.port: 5000
+
+---
+
 # Local configuration
 spring:
   profiles: local
