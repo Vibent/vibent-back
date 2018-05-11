@@ -3,7 +3,6 @@ package com.vibent.vibentback.event;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.vibent.vibentback.api.eventParticipation.EventParticipationResponse;
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.vibent.vibentback.bubble.checkbox.CheckboxBubble;
@@ -15,7 +14,6 @@ import com.vibent.vibentback.bubble.travel.TravelBubble;
 import com.vibent.vibentback.eventParticipation.EventParticipation;
 import com.vibent.vibentback.groupT.GroupT;
 import lombok.*;
-import netscape.javascript.JSObject;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -27,7 +25,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@ToString(of = {"id", "ref", "title","description", "startDate","endDate","deleted"})
+@ToString(of = {"id", "ref", "title", "description", "startDate", "endDate", "deleted"})
 @NoArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -36,7 +34,7 @@ import java.util.Set;
 public class Event implements Serializable {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
@@ -66,7 +64,7 @@ public class Event implements Serializable {
     private boolean deleted;
 
     @JsonProperty
-    public String getGroupRef(){
+    public String getGroupRef() {
         return group.getRef();
     }
 
@@ -75,7 +73,7 @@ public class Event implements Serializable {
     private Set<EventParticipation> participations = new HashSet<>();
 
     @JsonProperty
-    public Set<EventParticipationResponse> getParticipationRefs(){
+    public Set<EventParticipationResponse> getParticipationRefs() {
         Set<EventParticipationResponse> participationResponses = new HashSet<>();
         participations.forEach(e -> participationResponses.add(new EventParticipationResponse(e.getUserRef(), e.getAnswer())));
         return participationResponses;
