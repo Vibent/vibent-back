@@ -1,6 +1,7 @@
 package com.vibent.vibentback.groupT;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.user.User;
 import lombok.*;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -34,10 +36,13 @@ public class GroupT {
     @NonNull
     private String name;
 
+    private String description;
+
     private String imagePath;
 
     private boolean hasDefaultAdmin;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
     private Set<Event> events = new HashSet<>();
 
@@ -71,6 +76,26 @@ public class GroupT {
             inverseJoinColumns = { @JoinColumn(name = "user_id") }
     )
     Set<User> invites = new HashSet<>();
+
+    @JsonProperty
+    public Set<String> getMemberRefs(){
+        return members.stream().map(User::getRef).collect(Collectors.toSet());
+    }
+
+    @JsonProperty
+    public Set<String> getAdminRefs(){
+        return admins.stream().map(User::getRef).collect(Collectors.toSet());
+    }
+
+    @JsonProperty
+    public Set<String> getInviteRefs(){
+        return invites.stream().map(User::getRef).collect(Collectors.toSet());
+    }
+
+    @JsonProperty
+    public Set<String> getEventRefs(){
+        return events.stream().map(Event::getRef).collect(Collectors.toSet());
+    }
 
     @JsonIgnore
     public void addEvent(Event event){

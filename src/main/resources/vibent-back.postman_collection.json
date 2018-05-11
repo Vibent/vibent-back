@@ -78,7 +78,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3f4afb3d-71d0-4208-8b9a-148b8422d521",
+						"id": "5faf4b6a-7a00-4fbc-a279-39834df9a10f",
 						"type": "text/javascript",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
@@ -90,6 +90,10 @@
 			"request": {
 				"method": "GET",
 				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
 					{
 						"key": "{{TOKEN_HEADER}}",
 						"value": "{{token}}"
@@ -114,6 +118,10 @@
 			"request": {
 				"method": "GET",
 				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
 					{
 						"key": "{{TOKEN_HEADER}}",
 						"value": "{{token}}"
@@ -162,7 +170,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"allAdmins\": true\n}"
+					"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"description\": \"Group for the badest people around\",\n\t\"allAdmins\": true\n}"
 				},
 				"url": {
 					"raw": "{{URL}}/group",
@@ -177,16 +185,58 @@
 			"response": []
 		},
 		{
+			"name": "Update Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "433a9b0e-b73f-41b6-b404-28a4384041ba",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\": \"Group for the coolest people around\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/group/{{groupRef}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"group",
+						"{{groupRef}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Group",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "7374fd5a-d16c-411d-a914-c70112ccbfe7",
+						"id": "9c12aad0-5e47-451a-8f33-0559ab9f93eb",
 						"type": "text/javascript",
 						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"groupRef\", jsonData.ref);"
+							""
 						]
 					}
 				}
@@ -221,12 +271,55 @@
 			"response": []
 		},
 		{
+			"name": "Get Connected User Groups",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9f1a558e-180c-4826-bfc3-369faa54d265",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/group/me",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"group",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create Event",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "6fc593cb-d070-4c3c-8d79-4e62ee000a82",
+						"id": "6eb8fc60-335d-48ee-a59c-f2e65ac4e8d6",
 						"type": "text/javascript",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
@@ -269,11 +362,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "7374fd5a-d16c-411d-a914-c70112ccbfe7",
+						"id": "fa271a0d-8f8e-44ce-8a31-3ef0b5494460",
 						"type": "text/javascript",
 						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"groupRef\", jsonData.ref);"
+							""
 						]
 					}
 				}
@@ -302,6 +394,49 @@
 					"path": [
 						"event",
 						"{{eventRef}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Connected User Events",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5bfd23b9-9695-49ba-8951-9260691e6954",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/event/me",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"event",
+						"me"
 					]
 				}
 			},
@@ -357,11 +492,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "7374fd5a-d16c-411d-a914-c70112ccbfe7",
+						"id": "4279dc2b-ac0a-4ed6-9edb-821b48baa2f4",
 						"type": "text/javascript",
 						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"groupRef\", jsonData.ref);"
+							""
 						]
 					}
 				}
@@ -447,11 +581,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "06677fa5-fa72-4f5b-a1dd-f7cb54953d1a",
+						"id": "80ebb462-7e81-4350-a471-98641958dedb",
 						"type": "text/javascript",
 						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"alimentationEntryId\", jsonData.id);"
+							""
 						]
 					}
 				}
@@ -493,11 +626,11 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b3fb6990-87e5-4609-8621-397d476ef67b",
+						"id": "eed8a69a-1a0f-4fbf-a493-7737dedf66fb",
 						"type": "text/javascript",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"alimentationEntryId\", jsonData.entries[0].id);"
+							"postman.setEnvironmentVariable(\"alimentationBringId\", jsonData.entries[0].id);"
 						]
 					}
 				}

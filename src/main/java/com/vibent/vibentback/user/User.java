@@ -1,6 +1,9 @@
 package com.vibent.vibentback.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vibent.vibentback.api.eventParticipation.EventParticipationResponse;
+import com.vibent.vibentback.api.eventParticipation.UserParticipationResponse;
 import com.vibent.vibentback.eventParticipation.EventParticipation;
 import com.vibent.vibentback.groupT.GroupT;
 import lombok.*;

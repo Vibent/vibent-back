@@ -1,5 +1,6 @@
 package com.vibent.vibentback.event;
 
+import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.api.event.EventRequest;
 import com.vibent.vibentback.api.event.EventUpdateRequest;
 import com.vibent.vibentback.error.VibentError;
@@ -14,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -22,9 +25,15 @@ import java.util.UUID;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class EventService {
 
+    ConnectedUserUtils connectedUserUtils;
     EventRepository eventRepository;
     EventParticipationService eventParticipationService;
     GroupTRepository groupTRepository;
+
+    public Set<Event> getConnectedUserEvents() {
+        Set<GroupT> groups = connectedUserUtils.getConnectedUser().getMemberships();
+        return groups.stream().flatMap(g -> g.getEvents().stream()).collect(Collectors.toSet());
+    }
 
     public Event getEvent(String ref) {
         return eventRepository.findByRef(ref)
@@ -69,5 +78,4 @@ public class EventService {
             throw new VibentException(VibentError.EVENT_DATE_INVALID);
         return eventRepository.save(existing);
     }
-
 }

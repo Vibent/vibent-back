@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.nio.charset.Charset;
 import java.util.Calendar;
@@ -45,6 +47,10 @@ public class VibentTest {
         RANDOM_USER.setUsername("VibentUserJUnit");
         RANDOM_USER.setPassword("$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O");
         RANDOM_USER.setEmail("vibentJUnit@vibent.com");
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
+                RANDOM_USER.getUsername(),
+                RANDOM_USER.getPassword()
+        ));
 
         RANDOM_GROUP = new GroupT(UUID.randomUUID().toString(), "test");
         RANDOM_EVENT = new Event(UUID.randomUUID().toString(), RANDOM_GROUP, "test", "test", getFutureDate(5));

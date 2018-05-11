@@ -412,6 +412,7 @@ CREATE TABLE `group_t` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ref` char(36) NOT NULL,
   `name` varchar(64) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
   `image_path` varchar(255) DEFAULT NULL,
   `has_default_admin` tinyint(1) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
