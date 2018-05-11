@@ -7,6 +7,7 @@ import com.vibent.vibentback.error.VibentException;
 import com.vibent.vibentback.eventParticipation.EventParticipation;
 import com.vibent.vibentback.eventParticipation.EventParticipationRepository;
 import com.vibent.vibentback.groupT.GroupTRepository;
+import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,6 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
+import java.util.Set;
 
 import static org.mockito.Mockito.when;
 
@@ -31,6 +33,9 @@ public class EventInternalTest extends VibentTest {
     @Autowired
     @InjectMocks
     private EventController controller;
+
+    @MockBean
+    UserRepository userRepository;
 
     @MockBean
     private EventRepository eventRepository;
@@ -67,6 +72,7 @@ public class EventInternalTest extends VibentTest {
 
         Event RANDOM_UPDATE_EVENT = RANDOM_EVENT = new Event(RANDOM_EVENT.getRef(), RANDOM_EVENT.getGroup(), RANDOM_EVENT.getTitle(), RANDOM_EVENT_UPDATE_REQUEST.getDescription(), RANDOM_EVENT.getStartDate());
 
+        when(userRepository.findByUsername(RANDOM_USER.getUsername())).thenReturn(Optional.of(RANDOM_USER));
         when(eventRepository.findByRef(RANDOM_EVENT.getRef())).thenReturn(Optional.of(RANDOM_EVENT));
         when(eventRepository.save(RANDOM_UPDATE_EVENT)).thenReturn(RANDOM_UPDATE_EVENT);
         when(eventRepository.save(RANDOM_EVENT)).thenReturn(RANDOM_EVENT);
@@ -74,6 +80,13 @@ public class EventInternalTest extends VibentTest {
         when(eventParticipationRepository.save(participation)).thenReturn(participation);
         when(groupTRepository.findByRef(RANDOM_GROUP.getRef())).thenReturn(Optional.ofNullable(RANDOM_GROUP));
     }
+
+    @Test
+    public void getConnectedUserEvents(){
+        Set<Event> events = controller.getConnectedUserEvents();
+        log.info(String.valueOf(events.size()));
+    }
+
 
     @Test
     public void getEvent(){

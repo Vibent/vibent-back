@@ -2,9 +2,11 @@ package com.vibent.vibentback.api.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vibent.vibentback.api.eventParticipation.UserParticipationResponse;
 import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.user.User;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -40,6 +42,13 @@ public class DetailledUserResponse {
     @JsonProperty
     public String getLastName(){
         return user.getLastName();
+    }
+
+    @JsonProperty
+    public Set<UserParticipationResponse> getParticipationRefs(){
+        Set<UserParticipationResponse> participationResponses = new HashSet<>();
+        user.getParticipations().forEach(e -> participationResponses.add(new UserParticipationResponse(e.getEventRef(), e.getAnswer())));
+        return participationResponses;
     }
 
     @JsonProperty
