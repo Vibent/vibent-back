@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.nio.charset.Charset;
@@ -38,8 +39,10 @@ public class VibentTest {
     protected User RANDOM_USER;
     protected GroupT RANDOM_GROUP;
     protected Event RANDOM_EVENT;
+    protected Authentication AUTHENTICATION;
 
     protected void setUp() {
+
         RANDOM_USER = new User();
         RANDOM_USER.setRef(UUID.randomUUID().toString());
         RANDOM_USER.setFirstName("firstName");
@@ -47,10 +50,13 @@ public class VibentTest {
         RANDOM_USER.setUsername("VibentUserJUnit");
         RANDOM_USER.setPassword("$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O");
         RANDOM_USER.setEmail("vibentJUnit@vibent.com");
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
+
+        AUTHENTICATION = new UsernamePasswordAuthenticationToken(
                 RANDOM_USER.getUsername(),
                 RANDOM_USER.getPassword()
-        ));
+        );
+        SecurityContextHolder.getContext().setAuthentication(AUTHENTICATION);
+
 
         RANDOM_GROUP = new GroupT(UUID.randomUUID().toString(), "test");
         RANDOM_EVENT = new Event(UUID.randomUUID().toString(), RANDOM_GROUP, "test", "test", getFutureDate(5));
