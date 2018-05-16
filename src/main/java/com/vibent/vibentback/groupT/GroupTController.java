@@ -2,6 +2,7 @@ package com.vibent.vibentback.groupT;
 
 import com.vibent.vibentback.api.groupT.GroupRequest;
 import com.vibent.vibentback.api.groupT.GroupUpdateRequest;
+import com.vibent.vibentback.event.Event;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,12 @@ public class GroupTController {
     GroupT getGroupT(@PathVariable String groupRef) {
         log.info("Get group with ref : {}", groupRef);
         return groupTService.getGroupT(groupRef);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{groupRef}/event")
+    Set<Event> getGroupEvents(@PathVariable String groupRef) {
+        log.info("Get group events with ref : {}", groupRef);
+        return groupTService.getGroupEvents(groupRef);
     }
 
     @ResponseStatus(value = HttpStatus.CREATED)

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d6f3e0c4-5255-4ce1-a896-79ca996fc99d",
+		"_postman_id": "0dfd2233-0fed-4856-96ce-b5cff3840670",
 		"name": "Vibent Back",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -99,7 +99,10 @@
 						"value": "{{token}}"
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "{{URL}}/user/me",
 					"host": [
@@ -127,7 +130,10 @@
 						"value": "{{token}}"
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "{{URL}}/user/{{userRef}}",
 					"host": [
@@ -229,6 +235,49 @@
 		},
 		{
 			"name": "Get Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9c12aad0-5e47-451a-8f33-0559ab9f93eb",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"allAdmins\": true\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/group/{{groupRef}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"group",
+						"{{groupRef}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Group Events",
 			"event": [
 				{
 					"listen": "test",
