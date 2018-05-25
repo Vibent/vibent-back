@@ -2,6 +2,7 @@ package com.vibent.vibentback.user;
 
 import com.vibent.vibentback.api.user.DetailledUserResponse;
 import com.vibent.vibentback.api.user.SimpleUserResponse;
+import com.vibent.vibentback.api.user.UpdateUserRequest;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,9 +36,9 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/{userRef}")
-    SimpleUserResponse updateUser(@PathVariable String userRef, @Valid @RequestBody User user) {
-        log.info("Update user with ref {} body : {}", userRef, user.toString());
-        return new SimpleUserResponse(userService.updateUser(userRef, user));
+    DetailledUserResponse updateUser(@PathVariable String userRef, @Valid @RequestBody UpdateUserRequest request) {
+        log.info("Update request with ref {} body : {}", userRef, request.toString());
+        return new DetailledUserResponse(userService.updateUser(userRef, request));
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)

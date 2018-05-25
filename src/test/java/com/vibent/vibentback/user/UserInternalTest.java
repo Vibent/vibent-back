@@ -2,6 +2,7 @@ package com.vibent.vibentback.user;
 
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.api.user.SimpleUserResponse;
+import com.vibent.vibentback.api.user.UpdateUserRequest;
 import com.vibent.vibentback.error.VibentException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -61,10 +62,9 @@ public class UserInternalTest extends VibentTest {
 
     @Test
     public void updateUser() {
-        User user = RANDOM_USER;
-        user.setFirstName("UserNewName");
-        controller.updateUser(RANDOM_USER.getRef(), user);
-        Assert.assertEquals(user, RANDOM_USER);
+        UpdateUserRequest request = new UpdateUserRequest();
+        request.setEmail("newemail");
+        controller.updateUser(RANDOM_USER.getRef(), request);
     }
 
 

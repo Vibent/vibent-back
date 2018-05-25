@@ -43,7 +43,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class AlimentationInternalTest extends VibentTest {
     @Test
-    public void mockTest(){
+    public void mockTest() {
         // TODO add tests
     }
 }
