@@ -50,7 +50,7 @@ public class UserService implements UserDetailsService {
         if(request.getFirstName() != null) existing.setFirstName(request.getFirstName());
         if(request.getLastName() != null) existing.setLastName(request.getLastName());
         if(request.getPassword() != null) existing.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
-        return existing;
+        return userRepository.save(existing);
     }
 
     public boolean existsByUsername(String username){
