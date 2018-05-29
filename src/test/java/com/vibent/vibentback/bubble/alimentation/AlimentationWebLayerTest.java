@@ -86,7 +86,7 @@ public class AlimentationWebLayerTest extends VibentTest {
         RANDOM_BRING.setQuantity(5);
         RANDOM_BRING.setUser(RANDOM_USER);
 
-        when(userService.getUserByUsername(RANDOM_USER.getUsername())).thenReturn(RANDOM_USER);
+        // when(userService.getUserByUsername(RANDOM_USER.getUsername())).thenReturn(RANDOM_USER);
         when(alimentationService.getBubble(RANDOM_BUBBLE.getId())).thenReturn(RANDOM_BUBBLE);
         when(alimentationService.createBubble(RANDOM_EVENT.getRef())).thenReturn(RANDOM_BUBBLE);
     }

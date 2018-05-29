@@ -62,17 +62,17 @@ public class UserDataTest extends VibentTest {
     @Test
     public void testUpdateUser() {
         String randomFirstName = UUID.randomUUID().toString();
-        String randomUsername = UUID.randomUUID().toString();
+        String randomEmail = UUID.randomUUID().toString();
         RANDOM_USER = userRepository.save(RANDOM_USER);
 
         RANDOM_USER.setFirstName(randomFirstName);
+        RANDOM_USER.setEmail(randomEmail);
         userRepository.save(RANDOM_USER);
         Assert.assertTrue(userRepository.findById(RANDOM_USER.getId()).isPresent());
         Assert.assertEquals(randomFirstName, userRepository.findById(RANDOM_USER.getId()).get().getFirstName());
 
-        RANDOM_USER.setUsername(randomUsername);
         userRepository.save(RANDOM_USER);
         Assert.assertTrue(userRepository.findById(RANDOM_USER.getId()).isPresent());
-        Assert.assertEquals(randomUsername, userRepository.findById(RANDOM_USER.getId()).get().getUsername());
+        Assert.assertEquals(randomEmail, userRepository.findById(RANDOM_USER.getId()).get().getUsername());
     }
 }

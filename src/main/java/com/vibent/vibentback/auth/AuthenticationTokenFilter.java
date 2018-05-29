@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -55,9 +55,9 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
         if(authToken != null && !authToken.isEmpty()) {
             // Throws exception if signature is invalid, not issued from Vibent, expired, etc
             Claims claims = this.tokenUtils.validateJWTToken(authToken);
-            String username = claims.getSubject();
+            String userRef = claims.getSubject();
 
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, null);
+            Authentication authentication = new VibentAuthentication(userRef, null);
 
             SecurityContextHolder.clearContext();
             SecurityContextHolder.setContext(new SecurityContextImpl(authentication));

@@ -60,6 +60,9 @@ logging.level:
   org.springframework:
     web.filter.CommonsRequestLoggingFilter: DEBUG
     boot.autoconfigure.security: INFO
+    org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod: DEBUG
+
+log4j.logger.org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod: DEBUG
 
 ---
 # Deployed configuration

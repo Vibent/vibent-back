@@ -29,6 +29,11 @@ public class GroupTService {
                 .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
     }
 
+    public GroupT getPublicGroupInfo(String groupRef) {
+        return groupTRepository.findByRef(groupRef)
+                .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+    }
+
     public Set<Event> getGroupEvents(String groupRef) {
         GroupT group = groupTRepository.findByRef(groupRef)
                 .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
@@ -59,4 +64,8 @@ public class GroupTService {
         return groupTRepository.save(existing);
     }
 
+    public String generateInviteToken(String groupRef) {
+        // TODO
+        return null;
+    }
 }
