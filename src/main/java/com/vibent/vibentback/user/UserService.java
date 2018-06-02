@@ -28,12 +28,6 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public User getUserByUsername(String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
-        return user;
-    }
-
     public User addUser(User user) {
         return userRepository.save(user);
     }
@@ -53,17 +47,24 @@ public class UserService implements UserDetailsService {
         return userRepository.save(existing);
     }
 
-    public boolean existsByUsername(String username){
-        return userRepository.existsByUsername(username);
+    public boolean existsByRef(String ref){
+        return userRepository.existsByRef(ref);
+    }
+
+    public boolean existsByEmail(String email){
+        return userRepository.existsByEmail(email);
     }
 
     public User getConnectedUser(){
         return connectedUserUtils.getConnectedUser();
     }
 
-    // For Spring Security
+    /**
+     * For spring security. It is important to note that in our application
+     * the user ref is his username.
+     */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return getUserByUsername(username);
+    public UserDetails loadUserByUsername(String ref) throws UsernameNotFoundException {
+        return getUserByRef(ref);
     }
 }

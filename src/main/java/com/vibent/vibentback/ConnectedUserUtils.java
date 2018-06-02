@@ -15,12 +15,12 @@ public class ConnectedUserUtils {
 
     private UserRepository userRepository;
 
-    public String getConnectedUserUsername(){
+    public String getConnectedUserRef(){
         return  (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     public User getConnectedUser(){
-        return userRepository.findByUsername(getConnectedUserUsername())
+        return userRepository.findByRef(getConnectedUserRef())
                 .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
     }
 }

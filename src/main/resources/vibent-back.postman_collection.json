@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0dfd2233-0fed-4856-96ce-b5cff3840670",
+		"_postman_id": "0df16f8a-da4c-4674-b3dc-e5e30d66b6c4",
 		"name": "Vibent Back",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -17,7 +17,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"vibentUserPM\",\n\t\"password\": \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\",\n\t\"email\": \"vibentPM@vibent.com\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
+					"raw": "{\n\t\"password\": \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\",\n\t\"email\": \"vibentPM@vibent.com\",\n\t\"phoneNumber\": \"0634578963\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
 				},
 				"url": {
 					"raw": "{{URL}}/auth/register",
@@ -33,7 +33,7 @@
 			"response": []
 		},
 		{
-			"name": "Login",
+			"name": "Login Email",
 			"event": [
 				{
 					"listen": "test",
@@ -57,16 +57,58 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{ \r\n\t\"username\" : \"vibentUserPM\",\r\n\t\"password\" : \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\"\r\n}"
+					"raw": "{ \r\n\t\"email\" : \"vibentPM@vibent.com\",\r\n\t\"password\" : \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\"\r\n}"
 				},
 				"url": {
-					"raw": "{{URL}}/auth/login",
+					"raw": "{{URL}}/auth/login/email",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
 						"auth",
-						"login"
+						"login",
+						"email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Phone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6e0a15ee-9fc1-4092-a4d1-19c64c6d318f",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\t\"phoneNumber\": \"0634578963\",\r\n\t\"password\" : \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\"\r\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/auth/login/phone",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"auth",
+						"login",
+						"phone"
 					]
 				}
 			},

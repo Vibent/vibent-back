@@ -14,11 +14,6 @@ public class SimpleUserResponse {
     }
 
     @JsonProperty
-    public String getUsername(){
-        return user.getUsername();
-    }
-
-    @JsonProperty
     public String getRef(){
         return user.getRef();
     }

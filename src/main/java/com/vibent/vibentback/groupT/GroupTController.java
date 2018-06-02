@@ -2,6 +2,7 @@ package com.vibent.vibentback.groupT;
 
 import com.vibent.vibentback.api.groupT.GroupRequest;
 import com.vibent.vibentback.api.groupT.GroupUpdateRequest;
+import com.vibent.vibentback.api.groupT.PublicGroupResponse;
 import com.vibent.vibentback.event.Event;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,12 @@ public class GroupTController {
     Set<GroupT> getConnectedUserGroups() {
         log.info("Getting the connected user's groups");
         return groupTService.getConnectedUserGroups();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/public/{groupRef}")
+    PublicGroupResponse getGroupTPublicInfo(@PathVariable String groupRef) {
+        log.info("Get public group info with ref : {}", groupRef);
+        return new PublicGroupResponse(groupTService.getPublicGroupInfo(groupRef));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{groupRef}")
@@ -56,5 +63,11 @@ public class GroupTController {
     void deleteGroupT(@PathVariable String groupRef) {
         log.info("Deleting group with ref : {}", groupRef);
         groupTService.deleteGroupT(groupRef);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{groupRef}/inviteToken")
+    String getInviteToken(@PathVariable String groupRef) {
+        log.info("Getting invite token for group : {}", groupRef);
+        return groupTService.generateInviteToken(groupRef);
     }
 }

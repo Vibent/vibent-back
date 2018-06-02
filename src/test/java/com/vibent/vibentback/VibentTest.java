@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.vibent.vibentback.auth.VibentAuthentication;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.user.User;
@@ -47,13 +48,12 @@ public class VibentTest {
         RANDOM_USER.setRef(UUID.randomUUID().toString());
         RANDOM_USER.setFirstName("firstName");
         RANDOM_USER.setLastName("lastName");
-        RANDOM_USER.setUsername("VibentUserJUnit");
         RANDOM_USER.setPassword("$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O");
         RANDOM_USER.setEmail("vibentJUnit@vibent.com");
 
-        AUTHENTICATION = new UsernamePasswordAuthenticationToken(
-                RANDOM_USER.getUsername(),
-                RANDOM_USER.getPassword()
+        AUTHENTICATION = new VibentAuthentication(
+                RANDOM_USER.getRef(),
+                null
         );
         SecurityContextHolder.getContext().setAuthentication(AUTHENTICATION);
 

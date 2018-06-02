@@ -33,11 +33,11 @@ public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
     private String ref;
     private String email;
     private String firstName;
     private String lastName;
+    private String phoneNumber;
     @Column(insertable = false, updatable = false)
     private boolean deleted = false;
 
@@ -52,7 +52,7 @@ public class User implements UserDetails, Serializable {
     // Links
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private Set<EventParticipation> participations;
+    private Set<EventParticipation> participations = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(mappedBy = "members", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
@@ -87,5 +87,10 @@ public class User implements UserDetails, Serializable {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getEmail();
     }
 }

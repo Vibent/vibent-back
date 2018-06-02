@@ -12,12 +12,12 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     Optional<User> findByRef(String ref);
 
-    Optional<User> findByUsername(String username);
+    Optional<User> findByPhoneNumber(String phoneNumber);
+
+    boolean existsByRef(String ref);
 
     @Transactional
     int deleteByRef(String ref);
-
-    boolean existsByUsername(String username);
 
     @Modifying
     @Transactional
@@ -26,4 +26,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query(value = "SELECT deleted FROM user WHERE ref = :ref", nativeQuery = true)
     boolean isDeleted(@Param("ref") String ref);
+
+    Optional<User> findByEmail(String email);
+
+    boolean existsByEmail(String email);
 }
