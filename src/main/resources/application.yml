@@ -37,11 +37,11 @@ spring:
   profiles: conor-aws
 
   datasource:
-    url: jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}?useUnicode=yes&characterEncoding=UTF-8
-    username: ${RDS_USERNAME}
-    password: ${RDS_PASSWORD}
+    url: jdbc:mysql://main.cwqlbqunkux0.eu-west-3.rds.amazonaws.com:3306/vibent_back?useUnicode=yes&characterEncoding=UTF-8
+    username: Main
+    password: '&5t7cvREx*5&b^v9'
 
-server.port: 5000
+server.port: 8080
 
 ---
 
@@ -50,7 +50,7 @@ spring:
   profiles: local
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost/vibent_back?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://127.0.0.1/vibent_back?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
     username: root
     password: root
   jpa:

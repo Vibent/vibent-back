@@ -47,7 +47,6 @@ public class AuthenticationService {
     public String loginEmail(EmailLoginRequest request){
         User user = this.userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new VibentException(VibentError.AUTH_USER_NOT_FOUND));
-        log.info("tit" + String.valueOf(new BCryptPasswordEncoder(5).matches(request.getPassword(), user.getPassword())));
         if(!passwordEncoder.matches(request.getPassword(), user.getPassword()))
             throw new VibentException(VibentError.AUTHENTICATION_FAILED);
 
