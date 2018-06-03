@@ -1,14 +1,17 @@
 package com.vibent.vibentback.user;
 
 import com.vibent.vibentback.ConnectedUserUtils;
+import com.vibent.vibentback.api.user.UpdateUserRequest;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
+import com.vibent.vibentback.validate.BCrypt;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -25,12 +28,6 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public User getUserByUsername(String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
-        return user;
-    }
-
     public User addUser(User user) {
         return userRepository.save(user);
     }
@@ -39,24 +36,35 @@ public class UserService implements UserDetailsService {
         userRepository.deleteByRef(userRef);
     }
 
-    public User updateUser(String userRef, User newUser) {
+    public User updateUser(String userRef, UpdateUserRequest request) {
         User existing = userRepository.findByRef(userRef)
                 .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
-        // TODO
-        return existing;
+        if(request.getEmail() != null) existing.setEmail(request.getEmail());
+        // TODO Confirm mail
+        if(request.getFirstName() != null) existing.setFirstName(request.getFirstName());
+        if(request.getLastName() != null) existing.setLastName(request.getLastName());
+        if(request.getPassword() != null) existing.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
+        return userRepository.save(existing);
     }
 
-    public boolean existsByUsername(String username){
-        return userRepository.existsByUsername(username);
+    public boolean existsByRef(String ref){
+        return userRepository.existsByRef(ref);
+    }
+
+    public boolean existsByEmail(String email){
+        return userRepository.existsByEmail(email);
     }
 
     public User getConnectedUser(){
         return connectedUserUtils.getConnectedUser();
     }
 
-    // For Spring Security
+    /**
+     * For spring security. It is important to note that in our application
+     * the user ref is his username.
+     */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return getUserByUsername(username);
+    public UserDetails loadUserByUsername(String ref) throws UsernameNotFoundException {
+        return getUserByRef(ref);
     }
 }

@@ -9,5 +9,8 @@ public class GroupUpdateRequest {
     @Size(min = 1, max = 64)
     private String name;
 
+    @Size(min = 1, max = 500)
+    private String description;
+
     private Boolean allAdmins;
 }

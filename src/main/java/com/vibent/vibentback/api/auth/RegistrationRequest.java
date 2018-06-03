@@ -13,15 +13,13 @@ import java.util.Date;
 public class RegistrationRequest {
 
     @NotNull
-    private String username;
-
-    @NotNull
     @BCrypt
     private String password;
 
     @Email
-    @NotNull
     private String email;
+
+    private String phoneNumber;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date birthday;

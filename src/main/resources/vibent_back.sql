@@ -292,32 +292,6 @@ LOCK TABLES `free_bubble` WRITE;
 /*!40000 ALTER TABLE `free_bubble` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `group_invite_link`
---
-
-DROP TABLE IF EXISTS `group_invite_link`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `group_invite_link` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_ref` char(36) NOT NULL,
-  `hash` varchar(255) DEFAULT NULL,
-  `expires` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `group_ref` (`group_ref`),
-  CONSTRAINT `group_invite_link_group__fk` FOREIGN KEY (`group_ref`) REFERENCES `group_t` (`ref`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `group_invite_link`
---
-
-LOCK TABLES `group_invite_link` WRITE;
-/*!40000 ALTER TABLE `group_invite_link` DISABLE KEYS */;
-/*!40000 ALTER TABLE `group_invite_link` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `group_membership`
@@ -412,6 +386,7 @@ CREATE TABLE `group_t` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ref` char(36) NOT NULL,
   `name` varchar(64) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
   `image_path` varchar(255) DEFAULT NULL,
   `has_default_admin` tinyint(1) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
@@ -691,11 +666,11 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(64) NOT NULL,
   `ref` char(36) NOT NULL,
   `email` varchar(64),
   `first_name` varchar(64) DEFAULT NULL,
   `last_name` varchar(64) DEFAULT NULL,
+  `phone_number` varchar(18) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
 
   `password` varchar(255) DEFAULT NULL,
@@ -705,8 +680,7 @@ CREATE TABLE `user` (
   `last_password_reset` datetime DEFAULT NULL,
   `enabled` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `ref` (`ref`),
-  UNIQUE KEY `username` (`username`)
+  UNIQUE KEY `ref` (`ref`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

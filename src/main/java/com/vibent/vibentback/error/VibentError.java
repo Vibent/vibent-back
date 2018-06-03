@@ -17,7 +17,7 @@ public enum VibentError {
     // Model level errors
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested user could not be found"),
     USER_CANT_CREATE(HttpStatus.INTERNAL_SERVER_ERROR, "The user could not be created"),
-    USERNAME_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "The requested username has already be assigned to a different user"),
+    USER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "The requested username has already be assigned to a different user"),
 
     GROUP_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested group could not be found"),
 

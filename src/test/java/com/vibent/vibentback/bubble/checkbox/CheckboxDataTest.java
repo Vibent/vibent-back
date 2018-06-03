@@ -48,11 +48,8 @@ public class CheckboxDataTest extends VibentTest {
         super.setUp();
 
         RANDOM_USER = userRepository.save(RANDOM_USER);
-        log.info("{}", RANDOM_USER.getId());
         RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
         RANDOM_EVENT = eventRepository.save(RANDOM_EVENT);
-
-        log.info("{}", RANDOM_EVENT.getRef());
 
         RANDOM_BUBBLE = new CheckboxBubble();
         RANDOM_BUBBLE.setDeleted(false);

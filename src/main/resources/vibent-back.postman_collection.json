@@ -1,12 +1,39 @@
 {
 	"info": {
-		"_postman_id": "d6f3e0c4-5255-4ce1-a896-79ca996fc99d",
+		"_postman_id": "0df16f8a-da4c-4674-b3dc-e5e30d66b6c4",
 		"name": "Vibent Back",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Test auth",
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"password\": \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\",\n\t\"email\": \"vibentPM@vibent.com\",\n\t\"phoneNumber\": \"0634578963\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/auth/register",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Email",
 			"event": [
 				{
 					"listen": "test",
@@ -30,15 +57,102 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{ \r\n  \"username\" : \"vibentUser\",\r\n  \"password\" : \"vibentPass\"\r\n}"
+					"raw": "{ \r\n\t\"email\" : \"vibentPM@vibent.com\",\r\n\t\"password\" : \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\"\r\n}"
 				},
 				"url": {
-					"raw": "{{URL}}/auth",
+					"raw": "{{URL}}/auth/login/email",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"auth"
+						"auth",
+						"login",
+						"email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Phone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6e0a15ee-9fc1-4092-a4d1-19c64c6d318f",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\t\"phoneNumber\": \"0634578963\",\r\n\t\"password\" : \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\"\r\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/auth/login/phone",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"auth",
+						"login",
+						"phone"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Connected User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5faf4b6a-7a00-4fbc-a279-39834df9a10f",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"userRef\", jsonData.ref);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/user/me",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"user",
+						"me"
 					]
 				}
 			},
@@ -50,19 +164,593 @@
 				"method": "GET",
 				"header": [
 					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
 						"key": "{{TOKEN_HEADER}}",
 						"value": "{{token}}"
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "{{URL}}/user/5",
+					"raw": "{{URL}}/user/{{userRef}}",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
 						"user",
-						"5"
+						"{{userRef}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7374fd5a-d16c-411d-a914-c70112ccbfe7",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"groupRef\", jsonData.ref);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"description\": \"Group for the badest people around\",\n\t\"allAdmins\": true\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/group",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"group"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "433a9b0e-b73f-41b6-b404-28a4384041ba",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\": \"Group for the coolest people around\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/group/{{groupRef}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"group",
+						"{{groupRef}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9c12aad0-5e47-451a-8f33-0559ab9f93eb",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"allAdmins\": true\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/group/{{groupRef}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"group",
+						"{{groupRef}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Group Events",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9c12aad0-5e47-451a-8f33-0559ab9f93eb",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"allAdmins\": true\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/group/{{groupRef}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"group",
+						"{{groupRef}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Connected User Groups",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9f1a558e-180c-4826-bfc3-369faa54d265",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/group/me",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"group",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Event",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6eb8fc60-335d-48ee-a59c-f2e65ac4e8d6",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"eventRef\", jsonData.ref);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"startDate\": \"2019-04-22T09:49:05+00:00\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/event",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Event",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fa271a0d-8f8e-44ce-8a31-3ef0b5494460",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/event/{{eventRef}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"event",
+						"{{eventRef}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Connected User Events",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5bfd23b9-9695-49ba-8951-9260691e6954",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/event/me",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"event",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Alimentation Bubble",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b783537c-2df4-45d8-a61b-5adbd0793061",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"alimentationBubbleId\", jsonData.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"eventRef\": \"{{eventRef}}\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/bubble/alimentation",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"bubble",
+						"alimentation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Alimentation Bubble",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4279dc2b-ac0a-4ed6-9edb-821b48baa2f4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/bubble/alimentation/{{alimentationBubbleId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"bubble",
+						"alimentation",
+						"{{alimentationBubbleId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Alimentation Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b3fb6990-87e5-4609-8621-397d476ef67b",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"alimentationEntryId\", jsonData.entries[0].id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"bubbleId\": \"{{alimentationBubbleId}}\",\n\t\"name\": \"Beer\",\n\t\"totalRequested\": 5,\n\t\"type\": \"DRINK\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/bubble/alimentation/entry",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"bubble",
+						"alimentation",
+						"entry"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Alimentation Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "80ebb462-7e81-4350-a471-98641958dedb",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"totalRequested\": 10\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/bubble/alimentation/entry/{{alimentationEntryId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"bubble",
+						"alimentation",
+						"entry",
+						"{{alimentationEntryId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Alimentation Bring",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eed8a69a-1a0f-4fbf-a493-7737dedf66fb",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"alimentationBringId\", jsonData.entries[0].id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"entryId\": \"{{alimentationEntryId}}\",\n\t\"quantity\": 5\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/bubble/alimentation/bring",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"bubble",
+						"alimentation",
+						"bring"
 					]
 				}
 			},

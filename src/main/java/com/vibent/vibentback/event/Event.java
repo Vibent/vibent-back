@@ -2,6 +2,8 @@ package com.vibent.vibentback.event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vibent.vibentback.api.eventParticipation.EventParticipationResponse;
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.vibent.vibentback.bubble.checkbox.CheckboxBubble;
 import com.vibent.vibentback.bubble.free.FreeBubble;
@@ -23,7 +25,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@ToString(of = {"id", "ref", "title","description", "startDate","endDate","deleted"})
+@ToString(of = {"id", "ref", "title", "description", "startDate", "endDate", "deleted"})
 @NoArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -32,7 +34,7 @@ import java.util.Set;
 public class Event implements Serializable {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
@@ -61,35 +63,40 @@ public class Event implements Serializable {
     @JsonIgnore
     private boolean deleted;
 
+    @JsonProperty
+    public String getGroupRef() {
+        return group.getRef();
+    }
+
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
     private Set<EventParticipation> participations = new HashSet<>();
 
-    @JsonIgnore
+    @JsonProperty
+    public Set<EventParticipationResponse> getParticipationRefs() {
+        Set<EventParticipationResponse> participationResponses = new HashSet<>();
+        participations.forEach(e -> participationResponses.add(new EventParticipationResponse(e.getUserRef(), e.getAnswer())));
+        return participationResponses;
+    }
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
     private Set<AlimentationBubble> alimentationBubbles = new HashSet<>();
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
     private Set<CheckboxBubble> checkboxBubbles = new HashSet<>();
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
     private Set<FreeBubble> freeBubbles = new HashSet<>();
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
     private Set<LocationBubble> locationBubbles = new HashSet<>();
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
     private Set<PlanningBubble> planningBubbles = new HashSet<>();
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
     private Set<SurveyBubble> surveyBubbles = new HashSet<>();
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
     private Set<TravelBubble> travelBubbles = new HashSet<>();
 }
