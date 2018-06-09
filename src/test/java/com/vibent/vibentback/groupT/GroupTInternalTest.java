@@ -38,7 +38,7 @@ public class GroupTInternalTest extends VibentTest {
     private GroupUpdateRequest RANDOM_GROUP_UPDATE_REQUEST;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         super.setUp();
         MockitoAnnotations.initMocks(this);
 
@@ -56,26 +56,34 @@ public class GroupTInternalTest extends VibentTest {
     }
 
     @Test
-    public void getGroupT(){
+    public void getGroupT() {
         GroupT groupT = controller.getGroupT(RANDOM_GROUP.getRef());
         Assert.assertEquals(RANDOM_GROUP.getRef(), groupT.getRef());
     }
 
     @Test
-    public void addGroupT(){
+    public void addGroupT() {
         GroupT groupT = controller.createGroupT(RANDOM_GROUP_REQUEST);
         Assert.assertEquals(RANDOM_GROUP.getRef(), groupT.getRef());
     }
 
     @Test
-    public void updateGroupT(){
+    public void updateGroupT() {
         GroupT groupT = controller.updateGroupT(RANDOM_GROUP.getRef(), RANDOM_GROUP_UPDATE_REQUEST);
         Assert.assertEquals(groupT.getName(), RANDOM_GROUP_UPDATE_REQUEST.getName());
         Assert.assertEquals(groupT.getMembers(), RANDOM_GROUP.getMembers());
     }
 
     @Test
-    public void deleteGroupT(){
+    public void updateGroupWithEmptyDescriptionShouldSetToNull() {
+        GroupUpdateRequest request = new GroupUpdateRequest();
+        request.setDescription("");
+        GroupT groupT = controller.updateGroupT(RANDOM_GROUP.getRef(), request);
+        Assert.assertNull(groupT.getDescription());
+    }
+
+    @Test
+    public void deleteGroupT() {
         controller.deleteGroupT(RANDOM_GROUP.getRef());
     }
 }

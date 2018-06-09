@@ -59,7 +59,12 @@ public class GroupTService {
         GroupT existing = groupTRepository.findByRef(groupRef)
                 .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
         if (request.getName() != null) existing.setName(request.getName());
-        if (request.getDescription() != null) existing.setDescription(request.getDescription());
+        if (request.getDescription() != null) {
+            if(request.getDescription().isEmpty())
+                existing.setDescription(null);
+            else
+                existing.setDescription(request.getDescription());
+        }
         if (request.getAllAdmins() != null) existing.setHasDefaultAdmin(request.getAllAdmins());
         return groupTRepository.save(existing);
     }

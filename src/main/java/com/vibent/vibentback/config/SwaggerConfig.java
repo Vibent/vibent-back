@@ -34,7 +34,9 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Vibent API")
-                .description("Vibent API allows developers from all over the world to implement our service with theirs.")
+                .description("Vibent API allows developers from all over the world to implement our service with theirs. " +
+                        "Note that for most updates, if a value is null or not present it will not be taken into account. For " +
+                        "Strings, if they are empty they will set the field to null.")
                 .termsOfServiceUrl("Somewhere")
                 .contact(new Contact("Vibent", "www.vibent.com", "vibent@vibent.com"))
                 .version("1.0")
