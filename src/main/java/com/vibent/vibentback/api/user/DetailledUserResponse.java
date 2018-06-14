@@ -1,71 +1,78 @@
 package com.vibent.vibentback.api.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vibent.vibentback.api.eventParticipation.UserParticipationResponse;
-import com.vibent.vibentback.groupT.GroupT;
+import com.vibent.vibentback.api.membership.GroupMembershipRequestResponse;
+import com.vibent.vibentback.api.membership.GroupMembershipResponse;
+import com.vibent.vibentback.api.membership.UserMembershipRequestResponse;
+import com.vibent.vibentback.api.membership.UserMembershipResponse;
+import com.vibent.vibentback.api.participation.UserParticipationResponse;
 import com.vibent.vibentback.user.User;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Data
-@Slf4j
+@JsonInclude(JsonInclude.Include.ALWAYS)
 public class DetailledUserResponse {
     @JsonIgnore
     private User user;
 
-    public DetailledUserResponse(User user){
+    public DetailledUserResponse(User user) {
         this.user = user;
     }
 
     @JsonProperty
-    public String getRef(){
+    public String getRef() {
         return user.getRef();
     }
 
     @JsonProperty
-    public String getEmail(){
+    public String getEmail() {
         return user.getEmail();
     }
 
     @JsonProperty
-    public String getPhoneNumber(){
+    public String getPhoneNumber() {
         return user.getPhoneNumber();
     }
 
     @JsonProperty
-    public String getFirstName(){
+    public String getFirstName() {
         return user.getFirstName();
     }
 
     @JsonProperty
-    public String getLastName(){
+    public String getLastName() {
         return user.getLastName();
     }
 
     @JsonProperty
-    public Set<UserParticipationResponse> getParticipationRefs(){
+    public Set<UserParticipationResponse> getParticipations() {
         Set<UserParticipationResponse> participationResponses = new HashSet<>();
-        user.getParticipations().forEach(e -> participationResponses.add(new UserParticipationResponse(e.getEventRef(), e.getAnswer())));
+        user.getParticipations().forEach(e ->
+                participationResponses.add(new UserParticipationResponse(e.getEventRef(), e.getAnswer())));
         return participationResponses;
     }
 
     @JsonProperty
-    public Set<String> getMembershipRefs(){
-        return user.getMemberships().stream().map(GroupT::getRef).collect(Collectors.toSet());
+    public Set<UserMembershipResponse> getMemberships() {
+        Set<UserMembershipResponse> memberships = new HashSet<>();
+        user.getMemberships().forEach(m ->
+                memberships.add(new UserMembershipResponse(m.getGroup().getRef(),m.getAdmin())));
+        return memberships;
     }
 
     @JsonProperty
-    public Set<String> getAdminshipRefs(){
-        return user.getAdminships().stream().map(GroupT::getRef).collect(Collectors.toSet());
-    }
-
-    @JsonProperty
-    public Set<String> getInviteshipsRefs(){
-        return user.getInviteships().stream().map(GroupT::getRef).collect(Collectors.toSet());
+    public Set<UserMembershipRequestResponse> getMembershipRequests() {
+        Set<UserMembershipRequestResponse> requests = new HashSet<>();
+        user.getRequests().forEach(r ->
+                requests.add(new UserMembershipRequestResponse(r.getGroup().getRef())));
+        return requests;
     }
 }

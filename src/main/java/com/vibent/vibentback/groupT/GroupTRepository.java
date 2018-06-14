@@ -23,7 +23,7 @@ public interface GroupTRepository extends CrudRepository<GroupT, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE user SET group_t = FALSE WHERE ref = :ref", nativeQuery = true)
+    @Query(value = "UPDATE group_t SET deleted = FALSE WHERE ref = :ref", nativeQuery = true)
     int recover(@Param("ref") String ref);
 
     @Query(value = "SELECT deleted FROM group_t WHERE ref = :ref", nativeQuery = true)

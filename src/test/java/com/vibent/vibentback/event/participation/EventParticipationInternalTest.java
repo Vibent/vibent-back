@@ -1,7 +1,7 @@
-package com.vibent.vibentback.eventParticipation;
+package com.vibent.vibentback.event.participation;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.api.eventParticipation.UpdateEventParticipationRequest;
+import com.vibent.vibentback.api.participation.UpdateEventParticipationRequest;
 import com.vibent.vibentback.event.EventRepository;
 import com.vibent.vibentback.groupT.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;

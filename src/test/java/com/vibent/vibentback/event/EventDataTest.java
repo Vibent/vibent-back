@@ -40,9 +40,6 @@ public class EventDataTest extends VibentTest {
         event.setEndDate(getFutureDate(8));
         Assert.assertNotNull(event.getRef());
         repository.save(event);
-
-        // Clean up
-        repository.delete(event);
     }
 
     @Test

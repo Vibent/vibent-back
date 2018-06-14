@@ -20,6 +20,9 @@ public enum VibentError {
     USER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "The requested username has already be assigned to a different user"),
 
     GROUP_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested group could not be found"),
+    MEMBERSHIP_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested membership could not be found"),
+    MEMBERSHIP_REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested membership request could not be found"),
+
 
     EVENT_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested event could not be found"),
     EVENT_DATE_INVALID(HttpStatus.BAD_REQUEST, "An event's end date must be after its start date, and it's start date must be after the current date"),

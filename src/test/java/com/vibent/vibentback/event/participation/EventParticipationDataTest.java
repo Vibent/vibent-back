@@ -1,4 +1,4 @@
-package com.vibent.vibentback.eventParticipation;
+package com.vibent.vibentback.event.participation;
 
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.event.EventRepository;

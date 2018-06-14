@@ -5,10 +5,13 @@ import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
 import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.groupT.GroupTRepository;
+import com.vibent.vibentback.groupT.membership.Membership;
+import com.vibent.vibentback.groupT.membership.MembershipService;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -30,6 +33,8 @@ public class GroupMembershipDataTest extends VibentTest {
     UserRepository userRepository;
     @Autowired
     GroupTRepository groupTRepository;
+    @Autowired
+    MembershipService membershipService;
 
     @Before
     public void setUp() {
@@ -38,174 +43,153 @@ public class GroupMembershipDataTest extends VibentTest {
         RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
     }
 
-    // Memberships
     @Test
-    public void testAddGroupMembershipFromGroupSide() {
-        RANDOM_GROUP.addMember(RANDOM_USER);
+    public void testAddGroupMembership() {
+        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
-        RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
+        membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false);
 
         GroupT group = groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-        Assert.assertNotEquals(0, group.getMembers().size());
+        Assert.assertNotEquals(0, group.getMemberships().size());
 
         User user = userRepository.findById(RANDOM_USER.getId()).orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         Assert.assertNotEquals(0, user.getMemberships().size());
+
+        Assert.assertTrue(group.getMemberships().stream()
+                .map(Membership::getUser).collect(Collectors.toSet()).contains(user));
+        Assert.assertFalse(group.getMemberships().stream()
+                .filter(Membership::getAdmin)
+                .map(Membership::getUser).collect(Collectors.toSet()).contains(user));
     }
 
     @Test
-    public void testAddGroupMembershipFromUserSide() {
-        RANDOM_USER.addMembership(RANDOM_GROUP);
+    public void testAddGroupAdminship() {
+        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
-        RANDOM_USER = userRepository.save(RANDOM_USER);
+        membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, true);
 
         GroupT group = groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-        Assert.assertNotEquals(0, group.getMembers().size());
+        Assert.assertNotEquals(0, group.getMemberships().size());
 
         User user = userRepository.findById(RANDOM_USER.getId()).orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         Assert.assertNotEquals(0, user.getMemberships().size());
+
+        Assert.assertTrue(group.getMemberships().stream()
+                .filter(Membership::getAdmin)
+                .map(Membership::getUser).collect(Collectors.toSet()).contains(user));
     }
 
     @Test
-    public void deleteGroupMembershipFromUserShouldNotDeleteGroup() {
-        RANDOM_USER.addMembership(RANDOM_GROUP);
-        RANDOM_USER = userRepository.save(RANDOM_USER);
+    public void testRemoveGroupMembership() {
+        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
-        RANDOM_USER.setMemberships(new HashSet<>());
-        RANDOM_USER = userRepository.save(RANDOM_USER);
+        membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false);
+        membershipService.removeMembership(RANDOM_GROUP, RANDOM_USER);
 
-        // Should not throw exception
-        groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-
-        // Should be out of all groups
-        Assert.assertEquals(0, RANDOM_USER.getMemberships().size());
-    }
-
-    @Test
-    public void deleteUserMembershipFromGroupShouldNotDeleteUser() {
-        RANDOM_GROUP.addMember(RANDOM_USER);
-        RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
-
-        RANDOM_GROUP.setMembers(new HashSet<>());
-        RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
-
-        // Should not throw exception
-        userRepository.findById(RANDOM_USER.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-
-        // Should have to members
-        Assert.assertEquals(0, RANDOM_GROUP.getMembers().size());
-    }
-
-    // Adminships
-    @Test
-    public void testAddGroupAdminshipFromGroupSide() {
-        RANDOM_GROUP.addAdmin(RANDOM_USER);
-
-        RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
 
         GroupT group = groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-        Assert.assertNotEquals(0, group.getAdmins().size());
+        Assert.assertEquals(0, group.getMemberships().size());
 
         User user = userRepository.findById(RANDOM_USER.getId()).orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
-        Assert.assertNotEquals(0, user.getAdminships().size());
+        Assert.assertEquals(0, user.getMemberships().size());
+
+        Assert.assertFalse(group.getMemberships().stream()
+                .filter(Membership::getAdmin)
+                .map(Membership::getUser).collect(Collectors.toSet()).contains(user));
     }
 
     @Test
-    public void testAddGroupAdminshipFromUserSide() {
-        RANDOM_USER.addAdminship(RANDOM_GROUP);
+    public void testChangeGroupMembership() {
+        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
-        RANDOM_USER = userRepository.save(RANDOM_USER);
+        membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false);
 
-        GroupT group = groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-        Assert.assertNotEquals(0, group.getAdmins().size());
+        membershipService.changeAdminship(RANDOM_GROUP, RANDOM_USER, true);
 
-        User user = userRepository.findById(RANDOM_USER.getId()).orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
-        Assert.assertNotEquals(0, user.getAdminships().size());
+
+        Membership membership = RANDOM_USER.getMemberships().stream().filter(m -> m.getGroup().equals(RANDOM_GROUP)).findFirst()
+                .orElseThrow(() -> new VibentException(VibentError.MEMBERSHIP_NOT_FOUND));
+        Assert.assertTrue(membership.getAdmin());
     }
 
     @Test
-    public void deleteGroupAdminshipFromUserShouldNotDeleteGroup() {
-        RANDOM_USER.addAdminship(RANDOM_GROUP);
-        RANDOM_USER = userRepository.save(RANDOM_USER);
+    public void testDeleteSingleMembership() {
+        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
-        RANDOM_USER.setAdminships(new HashSet<>());
-        RANDOM_USER = userRepository.save(RANDOM_USER);
+        membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false);
 
-        // Should not throw exception
-        groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        membershipService.removeMembership(RANDOM_GROUP, RANDOM_USER);
 
-        // Should be out of all groups
-        Assert.assertEquals(0, RANDOM_USER.getAdminships().size());
+
+        // Assert membership was deleted on both ends
+        Assert.assertFalse(RANDOM_USER.getMemberships().stream().anyMatch(m -> m.getGroup().equals(RANDOM_GROUP)));
+        Assert.assertFalse(RANDOM_GROUP.getMemberships().stream().anyMatch(m -> m.getUser().equals(RANDOM_USER)));
+
+        // Assert member and group are not deleted
+        Assert.assertTrue(userRepository.findByRef(RANDOM_USER.getRef()).isPresent());
+        Assert.assertTrue(groupTRepository.findByRef(RANDOM_GROUP.getRef()).isPresent());
     }
 
     @Test
-    public void deleteUserAdminshipFromGroupShouldNotDeleteUser() {
-        RANDOM_GROUP.addAdmin(RANDOM_USER);
-        RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
+    public void testDeleteAllGroupMembership() {
+        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
-        RANDOM_GROUP.setAdmins(new HashSet<>());
-        RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
+        membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false);
 
-        // Should not throw exception
-        userRepository.findById(RANDOM_USER.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        membershipService.removeMembership(RANDOM_GROUP);
 
-        // Should have to admins
-        Assert.assertEquals(0, RANDOM_GROUP.getAdmins().size());
-    }
 
-    // Inviteships
-    @Test
-    public void testAddGroupInviteshipFromGroupSide() {
-        RANDOM_GROUP.addInvite(RANDOM_USER);
+        // Assert membership was deleted on both ends
+        Assert.assertFalse(RANDOM_USER.getMemberships().stream().anyMatch(m -> m.getGroup().equals(RANDOM_GROUP)));
+        Assert.assertFalse(RANDOM_GROUP.getMemberships().stream().anyMatch(m -> m.getUser().equals(RANDOM_USER)));
 
-        RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
-
-        GroupT group = groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-        Assert.assertNotEquals(0, group.getInvites().size());
-
-        User user = userRepository.findById(RANDOM_USER.getId()).orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
-        Assert.assertNotEquals(0, user.getInviteships().size());
+        // Assert member and group are not deleted
+        Assert.assertTrue(userRepository.findByRef(RANDOM_USER.getRef()).isPresent());
+        Assert.assertTrue(groupTRepository.findByRef(RANDOM_GROUP.getRef()).isPresent());
     }
 
     @Test
-    public void testAddGroupInviteshipFromUserSide() {
-        RANDOM_USER.addInviteship(RANDOM_GROUP);
+    public void testDeleteAllUserMembership() {
+        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
-        RANDOM_USER = userRepository.save(RANDOM_USER);
+        membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false);
 
-        GroupT group = groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-        Assert.assertNotEquals(0, group.getInvites().size());
+        membershipService.removeMembership(RANDOM_USER);
 
-        User user = userRepository.findById(RANDOM_USER.getId()).orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
-        Assert.assertNotEquals(0, user.getInviteships().size());
+
+        // Assert membership was deleted on both ends
+        Assert.assertFalse(RANDOM_USER.getMemberships().stream().anyMatch(m -> m.getGroup().equals(RANDOM_GROUP)));
+        Assert.assertFalse(RANDOM_GROUP.getMemberships().stream().anyMatch(m -> m.getUser().equals(RANDOM_USER)));
+
+        // Assert member and group are not deleted
+        Assert.assertTrue(userRepository.findByRef(RANDOM_USER.getRef()).isPresent());
+        Assert.assertTrue(groupTRepository.findByRef(RANDOM_GROUP.getRef()).isPresent());
     }
 
     @Test
-    public void deleteGroupInviteshipFromUserShouldNotDeleteGroup() {
-        RANDOM_USER.addInviteship(RANDOM_GROUP);
-        RANDOM_USER = userRepository.save(RANDOM_USER);
+    public void testCreateGroupMembershipRequest() {
+        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
-        RANDOM_USER.setInviteships(new HashSet<>());
-        RANDOM_USER = userRepository.save(RANDOM_USER);
+        membershipService.addMembershipRequestForConnectedUser(RANDOM_GROUP.getRef());
 
-        // Should not throw exception
-        groupTRepository.findById(RANDOM_GROUP.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-
-        // Should be out of all groups
-        Assert.assertEquals(0, RANDOM_USER.getInviteships().size());
+        Assert.assertTrue(RANDOM_USER.getRequests().stream().anyMatch(m -> m.getGroup().equals(RANDOM_GROUP)));
+        Assert.assertTrue(RANDOM_GROUP.getRequests().stream().anyMatch(m -> m.getUser().equals(RANDOM_USER)));
     }
 
     @Test
-    public void deleteUserInviteshipFromGroupShouldNotDeleteUser() {
-        RANDOM_GROUP.addInvite(RANDOM_USER);
-        RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
+    public void testDeleteGroupMembershipRequest() {
+        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
-        RANDOM_GROUP.setInvites(new HashSet<>());
-        RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
+        membershipService.addMembershipRequestForConnectedUser(RANDOM_GROUP.getRef());
 
-        // Should not throw exception
-        userRepository.findById(RANDOM_USER.getId()).orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        membershipService.deleteMembershipRequest(RANDOM_GROUP.getRef(), RANDOM_USER.getRef());
 
-        // Should have to invites
-        Assert.assertEquals(0, RANDOM_GROUP.getInvites().size());
+        // Assert membership request was deleted on both ends
+        Assert.assertFalse(RANDOM_USER.getRequests().stream().anyMatch(m -> m.getGroup().equals(RANDOM_GROUP)));
+        Assert.assertFalse(RANDOM_GROUP.getRequests().stream().anyMatch(m -> m.getUser().equals(RANDOM_USER)));
+
+        // Assert member and group are not deleted
+        Assert.assertTrue(userRepository.findByRef(RANDOM_USER.getRef()).isPresent());
+        Assert.assertTrue(groupTRepository.findByRef(RANDOM_GROUP.getRef()).isPresent());
     }
 }

@@ -1,7 +1,7 @@
 
-package com.vibent.vibentback.api.eventParticipation;
+package com.vibent.vibentback.api.participation;
 
-import com.vibent.vibentback.eventParticipation.EventParticipation;
+import com.vibent.vibentback.event.participation.EventParticipation;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

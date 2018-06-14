@@ -1,11 +1,12 @@
 package com.vibent.vibentback.event;
 
 import com.vibent.vibentback.VibentTest;
+import com.vibent.vibentback.api.event.DetailledEventResponse;
 import com.vibent.vibentback.api.event.EventRequest;
 import com.vibent.vibentback.api.event.EventUpdateRequest;
 import com.vibent.vibentback.error.VibentException;
-import com.vibent.vibentback.eventParticipation.EventParticipation;
-import com.vibent.vibentback.eventParticipation.EventParticipationRepository;
+import com.vibent.vibentback.event.participation.EventParticipation;
+import com.vibent.vibentback.event.participation.EventParticipationRepository;
 import com.vibent.vibentback.groupT.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -83,21 +84,21 @@ public class EventInternalTest extends VibentTest {
 
     @Test
     public void getConnectedUserEvents(){
-        Set<Event> events = controller.getConnectedUserEvents();
+        Set<DetailledEventResponse> events = controller.getConnectedUserEvents();
         log.info(String.valueOf(events.size()));
     }
 
 
     @Test
     public void getEvent(){
-        Event event = controller.getEvent(RANDOM_EVENT.getRef());
+        DetailledEventResponse event = controller.getEvent(RANDOM_EVENT.getRef());
         Assert.assertEquals(RANDOM_EVENT.getRef(), event.getRef());
         Assert.assertEquals(RANDOM_EVENT.getDescription(), event.getDescription());
     }
 
     @Test
     public void addEvent(){
-        Event event = controller.createEvent(RANDOM_EVENT_REQUEST);
+        DetailledEventResponse event = controller.createEvent(RANDOM_EVENT_REQUEST);
         Assert.assertEquals(RANDOM_EVENT.getRef(), event.getRef());
         Assert.assertEquals(RANDOM_EVENT.getDescription(), event.getDescription());
     }
@@ -116,8 +117,8 @@ public class EventInternalTest extends VibentTest {
 
     @Test
     public void updateEvent(){
-        Event event = controller.updateEvent(RANDOM_EVENT.getRef(), RANDOM_EVENT_UPDATE_REQUEST);
-        Assert.assertEquals(event, RANDOM_EVENT);
+        DetailledEventResponse event = controller.updateEvent(RANDOM_EVENT.getRef(), RANDOM_EVENT_UPDATE_REQUEST);
+        Assert.assertEquals(event.getRef(), RANDOM_EVENT.getRef());
         Assert.assertEquals(RANDOM_EVENT_UPDATE_REQUEST.getDescription(), event.getDescription());
     }
 
