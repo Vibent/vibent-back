@@ -7,6 +7,7 @@ import com.vibent.vibentback.api.groupT.GroupRequest;
 import com.vibent.vibentback.api.groupT.GroupUpdateRequest;
 import com.vibent.vibentback.groupT.membership.Membership;
 import com.vibent.vibentback.groupT.membership.MembershipRepository;
+import com.vibent.vibentback.groupT.membership.MembershipService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
@@ -35,7 +36,7 @@ public class GroupTInternalTest extends VibentTest {
     @MockBean
     private GroupTRepository groupTRepository;
     @MockBean
-    private MembershipRepository membershipRepository;
+    private MembershipService membershipService;
     @MockBean
     private ConnectedUserUtils connectedUserUtils;
 
@@ -55,7 +56,7 @@ public class GroupTInternalTest extends VibentTest {
         RANDOM_GROUP_UPDATE_REQUEST.setName("New name");
 
         Membership RANDOM_MEMBERSHIP = new Membership(RANDOM_USER, RANDOM_GROUP, true);
-        when(membershipRepository.save(RANDOM_MEMBERSHIP)).thenReturn(RANDOM_MEMBERSHIP);
+        when(membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, true)).thenReturn(RANDOM_MEMBERSHIP);
         when(connectedUserUtils.getConnectedUser()).thenReturn(RANDOM_USER);
         when(groupTRepository.findByRef(RANDOM_GROUP.getRef())).thenReturn(Optional.ofNullable(RANDOM_GROUP));
         when(groupTRepository.save(RANDOM_GROUP)).thenReturn(RANDOM_GROUP);
