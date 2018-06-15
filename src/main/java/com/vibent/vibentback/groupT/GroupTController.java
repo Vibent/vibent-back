@@ -4,9 +4,14 @@ import com.vibent.vibentback.api.groupT.DetailledGroupResponse;
 import com.vibent.vibentback.api.groupT.GroupRequest;
 import com.vibent.vibentback.api.groupT.GroupUpdateRequest;
 import com.vibent.vibentback.api.groupT.PublicGroupResponse;
+import com.vibent.vibentback.api.membership.AcceptGroupMembershipRequestRequest;
+import com.vibent.vibentback.api.membership.MembershipResponse;
+import com.vibent.vibentback.api.membership.UserMembershipRequestResponse;
 import com.vibent.vibentback.api.user.DetailledUserResponse;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.groupT.membership.Membership;
+import com.vibent.vibentback.groupT.membership.MembershipRequest;
+import com.vibent.vibentback.groupT.membership.MembershipService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +30,7 @@ import java.util.stream.Collectors;
 public class GroupTController {
 
     private final GroupTService groupTService;
+    private final MembershipService membershipService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/me")
     Set<DetailledGroupResponse> getConnectedUserGroups() {
@@ -32,6 +38,20 @@ public class GroupTController {
         Set<DetailledGroupResponse> response = new HashSet<>();
         groupTService.getConnectedUserMemberships().forEach(m -> response.add(new DetailledGroupResponse(m.getGroup())));
         return response;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{groupRef}/request")
+    UserMembershipRequestResponse requestMembership(@PathVariable String groupRef) {
+        log.info("Connected user requesting membership to {}", groupRef);
+        MembershipRequest membershipRequest = membershipService.addMembershipRequestForConnectedUser(groupRef);
+        return new UserMembershipRequestResponse(membershipRequest.getGroup().getRef());
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/request/accept")
+    MembershipResponse acceptMembershipRequest(@Valid @RequestBody AcceptGroupMembershipRequestRequest request) {
+        log.info("Accepting group request by {} to {}", request.getUserRef(), request.getGroupRef());
+        Membership membership = membershipService.addMembership(request.getGroupRef(), request.getUserRef(), request.isAdmin());
+        return new MembershipResponse(membership.getUser().getRef(), membership.getGroup().getRef(), membership.getAdmin());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/public/{groupRef}")

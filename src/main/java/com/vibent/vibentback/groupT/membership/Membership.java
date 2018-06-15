@@ -36,6 +36,7 @@ public class Membership {
 
     @Column(insertable = false, updatable = false)
     private boolean deleted;
+
     @NonNull
     private Boolean admin;
 

@@ -12,4 +12,6 @@ public interface MembershipRequestRepository extends CrudRepository<MembershipRe
     int deleteByUserAndGroup(User user, GroupT group);
 
     Optional<MembershipRequest> findByUserAndGroup(User user, GroupT groupT);
+
+    boolean existsByUserAndGroup(User user, GroupT groupT);
 }

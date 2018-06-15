@@ -1,9 +1,6 @@
 package com.vibent.vibentback.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.event.participation.EventParticipation;
-import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.groupT.membership.Membership;
 import com.vibent.vibentback.groupT.membership.MembershipRequest;
 import lombok.*;
@@ -18,7 +15,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Entity

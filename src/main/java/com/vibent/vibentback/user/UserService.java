@@ -23,9 +23,8 @@ public class UserService implements UserDetailsService {
     UserRepository userRepository;
 
     public User getUserByRef(String ref) {
-        User user = userRepository.findByRef(ref)
+        return userRepository.findByRef(ref)
                 .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
-        return user;
     }
 
     public User addUser(User user) {

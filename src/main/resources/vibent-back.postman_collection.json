@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0df16f8a-da4c-4674-b3dc-e5e30d66b6c4",
+		"_postman_id": "6d12a118-4610-45e0-b72d-56227033c410",
 		"name": "Vibent Back",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -18,6 +18,33 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"password\": \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\",\n\t\"email\": \"vibentPM@vibent.com\",\n\t\"phoneNumber\": \"0634578963\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/auth/register",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Second User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"password\": \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\",\n\t\"email\": \"secondUser@vibent.com\",\n\t\"phoneNumber\": \"0634748545\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
 				},
 				"url": {
 					"raw": "{{URL}}/auth/register",
@@ -58,6 +85,47 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{ \r\n\t\"email\" : \"vibentPM@vibent.com\",\r\n\t\"password\" : \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\"\r\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/auth/login/email",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"auth",
+						"login",
+						"email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Second User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "869f59b0-5769-4c5a-a3e9-7e857ad59cc4",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"tokenSecondUser\", jsonData.token);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\t\"email\" : \"secondUser@vibent.com\",\r\n\t\"password\" : \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\"\r\n}"
 				},
 				"url": {
 					"raw": "{{URL}}/auth/login/email",
@@ -159,7 +227,82 @@
 			"response": []
 		},
 		{
+			"name": "Get Second Connected User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e2be40df-1dbb-4666-895b-d96e35824dc7",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"userRefSecondUser\", jsonData.ref);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{tokenSecondUser}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/user/me",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"user",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get User",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/user/{{userRef}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"user",
+						"{{userRef}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Copy",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -227,6 +370,94 @@
 					],
 					"path": [
 						"group"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Second User Request Group Membership",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f7ac89fe-f909-470b-8700-755ae9d7ebd2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{tokenSecondUser}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/group/{{groupRef}}/request",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"group",
+						"{{groupRef}}",
+						"request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Accept Group Membership Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f7ac89fe-f909-470b-8700-755ae9d7ebd2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"userRef\": \"{{userRefSecondUser}}\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"isAdmin\": false\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/group/request/accept",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"group",
+						"request",
+						"accept"
 					]
 				}
 			},
@@ -304,6 +535,49 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"allAdmins\": true\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/group/{{groupRef}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"group",
+						"{{groupRef}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "433a9b0e-b73f-41b6-b404-28a4384041ba",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
 				},
 				"url": {
 					"raw": "{{URL}}/group/{{groupRef}}",
@@ -751,6 +1025,50 @@
 						"bubble",
 						"alimentation",
 						"bring"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Connected User Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5faf4b6a-7a00-4fbc-a279-39834df9a10f",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"userRef\", jsonData.ref);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/user/me",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"user",
+						"me"
 					]
 				}
 			},
