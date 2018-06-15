@@ -5,9 +5,10 @@ import com.vibent.vibentback.api.event.EventRequest;
 import com.vibent.vibentback.api.event.EventUpdateRequest;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
-import com.vibent.vibentback.eventParticipation.EventParticipationService;
+import com.vibent.vibentback.event.participation.EventParticipationService;
 import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.groupT.GroupTRepository;
+import com.vibent.vibentback.groupT.membership.Membership;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,8 @@ public class EventService {
     GroupTRepository groupTRepository;
 
     public Set<Event> getConnectedUserEvents() {
-        Set<GroupT> groups = connectedUserUtils.getConnectedUser().getMemberships();
+        Set<GroupT> groups = connectedUserUtils.getConnectedUser().getMemberships().stream()
+                .map(Membership::getGroup).collect(Collectors.toSet());
         return groups.stream().flatMap(g -> g.getEvents().stream()).collect(Collectors.toSet());
     }
 
@@ -41,9 +43,9 @@ public class EventService {
     }
 
     public Event createEvent(EventRequest request) {
-        if(request.getStartDate().before(new Date()))
+        if (request.getStartDate().before(new Date()))
             throw new VibentException(VibentError.EVENT_DATE_INVALID);
-        if(request.getEndDate() != null && request.getStartDate().after(request.getEndDate()))
+        if (request.getEndDate() != null && request.getStartDate().after(request.getEndDate()))
             throw new VibentException(VibentError.EVENT_DATE_INVALID);
         GroupT group = groupTRepository.findByRef(request.getGroupRef())
                 .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
@@ -66,15 +68,15 @@ public class EventService {
     public Event updateEvent(String eventRef, EventUpdateRequest request) {
         Event existing = eventRepository.findByRef(eventRef)
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
-        if(request.getTitle() != null) existing.setTitle(request.getTitle());
-        if(request.getDescription() != null) existing.setDescription(request.getDescription());
-        if(request.getEndDate() != null) existing.setEndDate(request.getEndDate());
-        if(request.getStartDate() != null) existing.setStartDate(request.getStartDate());
+        if (request.getTitle() != null) existing.setTitle(request.getTitle());
+        if (request.getDescription() != null) existing.setDescription(request.getDescription());
+        if (request.getEndDate() != null) existing.setEndDate(request.getEndDate());
+        if (request.getStartDate() != null) existing.setStartDate(request.getStartDate());
 
         // Don't save entity if dates aren't coherent
-        if(existing.getStartDate().before(new Date()))
+        if (existing.getStartDate().before(new Date()))
             throw new VibentException(VibentError.EVENT_DATE_INVALID);
-        if(existing.getStartDate() != null && existing.getEndDate() != null && existing.getStartDate().after(existing.getEndDate()))
+        if (existing.getStartDate() != null && existing.getEndDate() != null && existing.getStartDate().after(existing.getEndDate()))
             throw new VibentException(VibentError.EVENT_DATE_INVALID);
         return eventRepository.save(existing);
     }

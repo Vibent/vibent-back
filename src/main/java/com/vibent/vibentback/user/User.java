@@ -2,10 +2,10 @@ package com.vibent.vibentback.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vibent.vibentback.api.eventParticipation.EventParticipationResponse;
-import com.vibent.vibentback.api.eventParticipation.UserParticipationResponse;
-import com.vibent.vibentback.eventParticipation.EventParticipation;
+import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.groupT.GroupT;
+import com.vibent.vibentback.groupT.membership.Membership;
+import com.vibent.vibentback.groupT.membership.MembershipRequest;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -50,39 +51,14 @@ public class User implements UserDetails, Serializable {
     private Date lastPasswordReset;
 
     // Links
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private Set<EventParticipation> participations = new HashSet<>();
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "members", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private Set<GroupT> memberships = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+    private Set<Membership> memberships = new HashSet<>();
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "admins", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private Set<GroupT> adminships = new HashSet<>();
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "invites", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private Set<GroupT> inviteships = new HashSet<>();
-
-    public void addMembership(GroupT group) {
-        memberships.add(group);
-        if (!group.getMembers().contains(this))
-            group.addMember(this);
-    }
-
-    public void addAdminship(GroupT group) {
-        adminships.add(group);
-        if (!group.getAdmins().contains(this))
-            group.addAdmin(this);
-    }
-
-    public void addInviteship(GroupT group) {
-        inviteships.add(group);
-        if (!group.getInvites().contains(this))
-            group.addInvite(this);
-    }
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+    private Set<MembershipRequest> requests = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

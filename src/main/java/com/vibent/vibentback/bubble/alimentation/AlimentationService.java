@@ -32,12 +32,12 @@ public class AlimentationService {
     ConnectedUserUtils userUtils;
 
     // Alimentation Bubble -------------------------------------------------------------
-    @PreAuthorize(value = "hasPermission(#id, 'AlimentationBubble', 'ROLE_USER')")
+    // @PreAuthorize(value = "hasPermission(#id, 'AlimentationBubble', 'ROLE_USER')")
     public AlimentationBubble getBubble(long id) {
         return bubbleRepository.findById(id).orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
     }
 
-    @PreAuthorize(value = "hasPermission(#eventRef, 'Event', 'ROLE_ADMIN')")
+    // @PreAuthorize(value = "hasPermission(#eventRef, 'Event', 'ROLE_ADMIN')")
     public AlimentationBubble createBubble(String eventRef) {
         Event event = eventRepository.findByRef(eventRef)
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
@@ -50,14 +50,14 @@ public class AlimentationService {
         return alimentationBubble;
     }
 
-    @PreAuthorize(value = "hasPermission(#id, 'AlimentationBubble', 'ROLE_ADMIN')")
+    // @PreAuthorize(value = "hasPermission(#id, 'AlimentationBubble', 'ROLE_ADMIN')")
     public void deleteBubble(long id) {
         bubbleRepository.deleteById(id);
     }
 
     // Alimentation Entry -------------------------------------------------------------
 
-    @PreAuthorize(value = "hasPermission(#request.bubbleId, 'AlimentationBubble', 'ROLE_USER')")
+    // @PreAuthorize(value = "hasPermission(#request.bubbleId, 'AlimentationBubble', 'ROLE_USER')")
     public AlimentationBubble createEntry(AlimentationEntryRequest request) {
         AlimentationBubble bubble = bubbleRepository.findById(request.getBubbleId())
                 .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
@@ -73,7 +73,7 @@ public class AlimentationService {
         return entry.getBubble();
     }
 
-    @PreAuthorize(value = "hasPermission(#id, 'AlimentationEntry', 'ROLE_USER')")
+    // @PreAuthorize(value = "hasPermission(#id, 'AlimentationEntry', 'ROLE_USER')")
     public AlimentationBubble updateEntry(Long id, AlimentationEntryUpdateRequest request) {
         AlimentationEntry entry = entryRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
@@ -88,13 +88,13 @@ public class AlimentationService {
         return entry.getBubble();
     }
 
-    @PreAuthorize(value = "hasPermission(#id, 'AlimentationEntry', 'ROLE_USER')")
+    // @PreAuthorize(value = "hasPermission(#id, 'AlimentationEntry', 'ROLE_USER')")
     public void deleteEntry(Long id) {
         entryRepository.deleteById(id);
     }
 
     // Alimentation Bring -------------------------------------------------------------
-    @PreAuthorize(value = "hasPermission(#request.entryId, 'AlimentationEntry', 'ROLE_USER')")
+    // @PreAuthorize(value = "hasPermission(#request.entryId, 'AlimentationEntry', 'ROLE_USER')")
     public AlimentationBubble createBring(AlimentationBringRequest request) {
         AlimentationEntry entry = entryRepository.findById(request.getEntryId())
                 .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
@@ -109,7 +109,7 @@ public class AlimentationService {
         return entry.getBubble();
     }
 
-    @PreAuthorize(value = "hasPermission(#id, 'AlimentationEntry', 'ROLE_USER')")
+    // @PreAuthorize(value = "hasPermission(#id, 'AlimentationEntry', 'ROLE_USER')")
     public AlimentationBubble updateBring(Long id, AlimentationBringUpdateRequest request) {
         if (request.getQuantity() == 0)
             deleteBring(id);
@@ -120,7 +120,7 @@ public class AlimentationService {
         return bring.getEntry().getBubble();
     }
 
-    @PreAuthorize(value = "hasPermission(#id, 'AlimentationEntry', 'ROLE_USER')")
+    // @PreAuthorize(value = "hasPermission(#id, 'AlimentationEntry', 'ROLE_USER')")
     public void deleteBring(Long id) {
         bringRepository.deleteById(id);
     }

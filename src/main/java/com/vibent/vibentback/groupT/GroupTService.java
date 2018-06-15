@@ -6,21 +6,29 @@ import com.vibent.vibentback.api.groupT.GroupUpdateRequest;
 import com.vibent.vibentback.error.VibentError;
 import com.vibent.vibentback.error.VibentException;
 import com.vibent.vibentback.event.Event;
+import com.vibent.vibentback.groupT.membership.Membership;
+import com.vibent.vibentback.groupT.membership.MembershipService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class GroupTService {
 
+    MembershipService membershipService;
     ConnectedUserUtils connectedUserUtils;
     GroupTRepository groupTRepository;
 
     public Set<GroupT> getConnectedUserGroups() {
+        return connectedUserUtils.getConnectedUser().getMemberships().stream().map(Membership::getGroup).collect(Collectors.toSet());
+    }
+
+    public Set<Membership> getConnectedUserMemberships() {
         return connectedUserUtils.getConnectedUser().getMemberships();
     }
 
@@ -46,9 +54,9 @@ public class GroupTService {
         group.setName(request.getName());
         group.setDescription(request.getDescription());
         group.setHasDefaultAdmin(request.getAllAdmins());
-        group.addMember(connectedUserUtils.getConnectedUser());
-        group.addAdmin(connectedUserUtils.getConnectedUser());
-        return groupTRepository.save(group);
+        groupTRepository.save(group);
+        membershipService.addMembership(group, connectedUserUtils.getConnectedUser(), true);
+        return group;
     }
 
     public void deleteGroupT(String groupRef) {
@@ -60,7 +68,7 @@ public class GroupTService {
                 .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
         if (request.getName() != null) existing.setName(request.getName());
         if (request.getDescription() != null) {
-            if(request.getDescription().isEmpty())
+            if (request.getDescription().isEmpty())
                 existing.setDescription(null);
             else
                 existing.setDescription(request.getDescription());

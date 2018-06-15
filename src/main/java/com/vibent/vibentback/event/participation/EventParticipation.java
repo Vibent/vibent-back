@@ -1,11 +1,13 @@
 
-package com.vibent.vibentback.eventParticipation;
+package com.vibent.vibentback.event.participation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.user.User;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -14,6 +16,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @RequiredArgsConstructor
+@SQLDelete(sql = "UPDATE event_participation SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class EventParticipation {
 
     @Id
@@ -23,7 +27,7 @@ public class EventParticipation {
     @NonNull
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "user_id")
+    @PrimaryKeyJoinColumn
     private User user;
 
     @NonNull
@@ -38,6 +42,10 @@ public class EventParticipation {
 
     @JsonIgnore
     private boolean isVisible;
+
+    @Column(insertable = false, updatable = false)
+    @JsonIgnore
+    private boolean deleted;
 
     public enum Answer {
         YES, NO, MAYBE, UNANSWERED
