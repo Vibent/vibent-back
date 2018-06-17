@@ -7,7 +7,7 @@ import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBringReposito
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntryRepository;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.groupT.GroupTRepository;
+import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;

@@ -80,10 +80,4 @@ public class AuthenticationService {
 
         return user;
     }
-
-
-    @Bean
-    private BCryptPasswordEncoder encoder(){
-        return new BCryptPasswordEncoder(10);
-    }
 }

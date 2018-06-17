@@ -1,7 +1,7 @@
 package com.vibent.vibentback.event.participation;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.api.participation.UpdateEventParticipationRequest;
+import com.vibent.vibentback.api.event.participation.UpdateEventParticipationRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

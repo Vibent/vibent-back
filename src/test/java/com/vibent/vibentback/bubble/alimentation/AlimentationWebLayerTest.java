@@ -1,7 +1,7 @@
 package com.vibent.vibentback.bubble.alimentation;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.api.alimentation.AlimentationBubbleRequest;
+import com.vibent.vibentback.api.bubble.alimentation.AlimentationBubbleRequest;
 import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;

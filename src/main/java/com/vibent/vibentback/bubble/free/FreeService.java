@@ -6,7 +6,7 @@ import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.api.free.FreeBubbleUpdateRequest;
+import com.vibent.vibentback.api.bubble.free.FreeBubbleUpdateRequest;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

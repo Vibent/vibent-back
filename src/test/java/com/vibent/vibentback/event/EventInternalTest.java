@@ -7,7 +7,7 @@ import com.vibent.vibentback.api.event.EventUpdateRequest;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.event.participation.EventParticipationRepository;
-import com.vibent.vibentback.groupT.GroupTRepository;
+import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;

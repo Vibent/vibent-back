@@ -22,7 +22,6 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthenticationController {
 
     @Value("${vibent.auth.header.key}")
@@ -30,10 +29,14 @@ public class AuthenticationController {
     @Value("${vibent.auth.expirationSeconds}")
     private long EXPIRATION_SECONDS;
 
-    @NonNull
-    private AuthenticationService authenticationService;
-    @NonNull
-    private TokenUtils tokenUtils;
+    private final AuthenticationService authenticationService;
+    private final TokenUtils tokenUtils;
+
+    @Autowired
+    public AuthenticationController(AuthenticationService authenticationService, TokenUtils tokenUtils) {
+        this.authenticationService = authenticationService;
+        this.tokenUtils = tokenUtils;
+    }
 
     @RequestMapping(value = "/login/email", method = RequestMethod.POST)
     public AuthenticationResponse loginEmail(@Valid @RequestBody EmailLoginRequest request) {

@@ -7,7 +7,7 @@ import com.vibent.vibentback.bubble.travel.proposal.TravelProposalRepository;
 import com.vibent.vibentback.bubble.travel.request.TravelRequest;
 import com.vibent.vibentback.bubble.travel.request.TravelRequestRepository;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.groupT.GroupTRepository;
+import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
