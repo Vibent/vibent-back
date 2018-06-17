@@ -1,7 +1,7 @@
 package com.vibent.vibentback.bubble.free;
 
-import com.vibent.vibentback.api.free.FreeBubbleRequest;
-import com.vibent.vibentback.api.free.FreeBubbleUpdateRequest;
+import com.vibent.vibentback.api.bubble.free.FreeBubbleRequest;
+import com.vibent.vibentback.api.bubble.free.FreeBubbleUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

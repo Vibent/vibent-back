@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.vibent.vibentback.auth.VibentAuthentication;
 import com.vibent.vibentback.event.Event;
-import com.vibent.vibentback.groupT.GroupT;
+import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.user.User;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

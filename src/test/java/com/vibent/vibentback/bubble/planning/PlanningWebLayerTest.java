@@ -1,7 +1,7 @@
 package com.vibent.vibentback.bubble.planning;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.api.planning.PlanningBubbleRequest;
+import com.vibent.vibentback.api.bubble.planning.PlanningBubbleRequest;
 import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.planning.entry.PlanningEntry;
 import lombok.extern.slf4j.Slf4j;

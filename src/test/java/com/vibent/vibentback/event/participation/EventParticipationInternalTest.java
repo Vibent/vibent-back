@@ -1,9 +1,9 @@
 package com.vibent.vibentback.event.participation;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.api.participation.UpdateEventParticipationRequest;
+import com.vibent.vibentback.api.event.participation.UpdateEventParticipationRequest;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.groupT.GroupTRepository;
+import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vibent.vibentback.api.participation.EventParticipationResponse;
+import com.vibent.vibentback.api.event.participation.EventParticipationResponse;
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.vibent.vibentback.bubble.checkbox.CheckboxBubble;
 import com.vibent.vibentback.bubble.free.FreeBubble;

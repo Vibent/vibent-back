@@ -1,13 +1,13 @@
 package com.vibent.vibentback.event.participation;
 
-import com.vibent.vibentback.api.participation.UpdateEventParticipationRequest;
+import com.vibent.vibentback.api.event.participation.UpdateEventParticipationRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.groupT.GroupT;
-import com.vibent.vibentback.groupT.GroupTRepository;
-import com.vibent.vibentback.groupT.membership.Membership;
+import com.vibent.vibentback.group.GroupT;
+import com.vibent.vibentback.group.GroupTRepository;
+import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.AllArgsConstructor;

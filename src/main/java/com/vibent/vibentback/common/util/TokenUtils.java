@@ -58,6 +58,9 @@ public class TokenUtils {
     }
 
     public Claims validateJWTToken(String jwt) {
+        if(jwt == null || jwt.isEmpty()){
+            throw new VibentException(VibentError.NO_TOKEN);
+        }
         Claims claims = null;
         try {
             claims = Jwts.parser()

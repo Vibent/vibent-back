@@ -1,8 +1,8 @@
 package com.vibent.vibentback.user;
 
 import com.vibent.vibentback.event.participation.EventParticipation;
-import com.vibent.vibentback.groupT.membership.Membership;
-import com.vibent.vibentback.groupT.membership.MembershipRequest;
+import com.vibent.vibentback.group.membership.Membership;
+import com.vibent.vibentback.group.membership.MembershipRequest;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;

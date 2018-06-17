@@ -1,6 +1,6 @@
 package com.vibent.vibentback.bubble.alimentation;
 
-import com.vibent.vibentback.api.alimentation.*;
+import com.vibent.vibentback.api.bubble.alimentation.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

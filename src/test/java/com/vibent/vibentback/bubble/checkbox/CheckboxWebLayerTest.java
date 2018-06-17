@@ -1,7 +1,7 @@
 package com.vibent.vibentback.bubble.checkbox;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.api.checkbox.CheckboxBubbleRequest;
+import com.vibent.vibentback.api.bubble.checkbox.CheckboxBubbleRequest;
 import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.checkbox.option.CheckboxOption;
 import com.vibent.vibentback.bubble.checkbox.answer.CheckboxAnswer;
