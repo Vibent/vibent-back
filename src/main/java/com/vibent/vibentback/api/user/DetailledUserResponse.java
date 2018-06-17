@@ -3,9 +3,9 @@ package com.vibent.vibentback.api.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vibent.vibentback.api.membership.UserMembershipRequestResponse;
-import com.vibent.vibentback.api.membership.UserMembershipResponse;
-import com.vibent.vibentback.api.participation.UserParticipationResponse;
+import com.vibent.vibentback.api.group.membership.UserMembershipRequestResponse;
+import com.vibent.vibentback.api.group.membership.UserMembershipResponse;
+import com.vibent.vibentback.api.event.participation.UserParticipationResponse;
 import com.vibent.vibentback.user.User;
 import lombok.Data;
 

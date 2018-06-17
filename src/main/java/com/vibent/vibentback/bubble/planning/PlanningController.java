@@ -1,9 +1,9 @@
 package com.vibent.vibentback.bubble.planning;
 
-import com.vibent.vibentback.api.planning.PlanningBubbleRequest;
-import com.vibent.vibentback.api.planning.PlanningBubbleUpdateRequest;
-import com.vibent.vibentback.api.planning.PlanningEntryRequest;
-import com.vibent.vibentback.api.planning.PlanningEntryUpdateRequest;
+import com.vibent.vibentback.api.bubble.planning.PlanningBubbleRequest;
+import com.vibent.vibentback.api.bubble.planning.PlanningBubbleUpdateRequest;
+import com.vibent.vibentback.api.bubble.planning.PlanningEntryRequest;
+import com.vibent.vibentback.api.bubble.planning.PlanningEntryUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

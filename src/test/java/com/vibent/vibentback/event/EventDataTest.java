@@ -3,7 +3,7 @@ package com.vibent.vibentback.event;
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
-import com.vibent.vibentback.groupT.GroupTRepository;
+import com.vibent.vibentback.group.GroupTRepository;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;

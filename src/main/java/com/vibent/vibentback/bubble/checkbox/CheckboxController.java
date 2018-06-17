@@ -1,6 +1,6 @@
 package com.vibent.vibentback.bubble.checkbox;
 
-import com.vibent.vibentback.api.checkbox.*;
+import com.vibent.vibentback.api.bubble.checkbox.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

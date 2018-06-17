@@ -51,6 +51,7 @@ public enum VibentError {
     // Token errors
     MALFORMED_TOKEN(HttpStatus.UNAUTHORIZED, "The provided token is malformed"),
     TOKEN_CANNOT_BE_REFRESHED(HttpStatus.UNAUTHORIZED, "The provided token cannot be refreshed"),
+    NO_TOKEN(HttpStatus.UNAUTHORIZED, "The token is either not provided or empty is expired"),
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "The provided token is expired"),
     UNSUPPORTED_TOKEN(HttpStatus.UNAUTHORIZED, "The format or configuration of the provided token is invalid"),
     INVALID_TOKEN_SIGNATURE(HttpStatus.UNAUTHORIZED, "The provided token's signature does not come from Vibent"),
@@ -64,7 +65,11 @@ public enum VibentError {
     INVALID_BODY(HttpStatus.BAD_REQUEST, "The request body is badly formed, please check API documentation"),
     PROTECTED_SERIALIZATION_EXCEPTION(HttpStatus.UNAUTHORIZED, "There was an attempt to serialize or deserialize a protected object"),
     UNKNOWN(HttpStatus.INTERNAL_SERVER_ERROR, "An unknown error has occured"),
-    NOT_IMPLEMENTED(HttpStatus.INTERNAL_SERVER_ERROR, "A non implemented function was called");
+    NOT_IMPLEMENTED(HttpStatus.INTERNAL_SERVER_ERROR, "A non implemented function was called"),
+
+    // Spring error
+    HTTP_MESSAGE_NOT_READABLE(HttpStatus.BAD_REQUEST, "Message not readable - probably because of a missing or malformed body"),
+    METHOD_ARGUMENT_NOT_VALID(HttpStatus.BAD_REQUEST, "Argument not valid - probably because the body validation failed. Please check the API documentation");
 
     private final HttpStatus status;
     private final String message;
