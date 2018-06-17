@@ -3,6 +3,8 @@ package com.vibent.vibentback.groupT;
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.api.groupT.GroupRequest;
 import com.vibent.vibentback.api.groupT.GroupUpdateRequest;
+import com.vibent.vibentback.groupT.membership.Membership;
+import com.vibent.vibentback.groupT.membership.MembershipService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +30,9 @@ public class GroupTWebLayerTest extends VibentTest {
 
     @MockBean
     GroupTService groupTService;
+
+    @MockBean
+    MembershipService membershipService;
 
     private GroupRequest RANDOM_GROUP_REQUEST;
     private GroupUpdateRequest RANDOM_GROUP_UPDATE_REQUEST;

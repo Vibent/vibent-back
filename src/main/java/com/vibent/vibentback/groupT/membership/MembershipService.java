@@ -29,6 +29,9 @@ public class MembershipService {
     public MembershipRequest addMembershipRequestForConnectedUser(String groupRef){
         GroupT groupT = groupTRepository.findByRef(groupRef)
                 .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        if (connectedUserUtils.getConnectedUser().getMemberships().stream().anyMatch(m -> m.getGroup().getRef().equals(groupRef))) {
+            throw new VibentException(VibentError.USER_ALREADY_PART_OF_GROUP);
+        }
         MembershipRequest created = new MembershipRequest(connectedUserUtils.getConnectedUser(), groupT);
         groupT.getRequests().add(created);
         connectedUserUtils.getConnectedUser().getRequests().add(created);
@@ -48,10 +51,23 @@ public class MembershipService {
     }
 
     public Membership addMembership(GroupT group, User user, boolean isAdmin) {
+        if (user.getMemberships().stream().anyMatch(m -> m.getGroup().getRef().equals(group.getRef())))
+            throw new VibentException(VibentError.USER_ALREADY_PART_OF_GROUP);
+        if (membershipRequestRepository.existsByUserAndGroup(user, group)){
+            deleteMembershipRequest(group.getRef(), user.getRef());
+        }
         Membership membership = new Membership(user, group, isAdmin);
         user.getMemberships().add(membership);
         group.getMemberships().add(membership);
         return membershipRepository.save(membership);
+    }
+
+    public Membership addMembership(String groupRef, String userRef, boolean isAdmin) {
+        GroupT groupT = groupTRepository.findByRef(groupRef)
+                .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        User user = userRepository.findByRef(userRef)
+                .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
+        return addMembership(groupT, user, isAdmin);
     }
 
     public Membership changeAdminship(GroupT group, User user, boolean isAdmin) {

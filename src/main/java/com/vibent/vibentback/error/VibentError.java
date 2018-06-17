@@ -22,6 +22,7 @@ public enum VibentError {
     GROUP_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested group could not be found"),
     MEMBERSHIP_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested membership could not be found"),
     MEMBERSHIP_REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested membership request could not be found"),
+    USER_ALREADY_PART_OF_GROUP(HttpStatus.BAD_REQUEST, "The requested membership is to a group the user is already a part of"),
 
 
     EVENT_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested event could not be found"),

@@ -3,18 +3,13 @@ package com.vibent.vibentback.api.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vibent.vibentback.api.membership.GroupMembershipRequestResponse;
-import com.vibent.vibentback.api.membership.GroupMembershipResponse;
 import com.vibent.vibentback.api.membership.UserMembershipRequestResponse;
 import com.vibent.vibentback.api.membership.UserMembershipResponse;
 import com.vibent.vibentback.api.participation.UserParticipationResponse;
 import com.vibent.vibentback.user.User;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @Data
@@ -64,15 +59,16 @@ public class DetailledUserResponse {
     public Set<UserMembershipResponse> getMemberships() {
         Set<UserMembershipResponse> memberships = new HashSet<>();
         user.getMemberships().forEach(m ->
-                memberships.add(new UserMembershipResponse(m.getGroup().getRef(),m.getAdmin())));
+                memberships.add(new UserMembershipResponse(m.getGroup().getRef(), m.getAdmin())));
         return memberships;
     }
 
     @JsonProperty
     public Set<UserMembershipRequestResponse> getMembershipRequests() {
         Set<UserMembershipRequestResponse> requests = new HashSet<>();
-        user.getRequests().forEach(r ->
-                requests.add(new UserMembershipRequestResponse(r.getGroup().getRef())));
+        user.getRequests().forEach(r -> {
+            requests.add(new UserMembershipRequestResponse(r.getGroup().getRef()));
+        });
         return requests;
     }
 }
