@@ -1,7 +1,7 @@
-package com.vibent.vibentback.auth;
+package com.vibent.vibentback.common.util;
 
-import com.vibent.vibentback.error.VibentError;
-import com.vibent.vibentback.error.VibentException;
+import com.vibent.vibentback.common.error.VibentError;
+import com.vibent.vibentback.common.error.VibentException;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -23,9 +23,12 @@ public class TokenUtils {
     private String ISSUER;
 
     @Value("${vibent.auth.expirationSeconds}")
-    private long EXPIRATION_SECONDS;
+    private long AUTH_EXPIRATION_SECONDS;
 
-    public String createJWTToken(String subject) {
+    @Value("${vibent.group.inviteTokenExpirationSeconds}")
+    private long INVITE_GROUP_EXPIRATION_SECONDS;
+
+    private String createToken(String subject, long expireSeconds) {
         String id = UUID.randomUUID().toString();
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
@@ -39,11 +42,19 @@ public class TokenUtils {
                 .setIssuedAt(now)
                 .setSubject(subject)
                 .setIssuer(ISSUER)
-                .setExpiration(new Date(nowMillis + (EXPIRATION_SECONDS * 1000)))
+                .setExpiration(new Date(nowMillis + (expireSeconds * 1000)))
                 .signWith(SIGNATURE_ALGORITHM, signingKey);
 
         //Builds the JWT and serializes it to a compact, URL-safe string
         return builder.compact();
+    }
+
+    public String createUserAuthenticationToken(String userRef) {
+        return createToken(userRef, AUTH_EXPIRATION_SECONDS);
+    }
+
+    public String createGroupInviteToken(String groupRef) {
+        return createToken(groupRef, INVITE_GROUP_EXPIRATION_SECONDS);
     }
 
     public Claims validateJWTToken(String jwt) {
@@ -53,7 +64,7 @@ public class TokenUtils {
                     .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET))
                     .parseClaimsJws(jwt).getBody();
             if(!claims.getIssuer().equals(ISSUER))
-                throw new VibentException(VibentError.INVALID_TOKEN_SIGNATURE);
+                throw new VibentException(VibentError.ILLEGAL_TOKEN_ISSUER);
         } catch (ExpiredJwtException e) {
             throw new VibentException(VibentError.TOKEN_EXPIRED);
         } catch (UnsupportedJwtException e ){

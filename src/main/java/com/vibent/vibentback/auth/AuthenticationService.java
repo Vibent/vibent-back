@@ -4,8 +4,9 @@ import com.vibent.vibentback.MockService;
 import com.vibent.vibentback.api.auth.EmailLoginRequest;
 import com.vibent.vibentback.api.auth.RegistrationRequest;
 import com.vibent.vibentback.api.auth.PhoneLoginRequest;
-import com.vibent.vibentback.error.VibentError;
-import com.vibent.vibentback.error.VibentException;
+import com.vibent.vibentback.common.error.VibentError;
+import com.vibent.vibentback.common.error.VibentException;
+import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
 import com.vibent.vibentback.user.UserService;
@@ -36,7 +37,7 @@ public class AuthenticationService {
     private String createToken(User user){
         Authentication authentication = new VibentAuthentication(user.getRef(), user.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return this.tokenUtils.createJWTToken((String) authentication.getPrincipal());
+        return this.tokenUtils.createUserAuthenticationToken((String) authentication.getPrincipal());
     }
 
     /**

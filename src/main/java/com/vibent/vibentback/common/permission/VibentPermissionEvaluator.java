@@ -1,7 +1,7 @@
-package com.vibent.vibentback.auth.permission;
+package com.vibent.vibentback.common.permission;
 
-import com.vibent.vibentback.error.VibentError;
-import com.vibent.vibentback.error.VibentException;
+import com.vibent.vibentback.common.error.VibentError;
+import com.vibent.vibentback.common.error.VibentException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.PermissionEvaluator;

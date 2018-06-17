@@ -3,11 +3,14 @@ package com.vibent.vibentback.groupT;
 import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.api.groupT.GroupRequest;
 import com.vibent.vibentback.api.groupT.GroupUpdateRequest;
-import com.vibent.vibentback.error.VibentError;
-import com.vibent.vibentback.error.VibentException;
+import com.vibent.vibentback.api.groupT.ValidateInviteTokenRequest;
+import com.vibent.vibentback.common.error.VibentError;
+import com.vibent.vibentback.common.error.VibentException;
+import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.groupT.membership.Membership;
 import com.vibent.vibentback.groupT.membership.MembershipService;
+import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,7 @@ public class GroupTService {
     MembershipService membershipService;
     ConnectedUserUtils connectedUserUtils;
     GroupTRepository groupTRepository;
+    TokenUtils tokenUtils;
 
     public Set<GroupT> getConnectedUserGroups() {
         return connectedUserUtils.getConnectedUser().getMemberships().stream().map(Membership::getGroup).collect(Collectors.toSet());
@@ -78,7 +82,15 @@ public class GroupTService {
     }
 
     public String generateInviteToken(String groupRef) {
-        // TODO
-        return null;
+        return tokenUtils.createGroupInviteToken(groupRef);
+    }
+
+    public GroupT validateInviteToken(ValidateInviteTokenRequest request) {
+        Claims claims = tokenUtils.validateJWTToken(request.getToken());
+        String groupRef = claims.getSubject();
+        GroupT groupT = groupTRepository.findByRef(groupRef)
+                .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        membershipService.addMembership(groupT, connectedUserUtils.getConnectedUser(), false);
+        return groupT;
     }
 }

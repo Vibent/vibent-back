@@ -2,9 +2,8 @@ package com.vibent.vibentback.user;
 
 import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.api.user.UpdateUserRequest;
-import com.vibent.vibentback.error.VibentError;
-import com.vibent.vibentback.error.VibentException;
-import com.vibent.vibentback.validate.BCrypt;
+import com.vibent.vibentback.common.error.VibentError;
+import com.vibent.vibentback.common.error.VibentException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

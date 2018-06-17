@@ -1,4 +1,4 @@
-package com.vibent.vibentback.auth.permission;
+package com.vibent.vibentback.common.permission;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.vibent.vibentback.config;
+package com.vibent.vibentback.common.config;
 
 
 import lombok.AllArgsConstructor;

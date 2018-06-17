@@ -1,6 +1,6 @@
 package com.vibent.vibentback.api.auth;
 
-import com.vibent.vibentback.validate.Email;
+import com.vibent.vibentback.common.validate.Email;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

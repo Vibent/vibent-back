@@ -1,4 +1,4 @@
-package com.vibent.vibentback.error;
+package com.vibent.vibentback.common.error;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

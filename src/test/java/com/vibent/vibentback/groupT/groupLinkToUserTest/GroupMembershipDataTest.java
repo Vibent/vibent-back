@@ -1,8 +1,8 @@
-package com.vibent.vibentback.groupLinkToUserTest;
+package com.vibent.vibentback.groupT.groupLinkToUserTest;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.error.VibentError;
-import com.vibent.vibentback.error.VibentException;
+import com.vibent.vibentback.common.error.VibentError;
+import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.groupT.GroupTRepository;
 import com.vibent.vibentback.groupT.membership.Membership;

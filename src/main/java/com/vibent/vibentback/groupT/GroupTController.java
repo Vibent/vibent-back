@@ -1,9 +1,6 @@
 package com.vibent.vibentback.groupT;
 
-import com.vibent.vibentback.api.groupT.DetailledGroupResponse;
-import com.vibent.vibentback.api.groupT.GroupRequest;
-import com.vibent.vibentback.api.groupT.GroupUpdateRequest;
-import com.vibent.vibentback.api.groupT.PublicGroupResponse;
+import com.vibent.vibentback.api.groupT.*;
 import com.vibent.vibentback.api.membership.AcceptGroupMembershipRequestRequest;
 import com.vibent.vibentback.api.membership.MembershipResponse;
 import com.vibent.vibentback.api.membership.UserMembershipRequestResponse;
@@ -40,22 +37,8 @@ public class GroupTController {
         return response;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/{groupRef}/request")
-    UserMembershipRequestResponse requestMembership(@PathVariable String groupRef) {
-        log.info("Connected user requesting membership to {}", groupRef);
-        MembershipRequest membershipRequest = membershipService.addMembershipRequestForConnectedUser(groupRef);
-        return new UserMembershipRequestResponse(membershipRequest.getGroup().getRef());
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/request/accept")
-    MembershipResponse acceptMembershipRequest(@Valid @RequestBody AcceptGroupMembershipRequestRequest request) {
-        log.info("Accepting group request by {} to {}", request.getUserRef(), request.getGroupRef());
-        Membership membership = membershipService.addMembership(request.getGroupRef(), request.getUserRef(), request.isAdmin());
-        return new MembershipResponse(membership.getUser().getRef(), membership.getGroup().getRef(), membership.getAdmin());
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/public/{groupRef}")
-    PublicGroupResponse getGroupTPublicInfo(@PathVariable String groupRef) {
+    PublicGroupResponse getGroupPublicInfo(@PathVariable String groupRef) {
         log.info("Get public group info with ref : {}", groupRef);
         return new PublicGroupResponse(groupTService.getPublicGroupInfo(groupRef));
     }
@@ -93,8 +76,28 @@ public class GroupTController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{groupRef}/inviteToken")
-    String getInviteToken(@PathVariable String groupRef) {
+    InviteTokenResponse getInviteToken(@PathVariable String groupRef) {
         log.info("Getting invite token for group : {}", groupRef);
-        return groupTService.generateInviteToken(groupRef);
+        return new InviteTokenResponse(groupTService.generateInviteToken(groupRef));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/validateToken")
+    DetailledGroupResponse validateInviteToken(@Valid @RequestBody ValidateInviteTokenRequest request) {
+        log.info("Validating invite token : {}", request.getToken());
+        return new DetailledGroupResponse(groupTService.validateInviteToken(request));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{groupRef}/request")
+    UserMembershipRequestResponse requestMembership(@PathVariable String groupRef) {
+        log.info("Connected user requesting membership to {}", groupRef);
+        MembershipRequest membershipRequest = membershipService.addMembershipRequestForConnectedUser(groupRef);
+        return new UserMembershipRequestResponse(membershipRequest.getGroup().getRef());
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/request/accept")
+    MembershipResponse acceptMembershipRequest(@Valid @RequestBody AcceptGroupMembershipRequestRequest request) {
+        log.info("Accepting group request by {} to {}", request.getUserRef(), request.getGroupRef());
+        Membership membership = membershipService.addMembership(request.getGroupRef(), request.getUserRef(), request.isAdmin());
+        return new MembershipResponse(membership.getUser().getRef(), membership.getGroup().getRef(), membership.getAdmin());
     }
 }

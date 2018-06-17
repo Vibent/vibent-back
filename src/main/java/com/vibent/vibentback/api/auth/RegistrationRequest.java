@@ -1,7 +1,7 @@
 package com.vibent.vibentback.api.auth;
 
-import com.vibent.vibentback.validate.BCrypt;
-import com.vibent.vibentback.validate.Email;
+import com.vibent.vibentback.common.validate.BCrypt;
+import com.vibent.vibentback.common.validate.Email;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

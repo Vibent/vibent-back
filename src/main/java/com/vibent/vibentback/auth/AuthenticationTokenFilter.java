@@ -1,5 +1,6 @@
 package com.vibent.vibentback.auth;
 
+import com.vibent.vibentback.common.util.TokenUtils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
