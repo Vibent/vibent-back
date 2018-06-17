@@ -1,7 +1,7 @@
 package com.vibent.vibentback;
 
-import com.vibent.vibentback.error.VibentError;
-import com.vibent.vibentback.error.VibentException;
+import com.vibent.vibentback.common.error.VibentError;
+import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.AllArgsConstructor;

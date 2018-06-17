@@ -550,6 +550,94 @@
 			"response": []
 		},
 		{
+			"name": "Get Group Invite Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "87926b2a-6fa5-433c-b7bb-07d005b73cac",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"groupInviteToken\", jsonData.token);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"allAdmins\": true\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/group/{{groupRef}}/inviteToken",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"group",
+						"{{groupRef}}",
+						"inviteToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate Group Invite Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4aa58ea7-ce82-414d-b1fd-1e2d48ba4164",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{tokenSecondUser}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"token\": \"{{groupInviteToken}}\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/group/validateToken",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"group",
+						"validateToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Delete Group",
 			"event": [
 				{

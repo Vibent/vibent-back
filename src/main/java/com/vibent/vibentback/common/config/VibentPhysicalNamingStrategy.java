@@ -1,4 +1,4 @@
-package com.vibent.vibentback.config;
+package com.vibent.vibentback.common.config;
 
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl;

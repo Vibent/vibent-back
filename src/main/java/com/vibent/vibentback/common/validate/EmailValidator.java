@@ -1,4 +1,4 @@
-package com.vibent.vibentback.validate;
+package com.vibent.vibentback.common.validate;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -6,17 +6,17 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @Slf4j
-public class BCryptValidator implements ConstraintValidator<BCrypt, String> {
+public class EmailValidator implements ConstraintValidator<Email, String> {
 
     @Override
-    public void initialize(BCrypt field) {
+    public void initialize(Email field) {
     }
 
     @Override
     public boolean isValid(String field, ConstraintValidatorContext constraintValidatorContext) {
-        boolean isOk = field.matches("^\\$2[aby]?\\$\\d{1,2}\\$[./A-Za-z0-9]{53}$");
+        boolean isOk = field.matches("^(.+)@(.+)$");
         if(!isOk)
-            log.error("Invalid password : {}", field);
+            log.error("Invalid email : {}", field);
         return isOk;
     }
 

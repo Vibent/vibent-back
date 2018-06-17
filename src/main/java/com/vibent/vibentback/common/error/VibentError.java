@@ -1,4 +1,4 @@
-package com.vibent.vibentback.error;
+package com.vibent.vibentback.common.error;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.http.HttpStatus;
@@ -49,13 +49,13 @@ public enum VibentError {
     USER_NOT_CONNECTED(HttpStatus.UNAUTHORIZED, "The user must be connected to access this endpoint"),
 
     // Token errors
-    MALFORMED_TOKEN(HttpStatus.UNAUTHORIZED, "The authentication token is malformed"),
-    TOKEN_CANNOT_BE_REFRESHED(HttpStatus.UNAUTHORIZED, "The authentication token cannot be refreshed"),
-    TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "The authentication token is expired"),
-    UNSUPPORTED_TOKEN(HttpStatus.UNAUTHORIZED, "The format or configuration of the token is invalid"),
-    INVALID_TOKEN_SIGNATURE(HttpStatus.UNAUTHORIZED, "The token's signature does not come from Vibent"),
+    MALFORMED_TOKEN(HttpStatus.UNAUTHORIZED, "The provided token is malformed"),
+    TOKEN_CANNOT_BE_REFRESHED(HttpStatus.UNAUTHORIZED, "The provided token cannot be refreshed"),
+    TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "The provided token is expired"),
+    UNSUPPORTED_TOKEN(HttpStatus.UNAUTHORIZED, "The format or configuration of the provided token is invalid"),
+    INVALID_TOKEN_SIGNATURE(HttpStatus.UNAUTHORIZED, "The provided token's signature does not come from Vibent"),
     ILLEGAL_TOKEN_ARGUMENT(HttpStatus.UNAUTHORIZED, "The provided token has an illegal argument"),
-    ILLEGAL_TOKEN_ISSUE(HttpStatus.UNAUTHORIZED, "The provided token was not issued by Vibent"),
+    ILLEGAL_TOKEN_ISSUER(HttpStatus.UNAUTHORIZED, "The provided token was not issued by Vibent"),
 
 
 

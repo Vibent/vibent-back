@@ -1,9 +1,8 @@
 package com.vibent.vibentback.groupT.membership;
 
 import com.vibent.vibentback.ConnectedUserUtils;
-import com.vibent.vibentback.error.VibentError;
-import com.vibent.vibentback.error.VibentException;
-import com.vibent.vibentback.event.EventRepository;
+import com.vibent.vibentback.common.error.VibentError;
+import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.groupT.GroupT;
 import com.vibent.vibentback.groupT.GroupTRepository;
 import com.vibent.vibentback.user.User;
@@ -12,9 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Predicate;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -56,6 +53,9 @@ public class MembershipService {
         if (membershipRequestRepository.existsByUserAndGroup(user, group)){
             deleteMembershipRequest(group.getRef(), user.getRef());
         }
+        if(group.isHasDefaultAdmin()){
+            isAdmin = true;
+        }
         Membership membership = new Membership(user, group, isAdmin);
         user.getMemberships().add(membership);
         group.getMemberships().add(membership);
@@ -73,6 +73,9 @@ public class MembershipService {
     public Membership changeAdminship(GroupT group, User user, boolean isAdmin) {
         Membership membership = membershipRepository.findByUserAndGroup(user, group)
                 .orElseThrow(() -> new VibentException(VibentError.MEMBERSHIP_NOT_FOUND));
+        if(group.isHasDefaultAdmin()){
+            isAdmin = true;
+        }
         membership.setAdmin(isAdmin);
         return membershipRepository.save(membership);
     }

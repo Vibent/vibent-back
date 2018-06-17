@@ -1,4 +1,4 @@
-package com.vibent.vibentback.config;
+package com.vibent.vibentback.common.config;
 
 import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.fasterxml.jackson.databind.introspect.AnnotatedMember;

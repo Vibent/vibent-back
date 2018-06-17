@@ -4,7 +4,7 @@ import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.api.event.DetailledEventResponse;
 import com.vibent.vibentback.api.event.EventRequest;
 import com.vibent.vibentback.api.event.EventUpdateRequest;
-import com.vibent.vibentback.error.VibentException;
+import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.event.participation.EventParticipationRepository;
 import com.vibent.vibentback.groupT.GroupTRepository;

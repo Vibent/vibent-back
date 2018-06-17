@@ -2,8 +2,8 @@ package com.vibent.vibentback.bubble.location;
 
 import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.bubble.BubbleType;
-import com.vibent.vibentback.error.VibentError;
-import com.vibent.vibentback.error.VibentException;
+import com.vibent.vibentback.common.error.VibentError;
+import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
 import com.vibent.vibentback.api.location.LocationBubbleUpdateRequest;
