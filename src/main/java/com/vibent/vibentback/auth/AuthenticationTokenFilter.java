@@ -5,6 +5,7 @@ import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.util.TokenUtils;
 import io.jsonwebtoken.Claims;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,10 +21,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.security.sasl.AuthenticationException;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -33,42 +31,40 @@ import java.util.function.BiConsumer;
 @Slf4j
 public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
 
-    @Value("${vibent.auth.header.key}")
-    private String AUTH_HEADER_KEY;
-
-    @Autowired
+    private String authHeaderKey;
     private TokenUtils tokenUtils;
-
-    @Autowired
     private UserDetailsService userDetailsService;
-
-    @Autowired
-    ResponseExceptionHandler responseExceptionHandler;
+    private ResponseExceptionHandler responseExceptionHandler;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.info("Passing though filter {}", this.getClass().getName());
-
+        ServletContext servletContext = request.getServletContext();
         tokenUtils = WebApplicationContextUtils
-                .getRequiredWebApplicationContext(this.getServletContext())
+                .getRequiredWebApplicationContext(servletContext)
                 .getBean(TokenUtils.class);
         userDetailsService = WebApplicationContextUtils
-                .getRequiredWebApplicationContext(this.getServletContext())
+                .getRequiredWebApplicationContext(servletContext)
                 .getBean(UserDetailsService.class);
+        responseExceptionHandler = WebApplicationContextUtils
+                .getRequiredWebApplicationContext(servletContext)
+                .getBean(ResponseExceptionHandler.class);
+        authHeaderKey = WebApplicationContextUtils
+                .getRequiredWebApplicationContext(servletContext)
+                .getEnvironment().getProperty("vibent.auth.header.key");
+
 
         HttpServletResponse resp = (HttpServletResponse) response;
         resp.setHeader("Access-Control-Allow-Origin", "*");
         resp.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE, PATCH");
         resp.setHeader("Access-Control-Max-Age", "3600");
-        resp.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, " + AUTH_HEADER_KEY);
-
-
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String authToken = httpRequest.getHeader(AUTH_HEADER_KEY);
-
+        resp.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, " + authHeaderKey);
 
         // Throws exception if signature is invalid, not issued from Vibent, expired, etc
         try {
+            HttpServletRequest httpRequest = (HttpServletRequest) request;
+            String authToken = httpRequest.getHeader(authHeaderKey);
+
             Claims claims = this.tokenUtils.validateJWTToken(authToken);
             String userRef = claims.getSubject();
 

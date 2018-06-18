@@ -1,6 +1,5 @@
 package com.vibent.vibentback.common.error;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -12,7 +11,6 @@ import org.springframework.http.HttpStatus;
  * 404 - Not Found
  * 500 - Internal Server Error
  */
-@JsonSerialize(using = VibentErrorSerializer.class)
 public enum VibentError {
     // Model level errors
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested user could not be found"),
@@ -72,23 +70,23 @@ public enum VibentError {
     METHOD_ARGUMENT_NOT_VALID(HttpStatus.BAD_REQUEST, "Argument not valid - probably because the body validation failed. Please check the API documentation");
 
     private final HttpStatus status;
-    private final String message;
+    private final String defaultMessage;
 
-    VibentError(HttpStatus status, String message) {
+    VibentError(HttpStatus status, String defaultMessage) {
         this.status = status;
-        this.message = message;
+        this.defaultMessage = defaultMessage;
     }
 
     public HttpStatus getStatus() {
         return status;
     }
 
-    public String getMessage() {
-        return message;
+    public String getDefaultMessage() {
+        return defaultMessage;
     }
 
     @Override
     public String toString() {
-        return "VibentError{status=" + status + ", message='" + message + '}';
+        return "VibentError{status=" + status + ", defaultMessage='" + defaultMessage + '}';
     }
 }

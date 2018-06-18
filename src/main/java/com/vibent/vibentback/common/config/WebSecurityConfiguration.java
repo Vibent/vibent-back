@@ -3,6 +3,7 @@ package com.vibent.vibentback.common.config;
 import com.vibent.vibentback.auth.AuthenticationTokenFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,6 +20,11 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * Vibent security configuration. Basically, any endpoint in the endpoint whitelist may
+ * be accessed any anyone. Any other request will go through the token filter to ensure
+ * the user is connected
+ */
 @Configuration
 @EnableWebSecurity
 @EnableTransactionManagement
@@ -26,9 +32,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final static String[] ENDPOINT_WHITELIST = {"/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**"};
-
-    private AuthenticationEntryPoint authenticationEntryPoint;
+    private final static String[] ENDPOINT_WHITELIST = {
+            "/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/**",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/auth/**"
+    };
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -41,17 +53,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean
-    public AuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
-        AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter();
-        authenticationTokenFilter.setAuthenticationManager(super.authenticationManagerBean());
-        return authenticationTokenFilter;
-    }
-
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers(ENDPOINT_WHITELIST);
-
+        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     }
 
     @Override
@@ -62,14 +67,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/auth/**").permitAll()
-                .anyRequest().authenticated()
+                .authorizeRequests().anyRequest().authenticated()
                 .and()
-                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
-
-        httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new AuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 }
