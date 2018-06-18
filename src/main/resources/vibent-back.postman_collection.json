@@ -302,7 +302,7 @@
 			"response": []
 		},
 		{
-			"name": "Get User Copy",
+			"name": "Get User Unauthorized",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -312,7 +312,12 @@
 					},
 					{
 						"key": "{{TOKEN_HEADER}}",
-						"value": "{{token}}"
+						"value": "invalid"
+					},
+					{
+						"key": "",
+						"value": "",
+						"disabled": true
 					}
 				],
 				"body": {
@@ -362,6 +367,49 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"description\": \"Group for the badest people around\",\n\t\"allAdmins\": true\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/group",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"group"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Group Invalid Body",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7374fd5a-d16c-411d-a914-c70112ccbfe7",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"groupRef\", jsonData.ref);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\": \"\"\n}"
 				},
 				"url": {
 					"raw": "{{URL}}/group",
