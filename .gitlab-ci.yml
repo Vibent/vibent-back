@@ -42,7 +42,6 @@ deploy:
   stage: deploy
   only:
     - master
-  when: manual
   script:
     - apk add --update curl && rm -rf /var/cache/apk/*
     - curl -X POST -d '{"token":"#DZQ#phEGzj3C5s","restart":"vibent-back"}' ec2-35-180-98-237.eu-west-3.compute.amazonaws.com:8081
