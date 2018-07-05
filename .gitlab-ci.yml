@@ -28,8 +28,8 @@ dockerize:
   script:
     - echo $CONTAINER_IMAGE
     - docker version
-    - docker build -t registry.gitlab.com/vibent/vibent-back .
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+    - docker build -t CONTAINER_URL .
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CONTAINER_URL
     - docker images
     - docker pull $CONTAINER_IMAGE:latest || true
     - docker build --cache-from $CONTAINER_IMAGE:latest --tag $CONTAINER_IMAGE:$CI_BUILD_REF --tag $CONTAINER_IMAGE:latest .
