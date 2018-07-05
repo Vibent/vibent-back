@@ -1,6 +1,7 @@
 package com.vibent.vibentback.common.config;
 
 import com.vibent.vibentback.auth.AuthenticationTokenFilter;
+import com.vibent.vibentback.auth.CorsFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -26,9 +28,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final static String[] ENDPOINT_WHITELIST = {"/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**"};
+    private final static String[] ENDPOINT_WHITELIST = {
+            "/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/**",
+            "/swagger-ui.html",
+            "/webjars/**"};
 
     private AuthenticationEntryPoint authenticationEntryPoint;
+    private CorsFilter corsFilter;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -69,6 +79,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
 
+        httpSecurity.addFilterBefore(corsFilter, ChannelProcessingFilter.class);
         httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
 
