@@ -1,6 +1,7 @@
 package com.vibent.vibentback.common.config;
 
 import com.vibent.vibentback.auth.AuthenticationTokenFilter;
+import com.vibent.vibentback.auth.CorsFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -39,8 +41,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/configuration/**",
             "/swagger-ui.html",
             "/webjars/**",
+
             "/auth/**"
     };
+
+    private CorsFilter corsFilter;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -70,6 +76,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new AuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        // httpSecurity.addFilterBefore(corsFilter, ChannelProcessingFilter.class);
     }
 
 }
