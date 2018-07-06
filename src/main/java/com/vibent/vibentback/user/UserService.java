@@ -59,10 +59,15 @@ public class UserService implements UserDetailsService {
 
     /**
      * For spring security. It is important to note that in our application
-     * the user ref is his username.
+     * the user ref is his email.
      */
     @Override
     public UserDetails loadUserByUsername(String ref) throws UsernameNotFoundException {
         return getUserByRef(ref);
+    }
+
+    public void confirmEmail(User user) {
+        user.setEnabled(true);
+        userRepository.save(user);
     }
 }

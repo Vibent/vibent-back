@@ -3,7 +3,6 @@ package com.vibent.vibentback.group;
 import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.api.group.GroupRequest;
 import com.vibent.vibentback.api.group.GroupUpdateRequest;
-import com.vibent.vibentback.api.group.ValidateInviteTokenRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.util.TokenUtils;
@@ -85,8 +84,8 @@ public class GroupTService {
         return tokenUtils.createGroupInviteToken(groupRef);
     }
 
-    public GroupT validateInviteToken(ValidateInviteTokenRequest request) {
-        Claims claims = tokenUtils.validateJWTToken(request.getToken());
+    public GroupT validateInviteToken(String token) {
+        Claims claims = tokenUtils.validateJWTToken(token);
         String groupRef = claims.getSubject();
         GroupT groupT = groupTRepository.findByRef(groupRef)
                 .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));

@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
-import java.util.*;
+import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class TokenUtils {
@@ -25,8 +26,11 @@ public class TokenUtils {
     @Value("${vibent.auth.expirationSeconds}")
     private long AUTH_EXPIRATION_SECONDS;
 
-    @Value("${vibent.group.inviteTokenExpirationSeconds}")
+    @Value("${vibent.config.groupInviteTokenExpiration}")
     private long INVITE_GROUP_EXPIRATION_SECONDS;
+
+    @Value("${vibent.config.confirmMailTokenExpiration}")
+    private long CONFIRM_MAIL_EXPIRATION_SECONDS;
 
     private String createToken(String subject, long expireSeconds) {
         String id = UUID.randomUUID().toString();
@@ -57,8 +61,12 @@ public class TokenUtils {
         return createToken(groupRef, INVITE_GROUP_EXPIRATION_SECONDS);
     }
 
+    public String createConfirmEmailToken(String userRef) {
+        return createToken("confirmMail:" + userRef, CONFIRM_MAIL_EXPIRATION_SECONDS);
+    }
+
     public Claims validateJWTToken(String jwt) {
-        if(jwt == null || jwt.isEmpty()){
+        if (jwt == null || jwt.isEmpty()) {
             throw new VibentException(VibentError.NO_TOKEN);
         }
         Claims claims = null;
@@ -66,13 +74,13 @@ public class TokenUtils {
             claims = Jwts.parser()
                     .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET))
                     .parseClaimsJws(jwt).getBody();
-            if(!claims.getIssuer().equals(ISSUER))
+            if (!claims.getIssuer().equals(ISSUER))
                 throw new VibentException(VibentError.ILLEGAL_TOKEN_ISSUER);
         } catch (ExpiredJwtException e) {
             throw new VibentException(VibentError.TOKEN_EXPIRED);
-        } catch (UnsupportedJwtException e ){
+        } catch (UnsupportedJwtException e) {
             throw new VibentException(VibentError.UNSUPPORTED_TOKEN);
-        } catch (MalformedJwtException e){
+        } catch (MalformedJwtException e) {
             throw new VibentException(VibentError.MALFORMED_TOKEN);
         } catch (SignatureException e) {
             throw new VibentException(VibentError.INVALID_TOKEN_SIGNATURE);

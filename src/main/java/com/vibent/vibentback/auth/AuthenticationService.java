@@ -1,22 +1,24 @@
 package com.vibent.vibentback.auth;
 
-import com.vibent.vibentback.MockService;
 import com.vibent.vibentback.api.auth.EmailLoginRequest;
 import com.vibent.vibentback.api.auth.RegistrationRequest;
 import com.vibent.vibentback.api.auth.PhoneLoginRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
+import com.vibent.vibentback.common.mail.MailService;
 import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
 import com.vibent.vibentback.user.UserService;
+import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +27,17 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthenticationService {
 
-    private PasswordEncoder passwordEncoder;
-    private UserService userService;
-    private MockService mockService;
-    private UserRepository userRepository;
-    private TokenUtils tokenUtils;
+    @Value("${vibent.mail.autoConfirm}")
+    private boolean AUTO_CONFIRM_MAIL;
+
+    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final UserRepository userRepository;
+    private final TokenUtils tokenUtils;
+    private final MailService mailService;
 
     private String createToken(User user){
         Authentication authentication = new VibentAuthentication(user.getRef(), user.getPassword());
@@ -50,7 +55,9 @@ public class AuthenticationService {
                 .orElseThrow(() -> new VibentException(VibentError.AUTH_USER_NOT_FOUND));
         if(!passwordEncoder.matches(request.getPassword(), user.getPassword()))
             throw new VibentException(VibentError.AUTHENTICATION_FAILED);
-
+        if(!user.isEnabled()){
+            throw new VibentException(VibentError.USER_EMAIL_NOT_CONFIRMED);
+        }
         return createToken(user);
     }
 
@@ -59,7 +66,9 @@ public class AuthenticationService {
                 .orElseThrow(() -> new VibentException(VibentError.AUTH_USER_NOT_FOUND));
         if(!passwordEncoder.matches(request.getPassword(), user.getPassword()))
             throw new VibentException(VibentError.AUTHENTICATION_FAILED);
-
+        if(!user.isEnabled()){
+            throw new VibentException(VibentError.USER_EMAIL_NOT_CONFIRMED);
+        }
         return createToken(user);
     }
 
@@ -76,8 +85,25 @@ public class AuthenticationService {
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
 
-        mockService.sendConfirmationMail(user);
+        userService.addUser(user);
+        mailService.sendConfirmationMail(user);
+
+        if(AUTO_CONFIRM_MAIL) {
+            userService.confirmEmail(user);
+        }
 
         return user;
+    }
+
+    public String confirmEmail(String token) {
+        Claims claims = tokenUtils.validateJWTToken(token);
+        String claimsSubject = claims.getSubject();
+        if(!claimsSubject.startsWith("confirmMail:"))
+            throw new VibentException(VibentError.MALFORMED_TOKEN);
+        String email = claimsSubject.substring("confirmMail:".length());
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
+        userService.confirmEmail(user);
+        return user.getEmail();
     }
 }

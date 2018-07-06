@@ -4,6 +4,34 @@ spring.profiles.active: local
 spring:
   jpa:
     hibernate.naming.physical-strategy: com.vibent.vibentback.common.util.VibentDbNamingStrategy
+  mail:
+    #SSL/TLS
+#    host: ssl0.ovh.net
+#    port: 993
+#    username: no-reply@vibent.com
+#    password: vibentnoreply
+#    protocol: smtp
+#    default-encoding: UTF-8
+#    properties.mail.smtp:
+#      connectiontimeout: 5000
+#      timeout: 3000
+#      writetimeout: 5000
+#      auth: true
+#      starttls.enable: true
+    host: smtp.gmail.com
+    port: 587
+    username: test.mail.conor@gmail.com
+    password: rootroot
+    protocol: smtp
+    default-encoding: UTF-8
+    properties.mail.smtp:
+      connectiontimeout: 5000
+      timeout: 3000
+      writetimeout: 5000
+      auth: true
+      starttls.enable: true
+      starttls.required: true
+
 
 vibent:
   auth:
@@ -15,8 +43,9 @@ vibent:
     mock:
       username: vibentUser
       password: $2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O
-  group:
-    inviteTokenExpirationSeconds: 604800 # equivalent to one week
+  config:
+    groupInviteTokenExpiration: 604800 # equivalent to one week
+    confirmMailTokenExpiration: 604800 # equivalent to one week
   aws:
     s3:
       accessKey: AKIAIN5HAIFCOJ2JDY3A
@@ -37,6 +66,9 @@ spring:
     username: user
     password: pass
 
+vibent.client.url: http://ec2-35-180-98-237.eu-west-3.compute.amazonaws.com
+vibent.mail.autoConfirm: true
+
 ---
 
 # Profile for Conors AWS Dev Server
@@ -49,6 +81,9 @@ spring:
     password: '&5t7cvREx*5&b^v9'
 
 server.port: 8080
+
+vibent.client.url: http://ec2-35-180-98-237.eu-west-3.compute.amazonaws.com
+vibent.mail.autoConfirm: true
 
 ---
 
@@ -63,6 +98,9 @@ spring:
   jpa:
     show-sql: true
 
+vibent.client.url: http://ec2-35-180-98-237.eu-west-3.compute.amazonaws.com
+vibent.mail.autoConfirm: true
+
 logging.level:
   org.springframework:
     web.filter.CommonsRequestLoggingFilter: DEBUG
@@ -70,16 +108,5 @@ logging.level:
     org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod: DEBUG
 
 log4j.logger.org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod: DEBUG
-
----
-# Deployed configuration
-spring:
-  profiles: prod
-
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: #fill in. Should have SSL active
-    username: #fill
-    password: #fill
 
 ---

@@ -33,6 +33,33 @@
 			"response": []
 		},
 		{
+			"name": "Register Real Email (Test Email Send)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"password\": \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\",\n\t\"email\": \"cr.in.france+1@gmail.com\",\n\t\"phoneNumber\": \"0634578963\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/auth/register",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Confirm Email",
 			"request": {
 				"method": "POST",
@@ -44,7 +71,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"password\": \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\",\n\t\"email\": \"vibentPM@vibent.com\",\n\t\"phoneNumber\": \"0634578963\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
+					"raw": ""
 				},
 				"url": {
 					"raw": "{{URL}}/auth/confirmEmail/eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5NDA1ZTI2OS1hMTg5LTQwMTAtODhiZi04MmJjODE1N2VhODIiLCJpYXQiOjE1MzA5MjUxNTYsInN1YiI6ImNvbmZpcm1NYWlsOmNyLmluLmZyYW5jZUBnbWFpbC5jb20iLCJpc3MiOiJWaWJlbnQiLCJleHAiOjE1MzE1Mjk5NTZ9.ji31ILJ05jENeUZQkZzYlbHAsGXY2HwAUOKwHmK0l4Y",
@@ -112,7 +139,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{ \r\n\t\"email\" : \"cr.in.france@gmail.com\",\r\n\t\"password\" : \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\"\r\n}"
+					"raw": "{ \r\n\t\"email\" : \"vibentPM@vibent.com\",\r\n\t\"password\" : \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\"\r\n}"
 				},
 				"url": {
 					"raw": "{{URL}}/auth/login/email",

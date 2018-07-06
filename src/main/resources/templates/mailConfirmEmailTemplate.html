@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<h1>Welcome to Vibent</h1>
+<section>
+  <p>
+    Hey <span th:text="${firstName}"></span> <span th:text="${lastName}"></span> ! We're delighted to have you join us
+    on Vibent. Before you can get to creating events, we just need you click on the link below to confirm your account :
+  </p>
+  <div>
+    <a th:href="@{${clientUrl}+ '/confirmEmail/' + ${token}}">Click here to confirm your account</a>
+  </div>
+  <p>
+    We hope you enjoy Vibent !
+  </p>
+
+  - The Vibent Team
+</section>
+</body>
+</html>
