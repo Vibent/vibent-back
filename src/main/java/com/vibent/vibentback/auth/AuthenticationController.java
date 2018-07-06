@@ -40,14 +40,14 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/login/email", method = RequestMethod.POST)
     public AuthenticationResponse loginEmail(@Valid @RequestBody EmailLoginRequest request) {
-        log.info("Attempted login with email {} and password {}", request.getEmail(), request.getPassword());
+        log.info("Attempted login with email {}", request.getEmail());
         String token = this.authenticationService.loginEmail(request);
         return new AuthenticationResponse(token, EXPIRATION_SECONDS );
     }
 
     @RequestMapping(value = "/login/phone", method = RequestMethod.POST)
     public AuthenticationResponse loginPhone(@Valid @RequestBody PhoneLoginRequest request) {
-        log.info("Attempted login with phone number {} and password {}", request.getPhoneNumber(), request.getPassword());
+        log.info("Attempted login with phone number {}", request.getPhoneNumber());
         String token = this.authenticationService.loginPhone(request);
         return new AuthenticationResponse(token, EXPIRATION_SECONDS);
     }
@@ -62,7 +62,7 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public DetailledUserResponse register(@Valid @RequestBody RegistrationRequest request) {
-        log.info("Registering with info credentials {}", request);
+        log.info("Registering for email {}", request.getEmail());
         if(request.getEmail() == null && request.getPhoneNumber() == null)
             throw new VibentException(VibentError.INVALID_BODY);
         User user = authenticationService.register(request);
