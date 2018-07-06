@@ -1,6 +1,6 @@
 image: docker:latest
 services:
-  - docker:dind
+  - docker:18.05.0-dind
 
 variables:
   DOCKER_DRIVER: overlay
@@ -16,7 +16,7 @@ stages:
 
 build:
   stage: build
-  image: maven:3-jdk-8-alpine
+  image: maven:3.5.4-jdk-8-alpine
   script:
     - mvn package -B
   artifacts:
