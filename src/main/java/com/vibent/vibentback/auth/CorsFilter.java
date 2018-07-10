@@ -25,7 +25,7 @@ public class CorsFilter implements Filter {
         // without this header jquery.ajax calls returns 401 even after successful login and SSESSIONID being succesfully stored.
         response.setHeader("Access-Control-Allow-Credentials", "true");
 
-        response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE, PATCH");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Authorization, Origin, Content-Type, Version");
         response.setHeader("Access-Control-Expose-Headers", "X-Requested-With, Authorization, Origin, Content-Type");
