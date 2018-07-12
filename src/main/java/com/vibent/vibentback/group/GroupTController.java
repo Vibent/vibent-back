@@ -1,5 +1,6 @@
 package com.vibent.vibentback.group;
 
+import com.vibent.vibentback.api.event.DetailledEventResponse;
 import com.vibent.vibentback.api.group.*;
 import com.vibent.vibentback.api.group.membership.AcceptGroupMembershipRequestRequest;
 import com.vibent.vibentback.api.group.membership.MembershipResponse;
@@ -10,6 +11,7 @@ import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.group.membership.MembershipRequest;
 import com.vibent.vibentback.group.membership.MembershipService;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,9 +53,10 @@ public class GroupTController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{groupRef}/event")
-    Set<Event> getGroupEvents(@PathVariable String groupRef) {
+    Set<DetailledEventResponse> getGroupEvents(@PathVariable String groupRef) {
         log.info("Get group events with ref : {}", groupRef);
-        return groupTService.getGroupEvents(groupRef);
+        Set<Event> events = groupTService.getGroupEvents(groupRef);
+        return events.stream().map(DetailledEventResponse::new).collect(Collectors.toSet());
     }
 
     @ResponseStatus(value = HttpStatus.CREATED)
