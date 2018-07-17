@@ -33,6 +33,34 @@
 			"response": []
 		},
 		{
+			"name": "Confirm Email",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"password\": \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\",\n\t\"email\": \"vibentPM@vibent.com\",\n\t\"phoneNumber\": \"0634578963\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/auth/confirmEmail/eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5NDA1ZTI2OS1hMTg5LTQwMTAtODhiZi04MmJjODE1N2VhODIiLCJpYXQiOjE1MzA5MjUxNTYsInN1YiI6ImNvbmZpcm1NYWlsOmNyLmluLmZyYW5jZUBnbWFpbC5jb20iLCJpc3MiOiJWaWJlbnQiLCJleHAiOjE1MzE1Mjk5NTZ9.ji31ILJ05jENeUZQkZzYlbHAsGXY2HwAUOKwHmK0l4Y",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"auth",
+						"confirmEmail",
+						"eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5NDA1ZTI2OS1hMTg5LTQwMTAtODhiZi04MmJjODE1N2VhODIiLCJpYXQiOjE1MzA5MjUxNTYsInN1YiI6ImNvbmZpcm1NYWlsOmNyLmluLmZyYW5jZUBnbWFpbC5jb20iLCJpc3MiOiJWaWJlbnQiLCJleHAiOjE1MzE1Mjk5NTZ9.ji31ILJ05jENeUZQkZzYlbHAsGXY2HwAUOKwHmK0l4Y"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Register Second User",
 			"request": {
 				"method": "POST",
@@ -84,7 +112,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{ \r\n\t\"email\" : \"vibentPM@vibent.com\",\r\n\t\"password\" : \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\"\r\n}"
+					"raw": "{ \r\n\t\"email\" : \"cr.in.france@gmail.com\",\r\n\t\"password\" : \"$2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O\"\r\n}"
 				},
 				"url": {
 					"raw": "{{URL}}/auth/login/email",
@@ -272,6 +300,37 @@
 		},
 		{
 			"name": "Get User",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/user/{{userRef}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"user",
+						"{{userRef}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Options Http Method Test",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -670,16 +729,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"token\": \"{{groupInviteToken}}\"\n}"
+					"raw": ""
 				},
 				"url": {
-					"raw": "{{URL}}/group/validateToken",
+					"raw": "{{URL}}/group/validateInviteToken/{{groupInviteToken}}",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
 						"group",
-						"validateToken"
+						"validateInviteToken",
+						"{{groupInviteToken}}"
 					]
 				}
 			},
@@ -1205,6 +1265,102 @@
 					"path": [
 						"user",
 						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Profile Image",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e107c5a6-31b1-4035-a65e-29996a0069ef",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "image/jpeg"
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/image/profile/userRef.jpg",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"image",
+						"profile",
+						"userRef.jpg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Profile Image",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e107c5a6-31b1-4035-a65e-29996a0069ef",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "image/jpeg",
+						"disabled": true
+					},
+					{
+						"key": "{{TOKEN_HEADER}}",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"description": "",
+							"type": "file"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{URL}}/image/profile/upload/userRef",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"image",
+						"profile",
+						"upload",
+						"userRef"
 					]
 				}
 			},

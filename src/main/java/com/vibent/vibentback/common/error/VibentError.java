@@ -57,6 +57,9 @@ public enum VibentError {
     ILLEGAL_TOKEN_ISSUER(HttpStatus.UNAUTHORIZED, "The provided token was not issued by Vibent"),
 
 
+    // Image
+    GET_IMAGE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "The requested image could not be recovered"),
+    UPLOAD_IMAGE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "The requested image could not be uploaded"),
 
 
     // General errors
