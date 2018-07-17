@@ -17,6 +17,11 @@ vibent:
       password: $2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O
   group:
     inviteTokenExpirationSeconds: 604800 # equivalent to one week
+  aws:
+    s3:
+      accessKey: AKIAIN5HAIFCOJ2JDY3A
+      secretKey: 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
+      bucketName: vibent
 
 spring.jackson.date-format: dd.MM.yyyy
 
