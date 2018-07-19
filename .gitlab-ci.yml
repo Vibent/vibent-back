@@ -2,12 +2,18 @@ image: docker:latest
 services:
   - docker:18.05.0-dind
 
+cache:
+  paths:
+  - .m2/repository
+
+
 variables:
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
   CONTAINER_URL: registry.gitlab.com
   CONTAINER_PATH: /vibent/vibent-back
   CONTAINER_IMAGE: ${CONTAINER_URL}${CONTAINER_PATH}
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
 stages:
   - build

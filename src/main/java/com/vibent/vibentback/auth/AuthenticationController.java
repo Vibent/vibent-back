@@ -1,9 +1,6 @@
 package com.vibent.vibentback.auth;
 
-import com.vibent.vibentback.api.auth.AuthenticationResponse;
-import com.vibent.vibentback.api.auth.EmailLoginRequest;
-import com.vibent.vibentback.api.auth.PhoneLoginRequest;
-import com.vibent.vibentback.api.auth.RegistrationRequest;
+import com.vibent.vibentback.api.auth.*;
 import com.vibent.vibentback.api.user.DetailledUserResponse;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
@@ -67,5 +64,12 @@ public class AuthenticationController {
             throw new VibentException(VibentError.INVALID_BODY);
         User user = authenticationService.register(request);
         return new DetailledUserResponse(user);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/confirmEmail/{token:.+}")
+    public MailConfirmationResponse confirmEmail(@PathVariable String token) {
+        log.info("Confirming email with token {}", token);
+        String email = authenticationService.confirmEmail(token);
+        return new MailConfirmationResponse(email);
     }
 }

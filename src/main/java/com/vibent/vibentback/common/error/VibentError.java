@@ -16,6 +16,7 @@ public enum VibentError {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested user could not be found"),
     USER_CANT_CREATE(HttpStatus.INTERNAL_SERVER_ERROR, "The user could not be created"),
     USER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "The requested username has already be assigned to a different user"),
+    USER_EMAIL_NOT_CONFIRMED(HttpStatus.UNAUTHORIZED, "The user hasn't confirmed his email yet"),
 
     GROUP_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested group could not be found"),
     MEMBERSHIP_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested membership could not be found"),
@@ -70,7 +71,8 @@ public enum VibentError {
 
     // Spring error
     HTTP_MESSAGE_NOT_READABLE(HttpStatus.BAD_REQUEST, "Message not readable - probably because of a missing or malformed body"),
-    METHOD_ARGUMENT_NOT_VALID(HttpStatus.BAD_REQUEST, "Argument not valid - probably because the body validation failed. Please check the API documentation");
+    METHOD_ARGUMENT_NOT_VALID(HttpStatus.BAD_REQUEST, "Argument not valid - probably because the body validation failed. Please check the API documentation"),
+    UNSUPPORTED_ENCODING_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "The server could not encode a value");
 
     private final HttpStatus status;
     private final String defaultMessage;

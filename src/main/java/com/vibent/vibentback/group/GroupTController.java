@@ -82,13 +82,15 @@ public class GroupTController {
     @RequestMapping(method = RequestMethod.GET, value = "/{groupRef}/inviteToken")
     InviteTokenResponse getInviteToken(@PathVariable String groupRef) {
         log.info("Getting invite token for group : {}", groupRef);
+        String token = groupTService.generateInviteToken(groupRef);
+        log.info(token);
         return new InviteTokenResponse(groupTService.generateInviteToken(groupRef));
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/validateToken")
-    DetailledGroupResponse validateInviteToken(@Valid @RequestBody ValidateInviteTokenRequest request) {
-        log.info("Validating invite token : {}", request.getToken());
-        return new DetailledGroupResponse(groupTService.validateInviteToken(request));
+    @RequestMapping(method = RequestMethod.POST, value = "/validateInviteToken/{token:.+}")
+    DetailledGroupResponse validateInviteToken(@PathVariable String token) {
+        log.info("Validating invite token : {}", token);
+        return new DetailledGroupResponse(groupTService.validateInviteToken(token));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{groupRef}/request")

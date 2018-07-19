@@ -69,7 +69,7 @@ public class GroupInviteInternalTest extends VibentTest {
     @Test
     public void validateInviteTokenTest() {
         String token = controller.getInviteToken(RANDOM_GROUP.getRef()).getToken();
-        DetailledGroupResponse response = controller.validateInviteToken(new ValidateInviteTokenRequest(token));
+        DetailledGroupResponse response = controller.validateInviteToken(token);
 
         Assert.assertEquals(response.getGroup(), RANDOM_GROUP);
     }
