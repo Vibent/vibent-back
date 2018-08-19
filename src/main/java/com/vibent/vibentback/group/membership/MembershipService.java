@@ -3,6 +3,7 @@ package com.vibent.vibentback.group.membership;
 import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
+import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.user.User;
@@ -56,9 +57,15 @@ public class MembershipService {
         if(group.isHasDefaultAdmin()){
             isAdmin = true;
         }
+
+        // Link both entities
         Membership membership = new Membership(user, group, isAdmin);
         user.getMemberships().add(membership);
         group.getMemberships().add(membership);
+
+        // Add a participation for all existing events
+        group.getEvents().forEach(event -> event.getParticipations().add(new EventParticipation(user, event)));
+
         return membershipRepository.save(membership);
     }
 
