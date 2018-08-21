@@ -30,7 +30,6 @@ public abstract class Bubble {
     @JoinColumn(name = "user_id")
     private User creator;
 
-    @JsonIgnore
     @Enumerated(EnumType.STRING)
     private BubbleType type;
 
