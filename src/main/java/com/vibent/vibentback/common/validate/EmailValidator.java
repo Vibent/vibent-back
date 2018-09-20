@@ -14,6 +14,9 @@ public class EmailValidator implements ConstraintValidator<Email, String> {
 
     @Override
     public boolean isValid(String field, ConstraintValidatorContext constraintValidatorContext) {
+        if(field == null){
+            return true;
+        }
         boolean isOk = field.matches("^(.+)@(.+)$");
         if(!isOk)
             log.error("Invalid email : {}", field);
