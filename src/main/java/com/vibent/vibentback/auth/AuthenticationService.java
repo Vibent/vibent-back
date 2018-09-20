@@ -19,9 +19,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.UUID;
 
@@ -43,6 +46,20 @@ public class AuthenticationService {
         Authentication authentication = new VibentAuthentication(user.getRef(), user.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return this.tokenUtils.createUserAuthenticationToken((String) authentication.getPrincipal());
+    }
+
+    public String loginApi(MultiValueMap<String, String> request){
+        String email = request.getFirst("client_id");
+        String password = request.getFirst("client_secret");
+
+        if(email == null || password == null){
+            throw new VibentException(VibentError.INVALID_BODY);
+        }
+
+        EmailLoginRequest emailLoginRequest = new EmailLoginRequest();
+        emailLoginRequest.setEmail(email);
+        emailLoginRequest.setPassword(password);
+        return this.loginEmail(emailLoginRequest);
     }
 
     /**
@@ -76,6 +93,10 @@ public class AuthenticationService {
         if (userService.existsByEmail(request.getEmail())) {
             throw new VibentException(VibentError.USER_ALREADY_EXISTS);
         }
+        if (userService.existsByPhoneNumber(request.getPhoneNumber())) {
+            throw new VibentException(VibentError.USER_ALREADY_EXISTS);
+        }
+
         User user = new User();
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEmail(request.getEmail());

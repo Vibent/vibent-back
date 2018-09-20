@@ -12,7 +12,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
@@ -33,6 +37,13 @@ public class AuthenticationController {
     public AuthenticationController(AuthenticationService authenticationService, TokenUtils tokenUtils) {
         this.authenticationService = authenticationService;
         this.tokenUtils = tokenUtils;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/login/api", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public AuthenticationApiResponse loginApi(@RequestParam MultiValueMap<String, String> request) {
+        log.info("Attempted api for user email {} ", request.getFirst("client_id"));
+        String token = this.authenticationService.loginApi(request);
+        return new AuthenticationApiResponse(token, EXPIRATION_SECONDS);
     }
 
     @RequestMapping(value = "/login/email", method = RequestMethod.POST)
