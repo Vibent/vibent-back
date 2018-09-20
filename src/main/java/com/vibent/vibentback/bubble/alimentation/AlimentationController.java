@@ -46,31 +46,40 @@ public class AlimentationController {
     @RequestMapping(method = RequestMethod.POST, value = "/entry",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     AlimentationBubble createEntry(@Valid @RequestBody AlimentationEntryRequest request) {
-        log.info("Creating alimentation option with body {}", request.toString());
+        log.info("Creating alimentation entry with body {}", request.toString());
         return service.createEntry(request);
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/entry/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     AlimentationBubble updateEntry(@PathVariable("id") Long id, @Valid @RequestBody AlimentationEntryUpdateRequest request) {
-        log.info("Updating alimentation option {} with body {}", id, request.toString());
+        log.info("Updating alimentation entry {} with body {}", id, request.toString());
         return service.updateEntry(id, request);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/entry/{id}")
     void deleteEntry(@PathVariable Long id) {
-        log.info("Deleting alimentation option with id : {}", id);
+        log.info("Deleting alimentation entry with id : {}", id);
         service.deleteEntry(id);
     }
 
 
     // Alimentation Bring -------------------------------------------------------------
     @ResponseStatus(value = HttpStatus.CREATED)
+    @RequestMapping(method = RequestMethod.POST, value = "/bring/change",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    AlimentationBubble changeBring(@Valid @RequestBody AlimentationBringChangeRequest request) {
+        log.info("Changing alimentation bring with body {}", request.toString());
+        return service.changeBring(request);
+    }
+
+
+    @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/bring",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     AlimentationBubble createBring(@Valid @RequestBody AlimentationBringRequest request) {
-        log.info("Creating alimentation option with body {}", request.toString());
+        log.info("Creating alimentation bring with body {}", request.toString());
         return service.createBring(request);
     }
 
