@@ -90,10 +90,14 @@ public class AuthenticationService {
     }
 
     public User register(RegistrationRequest request){
-        if (userService.existsByEmail(request.getEmail())) {
+        if(request.getEmail() == null && request.getPhoneNumber() == null){
+            throw new VibentException(VibentError.USER_NO_EMAIL_OR_PHONE);
+        }
+
+        if (request.getEmail() != null && userService.existsByEmail(request.getEmail())) {
             throw new VibentException(VibentError.USER_ALREADY_EXISTS);
         }
-        if (userService.existsByPhoneNumber(request.getPhoneNumber())) {
+        if (request.getPhoneNumber() != null && userService.existsByPhoneNumber(request.getPhoneNumber())) {
             throw new VibentException(VibentError.USER_ALREADY_EXISTS);
         }
 
