@@ -1,6 +1,7 @@
 package com.vibent.vibentback.bubble.alimentation;
 
 import com.vibent.vibentback.api.bubble.alimentation.*;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,9 @@ public class AlimentationController {
 
 
     // Alimentation Bring -------------------------------------------------------------
+    @ApiOperation(value = "Allow complete control over alimentation brings. The quantity parameter is the desired difference to the current " +
+            "bring quantity. If the quantity is 0 or negative, it is deleted. If no bring for the connected user and entry exists, it will " +
+            "be created with the quantity parameter.")
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/bring/change",
             consumes = MediaType.APPLICATION_JSON_VALUE)

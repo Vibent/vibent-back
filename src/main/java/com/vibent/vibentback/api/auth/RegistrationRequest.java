@@ -1,6 +1,5 @@
 package com.vibent.vibentback.api.auth;
 
-import com.vibent.vibentback.common.validate.BCrypt;
 import com.vibent.vibentback.common.validate.Email;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,7 +12,6 @@ import java.util.Date;
 public class RegistrationRequest {
 
     @NotNull
-    @BCrypt
     private String password;
 
     @Email

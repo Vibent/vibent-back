@@ -5,10 +5,7 @@ import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.util.TokenUtils;
 import io.jsonwebtoken.Claims;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -17,20 +14,17 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.context.request.ServletWebRequest;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import javax.security.sasl.AuthenticationException;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
-import java.util.function.BiConsumer;
 
 @Slf4j
 public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
 
+    private static final String BEARER = "Bearer ";
     private String authHeaderKey;
     private TokenUtils tokenUtils;
     private UserDetailsService userDetailsService;
@@ -64,6 +58,10 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
         try {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             String authToken = httpRequest.getHeader(authHeaderKey);
+            if (authToken == null || !authToken.matches("^Bearer .+")) {
+                throw new VibentException(VibentError.NO_TOKEN);
+            }
+            authToken = authToken.substring(BEARER.length());
 
             Claims claims = this.tokenUtils.validateJWTToken(authToken);
             String userRef = claims.getSubject();
@@ -84,7 +82,7 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
      * If that fails, it attempts to write the exceptions message in the response.
      * If all else fails, it simple returns an empty response with the error code 500.
      */
-    private void handleError(Exception e, ServletRequest request, ServletResponse response ){
+    private void handleError(Exception e, ServletRequest request, ServletResponse response) {
         try {
             if (!(e instanceof VibentException)) {
                 e = new VibentException(VibentError.UNKNOWN);

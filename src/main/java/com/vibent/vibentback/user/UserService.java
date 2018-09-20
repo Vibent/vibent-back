@@ -53,6 +53,10 @@ public class UserService implements UserDetailsService {
         return userRepository.existsByEmail(email);
     }
 
+    public boolean existsByPhoneNumber(String phoneNumber){
+        return userRepository.existsByPhoneNumber(phoneNumber);
+    }
+
     public User getConnectedUser(){
         return connectedUserUtils.getConnectedUser();
     }
