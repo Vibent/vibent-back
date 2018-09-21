@@ -41,8 +41,9 @@ public enum VibentError {
     TRAVEL_PROPOSAL_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested travel proposal can not be found"),
     TRAVEL_REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested travel request can not be found"),
 
-    SURVEY_OPTION_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested response can not be found"),
-    USER_ANSWER_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested user response can not be found"),
+    OPTION_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested option can not be found"),
+    ANSWER_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested answer can not be found"),
+    ANSWER_ALREADY_CREATED(HttpStatus.NOT_FOUND, "The requested answer is already created for the created user"),
 
     // Authentication errors
     AUTHENTICATION_FAILED(HttpStatus.UNAUTHORIZED, "The username / password combination does not exist"),

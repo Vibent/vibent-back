@@ -70,7 +70,7 @@ public class PlanningService {
 
     public PlanningBubble updateEntry(Long id, PlanningEntryUpdateRequest request) {
         PlanningEntry entry = entryRepository.findById(id)
-                .orElseThrow(() -> new VibentException(VibentError.SURVEY_OPTION_NOT_FOUND));
+                .orElseThrow(() -> new VibentException(VibentError.OPTION_NOT_FOUND));
         if(request.getContent() != null)
             entry.setContent(request.getContent());
         if(request.getStart() != null)

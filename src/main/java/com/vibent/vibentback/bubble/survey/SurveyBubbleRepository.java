@@ -16,4 +16,5 @@ public interface SurveyBubbleRepository extends CrudRepository<SurveyBubble, Lon
 
     @Query(value = "SELECT deleted FROM survey_bubble WHERE id = :id", nativeQuery = true)
     boolean isDeleted(@Param("id") Long id);
+
 }

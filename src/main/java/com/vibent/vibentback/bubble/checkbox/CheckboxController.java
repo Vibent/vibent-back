@@ -31,7 +31,7 @@ public class CheckboxController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     CheckboxBubble createBubble(@Valid @RequestBody CheckboxBubbleRequest request) {
         log.info("Creating checkbox bubble for event with ref {}", request.getEventRef());
-        return service.createBubble(request.getEventRef());
+        return service.createBubble(request);
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/{id}")

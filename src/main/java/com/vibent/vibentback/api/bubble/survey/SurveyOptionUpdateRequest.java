@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 
 @Data
 public class SurveyOptionUpdateRequest {
-    @Size(max = 500, min = 1)
     @NotNull
+    @Size(max = 500, min = 1)
     private String content;
 }

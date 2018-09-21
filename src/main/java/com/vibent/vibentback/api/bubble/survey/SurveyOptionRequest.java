@@ -2,12 +2,14 @@ package com.vibent.vibentback.api.bubble.survey;
 
 
 import lombok.Data;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
 public class SurveyOptionRequest {
+
     @NotNull
     @Min(0)
     private Long bubbleId;

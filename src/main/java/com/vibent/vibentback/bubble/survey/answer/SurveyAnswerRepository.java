@@ -1,4 +1,5 @@
-package com.vibent.vibentback.bubble.survey.usersAnswers;
+package com.vibent.vibentback.bubble.survey.answer;
+
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -7,8 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 
-
-public interface SurveyAnswersRepository extends CrudRepository<SurveyAnswer, Long> {
+public interface SurveyAnswerRepository extends CrudRepository<SurveyAnswer, Long> {
 
     @Modifying
     @Transactional

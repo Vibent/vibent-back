@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d481b416-1a53-456e-98a8-aba993172f02",
+		"_postman_id": "444f9233-3e93-438a-b743-8113212187a5",
 		"name": "Vibent Back",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -898,49 +898,6 @@
 			"name": "Event",
 			"item": [
 				{
-					"name": "Get Group Events",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "9c12aad0-5e47-451a-8f33-0559ab9f93eb",
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"allAdmins\": true\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/group/{{groupRef}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"{{groupRef}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Create Event",
 					"event": [
 						{
@@ -978,6 +935,49 @@
 							],
 							"path": [
 								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Group Events",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9c12aad0-5e47-451a-8f33-0559ab9f93eb",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"allAdmins\": true\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/group/{{groupRef}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"group",
+								"{{groupRef}}"
 							]
 						}
 					},
@@ -1558,8 +1558,8 @@
 							"formdata": [
 								{
 									"key": "file",
-									"type": "file",
-									"value": ""
+									"value": "",
+									"type": "file"
 								}
 							]
 						},
@@ -1573,6 +1573,816 @@
 								"profile",
 								"upload",
 								"userRef"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Checkbox",
+			"item": [
+				{
+					"name": "Create Checkbox Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"checkboxBubbleId\", jsonData.id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"eventRef\": \"{{eventRef}}\",\n  \"title\": \"Torvalds for life ?\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Checkbox Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"checkboxBubbleId\", jsonData.id)"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox/{{checkboxBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox",
+								"{{checkboxBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Checkbox Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"checkboxBubbleId\", jsonData.id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Linus Torvalds for life ?\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox/{{checkboxBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox",
+								"{{checkboxBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Checkbox Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "29f2b16a-3b5f-4d5e-9fc6-b96421a6432f",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox/{{checkboxBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox",
+								"{{checkboxBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Checkbox Option",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e701f837-c8c6-4865-aa31-ec860dbbe84a",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"checkboxOptionId\", jsonData.options[0].id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bubbleId\": \"{{checkboxBubbleId}}\",\n  \"content\": \"Don't know\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox/option",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox",
+								"option"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Checkbox Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cc0f3702-81b5-4708-adcb-815f285915d3",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"Of course\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox/option/{{checkboxOptionId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox",
+								"option",
+								"{{checkboxOptionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Checkbox Option",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cc0f3702-81b5-4708-adcb-815f285915d3",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox/option/{{checkboxOptionId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox",
+								"option",
+								"{{checkboxOptionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Checkbox Answer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "92fa1837-30ff-4b24-bb9d-ee30f87719a5",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"checkboxAnswerId\", jsonData.options[0].answers[0].id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"optionId\": {{checkboxOptionId}}\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox/answer",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox",
+								"answer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Checkbox Answer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cc0f3702-81b5-4708-adcb-815f285915d3",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox/answer/{{checkboxAnswerId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox",
+								"answer",
+								"{{checkboxAnswerId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Survey",
+			"item": [
+				{
+					"name": "Create Survey Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"surveyBubbleId\", jsonData.id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"eventRef\": \"{{eventRef}}\",\n  \"title\": \"Torvalds for life ?\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Survey Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"surveyBubbleId\", jsonData.id)"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey/{{surveyBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey",
+								"{{surveyBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Survey Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"surveyBubbleId\", jsonData.id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Linus Torvalds for life ?\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey/{{surveyBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey",
+								"{{surveyBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Survey Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "29f2b16a-3b5f-4d5e-9fc6-b96421a6432f",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey/{{surveyBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey",
+								"{{surveyBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Survey Option",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e701f837-c8c6-4865-aa31-ec860dbbe84a",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"surveyOptionId\", jsonData.options[0].id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bubbleId\": \"{{surveyBubbleId}}\",\n  \"content\": \"Don't know\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey/option",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey",
+								"option"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Survey Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cc0f3702-81b5-4708-adcb-815f285915d3",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"Of course\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey/option/{{surveyOptionId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey",
+								"option",
+								"{{surveyOptionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Survey Option",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cc0f3702-81b5-4708-adcb-815f285915d3",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey/option/{{surveyOptionId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey",
+								"option",
+								"{{surveyOptionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Survey Answer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "92fa1837-30ff-4b24-bb9d-ee30f87719a5",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"surveyAnswerId\", jsonData.options[0].answers[0].id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"optionId\": {{surveyOptionId}}\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey/answer",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey",
+								"answer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Survey Answer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cc0f3702-81b5-4708-adcb-815f285915d3",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey/answer/{{surveyAnswerId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey",
+								"answer",
+								"{{surveyAnswerId}}"
 							]
 						}
 					},

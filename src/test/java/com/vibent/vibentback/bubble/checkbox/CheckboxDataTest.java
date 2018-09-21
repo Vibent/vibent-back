@@ -29,7 +29,7 @@ public class CheckboxDataTest extends VibentTest {
     @Autowired
     CheckboxAnswerRepository checkboxAnswerRepository;
     @Autowired
-    CheckboxRepository bubbleRepository;
+    CheckboxBubbleRepository bubbleRepository;
     @Autowired
     CheckboxOptionRepository responseRepository;
     @Autowired

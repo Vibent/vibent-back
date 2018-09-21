@@ -9,5 +9,6 @@ import javax.validation.constraints.NotNull;
 public class SurveyAnswerRequest {
     @NotNull
     @Min(0)
-    private Long surveyOptionId;
+    private Long optionId;
+
 }

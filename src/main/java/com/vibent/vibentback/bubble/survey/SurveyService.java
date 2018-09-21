@@ -1,20 +1,17 @@
 package com.vibent.vibentback.bubble.survey;
 
+
 import com.vibent.vibentback.ConnectedUserUtils;
+import com.vibent.vibentback.api.bubble.survey.*;
 import com.vibent.vibentback.bubble.BubbleType;
+import com.vibent.vibentback.bubble.survey.answer.SurveyAnswer;
+import com.vibent.vibentback.bubble.survey.answer.SurveyAnswerRepository;
 import com.vibent.vibentback.bubble.survey.option.SurveyOption;
 import com.vibent.vibentback.bubble.survey.option.SurveyOptionRepository;
-import com.vibent.vibentback.bubble.survey.usersAnswers.SurveyAnswer;
-import com.vibent.vibentback.bubble.survey.usersAnswers.SurveyAnswersRepository;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.api.bubble.survey.SurveyAnswerRequest;
-import com.vibent.vibentback.api.bubble.survey.SurveyBubbleUpdateRequest;
-import com.vibent.vibentback.api.bubble.survey.SurveyOptionRequest;
-import com.vibent.vibentback.api.bubble.survey.SurveyOptionUpdateRequest;
-import com.vibent.vibentback.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +22,8 @@ public class SurveyService {
 
     SurveyBubbleRepository bubbleRepository;
     SurveyOptionRepository optionRepository;
-    SurveyAnswersRepository surveyAnswersRepository;
+    SurveyAnswerRepository answerRepository;
     EventRepository eventRepository;
-    UserRepository userRepository;
     ConnectedUserUtils userUtils;
 
     // Survey Bubble -------------------------------------------------------------
@@ -35,22 +31,24 @@ public class SurveyService {
         return bubbleRepository.findById(id).orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
     }
 
-    public SurveyBubble createBubble(String eventRef) {
-        Event event = eventRepository.findByRef(eventRef)
+    public SurveyBubble createBubble(SurveyBubbleRequest request) {
+        Event event = eventRepository.findByRef(request.getEventRef())
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         SurveyBubble surveyBubble = new SurveyBubble();
         surveyBubble.setEvent(event);
+        surveyBubble.setTitle(request.getTitle());
         surveyBubble.setCreator(userUtils.getConnectedUser());
+        surveyBubble.setDeleted(false);
         surveyBubble.setType(BubbleType.SurveyBubble);
         surveyBubble = bubbleRepository.save(surveyBubble);
         return surveyBubble;
     }
 
-    public SurveyBubble updateBubble(long id, SurveyBubbleUpdateRequest update) {
+    public SurveyBubble updateBubble(long id, SurveyBubbleUpdateRequest request) {
         SurveyBubble bubble = bubbleRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
-        bubble.setTitle(update.getTitle());
-        bubbleRepository.save(bubble);
+        bubble.setTitle(request.getTitle());
+        bubble = bubbleRepository.save(bubble);
         return bubble;
     }
 
@@ -67,35 +65,51 @@ public class SurveyService {
         option.setBubble(bubble);
         option.setContent(request.getContent());
         option.setUser(userUtils.getConnectedUser());
-        optionRepository.save(option);
-        return bubble;
+        bubble.getOptions().add(option);
+        return bubbleRepository.save(bubble);
     }
 
     public SurveyBubble updateOption(Long id, SurveyOptionUpdateRequest request) {
         SurveyOption option = optionRepository.findById(id)
-                .orElseThrow(() -> new VibentException(VibentError.SURVEY_OPTION_NOT_FOUND));
+                .orElseThrow(() -> new VibentException(VibentError.OPTION_NOT_FOUND));
         option.setContent(request.getContent());
-        option = optionRepository.save(option);
-        return option.getBubble();
+        optionRepository.save(option);
+        return bubbleRepository.findById(option.getBubble().getId())
+                .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
     }
 
     public void deleteOption(Long id) {
-        optionRepository.deleteById(id);
+        SurveyOption option = optionRepository.findById(id)
+                .orElseThrow(() -> new VibentException(VibentError.OPTION_NOT_FOUND));
+        SurveyBubble bubble = option.getBubble();
+        bubble.getOptions().remove(option);
+        optionRepository.delete(option);
+        bubbleRepository.save(bubble);
     }
 
     // Survey Bubble Answer -------------------------------------------------------------
 
     public SurveyBubble createAnswer(SurveyAnswerRequest request) {
-        SurveyOption option = optionRepository.findById(request.getSurveyOptionId())
-                .orElseThrow(() -> new VibentException(VibentError.SURVEY_OPTION_NOT_FOUND));
+        SurveyOption option = optionRepository.findById(request.getOptionId())
+                .orElseThrow(() -> new VibentException(VibentError.OPTION_NOT_FOUND));
+        if(option.getAnswers().stream().anyMatch(a -> a.getUserRef().equals(userUtils.getConnectedUserRef()))){
+            throw new VibentException(VibentError.ANSWER_ALREADY_CREATED);
+        }
         SurveyAnswer answer = new SurveyAnswer();
         answer.setUser(userUtils.getConnectedUser());
         answer.setOption(option);
-        surveyAnswersRepository.save(answer);
+        option.getAnswers().add(answer);
+        optionRepository.save(option);
         return option.getBubble();
     }
 
     public void deleteAnswer(Long id) {
-        surveyAnswersRepository.deleteById(id);
+        answerRepository.deleteById(id);
+        SurveyAnswer answer = answerRepository.findById(id)
+                .orElseThrow(() -> new VibentException(VibentError.ANSWER_NOT_FOUND));
+        SurveyOption option = answer.getOption();
+        option.getAnswers().remove(answer);
+        answerRepository.delete(answer);
+        optionRepository.save(option);
     }
 }

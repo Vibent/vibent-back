@@ -9,6 +9,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Setter
@@ -23,7 +24,7 @@ public class CheckboxBubble extends Bubble{
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "bubble", cascade = CascadeType.ALL)
-    private Set<CheckboxOption> options;
+    private Set<CheckboxOption> options = new HashSet<>();
 
     @JsonProperty
     public Set<CheckboxOption> getOptions(){
