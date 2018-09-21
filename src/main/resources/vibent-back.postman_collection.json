@@ -1,15 +1,15 @@
 {
 	"info": {
-		"_postman_id": "444f9233-3e93-438a-b743-8113212187a5",
+		"_postman_id": "f9cecf6e-9948-4eac-944d-344f342f1507",
 		"name": "Vibent Back",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Authentication",
+			"name": "1. Authentication",
 			"item": [
 				{
-					"name": "Register",
+					"name": "1. Register",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -36,7 +36,7 @@
 					"response": []
 				},
 				{
-					"name": "Register Real Email (Test Email Send)",
+					"name": "2. Register Real Email (Test Email Send)",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -47,7 +47,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"password\": \"password\",\n\t\"email\": \"cr.in.france@gmail.com\",\n\t\"phoneNumber\": \"0634578941\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
+							"raw": "{\n\t\"password\": \"password\",\n\t\"email\": \"cr.in.france+1@gmail.com\",\n\t\"phoneNumber\": \"0634578941\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/auth/register",
@@ -63,7 +63,7 @@
 					"response": []
 				},
 				{
-					"name": "Confirm Email",
+					"name": "3. Confirm Email",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -92,7 +92,7 @@
 					"response": []
 				},
 				{
-					"name": "Register Second User",
+					"name": "4. Register Second User",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -119,16 +119,20 @@
 					"response": []
 				},
 				{
-					"name": "Login Email",
+					"name": "5. Login Email",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "a9c4a3e3-3082-499e-91ba-f520649a8005",
+								"id": "62d89dee-e69a-40af-a1f1-68f46a7453c5",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -160,14 +164,17 @@
 					"response": []
 				},
 				{
-					"name": "Login API",
+					"name": "6. Login API",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "875952be-ac2a-445c-9b4d-2c065d769b6f",
+								"id": "431ac695-e7f7-4b25-863b-f64c88444276",
 								"type": "text/javascript",
 								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});",
 									""
 								]
 							}
@@ -186,7 +193,7 @@
 							"urlencoded": [
 								{
 									"key": "client_id",
-									"value": "cr.in.france@gmail.com",
+									"value": "vibentPM@vibent.com",
 									"type": "text"
 								},
 								{
@@ -211,16 +218,20 @@
 					"response": []
 				},
 				{
-					"name": "Login Second User",
+					"name": "7. Login Second User",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "869f59b0-5769-4c5a-a3e9-7e857ad59cc4",
+								"id": "9e5497f2-0bae-4b36-858c-6520c6246dca",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"tokenSecondUser\", jsonData.token);"
+									"postman.setEnvironmentVariable(\"tokenSecondUser\", jsonData.token);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -252,16 +263,20 @@
 					"response": []
 				},
 				{
-					"name": "Login Phone",
+					"name": "8. Login Phone",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "6e0a15ee-9fc1-4092-a4d1-19c64c6d318f",
+								"id": "531c0c1a-78d9-425d-85a8-8c13e75bb050",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -276,7 +291,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \r\n\t\"phoneNumber\": \"0634578963\",\r\n\t\"password\" : \"password\"\r\n}"
+							"raw": "{ \r\n\t\"phoneNumber\": \"0634578968\",\r\n\t\"password\" : \"password\"\r\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/auth/login/phone",
@@ -292,22 +307,48 @@
 					},
 					"response": []
 				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3007958e-15ea-4ee5-8f63-801c39959c87",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "44b6ece8-7f66-4d15-9124-83bb1e0e97a3",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
-			"name": "User",
+			"name": "2. User",
 			"item": [
 				{
-					"name": "Get Connected User",
+					"name": "1. Get Connected User",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "5faf4b6a-7a00-4fbc-a279-39834df9a10f",
+								"id": "2bd34932-6d7b-4983-a283-d0c084012eac",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"userRef\", jsonData.ref);"
+									"postman.setEnvironmentVariable(\"userRef\", jsonData.ref);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -342,16 +383,20 @@
 					"response": []
 				},
 				{
-					"name": "Get Second Connected User",
+					"name": "2. Get Second Connected User",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "e2be40df-1dbb-4666-895b-d96e35824dc7",
+								"id": "cc0cc766-8db7-4314-a14d-b1eb45651b5d",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"userRefSecondUser\", jsonData.ref);"
+									"postman.setEnvironmentVariable(\"userRefSecondUser\", jsonData.ref);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -365,7 +410,7 @@
 							},
 							{
 								"key": "{{TOKEN_HEADER}}",
-								"value": "{{tokenSecondUser}}"
+								"value": "Bearer {{tokenSecondUser}}"
 							}
 						],
 						"body": {
@@ -386,7 +431,22 @@
 					"response": []
 				},
 				{
-					"name": "Get User",
+					"name": "3. Get User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d61095ae-239d-4240-ac6f-e350cfe2e09e",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									""
+								]
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -417,7 +477,21 @@
 					"response": []
 				},
 				{
-					"name": "Get User Unauthorized",
+					"name": "4. Get User Unauthorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e02bf458-253e-46bb-88fb-aaf749faaf9b",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(401);",
+									"});"
+								]
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -455,19 +529,23 @@
 			]
 		},
 		{
-			"name": "Group",
+			"name": "3. Group",
 			"item": [
 				{
-					"name": "Create Group",
+					"name": "1. Create Group",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "7374fd5a-d16c-411d-a914-c70112ccbfe7",
+								"id": "f824a0cf-9642-4aff-85fd-30fc6ae10616",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"groupRef\", jsonData.ref);"
+									"postman.setEnvironmentVariable(\"groupRef\", jsonData.ref);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
 								]
 							}
 						}
@@ -501,16 +579,17 @@
 					"response": []
 				},
 				{
-					"name": "Create Group Invalid Body",
+					"name": "2. Create Group Invalid Body",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "7374fd5a-d16c-411d-a914-c70112ccbfe7",
+								"id": "296e4737-7cf8-495d-bc01-9afc77798134",
 								"type": "text/javascript",
 								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"groupRef\", jsonData.ref);"
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(400);",
+									"});"
 								]
 							}
 						}
@@ -544,15 +623,17 @@
 					"response": []
 				},
 				{
-					"name": "Second User Request Group Membership",
+					"name": "3. Second User Request Group Membership",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "f7ac89fe-f909-470b-8700-755ae9d7ebd2",
+								"id": "31738b7c-ebd9-4c22-a495-579a6f680646",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -588,15 +669,17 @@
 					"response": []
 				},
 				{
-					"name": "Accept Group Membership Request",
+					"name": "4. Accept Group Membership Request",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "f7ac89fe-f909-470b-8700-755ae9d7ebd2",
+								"id": "8bc4f6bb-45d9-48c7-8db2-1f81258fa036",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -632,15 +715,17 @@
 					"response": []
 				},
 				{
-					"name": "Update Group",
+					"name": "5. Update Group",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "433a9b0e-b73f-41b6-b404-28a4384041ba",
+								"id": "588a86ef-95b2-4f90-9d97-ab1d5b04ac74",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -675,15 +760,17 @@
 					"response": []
 				},
 				{
-					"name": "Get Group",
+					"name": "6. Get Group",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "9c12aad0-5e47-451a-8f33-0559ab9f93eb",
+								"id": "5bc0b47b-2db3-408e-8f5a-f63cb3fbf2b9",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -718,16 +805,112 @@
 					"response": []
 				},
 				{
-					"name": "Get Group Invite Token",
+					"name": "7. Delete Group",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "87926b2a-6fa5-433c-b7bb-07d005b73cac",
+								"id": "03872a48-94ae-4dff-86a9-b3f9d482cd13",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/group/{{groupRef}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"group",
+								"{{groupRef}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. Create Second Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f824a0cf-9642-4aff-85fd-30fc6ae10616",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"groupInviteToken\", jsonData.token);"
+									"postman.setEnvironmentVariable(\"groupRef\", jsonData.ref);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"description\": \"Group for the badest people around\",\n\t\"allAdmins\": true\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/group",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. Get Group Invite Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "dbdd550c-00b3-4d26-ba4f-84e8cd0d7f8b",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"groupInviteToken\", jsonData.token);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -763,15 +946,17 @@
 					"response": []
 				},
 				{
-					"name": "Validate Group Invite Token",
+					"name": "10. Validate Group Invite Token",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "4aa58ea7-ce82-414d-b1fd-1e2d48ba4164",
+								"id": "02208cad-f5af-4364-a936-8dc5809dd10d",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -785,7 +970,7 @@
 							},
 							{
 								"key": "{{TOKEN_HEADER}}",
-								"value": "{{tokenSecondUser}}"
+								"value": "Bearer {{tokenSecondUser}}"
 							}
 						],
 						"body": {
@@ -807,58 +992,17 @@
 					"response": []
 				},
 				{
-					"name": "Delete Group",
+					"name": "11. Get Connected User Groups",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "433a9b0e-b73f-41b6-b404-28a4384041ba",
+								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
 								"type": "text/javascript",
 								"exec": [
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/group/{{groupRef}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"{{groupRef}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Connected User Groups",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "9f1a558e-180c-4826-bfc3-369faa54d265",
-								"type": "text/javascript",
-								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -895,19 +1039,23 @@
 			]
 		},
 		{
-			"name": "Event",
+			"name": "4. Event",
 			"item": [
 				{
-					"name": "Create Event",
+					"name": "1. Create Event",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "6eb8fc60-335d-48ee-a59c-f2e65ac4e8d6",
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"eventRef\", jsonData.ref);"
+									"postman.setEnvironmentVariable(\"eventRef\", jsonData.ref);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
 								]
 							}
 						}
@@ -941,15 +1089,17 @@
 					"response": []
 				},
 				{
-					"name": "Get Group Events",
+					"name": "2. Get Group Events",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "9c12aad0-5e47-451a-8f33-0559ab9f93eb",
+								"id": "5c27115d-fcaf-4d97-b58b-abc5c6a9e514",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -984,15 +1134,17 @@
 					"response": []
 				},
 				{
-					"name": "Get Event",
+					"name": "3. Get Event",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "fa271a0d-8f8e-44ce-8a31-3ef0b5494460",
+								"id": "1a7b4bbc-6daa-4fce-9c20-678c3e7b04d7",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -1027,15 +1179,17 @@
 					"response": []
 				},
 				{
-					"name": "Get Connected User Events",
+					"name": "4. Get Connected User Events",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "5bfd23b9-9695-49ba-8951-9260691e6954",
+								"id": "c8630110-171e-4a8e-90cf-cefa1ab8b624",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -1072,19 +1226,23 @@
 			]
 		},
 		{
-			"name": "Alimentation",
+			"name": "5. Alimentation",
 			"item": [
 				{
-					"name": "Create Alimentation Bubble",
+					"name": "1.Create Alimentation Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "b783537c-2df4-45d8-a61b-5adbd0793061",
+								"id": "40fb4964-5eb5-4235-b3bc-0d73ca4406b6",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"alimentationBubbleId\", jsonData.id);"
+									"postman.setEnvironmentVariable(\"alimentationBubbleId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
 								]
 							}
 						}
@@ -1119,15 +1277,17 @@
 					"response": []
 				},
 				{
-					"name": "Get Alimentation Bubble",
+					"name": "2. Get Alimentation Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "4279dc2b-ac0a-4ed6-9edb-821b48baa2f4",
+								"id": "6583649f-fa55-439e-af69-69b4f7da5f0e",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -1163,16 +1323,20 @@
 					"response": []
 				},
 				{
-					"name": "Create Alimentation Entry",
+					"name": "3. Create Alimentation Entry",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "b3fb6990-87e5-4609-8621-397d476ef67b",
+								"id": "1af7ca89-d1d1-4fda-80b5-aa09dad78877",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"alimentationEntryId\", jsonData.entries[0].id);"
+									"postman.setEnvironmentVariable(\"alimentationEntryId\", jsonData.entries[0].id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
 								]
 							}
 						}
@@ -1208,15 +1372,17 @@
 					"response": []
 				},
 				{
-					"name": "Update Alimentation Entry",
+					"name": "4. Update Alimentation Entry",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "80ebb462-7e81-4350-a471-98641958dedb",
+								"id": "a3c53525-4acd-4892-8159-ee5e13e06357",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -1253,15 +1419,17 @@
 					"response": []
 				},
 				{
-					"name": "Delete Alimentation Entry",
+					"name": "5. Delete Alimentation Entry",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "80ebb462-7e81-4350-a471-98641958dedb",
+								"id": "5d21b468-04b2-46f7-8165-41f932d4ed13",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
 								]
 							}
 						}
@@ -1298,16 +1466,69 @@
 					"response": []
 				},
 				{
-					"name": "Create Alimentation Bring",
+					"name": "6. Create Second Alimentation Entry",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "eed8a69a-1a0f-4fbf-a493-7737dedf66fb",
+								"id": "1af7ca89-d1d1-4fda-80b5-aa09dad78877",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"alimentationBringId\", jsonData.entries[0].id);"
+									"postman.setEnvironmentVariable(\"alimentationEntryId\", jsonData.entries[0].id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"bubbleId\": \"{{alimentationBubbleId}}\",\n\t\"name\": \"Beer\",\n\t\"totalRequested\": 5,\n\t\"type\": \"DRINK\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/alimentation/entry",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"alimentation",
+								"entry"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. Create Alimentation Bring",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a8d443d7-8386-4a53-9c6b-4f2dfdc38c60",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"alimentationBringId\", jsonData.entries[0].brings[0].id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
 								]
 							}
 						}
@@ -1343,15 +1564,17 @@
 					"response": []
 				},
 				{
-					"name": "Update Alimentation Bring",
+					"name": "8. Update Alimentation Bring",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "29f59674-6f05-4926-a93b-2ea60c93695e",
+								"id": "da5c4b94-7b28-4dc5-88d0-4394261bd7e4",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -1388,15 +1611,17 @@
 					"response": []
 				},
 				{
-					"name": "Delete Alimentation Bring",
+					"name": "8. Delete Alimentation Bring",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "5801381f-2501-4777-9343-a1cdb1f2d6f0",
+								"id": "d6e1e75d-f928-41d6-9d83-1eb5c250e7bc",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
 								]
 							}
 						}
@@ -1433,15 +1658,17 @@
 					"response": []
 				},
 				{
-					"name": "Change Alimentation Bring",
+					"name": "9. Change Alimentation Bring",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "fbf126c4-42a8-49f5-b0d9-f6db711a3829",
+								"id": "57426f84-cd78-4ddf-b0b0-c7288ab4f562",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
 								]
 							}
 						}
@@ -1460,7 +1687,54 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"entryId\": \"{{alimentationEntryId}}\",\n\t\"quantity\": -12\n}"
+							"raw": "{\n\t\"entryId\": \"{{alimentationEntryId}}\",\n\t\"quantity\": 5\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/alimentation/bring/change",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"alimentation",
+								"bring",
+								"change"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Change to Delete Alimentation Bring",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "57426f84-cd78-4ddf-b0b0-c7288ab4f562",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"entryId\": \"{{alimentationEntryId}}\",\n\t\"quantity\": -10\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/bubble/alimentation/bring/change",
@@ -1480,18 +1754,71 @@
 			]
 		},
 		{
-			"name": "Image",
+			"name": "6. Image",
 			"item": [
 				{
-					"name": "Get Profile Image",
+					"name": "1. Upload Profile Image",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "e107c5a6-31b1-4035-a65e-29996a0069ef",
+								"id": "998a73af-ae49-4f65-ab1e-71201dabd0ba",
 								"type": "text/javascript",
 								"exec": [
 									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "image/jpeg",
+								"disabled": true
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/image/profile/upload/userRef",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"image",
+								"profile",
+								"upload",
+								"userRef"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Get Profile Image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b7b5ac5e-5853-4738-875a-934f136eb0f8",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -1525,74 +1852,27 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Upload Profile Image",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "e107c5a6-31b1-4035-a65e-29996a0069ef",
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "image/jpeg",
-								"disabled": true
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "file",
-									"value": "",
-									"type": "file"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{URL}}/image/profile/upload/userRef",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"image",
-								"profile",
-								"upload",
-								"userRef"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
 		{
-			"name": "Checkbox",
+			"name": "7. Checkbox",
 			"item": [
 				{
-					"name": "Create Checkbox Bubble",
+					"name": "1. Create Checkbox Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
+								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"checkboxBubbleId\", jsonData.id);"
+									"postman.setEnvironmentVariable(\"checkboxBubbleId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
 								]
 							}
 						}
@@ -1627,15 +1907,20 @@
 					"response": []
 				},
 				{
-					"name": "Get Checkbox Bubble",
+					"name": "2. Get Checkbox Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
+								"id": "f8ec59af-4fda-4acb-adc2-0ffb6901ab11",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"checkboxBubbleId\", jsonData.id)"
+									"postman.setEnvironmentVariable(\"checkboxBubbleId\", jsonData.id)",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -1671,15 +1956,20 @@
 					"response": []
 				},
 				{
-					"name": "Update Checkbox Bubble",
+					"name": "3. Update Checkbox Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
+								"id": "c545cf09-def3-42d3-9a40-850878f0e8cd",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"checkboxBubbleId\", jsonData.id);"
+									"postman.setEnvironmentVariable(\"checkboxBubbleId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -1715,15 +2005,17 @@
 					"response": []
 				},
 				{
-					"name": "Delete Checkbox Bubble",
+					"name": "4. Delete Checkbox Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "29f2b16a-3b5f-4d5e-9fc6-b96421a6432f",
+								"id": "69cb1caf-599c-4827-915e-2514492ec3a9",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
 								]
 							}
 						}
@@ -1759,16 +2051,68 @@
 					"response": []
 				},
 				{
-					"name": "Create Checkbox Option",
+					"name": "5. Create Second Checkbox Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "e701f837-c8c6-4865-aa31-ec860dbbe84a",
+								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"checkboxOptionId\", jsonData.options[0].id);"
+									"postman.setEnvironmentVariable(\"checkboxBubbleId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"eventRef\": \"{{eventRef}}\",\n  \"title\": \"Torvalds for life ?\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Create Checkbox Option",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"checkboxOptionId\", jsonData.options[0].id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
 								]
 							}
 						}
@@ -1804,15 +2148,17 @@
 					"response": []
 				},
 				{
-					"name": "Update Checkbox Bubble",
+					"name": "7. Update Checkbox Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "cc0f3702-81b5-4708-adcb-815f285915d3",
+								"id": "4317e5cc-3def-480e-a122-933180904688",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -1849,15 +2195,17 @@
 					"response": []
 				},
 				{
-					"name": "Delete Checkbox Option",
+					"name": "8. Delete Checkbox Option",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "cc0f3702-81b5-4708-adcb-815f285915d3",
+								"id": "99f9d302-894a-4407-a841-fa2a5baf676c",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
 								]
 							}
 						}
@@ -1894,16 +2242,69 @@
 					"response": []
 				},
 				{
-					"name": "Create Checkbox Answer",
+					"name": "9. Create Second Checkbox Option",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "92fa1837-30ff-4b24-bb9d-ee30f87719a5",
+								"id": "b8eb742b-6189-4cc3-b28a-df46fee3faae",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"checkboxAnswerId\", jsonData.options[0].answers[0].id);"
+									"postman.setEnvironmentVariable(\"checkboxOptionId\", jsonData.options[0].id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bubbleId\": \"{{checkboxBubbleId}}\",\n  \"content\": \"Don't know\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox/option",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox",
+								"option"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Create Checkbox Answer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b437f608-f6ae-46e9-9426-37fd49ad68ee",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"checkboxAnswerId\", jsonData.options[0].answers[0].id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
 								]
 							}
 						}
@@ -1939,15 +2340,17 @@
 					"response": []
 				},
 				{
-					"name": "Delete Checkbox Answer",
+					"name": "11. Delete Checkbox Answer",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "cc0f3702-81b5-4708-adcb-815f285915d3",
+								"id": "d3258d3d-9b0b-45ec-a1f9-583f3922365f",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
 								]
 							}
 						}
@@ -1986,18 +2389,23 @@
 			]
 		},
 		{
-			"name": "Survey",
+			"name": "8. Survey",
 			"item": [
 				{
-					"name": "Create Survey Bubble",
+					"name": "1. Create Survey Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
+								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"surveyBubbleId\", jsonData.id);"
+									"postman.setEnvironmentVariable(\"surveyBubbleId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
 								]
 							}
 						}
@@ -2032,15 +2440,20 @@
 					"response": []
 				},
 				{
-					"name": "Get Survey Bubble",
+					"name": "2. Get Survey Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
+								"id": "f8ec59af-4fda-4acb-adc2-0ffb6901ab11",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"surveyBubbleId\", jsonData.id)"
+									"postman.setEnvironmentVariable(\"surveyBubbleId\", jsonData.id)",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -2076,15 +2489,20 @@
 					"response": []
 				},
 				{
-					"name": "Update Survey Bubble",
+					"name": "3. Update Survey Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
+								"id": "c545cf09-def3-42d3-9a40-850878f0e8cd",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"surveyBubbleId\", jsonData.id);"
+									"postman.setEnvironmentVariable(\"surveyBubbleId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -2120,15 +2538,17 @@
 					"response": []
 				},
 				{
-					"name": "Delete Survey Bubble",
+					"name": "4. Delete Survey Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "29f2b16a-3b5f-4d5e-9fc6-b96421a6432f",
+								"id": "69cb1caf-599c-4827-915e-2514492ec3a9",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
 								]
 							}
 						}
@@ -2164,16 +2584,68 @@
 					"response": []
 				},
 				{
-					"name": "Create Survey Option",
+					"name": "5. Create Second Survey Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "e701f837-c8c6-4865-aa31-ec860dbbe84a",
+								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"surveyOptionId\", jsonData.options[0].id);"
+									"postman.setEnvironmentVariable(\"surveyBubbleId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"eventRef\": \"{{eventRef}}\",\n  \"title\": \"Torvalds for life ?\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Create Survey Option",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"surveyOptionId\", jsonData.options[0].id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
 								]
 							}
 						}
@@ -2209,15 +2681,17 @@
 					"response": []
 				},
 				{
-					"name": "Update Survey Bubble",
+					"name": "7. Update Survey Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "cc0f3702-81b5-4708-adcb-815f285915d3",
+								"id": "4317e5cc-3def-480e-a122-933180904688",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
@@ -2254,15 +2728,17 @@
 					"response": []
 				},
 				{
-					"name": "Delete Survey Option",
+					"name": "8. Delete Survey Option",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "cc0f3702-81b5-4708-adcb-815f285915d3",
+								"id": "99f9d302-894a-4407-a841-fa2a5baf676c",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
 								]
 							}
 						}
@@ -2299,16 +2775,69 @@
 					"response": []
 				},
 				{
-					"name": "Create Survey Answer",
+					"name": "9. Create Second Survey Option",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "92fa1837-30ff-4b24-bb9d-ee30f87719a5",
+								"id": "b8eb742b-6189-4cc3-b28a-df46fee3faae",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"surveyAnswerId\", jsonData.options[0].answers[0].id);"
+									"postman.setEnvironmentVariable(\"surveyOptionId\", jsonData.options[0].id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bubbleId\": \"{{surveyBubbleId}}\",\n  \"content\": \"Don't know\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey/option",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey",
+								"option"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Create Survey Answer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b437f608-f6ae-46e9-9426-37fd49ad68ee",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"surveyAnswerId\", jsonData.options[0].answers[0].id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
 								]
 							}
 						}
@@ -2344,15 +2873,17 @@
 					"response": []
 				},
 				{
-					"name": "Delete Survey Answer",
+					"name": "11. Delete Survey Answer",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "cc0f3702-81b5-4708-adcb-815f285915d3",
+								"id": "d3258d3d-9b0b-45ec-a1f9-583f3922365f",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
 								]
 							}
 						}
@@ -2391,9 +2922,23 @@
 			]
 		},
 		{
-			"name": "Options Http Method Test",
+			"name": "9. Options Http Method",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dc76eac4-aa7c-46bf-9e16-eafa4a03c485",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code test\", function () {",
+							"   pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
 			"request": {
-				"method": "GET",
+				"method": "OPTIONS",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -2409,13 +2954,12 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{URL}}/user/{{userRef}}",
+					"raw": "{{URL}}/user",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"user",
-						"{{userRef}}"
+						"user"
 					]
 				}
 			},
