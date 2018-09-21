@@ -36,6 +36,7 @@ public enum VibentError {
 
     ENTRY_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested response can not be found"),
     BRING_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested bring can not be found"),
+    BRING_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "There is already a bring for the user and entry"),
 
     TRAVEL_PROPOSAL_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested travel proposal can not be found"),
     TRAVEL_REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested travel request can not be found"),

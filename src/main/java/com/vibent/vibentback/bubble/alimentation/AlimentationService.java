@@ -134,6 +134,11 @@ public class AlimentationService {
     public AlimentationBubble createBring(AlimentationBringRequest request) {
         AlimentationEntry entry = entryRepository.findById(request.getEntryId())
                 .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
+
+        if(entry.getBrings().stream().anyMatch(b -> b.getUserRef().equals(userUtils.getConnectedUserRef()))){
+            throw new VibentException(VibentError.BRING_ALREADY_EXISTS);
+        }
+        
         AlimentationBring bring = new AlimentationBring();
         bring.setQuantity(request.getQuantity());
         bring.setUser(userUtils.getConnectedUser());
