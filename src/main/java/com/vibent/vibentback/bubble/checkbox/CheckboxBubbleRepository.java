@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 
-public interface CheckboxRepository extends CrudRepository<CheckboxBubble, Long> {
+public interface CheckboxBubbleRepository extends CrudRepository<CheckboxBubble, Long> {
 
     @Modifying
     @Transactional

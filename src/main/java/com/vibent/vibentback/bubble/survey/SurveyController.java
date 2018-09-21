@@ -31,7 +31,7 @@ public class SurveyController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     SurveyBubble createBubble(@Valid @RequestBody SurveyBubbleRequest request) {
         log.info("Creating survey bubble for event with ref {}", request.getEventRef());
-        return service.createBubble(request.getEventRef());
+        return service.createBubble(request);
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/{id}")
@@ -59,9 +59,9 @@ public class SurveyController {
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/option/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    SurveyBubble updateOption(@PathVariable Long id, @Valid @RequestBody SurveyOptionUpdateRequest option) {
-        log.info("Updating survey option with id {} and body : {}", id, option.toString());
-        return service.updateOption(id, option);
+    SurveyBubble updateOption(@PathVariable Long id, @Valid @RequestBody SurveyOptionUpdateRequest request) {
+        log.info("Updating survey option with id {} and body : {}", id, request.toString());
+        return service.updateOption(id, request);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
@@ -71,7 +71,7 @@ public class SurveyController {
         service.deleteOption(id);
     }
 
-    // Survey Bubble Answers -------------------------------------------------------------
+    // Survey Bubble Answer -------------------------------------------------------------
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/answer",

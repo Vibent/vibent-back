@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode(of = "id")
 @SQLDelete(sql = "UPDATE checkbox_answer SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class CheckboxAnswer {

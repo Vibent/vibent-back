@@ -1,13 +1,14 @@
 package com.vibent.vibentback.api.bubble.checkbox;
 
 import lombok.Data;
-import lombok.NonNull;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class CheckboxAnswerRequest {
-    @NonNull
+    @NotNull
     @Min(0)
-    private Long checkboxResponseId;
+    private Long optionId;
+
 }

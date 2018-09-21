@@ -3,13 +3,14 @@ package com.vibent.vibentback.bubble.survey.option;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.survey.SurveyBubble;
-import com.vibent.vibentback.bubble.survey.usersAnswers.SurveyAnswer;
+import com.vibent.vibentback.bubble.survey.answer.SurveyAnswer;
 import com.vibent.vibentback.user.User;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -17,8 +18,8 @@ import java.util.Set;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = "id")
-@Where(clause = "deleted = false")
 @SQLDelete(sql = "UPDATE survey_option SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class SurveyOption {
 
     @Id
@@ -32,8 +33,7 @@ public class SurveyOption {
     private SurveyBubble bubble;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "option", cascade = CascadeType.ALL)
-    private Set<SurveyAnswer> answers;
-
+    private Set<SurveyAnswer> answers = new HashSet<>();
 
     @ManyToOne
     @JsonIgnore
@@ -42,6 +42,7 @@ public class SurveyOption {
 
     @NonNull
     private String content;
+
     @JsonIgnore
     private boolean deleted;
 

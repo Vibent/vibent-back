@@ -8,6 +8,6 @@ import javax.validation.constraints.Size;
 @Data
 public class SurveyBubbleUpdateRequest {
     @NotNull
-    @Size(min = 1, max = 500)
+    @Size(max = 500, min = 1)
     private String title;
 }

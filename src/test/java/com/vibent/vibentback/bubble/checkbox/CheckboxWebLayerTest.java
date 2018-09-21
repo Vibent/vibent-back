@@ -82,7 +82,7 @@ public class CheckboxWebLayerTest extends VibentTest {
         RANDOM_ANSWER.setUser(RANDOM_USER);
 
         when(service.getBubble(RANDOM_BUBBLE.getId())).thenReturn(RANDOM_BUBBLE);
-        when(service.createBubble(RANDOM_EVENT.getRef())).thenReturn(RANDOM_BUBBLE);}
+        when(service.createBubble(RANDOM_BUBBLE_REQUEST)).thenReturn(RANDOM_BUBBLE);}
 
     @Test
     public void testGetBubble() throws Exception {

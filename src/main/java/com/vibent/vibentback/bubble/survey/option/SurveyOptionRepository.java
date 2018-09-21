@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 
-
 public interface SurveyOptionRepository extends CrudRepository<SurveyOption, Long> {
 
     @Modifying
