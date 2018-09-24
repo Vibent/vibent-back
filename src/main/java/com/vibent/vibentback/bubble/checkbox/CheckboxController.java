@@ -87,4 +87,11 @@ public class CheckboxController {
         log.info("Deleting checkbox answer with id {}", id);
         service.deleteAnswer(id);
     }
+
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @RequestMapping(method = RequestMethod.DELETE, value = "/option/{id}/answer")
+    void deleteAnswerOfOption(@PathVariable Long id) {
+        log.info("Deleting checkbox answer with option id {}", id);
+        service.deleteAnswerOfOption(id);
+    }
 }

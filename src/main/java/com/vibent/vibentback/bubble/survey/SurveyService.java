@@ -16,6 +16,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class SurveyService {
@@ -92,7 +94,7 @@ public class SurveyService {
     public SurveyBubble createAnswer(SurveyAnswerRequest request) {
         SurveyOption option = optionRepository.findById(request.getOptionId())
                 .orElseThrow(() -> new VibentException(VibentError.OPTION_NOT_FOUND));
-        if(option.getAnswers().stream().anyMatch(a -> a.getUserRef().equals(userUtils.getConnectedUserRef()))){
+        if (option.getAnswers().stream().anyMatch(a -> a.getUserRef().equals(userUtils.getConnectedUserRef()))) {
             throw new VibentException(VibentError.ANSWER_ALREADY_CREATED);
         }
         SurveyAnswer answer = new SurveyAnswer();
@@ -111,5 +113,16 @@ public class SurveyService {
         option.getAnswers().remove(answer);
         answerRepository.delete(answer);
         optionRepository.save(option);
+    }
+
+    public void deleteAnswerOfOption(Long id) {
+        SurveyOption option = optionRepository.findById(id)
+                .orElseThrow(() -> new VibentException(VibentError.OPTION_NOT_FOUND));
+        Optional<SurveyAnswer> answerOptional = option.getAnswers().stream().filter(
+                a -> a.getUserRef().equals(userUtils.getConnectedUserRef())).findFirst();
+        if (!answerOptional.isPresent()) {
+            throw new VibentException(VibentError.ANSWER_NOT_FOUND);
+        }
+        this.deleteAnswer(answerOptional.get().getId());
     }
 }
