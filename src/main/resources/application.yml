@@ -80,7 +80,7 @@ spring:
     username: Main
     password: '&5t7cvREx*5&b^v9'
 
-server.port: 8080
+server.port: 8001
 
 vibent.client.url: http://ec2-35-180-98-237.eu-west-3.compute.amazonaws.com
 vibent.mail.autoConfirm: true
