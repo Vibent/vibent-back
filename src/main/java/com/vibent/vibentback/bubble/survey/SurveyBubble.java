@@ -22,7 +22,7 @@ import java.util.Set;
 @Entity
 @SQLDelete(sql = "UPDATE survey_bubble SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
-public class SurveyBubble extends Bubble{
+public class SurveyBubble extends Bubble {
 
     @NonNull
     private String title;
@@ -32,7 +32,12 @@ public class SurveyBubble extends Bubble{
     private Set<SurveyOption> options = new HashSet<>();
 
     @JsonProperty
-    public Set<SurveyOption> getOptions(){
+    public Set<SurveyOption> getOptions() {
         return options;
+    }
+
+    @JsonProperty
+    private long getAnswerCount() {
+        return options.stream().map(SurveyOption::getAnswers).mapToInt(Set::size).sum();
     }
 }
