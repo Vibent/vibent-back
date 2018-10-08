@@ -30,4 +30,9 @@ public class CheckboxBubble extends Bubble{
     public Set<CheckboxOption> getOptions(){
         return options;
     }
+
+    @JsonProperty
+    private long getAnswerCount(){
+        return options.stream().map(CheckboxOption::getAnswers).mapToInt(Set::size).sum();
+    }
 }
