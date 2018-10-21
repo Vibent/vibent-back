@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.Set;
 
 @Service
@@ -61,13 +60,14 @@ public class MembershipService {
 
         // Link both entities
         Membership membership = new Membership(user, group, isAdmin);
-        user.getMemberships().add(membership);
+        membershipRepository.save(membership);
         group.getMemberships().add(membership);
+        user.getMemberships().add(membership);
 
         // Add a participation for all existing events
         group.getEvents().forEach(event -> event.getParticipations().add(new EventParticipation(user, event)));
 
-        return membershipRepository.save(membership);
+        return membership;
     }
 
     public Membership addMembership(String groupRef, String userRef, boolean isAdmin) {

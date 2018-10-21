@@ -52,7 +52,7 @@ public class DetailledGroupResponse {
     public Set<GroupMembershipResponse> getMemberships() {
         Set<GroupMembershipResponse> memberships = new HashSet<>();
         group.getMemberships().forEach(m ->
-                memberships.add(new GroupMembershipResponse(m.getUser().getRef(),m.getAdmin())));
+                memberships.add(new GroupMembershipResponse(m.getUser().getRef(), m.getAdmin(), m.getDate())));
         return memberships;
     }
 

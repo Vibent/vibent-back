@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.user.User;
 import lombok.*;
+import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -39,6 +40,7 @@ public class MembershipRequest {
     @Column(insertable = false, updatable = false)
     private boolean deleted;
 
+    @org.hibernate.annotations.Generated(value = GenerationTime.INSERT)
     @Column(insertable = false, updatable = false)
     private Date date;
 }
