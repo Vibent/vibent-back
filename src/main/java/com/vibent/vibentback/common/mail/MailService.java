@@ -2,7 +2,6 @@ package com.vibent.vibentback.common.mail;
 
 import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.user.User;
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +29,7 @@ public class MailService {
     @NonNull
     private JavaMailSender mailSender;
 
-    public void sendConfirmationMail(User user){
+    public void sendConfirmationMail(User user) {
         String token = tokenUtils.createConfirmEmailToken(user.getEmail());
 
         Context context = new Context();
@@ -41,7 +40,7 @@ public class MailService {
 
 
         String content = templateEngine.process("mailConfirmEmailTemplate", context);
-        prepareAndSend(user.getEmail(),"Vibent Registration Confirmation", content);
+        prepareAndSend(user.getEmail(), "Vibent Registration Confirmation", content);
     }
 
     private void prepareAndSend(String recipient, String subject, String content) {
@@ -53,7 +52,11 @@ public class MailService {
             messageHelper.setText(content, true);
         };
 
-        mailSender.send(messagePreparator);
+        try {
+            mailSender.send(messagePreparator);
+        } catch (Exception e){
+            log.error("Failed sending account confirmation email, user must request a new one");
+        }
     }
 
 }
