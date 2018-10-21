@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Set;
 
 @Service
@@ -24,7 +25,7 @@ public class MembershipService {
     private GroupTRepository groupTRepository;
     private UserRepository userRepository;
 
-    public MembershipRequest addMembershipRequestForConnectedUser(String groupRef){
+    public MembershipRequest addMembershipRequestForConnectedUser(String groupRef) {
         GroupT groupT = groupTRepository.findByRef(groupRef)
                 .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
         if (connectedUserUtils.getConnectedUser().getMemberships().stream().anyMatch(m -> m.getGroup().getRef().equals(groupRef))) {
@@ -36,7 +37,7 @@ public class MembershipService {
         return membershipRequestRepository.save(created);
     }
 
-    public void deleteMembershipRequest(String groupRef, String userRef){
+    public void deleteMembershipRequest(String groupRef, String userRef) {
         GroupT groupT = groupTRepository.findByRef(groupRef)
                 .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
         User user = userRepository.findByRef(userRef)
@@ -51,10 +52,10 @@ public class MembershipService {
     public Membership addMembership(GroupT group, User user, boolean isAdmin) {
         if (user.getMemberships().stream().anyMatch(m -> m.getGroup().getRef().equals(group.getRef())))
             throw new VibentException(VibentError.USER_ALREADY_PART_OF_GROUP);
-        if (membershipRequestRepository.existsByUserAndGroup(user, group)){
+        if (membershipRequestRepository.existsByUserAndGroup(user, group)) {
             deleteMembershipRequest(group.getRef(), user.getRef());
         }
-        if(group.isHasDefaultAdmin()){
+        if (group.isHasDefaultAdmin()) {
             isAdmin = true;
         }
 
@@ -80,14 +81,14 @@ public class MembershipService {
     public Membership changeAdminship(GroupT group, User user, boolean isAdmin) {
         Membership membership = membershipRepository.findByUserAndGroup(user, group)
                 .orElseThrow(() -> new VibentException(VibentError.MEMBERSHIP_NOT_FOUND));
-        if(group.isHasDefaultAdmin()){
+        if (group.isHasDefaultAdmin()) {
             isAdmin = true;
         }
         membership.setAdmin(isAdmin);
         return membershipRepository.save(membership);
     }
 
-    public void removeMembership(GroupT group, User user){
+    public void removeMembership(GroupT group, User user) {
         Membership membership = membershipRepository.findByUserAndGroup(user, group)
                 .orElseThrow(() -> new VibentException(VibentError.MEMBERSHIP_NOT_FOUND));
         group.getMemberships().remove(membership);
@@ -95,7 +96,7 @@ public class MembershipService {
         membershipRepository.deleteByUserAndGroup(user, group);
     }
 
-    public void removeMembership(GroupT group){
+    public void removeMembership(GroupT group) {
         Set<Membership> memberships = membershipRepository.findByGroup(group);
         memberships.forEach(membership -> {
             membership.getUser().getMemberships().remove(membership);
@@ -104,7 +105,7 @@ public class MembershipService {
         membershipRepository.deleteByGroup(group);
     }
 
-    public void removeMembership(User user){
+    public void removeMembership(User user) {
         Set<Membership> memberships = membershipRepository.findByUser(user);
         memberships.forEach(membership -> {
             membership.getGroup().getMemberships().remove(membership);

@@ -365,6 +365,7 @@ CREATE TABLE `membership_request` (
   `user_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
   `deleted` tinyint(1) DEFAULT 0,
+  `date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `group_id` (`group_id`),

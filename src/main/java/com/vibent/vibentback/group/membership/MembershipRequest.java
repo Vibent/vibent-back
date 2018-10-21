@@ -8,6 +8,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -37,4 +38,7 @@ public class MembershipRequest {
 
     @Column(insertable = false, updatable = false)
     private boolean deleted;
+
+    @Column(insertable = false, updatable = false)
+    private Date date;
 }
