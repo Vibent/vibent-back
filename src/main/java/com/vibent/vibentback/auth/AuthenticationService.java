@@ -111,7 +111,7 @@ public class AuthenticationService {
         user.setLastName(request.getLastName());
 
         userService.addUser(user);
-        // mailService.sendConfirmationMail(user);
+        mailService.sendConfirmationMail(user);
 
         if(AUTO_CONFIRM_MAIL) {
             userService.confirmEmail(user);

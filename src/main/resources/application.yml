@@ -5,33 +5,19 @@ spring:
   jpa:
     hibernate.naming.physical-strategy: com.vibent.vibentback.common.util.VibentDbNamingStrategy
   mail:
-    #SSL/TLS
-#    host: ssl0.ovh.net
-#    port: 993
-#    username: no-reply@vibent.com
-#    password: vibentnoreply
-#    protocol: smtp
-#    default-encoding: UTF-8
-#    properties.mail.smtp:
-#      connectiontimeout: 5000
-#      timeout: 3000
-#      writetimeout: 5000
-#      auth: true
-#      starttls.enable: true
-    host: smtp.gmail.com
-    port: 587
-    username: test.mail.conor@gmail.com
-    password: rootroot
-    protocol: smtp
+    host: ssl0.ovh.net
+    port: 465
+    username: no-reply@vibent.com
+    password: vibentnoreply
+    protocol: smtps
     default-encoding: UTF-8
     properties.mail.smtp:
       connectiontimeout: 5000
       timeout: 3000
       writetimeout: 5000
-      auth: true
       starttls.enable: true
       starttls.required: true
-
+      ssl.enable: true
 
 vibent:
   auth:
