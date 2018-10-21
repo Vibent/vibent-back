@@ -19,7 +19,7 @@ public class EventRequest {
     @Size(min = 36, max = 36)
     private String groupRef;
 
-    @NotNull(message = "fuck off")
+    @NotNull
     private Date startDate;
 
     private Date endDate;
