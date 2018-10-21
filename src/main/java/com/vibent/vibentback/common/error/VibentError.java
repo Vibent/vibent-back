@@ -62,7 +62,7 @@ public enum VibentError {
 
 
     // Image
-    GET_IMAGE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "The requested image could not be recovered"),
+    GET_IMAGE_FAILED(HttpStatus.NOT_FOUND, "The requested image could not be recovered"),
     UPLOAD_IMAGE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "The requested image could not be uploaded"),
 
 

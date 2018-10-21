@@ -1,6 +1,7 @@
 package com.vibent.vibentback.image;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
@@ -34,8 +35,7 @@ public class ImageService {
             S3Object s3object = s3.getObject(BUCKET_NAME, "profile/" + id);
             S3ObjectInputStream inputStream = s3object.getObjectContent();
             return IOUtils.toByteArray(inputStream);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (AmazonS3Exception | IOException e) {
             throw new VibentException(VibentError.GET_IMAGE_FAILED);
         }
     }
