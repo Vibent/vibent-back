@@ -2,21 +2,18 @@ package com.vibent.vibentback.auth;
 
 import com.vibent.vibentback.api.auth.*;
 import com.vibent.vibentback.api.user.DetailledUserResponse;
+import com.vibent.vibentback.api.user.EmailChangeRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
-import com.vibent.vibentback.common.util.TokenUtils;
+import com.vibent.vibentback.common.util.JWTUtils;
 import com.vibent.vibentback.user.User;
 import io.jsonwebtoken.Claims;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
@@ -31,12 +28,12 @@ public class AuthenticationController {
     private long EXPIRATION_SECONDS;
 
     private final AuthenticationService authenticationService;
-    private final TokenUtils tokenUtils;
+    private final JWTUtils JWTUtils;
 
     @Autowired
-    public AuthenticationController(AuthenticationService authenticationService, TokenUtils tokenUtils) {
+    public AuthenticationController(AuthenticationService authenticationService, JWTUtils JWTUtils) {
         this.authenticationService = authenticationService;
-        this.tokenUtils = tokenUtils;
+        this.JWTUtils = JWTUtils;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/login/api", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -50,7 +47,7 @@ public class AuthenticationController {
     public AuthenticationResponse loginEmail(@Valid @RequestBody EmailLoginRequest request) {
         log.info("Attempted login with email {}", request.getEmail());
         String token = this.authenticationService.loginEmail(request);
-        return new AuthenticationResponse(token, EXPIRATION_SECONDS );
+        return new AuthenticationResponse(token, EXPIRATION_SECONDS);
     }
 
     @RequestMapping(value = "/login/phone", method = RequestMethod.POST)
@@ -62,7 +59,7 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/refresh", method = RequestMethod.GET)
     public AuthenticationResponse refresh(@RequestHeader(value = "${vibent.auth.header.key}") String token) {
-        Claims claims = this.tokenUtils.validateJWTToken(token);
+        Claims claims = this.JWTUtils.validateJWTToken(token);
         String userRef = claims.getSubject();
         // TODO
         return new AuthenticationResponse(null, EXPIRATION_SECONDS);
@@ -71,7 +68,7 @@ public class AuthenticationController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public DetailledUserResponse register(@Valid @RequestBody RegistrationRequest request) {
         log.info("Registering for email {}", request.getEmail());
-        if(request.getEmail() == null && request.getPhoneNumber() == null)
+        if (request.getEmail() == null && request.getPhoneNumber() == null)
             throw new VibentException(VibentError.INVALID_BODY);
         User user = authenticationService.register(request);
         return new DetailledUserResponse(user);

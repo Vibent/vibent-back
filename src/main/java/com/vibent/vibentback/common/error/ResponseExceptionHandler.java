@@ -24,7 +24,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleVibentException(VibentException ex, WebRequest request) {
         ErrorBody errorBody = new ErrorBody(ex.getError());
 
-        if(ex.getCustomMessage() != null && !ex.getCustomMessage().isEmpty()) {
+        if (ex.getCustomMessage() != null && !ex.getCustomMessage().isEmpty()) {
             errorBody.setMessage(ex.getCustomMessage());
         }
 
@@ -41,11 +41,11 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         StringBuilder builder = new StringBuilder();
-        for(FieldError error : ex.getBindingResult().getFieldErrors()){
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             builder.append(error.getField()).append(" ").append(error.getDefaultMessage()).append(". ");
         }
         String errorMessage = null;
-        if(!builder.toString().isEmpty()){
+        if (!builder.toString().isEmpty()) {
             errorMessage = builder.toString();
         }
         return handleVibentException(new VibentException(VibentError.METHOD_ARGUMENT_NOT_VALID, errorMessage), request);
@@ -53,7 +53,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("Responding error to request {} with exception {}", request.getDescription(false),  ex.getClass().getSimpleName());
+        log.error("Responding error to request {} with exception {}", request.getDescription(false), ex.getClass().getSimpleName());
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }
 }

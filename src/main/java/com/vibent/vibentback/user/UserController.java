@@ -1,6 +1,8 @@
 package com.vibent.vibentback.user;
 
+import com.vibent.vibentback.api.auth.MailConfirmationResponse;
 import com.vibent.vibentback.api.user.DetailledUserResponse;
+import com.vibent.vibentback.api.user.EmailChangeRequest;
 import com.vibent.vibentback.api.user.SimpleUserResponse;
 import com.vibent.vibentback.api.user.UpdateUserRequest;
 import io.swagger.annotations.Api;
@@ -46,5 +48,12 @@ public class UserController {
     void deleteUser(@PathVariable String userRef) {
         log.info("Deleting user with ref : {}", userRef);
         userService.deleteUser(userRef);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/changeEmail")
+    public MailConfirmationResponse changeEmail(@Valid @RequestBody EmailChangeRequest request) {
+        log.info("Requested changing email to {}", request.getEmail());
+        String email = userService.changeEmail(request);
+        return new MailConfirmationResponse(email);
     }
 }

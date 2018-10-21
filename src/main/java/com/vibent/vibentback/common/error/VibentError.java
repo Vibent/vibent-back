@@ -17,6 +17,7 @@ public enum VibentError {
     USER_CANT_CREATE(HttpStatus.INTERNAL_SERVER_ERROR, "The user could not be created"),
     USER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "The requested username has already be assigned to a different user"),
     USER_EMAIL_NOT_CONFIRMED(HttpStatus.UNAUTHORIZED, "The user hasn't confirmed his email yet"),
+    INVALID_CONFIRMED_EMAIL(HttpStatus.UNAUTHORIZED, "The confirmed email does not match the user"),
     USER_NO_EMAIL_OR_PHONE(HttpStatus.UNAUTHORIZED, "An email or phone number must be specified at registration"),
 
     GROUP_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested group could not be found"),
@@ -59,6 +60,8 @@ public enum VibentError {
     INVALID_TOKEN_SIGNATURE(HttpStatus.UNAUTHORIZED, "The provided token's signature does not come from Vibent"),
     ILLEGAL_TOKEN_ARGUMENT(HttpStatus.UNAUTHORIZED, "The provided token has an illegal argument"),
     ILLEGAL_TOKEN_ISSUER(HttpStatus.UNAUTHORIZED, "The provided token was not issued by Vibent"),
+    FAILED_TO_CREATE_TOKEN(HttpStatus.INTERNAL_SERVER_ERROR, "The token creation has failed"),
+    WRONG_TOKEN_TYPE(HttpStatus.INTERNAL_SERVER_ERROR, "The provided token is of the wrong type"),
 
 
     // Image
