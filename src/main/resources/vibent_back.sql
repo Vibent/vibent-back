@@ -336,6 +336,7 @@ CREATE TABLE `membership` (
   `group_id` int(11) NOT NULL,
   `admin` tinyint(1) NOT NULL,
   `deleted` tinyint(1) DEFAULT 0,
+  `date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `group_id` (`group_id`),
