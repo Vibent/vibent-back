@@ -35,7 +35,7 @@ public class PlanningController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     PlanningBubble createBubble(@Valid @RequestBody PlanningBubbleRequest request) {
         log.info("Creating planning bubble for event with ref {}", request.getEventRef());
-        return service.createBubble(request.getEventRef());
+        return service.createBubble(request);
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/{id}")

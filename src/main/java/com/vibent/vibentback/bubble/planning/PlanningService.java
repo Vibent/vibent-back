@@ -1,6 +1,7 @@
 package com.vibent.vibentback.bubble.planning;
 
 import com.vibent.vibentback.ConnectedUserUtils;
+import com.vibent.vibentback.api.bubble.planning.PlanningBubbleRequest;
 import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.planning.entry.PlanningEntry;
 import com.vibent.vibentback.bubble.planning.entry.PlanningEntryRepository;
@@ -31,10 +32,11 @@ public class PlanningService {
         return bubbleRepository.findById(id).orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
     }
 
-    public PlanningBubble createBubble(String eventRef) {
-        Event event = eventRepository.findByRef(eventRef)
+    public PlanningBubble createBubble(PlanningBubbleRequest request) {
+        Event event = eventRepository.findByRef(request.getEventRef())
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         PlanningBubble planningBubble = new PlanningBubble();
+        planningBubble.setTitle(request.getTitle());
         planningBubble.setEvent(event);
         planningBubble.setCreator(userUtils.getConnectedUser());
         planningBubble.setDeleted(false);
