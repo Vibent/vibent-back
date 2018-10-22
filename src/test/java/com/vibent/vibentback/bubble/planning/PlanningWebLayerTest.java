@@ -73,7 +73,7 @@ public class PlanningWebLayerTest extends VibentTest {
         RANDOM_ENTRY.setEnd(getFutureDate(5));
 
         when(service.getBubble(RANDOM_BUBBLE.getId())).thenReturn(RANDOM_BUBBLE);
-        when(service.createBubble(RANDOM_EVENT.getRef())).thenReturn(RANDOM_BUBBLE);}
+        when(service.createBubble(RANDOM_REQ)).thenReturn(RANDOM_BUBBLE);}
 
     @Test
     public void testGetBubble() throws Exception {
