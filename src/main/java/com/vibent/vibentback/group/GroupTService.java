@@ -3,15 +3,16 @@ package com.vibent.vibentback.group;
 import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.api.group.GroupRequest;
 import com.vibent.vibentback.api.group.GroupUpdateRequest;
+import com.vibent.vibentback.api.group.MailInviteRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
-import com.vibent.vibentback.common.util.JWTUtils;
+import com.vibent.vibentback.common.mail.MailService;
 import com.vibent.vibentback.common.util.TokenInfo;
 import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.group.membership.MembershipService;
-import io.jsonwebtoken.Claims;
+import com.vibent.vibentback.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class GroupTService {
     ConnectedUserUtils connectedUserUtils;
     GroupTRepository groupTRepository;
     TokenUtils tokenUtils;
+    MailService mailService;
 
     public Set<GroupT> getConnectedUserGroups() {
         return connectedUserUtils.getConnectedUser().getMemberships().stream().map(Membership::getGroup).collect(Collectors.toSet());
@@ -94,5 +96,13 @@ public class GroupTService {
                 .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
         membershipService.addMembership(groupT, connectedUserUtils.getConnectedUser(), false);
         return groupT;
+    }
+
+    public void sendMailInvite(MailInviteRequest request) {
+        GroupT groupT = groupTRepository.findByRef(request.getGroupRef())
+                .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        User inviter = connectedUserUtils.getConnectedUser();
+        Set<String> recipients = request.getRecipients();
+        mailService.sendGroupInviteMail(inviter, groupT, recipients);
     }
 }
