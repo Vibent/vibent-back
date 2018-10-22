@@ -54,7 +54,6 @@ public class LocationWebLayerTest extends VibentTest {
         RANDOM_REQ.setCoord("Coord For Test");
 
         RANDOM_BUBBLE.setId(666L);
-        RANDOM_BUBBLE.setType(BubbleType.LocationBubble);
         RANDOM_BUBBLE.setEvent(RANDOM_EVENT);
         RANDOM_BUBBLE.setCreator(RANDOM_USER);
         RANDOM_BUBBLE.setDeleted(false);

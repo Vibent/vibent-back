@@ -58,7 +58,6 @@ public class TravelWebLayerTest extends VibentTest {
         RANDOM_REQ.setEventRef(RANDOM_EVENT.getRef());
 
         RANDOM_BUBBLE.setId(666L);
-        RANDOM_BUBBLE.setType(BubbleType.TravelBubble);
         RANDOM_BUBBLE.setDeleted(false);
         RANDOM_BUBBLE.setEvent(RANDOM_EVENT);
         RANDOM_BUBBLE.setCreator(RANDOM_USER);

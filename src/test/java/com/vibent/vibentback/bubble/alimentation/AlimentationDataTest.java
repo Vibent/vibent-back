@@ -56,7 +56,6 @@ public class AlimentationDataTest extends VibentTest {
         RANDOM_BUBBLE.setDeleted(false);
         RANDOM_BUBBLE.setCreator(RANDOM_USER);
         RANDOM_BUBBLE.setEvent(RANDOM_EVENT);
-        RANDOM_BUBBLE.setType(BubbleType.AlimentationBubble);
         RANDOM_BUBBLE.setEntries(new HashSet<AlimentationEntry>() {{
             add(RANDOM_ENTRY);
         }});

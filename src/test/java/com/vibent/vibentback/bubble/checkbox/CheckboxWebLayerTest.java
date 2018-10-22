@@ -62,7 +62,6 @@ public class CheckboxWebLayerTest extends VibentTest {
         RANDOM_BUBBLE.setOptions(new HashSet<CheckboxOption>(){{
             add(RANDOM_OPTION);
         }});
-        RANDOM_BUBBLE.setType(BubbleType.CheckboxBubble);
         RANDOM_BUBBLE.setEvent(RANDOM_EVENT);
         RANDOM_BUBBLE.setCreator(RANDOM_USER);
         RANDOM_BUBBLE.setDeleted(false);

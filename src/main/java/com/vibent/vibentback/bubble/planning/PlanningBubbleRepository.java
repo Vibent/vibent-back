@@ -17,5 +17,4 @@ public interface PlanningBubbleRepository extends CrudRepository<PlanningBubble,
 
     @Query(value = "SELECT deleted FROM planning_bubble WHERE id = :id", nativeQuery = true)
     boolean isDeleted(@Param("id") Long id);
-
 }

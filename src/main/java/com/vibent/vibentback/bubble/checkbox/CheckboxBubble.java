@@ -4,11 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.Bubble;
 import com.vibent.vibentback.bubble.checkbox.option.CheckboxOption;
-import lombok.*;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,7 +22,7 @@ import java.util.Set;
 @Entity
 @SQLDelete(sql = "UPDATE checkbox_bubble SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
-public class CheckboxBubble extends Bubble{
+public class CheckboxBubble extends Bubble {
 
     @NonNull
     private String title;
@@ -27,12 +32,12 @@ public class CheckboxBubble extends Bubble{
     private Set<CheckboxOption> options = new HashSet<>();
 
     @JsonProperty
-    public Set<CheckboxOption> getOptions(){
+    public Set<CheckboxOption> getOptions() {
         return options;
     }
 
     @JsonProperty
-    private long getAnswerCount(){
+    private long getAnswerCount() {
         return options.stream().map(CheckboxOption::getAnswers).mapToInt(Set::size).sum();
     }
 }

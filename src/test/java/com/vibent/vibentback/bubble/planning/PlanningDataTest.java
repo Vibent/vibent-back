@@ -53,7 +53,6 @@ public class PlanningDataTest extends VibentTest {
         RANDOM_BUBBLE.setDeleted(false);
         RANDOM_BUBBLE.setCreator(RANDOM_USER);
         RANDOM_BUBBLE.setEvent(RANDOM_EVENT);
-        RANDOM_BUBBLE.setType(BubbleType.PlanningBubble);
         RANDOM_BUBBLE.setTitle("Title For Test");
         RANDOM_BUBBLE = bubbleRepository.save(RANDOM_BUBBLE);
 

@@ -47,7 +47,6 @@ public class FreeDataTest extends VibentTest {
         RANDOM_BUBBLE.setDeleted(false);
         RANDOM_BUBBLE.setCreator(RANDOM_USER);
         RANDOM_BUBBLE.setEvent(RANDOM_EVENT);
-        RANDOM_BUBBLE.setType(BubbleType.FreeBubble);
         RANDOM_BUBBLE.setContent("Content For Test");
         RANDOM_BUBBLE.setTitle("Title For Test");
         RANDOM_BUBBLE = bubbleRepository.save(RANDOM_BUBBLE);

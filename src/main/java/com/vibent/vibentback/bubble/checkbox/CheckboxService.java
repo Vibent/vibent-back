@@ -41,7 +41,6 @@ public class CheckboxService {
         checkboxBubble.setTitle(request.getTitle());
         checkboxBubble.setCreator(userUtils.getConnectedUser());
         checkboxBubble.setDeleted(false);
-        checkboxBubble.setType(BubbleType.CheckboxBubble);
         checkboxBubble = bubbleRepository.save(checkboxBubble);
         return checkboxBubble;
     }

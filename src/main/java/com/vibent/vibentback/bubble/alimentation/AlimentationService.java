@@ -44,7 +44,6 @@ public class AlimentationService {
         alimentationBubble.setEvent(event);
         alimentationBubble.setCreator(userUtils.getConnectedUser());
         alimentationBubble.setDeleted(false);
-        alimentationBubble.setType(BubbleType.AlimentationBubble);
         alimentationBubble = bubbleRepository.save(alimentationBubble);
         return alimentationBubble;
     }

@@ -85,7 +85,7 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
     private void handleError(Exception e, ServletRequest request, ServletResponse response) {
         try {
             if (!(e instanceof VibentException)) {
-                e = new VibentException(VibentError.UNKNOWN);
+                e = new VibentException(VibentError.UNKNOWN, e);
             }
             HttpServletResponse httpResponse = (HttpServletResponse) response;
 

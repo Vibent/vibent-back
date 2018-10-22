@@ -33,7 +33,6 @@ public class FreeService {
         freeBubble.setEvent(event);
         freeBubble.setCreator(userUtils.getConnectedUser());
         freeBubble.setDeleted(false);
-        freeBubble.setType(BubbleType.AlimentationBubble);
         freeBubble = bubbleRepository.save(freeBubble);
         return freeBubble;
     }

@@ -53,7 +53,16 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("Responding error to request {} with exception {}", request.getDescription(false), ex.getClass().getSimpleName());
+        if (ex instanceof VibentException) {
+            VibentException vibentEx = (VibentException) (ex);
+            log.error("Responding error to request {} with exception {} : {}, {}",
+                    request.getDescription(false),
+                    ex.getClass().getSimpleName(),
+                    vibentEx.getError().toString(),
+                    vibentEx.getOriginalException() != null ? vibentEx.getOriginalException().getMessage() : "");
+        } else {
+            log.error("Responding error to request {} with exception {}", request.getDescription(false), ex.getClass().getSimpleName());
+        }
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }
 }

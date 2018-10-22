@@ -53,7 +53,6 @@ public class FreeWebLayerTest extends VibentTest {
         RANDOM_REQ.setContent("Here is content");
 
         RANDOM_BUBBLE.setId(666L);
-        RANDOM_BUBBLE.setType(BubbleType.FreeBubble);
         RANDOM_BUBBLE.setEvent(RANDOM_EVENT);
         RANDOM_BUBBLE.setCreator(RANDOM_USER);
         RANDOM_BUBBLE.setDeleted(false);

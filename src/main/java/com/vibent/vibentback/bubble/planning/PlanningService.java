@@ -2,16 +2,15 @@ package com.vibent.vibentback.bubble.planning;
 
 import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.api.bubble.planning.PlanningBubbleRequest;
-import com.vibent.vibentback.bubble.BubbleType;
+import com.vibent.vibentback.api.bubble.planning.PlanningBubbleUpdateRequest;
+import com.vibent.vibentback.api.bubble.planning.PlanningEntryRequest;
+import com.vibent.vibentback.api.bubble.planning.PlanningEntryUpdateRequest;
 import com.vibent.vibentback.bubble.planning.entry.PlanningEntry;
 import com.vibent.vibentback.bubble.planning.entry.PlanningEntryRepository;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.api.bubble.planning.PlanningBubbleUpdateRequest;
-import com.vibent.vibentback.api.bubble.planning.PlanningEntryRequest;
-import com.vibent.vibentback.api.bubble.planning.PlanningEntryUpdateRequest;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,6 @@ public class PlanningService {
         planningBubble.setEvent(event);
         planningBubble.setCreator(userUtils.getConnectedUser());
         planningBubble.setDeleted(false);
-        planningBubble.setType(BubbleType.PlanningBubble);
         planningBubble = bubbleRepository.save(planningBubble);
         return planningBubble;
     }
@@ -61,30 +59,38 @@ public class PlanningService {
 
     public PlanningBubble createEntry(PlanningEntryRequest request) {
         PlanningBubble bubble = bubbleRepository.findById(request.getBubbleId())
-                .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
+                .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
         PlanningEntry entry = new PlanningEntry();
         entry.setBubble(bubble);
         entry.setContent(request.getContent());
+        entry.setStart(request.getStart());
+        entry.setEnd(request.getEnd());
+        entry.setUser(userUtils.getConnectedUser());
         entry.setDeleted(false);
-        entryRepository.save(entry);
-        return bubble;
+        bubble.getEntries().add(entry);
+        return bubbleRepository.save(bubble);
     }
 
     public PlanningBubble updateEntry(Long id, PlanningEntryUpdateRequest request) {
         PlanningEntry entry = entryRepository.findById(id)
-                .orElseThrow(() -> new VibentException(VibentError.OPTION_NOT_FOUND));
-        if(request.getContent() != null)
+                .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
+        if (request.getContent() != null)
             entry.setContent(request.getContent());
-        if(request.getStart() != null)
+        if (request.getStart() != null)
             entry.setStart(request.getStart());
-        if(request.getEnd() != null)
+        if (request.getEnd() != null)
             entry.setEnd(request.getEnd());
         entry = entryRepository.save(entry);
         return entry.getBubble();
     }
 
     public void deleteEntry(Long id) {
-        entryRepository.deleteById(id);
+        PlanningEntry entry = entryRepository.findById(id)
+                .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
+        PlanningBubble bubble = entry.getBubble();
+        bubble.getEntries().remove(entry);
+        entryRepository.delete(entry);
+        bubbleRepository.save(bubble);
     }
 
 }

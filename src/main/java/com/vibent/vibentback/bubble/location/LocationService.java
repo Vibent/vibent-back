@@ -33,7 +33,6 @@ public class LocationService {
         locationBubble.setEvent(event);
         locationBubble.setCreator(userUtils.getConnectedUser());
         locationBubble.setDeleted(false);
-        locationBubble.setType(BubbleType.LocationBubble);
         locationBubble = bubbleRepository.save(locationBubble);
         return locationBubble;
     }

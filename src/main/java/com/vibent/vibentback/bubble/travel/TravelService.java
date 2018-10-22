@@ -42,7 +42,6 @@ public class TravelService {
         travelBubble.setEvent(event);
         travelBubble.setCreator(userUtils.getConnectedUser());
         travelBubble.setDeleted(false);
-        travelBubble.setType(BubbleType.TravelBubble);
         travelBubble = bubbleRepository.save(travelBubble);
         return travelBubble;
     }
