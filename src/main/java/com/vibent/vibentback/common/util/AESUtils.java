@@ -6,13 +6,10 @@ import com.vibent.vibentback.common.error.VibentException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import java.security.SecureRandom;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 
 @Component
 public class AESUtils implements InitializingBean {
@@ -43,7 +40,12 @@ public class AESUtils implements InitializingBean {
     public String encrypt(String data) {
         try {
             String base64 = Base64.encodeAsString(encryptCipher.doFinal(data.getBytes()));
-            base64 = base64.replaceAll("/", "-");
+            base64 = base64.replace("/", "-");
+            base64 = base64.replace("+", "_");
+            int paddingIndex = base64.indexOf("=");
+            if (paddingIndex != -1) {
+                base64 = base64.substring(0, paddingIndex);
+            }
             return base64;
         } catch (BadPaddingException | IllegalBlockSizeException e) {
             throw new VibentException(VibentError.FAILED_TO_CREATE_TOKEN);
@@ -52,7 +54,11 @@ public class AESUtils implements InitializingBean {
 
     public String decrypt(String encryptedToken) {
         try {
-            encryptedToken = encryptedToken.replaceAll("-", "/");
+            encryptedToken = encryptedToken.replace("-", "/");
+            encryptedToken = encryptedToken.replace("_", "+");
+            while (encryptedToken.getBytes().length % 4 != 0) {
+                encryptedToken += "=";
+            }
             byte[] bytes = Base64.decode(encryptedToken);
             return new String(decryptCipher.doFinal(bytes));
         } catch (BadPaddingException | IllegalBlockSizeException e) {
