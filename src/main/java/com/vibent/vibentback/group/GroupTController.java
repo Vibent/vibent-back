@@ -5,23 +5,20 @@ import com.vibent.vibentback.api.group.*;
 import com.vibent.vibentback.api.group.membership.AcceptGroupMembershipRequestRequest;
 import com.vibent.vibentback.api.group.membership.MembershipResponse;
 import com.vibent.vibentback.api.group.membership.UserMembershipRequestResponse;
-import com.vibent.vibentback.common.error.VibentError;
-import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.group.membership.MembershipRequest;
 import com.vibent.vibentback.group.membership.MembershipService;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -82,8 +79,6 @@ public class GroupTController {
     @RequestMapping(method = RequestMethod.GET, value = "/{groupRef}/inviteToken")
     InviteTokenResponse getInviteToken(@PathVariable String groupRef) {
         log.info("Getting invite token for group : {}", groupRef);
-        String token = groupTService.generateInviteToken(groupRef);
-        log.info(token);
         return new InviteTokenResponse(groupTService.generateInviteToken(groupRef));
     }
 

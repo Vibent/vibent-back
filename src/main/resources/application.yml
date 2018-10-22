@@ -29,9 +29,9 @@ vibent:
     mock:
       username: vibentUser
       password: $2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O
-  config:
-    groupInviteTokenExpiration: 604800 # equivalent to one week
-    confirmMailTokenExpiration: 604800 # equivalent to one week
+  aes:
+    key: "Qt95J!SaV8DM8^hN"
+    ivVector: "xN61SxoGIfdzTWrq"
   aws:
     s3:
       accessKey: AKIAIN5HAIFCOJ2JDY3A

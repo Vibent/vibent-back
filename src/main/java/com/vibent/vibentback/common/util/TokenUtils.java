@@ -2,92 +2,103 @@ package com.vibent.vibentback.common.util;
 
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
-import io.jsonwebtoken.*;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
-import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
-import java.security.Key;
-import java.util.Date;
-import java.util.UUID;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
+/**
+ * Utils used for general tokens like group invite tokens and email confirmation tokens
+ */
 @Component
 public class TokenUtils {
 
-    private static final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
+    private final static String EMAIL_CONFIRM_PREFIX = "e";
+    private final static int EMAIL_CONFIRM_EXPIRY_HOURS = 2; // 1h < X < 2h
 
-    @Value("${vibent.auth.secret}")
-    private String SECRET;
+    private final static String GROUP_INVITE_PREFIX = "g";
+    private final static int GROUP_INVITE_EXPIRY_HOURS = 169; // 1W < X < 1W1H
 
-    @Value("${vibent.auth.issuer}")
-    private String ISSUER;
+    private static final long SECONDS_TO_HOURS = 3600;
 
-    @Value("${vibent.auth.expirationSeconds}")
-    private long AUTH_EXPIRATION_SECONDS;
+    @Autowired
+    AESUtils aesUtils;
 
-    @Value("${vibent.config.groupInviteTokenExpiration}")
-    private long INVITE_GROUP_EXPIRATION_SECONDS;
-
-    @Value("${vibent.config.confirmMailTokenExpiration}")
-    private long CONFIRM_MAIL_EXPIRATION_SECONDS;
-
-    private String createToken(String subject, long expireSeconds) {
-        String id = UUID.randomUUID().toString();
-        long nowMillis = System.currentTimeMillis();
-        Date now = new Date(nowMillis);
-
-        //We will sign our JWT with our secret
-        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(SECRET);
-        Key signingKey = new SecretKeySpec(apiKeySecretBytes, SIGNATURE_ALGORITHM.getJcaName());
-
-        //Let's set the JWT Claims
-        JwtBuilder builder = Jwts.builder().setId(id)
-                .setIssuedAt(now)
-                .setSubject(subject)
-                .setIssuer(ISSUER)
-                .setExpiration(new Date(nowMillis + (expireSeconds * 1000)))
-                .signWith(SIGNATURE_ALGORITHM, signingKey);
-
-        //Builds the JWT and serializes it to a compact, URL-safe string
-        return builder.compact();
+    private String getExpiryTime(int hours) {
+        Instant i = Instant.now().plus(hours, ChronoUnit.HOURS);
+        return String.valueOf(i.getEpochSecond() / SECONDS_TO_HOURS);
     }
 
-    public String createUserAuthenticationToken(String userRef) {
-        return createToken(userRef, AUTH_EXPIRATION_SECONDS);
-    }
-
-    public String createGroupInviteToken(String groupRef) {
-        return createToken(groupRef, INVITE_GROUP_EXPIRATION_SECONDS);
-    }
-
-    public String createConfirmEmailToken(String userRef) {
-        return createToken("confirmMail:" + userRef, CONFIRM_MAIL_EXPIRATION_SECONDS);
-    }
-
-    public Claims validateJWTToken(String jwt) {
-        if (jwt == null || jwt.isEmpty()) {
-            throw new VibentException(VibentError.NO_TOKEN);
-        }
-        Claims claims = null;
+    private void checkExpiryTime(String expiryString) {
         try {
-            claims = Jwts.parser()
-                    .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET))
-                    .parseClaimsJws(jwt).getBody();
-            if (!claims.getIssuer().equals(ISSUER))
-                throw new VibentException(VibentError.ILLEGAL_TOKEN_ISSUER);
-        } catch (ExpiredJwtException e) {
-            throw new VibentException(VibentError.TOKEN_EXPIRED);
-        } catch (UnsupportedJwtException e) {
-            throw new VibentException(VibentError.UNSUPPORTED_TOKEN);
-        } catch (MalformedJwtException e) {
-            throw new VibentException(VibentError.MALFORMED_TOKEN);
-        } catch (SignatureException e) {
-            throw new VibentException(VibentError.INVALID_TOKEN_SIGNATURE);
+            long epochHours = Long.valueOf(expiryString);
+            long epochSeconds = epochHours * SECONDS_TO_HOURS;
+            Assert.isTrue(Instant.ofEpochSecond(epochSeconds).isAfter(Instant.now()), "Token expired");
         } catch (IllegalArgumentException e) {
-            throw new VibentException(VibentError.ILLEGAL_TOKEN_ARGUMENT);
+            throw new VibentException(VibentError.TOKEN_EXPIRED);
+        }
+    }
+
+    public String getEmailConfirmToken(Long userId, String email) {
+        String toEncrypt = EMAIL_CONFIRM_PREFIX + String.valueOf(userId)
+                + " " + email
+                + " " + getExpiryTime(EMAIL_CONFIRM_EXPIRY_HOURS);
+        return aesUtils.encrypt(toEncrypt);
+    }
+
+    public TokenInfo readEmailConfirmToken(String encryptedToken) {
+        String decrypted = aesUtils.decrypt(encryptedToken);
+
+        if (!decrypted.startsWith(EMAIL_CONFIRM_PREFIX)) {
+            throw new VibentException(VibentError.WRONG_TOKEN_TYPE);
+        }
+        decrypted = decrypted.substring(EMAIL_CONFIRM_PREFIX.length());
+
+        String[] splitted = decrypted.split(" ");
+        if (splitted.length != 3) {
+            throw new VibentException(VibentError.MALFORMED_TOKEN);
         }
 
-        return claims;
+        checkExpiryTime(splitted[2]);
+
+        Long userId;
+        try {
+            userId = Long.valueOf(splitted[0]);
+        } catch (NumberFormatException e) {
+            throw new VibentException(VibentError.MALFORMED_TOKEN);
+        }
+        return new TokenInfo(userId, splitted[1]);
+    }
+
+    public String getGroupInviteToken(Long groupId) {
+        String toEncrypt = GROUP_INVITE_PREFIX + String.valueOf(groupId)
+                + " " + getExpiryTime(GROUP_INVITE_EXPIRY_HOURS);
+        return aesUtils.encrypt(toEncrypt);
+    }
+
+    public TokenInfo readGroupInviteToken(String encryptedToken) {
+        String decrypted = aesUtils.decrypt(encryptedToken);
+
+        if (!decrypted.startsWith(GROUP_INVITE_PREFIX)) {
+            throw new VibentException(VibentError.WRONG_TOKEN_TYPE);
+        }
+        decrypted = decrypted.substring(GROUP_INVITE_PREFIX.length());
+
+        String[] splitted = decrypted.split(" ");
+        if (splitted.length != 2) {
+            throw new VibentException(VibentError.MALFORMED_TOKEN);
+        }
+
+        checkExpiryTime(splitted[1]);
+
+        Long groupId;
+        try {
+            groupId = Long.valueOf(splitted[0]);
+        } catch (NumberFormatException e) {
+            throw new VibentException(VibentError.MALFORMED_TOKEN);
+        }
+        return new TokenInfo(groupId, null);
     }
 }

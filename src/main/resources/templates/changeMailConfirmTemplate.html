@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<h1>Email change confirmation</h1>
+<section>
+  <p>
+    Hey <span th:text="${firstName}"></span> <span th:text="${lastName}"></span> ! You have asked us to change the email
+    linked to your account. To confirm this change, please click on the link below :
+  </p>
+  <div>
+    <a th:href="@{${clientUrl}+ '/confirmEmail/' + ${secret}}">Click here to confirm your email change</a>
+  </div>
+  <p>
+    We hope you are enjoying Vibent !
+  </p>
+
+  - The Vibent Team
+
+  <p><small>If you have not requested this email change, please ignore this message.</small></p>
+</section>
+</body>
+</html>

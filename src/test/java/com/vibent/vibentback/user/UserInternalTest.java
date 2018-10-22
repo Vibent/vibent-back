@@ -63,7 +63,7 @@ public class UserInternalTest extends VibentTest {
     @Test
     public void updateUser() {
         UpdateUserRequest request = new UpdateUserRequest();
-        request.setEmail("newemail");
+        request.setFirstName("newFirst");
         controller.updateUser(RANDOM_USER.getRef(), request);
     }
 

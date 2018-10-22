@@ -5,6 +5,8 @@ import com.vibent.vibentback.api.group.GroupRequest;
 import com.vibent.vibentback.api.group.GroupUpdateRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
+import com.vibent.vibentback.common.util.JWTUtils;
+import com.vibent.vibentback.common.util.TokenInfo;
 import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.group.membership.Membership;
@@ -81,13 +83,14 @@ public class GroupTService {
     }
 
     public String generateInviteToken(String groupRef) {
-        return tokenUtils.createGroupInviteToken(groupRef);
+        GroupT groupT = groupTRepository.findByRef(groupRef)
+                .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        return tokenUtils.getGroupInviteToken(groupT.getId());
     }
 
     public GroupT validateInviteToken(String token) {
-        Claims claims = tokenUtils.validateJWTToken(token);
-        String groupRef = claims.getSubject();
-        GroupT groupT = groupTRepository.findByRef(groupRef)
+        TokenInfo info = tokenUtils.readGroupInviteToken(token);
+        GroupT groupT = groupTRepository.findById(info.getId())
                 .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
         membershipService.addMembership(groupT, connectedUserUtils.getConnectedUser(), false);
         return groupT;

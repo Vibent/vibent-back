@@ -3,7 +3,7 @@ package com.vibent.vibentback.auth;
 import com.vibent.vibentback.common.error.ResponseExceptionHandler;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
-import com.vibent.vibentback.common.util.TokenUtils;
+import com.vibent.vibentback.common.util.JWTUtils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -26,7 +26,7 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
 
     private static final String BEARER = "Bearer ";
     private String authHeaderKey;
-    private TokenUtils tokenUtils;
+    private JWTUtils JWTUtils;
     private UserDetailsService userDetailsService;
     private ResponseExceptionHandler responseExceptionHandler;
 
@@ -34,9 +34,9 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.info("Passing though filter {}", this.getClass().getName());
         ServletContext servletContext = request.getServletContext();
-        tokenUtils = WebApplicationContextUtils
+        JWTUtils = WebApplicationContextUtils
                 .getRequiredWebApplicationContext(servletContext)
-                .getBean(TokenUtils.class);
+                .getBean(JWTUtils.class);
         userDetailsService = WebApplicationContextUtils
                 .getRequiredWebApplicationContext(servletContext)
                 .getBean(UserDetailsService.class);
@@ -63,7 +63,7 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
             }
             authToken = authToken.substring(BEARER.length());
 
-            Claims claims = this.tokenUtils.validateJWTToken(authToken);
+            Claims claims = this.JWTUtils.validateJWTToken(authToken);
             String userRef = claims.getSubject();
 
             Authentication authentication = new VibentAuthentication(userRef, null);

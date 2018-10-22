@@ -29,17 +29,27 @@ public class MailService {
     @NonNull
     private JavaMailSender mailSender;
 
-    public void sendConfirmationMail(User user) {
-        String token = tokenUtils.createConfirmEmailToken(user.getEmail());
-
+    public void sendChangeEmailConfirmationMail(User user, String newEmail) {
+        String secret = tokenUtils.getEmailConfirmToken(user.getId(), newEmail);
         Context context = new Context();
         context.setVariable("firstName", user.getFirstName());
         context.setVariable("lastName", user.getLastName());
-        context.setVariable("token", token);
+        context.setVariable("secret", secret);
         context.setVariable("clientUrl", CLIENT_URL);
 
+        String content = templateEngine.process("changeMailConfirmTemplate", context);
+        prepareAndSend(newEmail, "Vibent Account Email Change Confirmation", content);
+    }
 
-        String content = templateEngine.process("mailConfirmEmailTemplate", context);
+    public void sendConfirmationMail(User user) {
+        String secret = tokenUtils.getEmailConfirmToken(user.getId(), user.getEmail());
+        Context context = new Context();
+        context.setVariable("firstName", user.getFirstName());
+        context.setVariable("lastName", user.getLastName());
+        context.setVariable("secret", secret);
+        context.setVariable("clientUrl", CLIENT_URL);
+
+        String content = templateEngine.process("mailConfirmTemplate", context);
         prepareAndSend(user.getEmail(), "Vibent Registration Confirmation", content);
     }
 
@@ -54,7 +64,7 @@ public class MailService {
 
         try {
             mailSender.send(messagePreparator);
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("Failed sending account confirmation email, user must request a new one");
         }
     }

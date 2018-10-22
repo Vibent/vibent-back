@@ -3,6 +3,8 @@ package com.vibent.vibentback.group;
 import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.api.group.*;
+import com.vibent.vibentback.common.util.JWTUtils;
+import com.vibent.vibentback.common.util.TokenInfo;
 import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.group.membership.MembershipRequestRepository;
@@ -50,20 +52,22 @@ public class GroupInviteInternalTest extends VibentTest {
         super.setUp();
         MockitoAnnotations.initMocks(this);
 
+        // Needed as invite tokens are based on group ID
+        RANDOM_GROUP.setId(5745L);
+
         Membership RANDOM_MEMBERSHIP = new Membership(RANDOM_USER, RANDOM_GROUP, false);
         when(connectedUserUtils.getConnectedUser()).thenReturn(RANDOM_USER);
         when(membershipRequestRepository.existsByUserAndGroup(RANDOM_USER, RANDOM_GROUP)).thenReturn(false);
         when(membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false)).thenReturn(RANDOM_MEMBERSHIP);
         when(groupTRepository.findByRef(RANDOM_GROUP.getRef())).thenReturn(Optional.ofNullable(RANDOM_GROUP));
+        when(groupTRepository.findById(RANDOM_GROUP.getId())).thenReturn(Optional.ofNullable(RANDOM_GROUP));
     }
 
     @Test
     public void generateInviteTokenTest() {
         InviteTokenResponse response = controller.getInviteToken(RANDOM_GROUP.getRef());
-        Claims claims = tokenUtils.validateJWTToken(response.getToken());
-        Assert.assertEquals(claims.getSubject(), RANDOM_GROUP.getRef());
-        Assert.assertEquals(claims.getIssuer(), "Vibent");
-        Assert.assertNotNull(claims.getExpiration());
+        TokenInfo info = tokenUtils.readGroupInviteToken(response.getToken());
+        Assert.assertEquals(info.getId(), RANDOM_GROUP.getId());
     }
 
     @Test
