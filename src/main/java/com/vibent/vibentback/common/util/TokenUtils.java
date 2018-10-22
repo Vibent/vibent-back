@@ -21,6 +21,9 @@ public class TokenUtils {
     private final static String GROUP_INVITE_PREFIX = "g";
     private final static int GROUP_INVITE_EXPIRY_HOURS = 169; // 1W < X < 1W1H
 
+    private final static String PASSWORD_RESET_PREFIX = "p";
+    private final static int PASSWORD_RESET_EXPIRY_HOURS = 2; // 1h < X < 2h
+
     private static final long SECONDS_TO_HOURS = 3600;
 
     @Autowired
@@ -100,5 +103,35 @@ public class TokenUtils {
             throw new VibentException(VibentError.MALFORMED_TOKEN);
         }
         return new TokenInfo(groupId, null);
+    }
+
+    public String getPasswordResetToken(Long userId) {
+        String toEncrypt = PASSWORD_RESET_PREFIX + String.valueOf(userId)
+                + " " + getExpiryTime(PASSWORD_RESET_EXPIRY_HOURS);
+        return aesUtils.encrypt(toEncrypt);
+    }
+
+    public TokenInfo readPasswordResetToken(String encryptedToken) {
+        String decrypted = aesUtils.decrypt(encryptedToken);
+
+        if (!decrypted.startsWith(PASSWORD_RESET_PREFIX)) {
+            throw new VibentException(VibentError.WRONG_TOKEN_TYPE);
+        }
+        decrypted = decrypted.substring(PASSWORD_RESET_PREFIX.length());
+
+        String[] splitted = decrypted.split(" ");
+        if (splitted.length != 2) {
+            throw new VibentException(VibentError.MALFORMED_TOKEN);
+        }
+
+        checkExpiryTime(splitted[1]);
+
+        Long userId;
+        try {
+            userId = Long.valueOf(splitted[0]);
+        } catch (NumberFormatException e) {
+            throw new VibentException(VibentError.MALFORMED_TOKEN);
+        }
+        return new TokenInfo(userId, null);
     }
 }

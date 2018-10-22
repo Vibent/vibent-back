@@ -48,7 +48,6 @@ public enum VibentError {
 
     // Authentication errors
     AUTHENTICATION_FAILED(HttpStatus.UNAUTHORIZED, "The username / password combination does not exist"),
-    AUTH_USER_NOT_FOUND(HttpStatus.UNAUTHORIZED, "The username provided did not match any user"),
     USER_NOT_CONNECTED(HttpStatus.UNAUTHORIZED, "The user must be connected to access this endpoint"),
 
     // Token errors
