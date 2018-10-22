@@ -1,8 +1,6 @@
 package com.vibent.vibentback.auth;
 
-import com.vibent.vibentback.api.auth.EmailLoginRequest;
-import com.vibent.vibentback.api.auth.PhoneLoginRequest;
-import com.vibent.vibentback.api.auth.RegistrationRequest;
+import com.vibent.vibentback.api.auth.*;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.mail.MailService;
@@ -68,7 +66,7 @@ public class AuthenticationService {
      */
     public String loginEmail(EmailLoginRequest request) {
         User user = this.userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new VibentException(VibentError.AUTH_USER_NOT_FOUND));
+                .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword()))
             throw new VibentException(VibentError.AUTHENTICATION_FAILED);
         if (!user.isEnabled()) {
@@ -79,7 +77,7 @@ public class AuthenticationService {
 
     public String loginPhone(PhoneLoginRequest request) {
         User user = this.userRepository.findByPhoneNumber(request.getPhoneNumber())
-                .orElseThrow(() -> new VibentException(VibentError.AUTH_USER_NOT_FOUND));
+                .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword()))
             throw new VibentException(VibentError.AUTHENTICATION_FAILED);
         if (!user.isEnabled()) {
@@ -122,5 +120,19 @@ public class AuthenticationService {
     public String confirmEmail(String token) {
         TokenInfo info = tokenUtils.readEmailConfirmToken(token);
         return userService.confirmEmail(info);
+    }
+
+    public void requestPasswordReset(PasswordResetRequest request) {
+        User user = this.userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
+        mailService.sendPasswordResetMail(user);
+    }
+
+    public void validatePasswordReset(ValidatePasswordResetRequest request) {
+        TokenInfo info = tokenUtils.readPasswordResetToken(request.getToken());
+        User user = this.userRepository.findById(info.getId())
+                .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
     }
 }

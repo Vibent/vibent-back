@@ -53,6 +53,18 @@ public class MailService {
         prepareAndSend(user.getEmail(), "Vibent Registration Confirmation", content);
     }
 
+    public void sendPasswordResetMail(User user) {
+        String secret = tokenUtils.getPasswordResetToken(user.getId());
+        Context context = new Context();
+        context.setVariable("firstName", user.getFirstName());
+        context.setVariable("lastName", user.getLastName());
+        context.setVariable("secret", secret);
+        context.setVariable("clientUrl", CLIENT_URL);
+
+        String content = templateEngine.process("passwordResetTemplate", context);
+        prepareAndSend(user.getEmail(), "Vibent Password Reset", content);
+    }
+
     private void prepareAndSend(String recipient, String subject, String content) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
@@ -63,10 +75,11 @@ public class MailService {
         };
 
         try {
-            mailSender.send(messagePreparator);
+            new Thread(() -> mailSender.send(messagePreparator)).start();
         } catch (Exception e) {
             log.error("Failed sending account confirmation email, user must request a new one");
         }
     }
+
 
 }

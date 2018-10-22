@@ -2,7 +2,6 @@ package com.vibent.vibentback.auth;
 
 import com.vibent.vibentback.api.auth.*;
 import com.vibent.vibentback.api.user.DetailledUserResponse;
-import com.vibent.vibentback.api.user.EmailChangeRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.util.JWTUtils;
@@ -79,5 +78,17 @@ public class AuthenticationController {
         log.info("Confirming email with token {}", token);
         String email = authenticationService.confirmEmail(token);
         return new MailConfirmationResponse(email);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/passwordReset")
+    public void requestPasswordReset(@Valid @RequestBody PasswordResetRequest request) {
+        log.info("Request password reset for email {}", request.getEmail());
+        authenticationService.requestPasswordReset(request);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/validatePasswordReset")
+    public void validateResetPassword(@Valid @RequestBody ValidatePasswordResetRequest request) {
+        log.info("Resetting password with token {}", request.getToken());
+        authenticationService.validatePasswordReset(request);
     }
 }

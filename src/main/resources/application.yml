@@ -52,7 +52,7 @@ spring:
     username: user
     password: pass
 
-vibent.client.url: http://ec2-35-180-98-237.eu-west-3.compute.amazonaws.com
+vibent.client.url: https://dev.vibent.com
 vibent.mail.autoConfirm: true
 
 ---
@@ -68,7 +68,7 @@ spring:
 
 server.port: 8001
 
-vibent.client.url: http://ec2-35-180-98-237.eu-west-3.compute.amazonaws.com
+vibent.client.url: https://dev.vibent.com
 vibent.mail.autoConfirm: true
 
 ---
@@ -84,7 +84,7 @@ spring:
   jpa:
     show-sql: true
 
-vibent.client.url: http://ec2-35-180-98-237.eu-west-3.compute.amazonaws.com
+vibent.client.url: https://dev.vibent.com
 vibent.mail.autoConfirm: true
 
 logging.level:
