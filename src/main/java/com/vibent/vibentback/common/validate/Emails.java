@@ -5,11 +5,11 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = EmailValidator.class)
+@Constraint(validatedBy = EmailsValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Email {
-    String message() default "invalid format - should be an email address";
+public @interface Emails {
+    String message() default "invalid format - should all be email addresses";
 
     Class<?>[] groups() default {};
 

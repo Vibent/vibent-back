@@ -1,6 +1,7 @@
 package com.vibent.vibentback.common.mail;
 
 import com.vibent.vibentback.common.util.TokenUtils;
+import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.user.User;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,8 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -28,6 +31,21 @@ public class MailService {
     private TemplateEngine templateEngine;
     @NonNull
     private JavaMailSender mailSender;
+
+    public void sendGroupInviteMail(User inviter, GroupT groupT, Set<String> recipients) {
+        String secret = tokenUtils.getGroupInviteToken(groupT.getId());
+        Context context = new Context();
+        context.setVariable("inviterFirstName", inviter.getFirstName());
+        context.setVariable("inviterLastName", inviter.getLastName());
+        context.setVariable("groupName", groupT.getName());
+        context.setVariable("secret", secret);
+        context.setVariable("clientUrl", CLIENT_URL);
+
+        String content = templateEngine.process("groupInviteTemplate", context);
+        recipients.forEach(r -> {
+            prepareAndSend(r, "Vibent Group Invitation", content);
+        });
+    }
 
     public void sendChangeEmailConfirmationMail(User user, String newEmail) {
         String secret = tokenUtils.getEmailConfirmToken(user.getId(), newEmail);
@@ -74,11 +92,13 @@ public class MailService {
             messageHelper.setText(content, true);
         };
 
-        try {
-            new Thread(() -> mailSender.send(messagePreparator)).start();
-        } catch (Exception e) {
-            log.error("Failed sending account confirmation email, user must request a new one");
-        }
+        new Thread(() -> {
+            try {
+                mailSender.send(messagePreparator);
+            } catch (Exception e) {
+                log.error("Failed sending email : {}", e.getMessage());
+            }
+        }).start();
     }
 
 

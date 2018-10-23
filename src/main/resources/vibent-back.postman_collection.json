@@ -1192,6 +1192,186 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "12. Invite By Mail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"test@nomail.com\",\n\t\t\"test2@nomail.com\"\n\t]\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/group/mailInvite",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"group",
+								"mailInvite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "13. Invite By Mail Fail (too many recipients)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"1@nomail.com\",\n\t\t\"2@nomail.com\",\n\t\t\"3@nomail.com\",\n\t\t\"4@nomail.com\",\n\t\t\"5@nomail.com\",\n\t\t\"6@nomail.com\",\n\t\t\"7@nomail.com\",\n\t\t\"8@nomail.com\",\n\t\t\"9@nomail.com\",\n\t\t\"10@nomail.com\",\n\t\t\"11@nomail.com\"\n\t]\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/group/mailInvite",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"group",
+								"mailInvite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "14. Invite By Mail Fail (no recipients)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"recipients\": []\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/group/mailInvite",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"group",
+								"mailInvite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "14. Invite By Mail Fail (one invalid email)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"vibentPM@vibent.com\",\n\t\t\"not_a_mail\"\n\t]\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/group/mailInvite",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"group",
+								"mailInvite"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

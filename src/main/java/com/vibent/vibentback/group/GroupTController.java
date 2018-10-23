@@ -88,6 +88,13 @@ public class GroupTController {
         return new DetailledGroupResponse(groupTService.validateInviteToken(token));
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/mailInvite")
+    void mailInvite(@Valid @RequestBody MailInviteRequest request) {
+        log.info("Sending mail invite for group : {}", request.getGroupRef());
+        groupTService.sendMailInvite(request);
+    }
+
+
     @RequestMapping(method = RequestMethod.POST, value = "/{groupRef}/request")
     UserMembershipRequestResponse requestMembership(@PathVariable String groupRef) {
         log.info("Connected user requesting membership to {}", groupRef);
