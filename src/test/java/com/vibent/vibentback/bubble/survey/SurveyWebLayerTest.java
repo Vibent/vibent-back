@@ -65,7 +65,6 @@ public class SurveyWebLayerTest extends VibentTest {
         RANDOM_BUBBLE.setOptions(new HashSet<SurveyOption>(){{
             add(RANDOM_OPTION);
         }});
-        RANDOM_BUBBLE.setType(BubbleType.SurveyBubble);
         RANDOM_BUBBLE.setEvent(RANDOM_EVENT);
         RANDOM_BUBBLE.setCreator(RANDOM_USER);
         RANDOM_BUBBLE.setDeleted(false);

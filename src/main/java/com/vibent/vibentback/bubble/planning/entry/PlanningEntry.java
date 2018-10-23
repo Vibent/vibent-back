@@ -1,31 +1,29 @@
 package com.vibent.vibentback.bubble.planning.entry;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.planning.PlanningBubble;
 import com.vibent.vibentback.user.User;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Objects;
 
 @Data
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
+@EqualsAndHashCode(of = "id")
 @SQLDelete(sql = "UPDATE planning_entry SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class PlanningEntry {
 
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -39,33 +37,21 @@ public class PlanningEntry {
     private User user;
 
     @NonNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date start;
 
     @NonNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date end;
 
     @NonNull
     private String content;
 
-    @Column(insertable = false, updatable = false)
     @JsonIgnore
     private boolean deleted;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PlanningEntry entry = (PlanningEntry) o;
-        return Objects.equals(id, entry.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
     @JsonProperty
-    public String getUserRef(){
+    public String getUserRef() {
         return user.getRef();
     }
 }

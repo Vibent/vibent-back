@@ -12,7 +12,7 @@ import javax.persistence.*;
 
 @Setter
 @Getter
-@EqualsAndHashCode(of = {"id", "type"})
+@EqualsAndHashCode(of = {"id"})
 @MappedSuperclass
 public abstract class Bubble {
     @Id
@@ -29,9 +29,6 @@ public abstract class Bubble {
     @JsonIgnore
     @JoinColumn(name = "user_id")
     private User creator;
-
-    @Enumerated(EnumType.STRING)
-    private BubbleType type;
 
     @JsonIgnore
     private boolean deleted;

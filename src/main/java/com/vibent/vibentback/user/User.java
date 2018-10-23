@@ -3,7 +3,10 @@ package com.vibent.vibentback.user;
 import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.group.membership.MembershipRequest;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +23,6 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE user SET deleted = true WHERE id = ?")

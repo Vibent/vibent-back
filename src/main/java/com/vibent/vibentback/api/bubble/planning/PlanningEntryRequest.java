@@ -1,8 +1,8 @@
 package com.vibent.vibentback.api.bubble.planning;
 
 import lombok.Data;
-import lombok.NonNull;
 
+import javax.validation.constraints.Future;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,13 +15,14 @@ public class PlanningEntryRequest {
     @Min(0)
     private Long bubbleId;
 
-    @NonNull
+    @Future
+    @NotNull
     private Date start;
 
-    @NonNull
+    @Future
+    @NotNull
     private Date end;
 
-    @NonNull
     @NotNull
     @Size(max = 500, min = 1)
     private String content;

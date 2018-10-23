@@ -58,7 +58,6 @@ public class PlanningWebLayerTest extends VibentTest {
         RANDOM_BUBBLE.setEntries(new HashSet<PlanningEntry>(){{
             add(RANDOM_ENTRY);
         }});
-        RANDOM_BUBBLE.setType(BubbleType.PlanningBubble);
         RANDOM_BUBBLE.setEvent(RANDOM_EVENT);
         RANDOM_BUBBLE.setCreator(RANDOM_USER);
         RANDOM_BUBBLE.setDeleted(false);

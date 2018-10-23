@@ -41,7 +41,6 @@ public class SurveyService {
         surveyBubble.setTitle(request.getTitle());
         surveyBubble.setCreator(userUtils.getConnectedUser());
         surveyBubble.setDeleted(false);
-        surveyBubble.setType(BubbleType.SurveyBubble);
         surveyBubble = bubbleRepository.save(surveyBubble);
         return surveyBubble;
     }

@@ -54,24 +54,24 @@ public class PlanningController {
     // Planning Bubble Entry -------------------------------------------------------------
 
     @ResponseStatus(value = HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST, value = "/option",
+    @RequestMapping(method = RequestMethod.POST, value = "/entry",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     PlanningBubble createEntry(@Valid @RequestBody PlanningEntryRequest entry) {
-        log.info("Creating planning option with body : {}", entry.toString());
+        log.info("Creating planning entry with body : {}", entry.toString());
         return service.createEntry(entry);
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, value = "/option/{id}",
+    @RequestMapping(method = RequestMethod.PATCH, value = "/entry/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     PlanningBubble updateEntry(@PathVariable Long id, @Valid @RequestBody PlanningEntryUpdateRequest entry) {
-        log.info("Updating planning option with id {} and body : {}", id, entry.toString());
+        log.info("Updating planning entry with id {} and body : {}", id, entry.toString());
         return service.updateEntry(id, entry);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @RequestMapping(method = RequestMethod.DELETE, value = "/option/{id}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/entry/{id}")
     void deleteEntry(@PathVariable Long id) {
-        log.info("Deleting planning option for with id {}", id);
+        log.info("Deleting planning entry with id {}", id);
         service.deleteEntry(id);
     }
 }
