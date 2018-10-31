@@ -1372,6 +1372,52 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "15. Leave group (second user)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{tokenSecondUser}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/group/{{groupRef}}/leave",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"group",
+								"{{groupRef}}",
+								"leave"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1432,12 +1478,12 @@
 							"listen": "test",
 							"script": {
 								"id": "5c27115d-fcaf-4d97-b58b-abc5c6a9e514",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(200);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -1455,16 +1501,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"allAdmins\": true\n}"
+							"raw": ""
 						},
 						"url": {
-							"raw": "{{URL}}/group/{{groupRef}}",
+							"raw": "{{URL}}/group/{{groupRef}}/event",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"group",
-								"{{groupRef}}"
+								"{{groupRef}}",
+								"event"
 							]
 						}
 					},
@@ -1559,11 +1606,205 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "5. Get Second User Events",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c8630110-171e-4a8e-90cf-cefa1ab8b624",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{tokenSecondUser}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/event/me",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"event",
+								"me"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
-			"name": "5. Alimentation",
+			"name": "5. Image",
+			"item": [
+				{
+					"name": "1. Upload Profile Image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "998a73af-ae49-4f65-ab1e-71201dabd0ba",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "image/jpeg",
+								"disabled": true
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": null
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/image/profile/upload/userRef",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"image",
+								"profile",
+								"upload",
+								"userRef"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Get User Profile Image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b7b5ac5e-5853-4738-875a-934f136eb0f8",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "image/jpeg"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/image/profile/{{userRef}}.jpg",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"image",
+								"profile",
+								"{{userRef}}.jpg"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Get Profile Image (always exists)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b7b5ac5e-5853-4738-875a-934f136eb0f8",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "image/jpeg"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/image/profile/userRef.jpg",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"image",
+								"profile",
+								"userRef.jpg"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6. Alimentation Bubble",
 			"item": [
 				{
 					"name": "1.Create Alimentation Bubble",
@@ -2091,156 +2332,7 @@
 			]
 		},
 		{
-			"name": "6. Image",
-			"item": [
-				{
-					"name": "1. Upload Profile Image",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "998a73af-ae49-4f65-ab1e-71201dabd0ba",
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "image/jpeg",
-								"disabled": true
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "file",
-									"type": "file",
-									"src": null
-								}
-							]
-						},
-						"url": {
-							"raw": "{{URL}}/image/profile/upload/userRef",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"image",
-								"profile",
-								"upload",
-								"userRef"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "2. Get User Profile Image",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "b7b5ac5e-5853-4738-875a-934f136eb0f8",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(404);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "image/jpeg"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/image/profile/{{userRef}}.jpg",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"image",
-								"profile",
-								"{{userRef}}.jpg"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "2. Get Profile Image (always exists)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "b7b5ac5e-5853-4738-875a-934f136eb0f8",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "image/jpeg"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/image/profile/userRef.jpg",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"image",
-								"profile",
-								"userRef.jpg"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "7. Checkbox",
+			"name": "7. Checkbox Bubble",
 			"item": [
 				{
 					"name": "1. Create Checkbox Bubble",
@@ -2767,7 +2859,585 @@
 			]
 		},
 		{
-			"name": "8. Survey",
+			"name": "8. Free Bubble",
+			"item": [
+				{
+					"name": "1. Create Free Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"freeBubbleId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"eventRef\": \"{{eventRef}}\",\n  \"title\": \"I think free bubbles the best\",\n  \"content\": \"And I'm sure !\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/free",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"free"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Get Free Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f8ec59af-4fda-4acb-adc2-0ffb6901ab11",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/free/{{freeBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"free",
+								"{{freeBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Update Free Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c545cf09-def3-42d3-9a40-850878f0e8cd",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"New title I guess...\",\n  \"content\": \"...and content !!!!!!\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/free/{{freeBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"free",
+								"{{freeBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Delete Free Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "69cb1caf-599c-4827-915e-2514492ec3a9",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/free/{{freeBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"free",
+								"{{freeBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "9. Location Bubble",
+			"item": []
+		},
+		{
+			"name": "10. Planning Bubble",
+			"item": [
+				{
+					"name": "1. Create Planning Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"planningBubbleId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"eventRef\": \"{{eventRef}}\",\n  \"title\": \"This weekend planning\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/planning",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"planning"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Get Planning Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f8ec59af-4fda-4acb-adc2-0ffb6901ab11",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/planning/{{planningBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"planning",
+								"{{planningBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Update Planning Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c545cf09-def3-42d3-9a40-850878f0e8cd",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"New titlewittle\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/planning/{{planningBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"planning",
+								"{{planningBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Delete Planning Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "69cb1caf-599c-4827-915e-2514492ec3a9",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/planning/{{planningBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"planning",
+								"{{planningBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Create Second Planning Bubble Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"planningBubbleId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"eventRef\": \"{{eventRef}}\",\n  \"title\": \"This weekend planning\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/planning",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"planning"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Create Planning Entry",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"planningEntryId\", jsonData.entries[0].id);",
+									"",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bubbleId\": \"{{planningBubbleId}}\",\n  \"start\": \"2019-02-13T00:01:02.003Z\",\n  \"end\": \"2019-02-13T00:01:02.003Z\",\n  \"content\": \"Go fishing\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/planning/entry",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"planning",
+								"entry"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. Update Planning Entry",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"start\": \"2019-02-13T00:09:09.00Z\",\n  \"end\": \"2019-02-13T00:09:09.009Z\",\n  \"content\": \"Go fishing and huntingplanningEntryId\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/planning/entry/{{planningEntryId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"planning",
+								"entry",
+								"{{planningEntryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. Delete Planning Entry",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/planning/entry/{{planningEntryId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"planning",
+								"entry",
+								"{{planningEntryId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "11. Survey Bubble",
 			"item": [
 				{
 					"name": "1. Create Survey Bubble",
@@ -3295,387 +3965,8 @@
 			]
 		},
 		{
-			"name": "9. Planning",
-			"item": [
-				{
-					"name": "1. Create Planning Bubble",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"planningBubbleId\", jsonData.id);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"eventRef\": \"{{eventRef}}\",\n  \"title\": \"This weekend planning\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/planning",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"planning"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "2. Get Planning Bubble",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "f8ec59af-4fda-4acb-adc2-0ffb6901ab11",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/planning/{{planningBubbleId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"planning",
-								"{{planningBubbleId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "3. Update Planning Bubble",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "c545cf09-def3-42d3-9a40-850878f0e8cd",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"title\": \"New titlewittle\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/planning/{{planningBubbleId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"planning",
-								"{{planningBubbleId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "4. Delete Planning Bubble",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "69cb1caf-599c-4827-915e-2514492ec3a9",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(204);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/planning/{{planningBubbleId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"planning",
-								"{{planningBubbleId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "5. Create Second Planning Bubble Copy",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"planningBubbleId\", jsonData.id);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"eventRef\": \"{{eventRef}}\",\n  \"title\": \"This weekend planning\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/planning",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"planning"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "6. Create Planning Entry",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"planningEntryId\", jsonData.entries[0].id);",
-									"",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"bubbleId\": \"{{planningBubbleId}}\",\n  \"start\": \"2019-02-13T00:01:02.003Z\",\n  \"end\": \"2019-02-13T00:01:02.003Z\",\n  \"content\": \"Go fishing\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/planning/entry",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"planning",
-								"entry"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "7. Update Planning Entry",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"start\": \"2019-02-13T00:09:09.00Z\",\n  \"end\": \"2019-02-13T00:09:09.009Z\",\n  \"content\": \"Go fishing and huntingplanningEntryId\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/planning/entry/{{planningEntryId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"planning",
-								"entry",
-								"{{planningEntryId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "7. Delete Planning Entry",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(204);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/planning/entry/{{planningEntryId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"planning",
-								"entry",
-								"{{planningEntryId}}"
-							]
-						}
-					},
-					"response": []
-				}
-			]
+			"name": "12. Travel Bubble",
+			"item": []
 		},
 		{
 			"name": "9. Options Http Method",

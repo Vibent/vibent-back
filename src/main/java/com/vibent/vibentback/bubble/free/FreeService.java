@@ -1,6 +1,7 @@
 package com.vibent.vibentback.bubble.free;
 
 import com.vibent.vibentback.ConnectedUserUtils;
+import com.vibent.vibentback.api.bubble.free.FreeBubbleRequest;
 import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
@@ -26,11 +27,13 @@ public class FreeService {
         return bubbleRepository.findById(id).orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
     }
 
-    public FreeBubble createBubble(String eventRef) {
-        Event event = eventRepository.findByRef(eventRef)
+    public FreeBubble createBubble(FreeBubbleRequest request) {
+        Event event = eventRepository.findByRef(request.getEventRef())
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         FreeBubble freeBubble = new FreeBubble();
         freeBubble.setEvent(event);
+        freeBubble.setTitle(request.getTitle());
+        freeBubble.setContent(request.getContent());
         freeBubble.setCreator(userUtils.getConnectedUser());
         freeBubble.setDeleted(false);
         freeBubble = bubbleRepository.save(freeBubble);
