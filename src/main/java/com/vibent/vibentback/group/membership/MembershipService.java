@@ -3,7 +3,9 @@ package com.vibent.vibentback.group.membership;
 import com.vibent.vibentback.ConnectedUserUtils;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
+import com.vibent.vibentback.event.EventRepository;
 import com.vibent.vibentback.event.participation.EventParticipation;
+import com.vibent.vibentback.event.participation.EventParticipationRepository;
 import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.user.User;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -23,6 +26,8 @@ public class MembershipService {
     private MembershipRequestRepository membershipRequestRepository;
     private GroupTRepository groupTRepository;
     private UserRepository userRepository;
+    private EventRepository eventRepository;
+    private EventParticipationRepository eventParticipationRepository;
 
     public MembershipRequest addMembershipRequestForConnectedUser(String groupRef) {
         GroupT groupT = groupTRepository.findByRef(groupRef)
@@ -65,9 +70,30 @@ public class MembershipService {
         user.getMemberships().add(membership);
 
         // Add a participation for all existing events
-        group.getEvents().forEach(event -> event.getParticipations().add(new EventParticipation(user, event)));
+        group.getEvents().forEach(event -> {
+            event.getParticipations().add(new EventParticipation(user, event));
+            eventRepository.save(event);
+        });
 
         return membership;
+    }
+
+    public void removeMembership(GroupT group, User user) {
+        Membership membership = membershipRepository.findByUserAndGroup(user, group)
+                .orElseThrow(() -> new VibentException(VibentError.MEMBERSHIP_NOT_FOUND));
+        group.getMemberships().remove(membership);
+        user.getMemberships().remove(membership);
+        membershipRepository.deleteByUserAndGroup(user, group);
+
+        // Remove participations for all existing events
+        group.getEvents().forEach(event -> {
+            Set<EventParticipation> participations = event.getParticipations().stream().filter(p -> p.getUser().equals(user)).collect(Collectors.toSet());
+            for (EventParticipation p : participations) {
+                event.getParticipations().remove(p);
+                eventParticipationRepository.delete(p);
+            }
+            eventRepository.save(event);
+        });
     }
 
     public Membership addMembership(String groupRef, String userRef, boolean isAdmin) {
@@ -86,32 +112,6 @@ public class MembershipService {
         }
         membership.setAdmin(isAdmin);
         return membershipRepository.save(membership);
-    }
-
-    public void removeMembership(GroupT group, User user) {
-        Membership membership = membershipRepository.findByUserAndGroup(user, group)
-                .orElseThrow(() -> new VibentException(VibentError.MEMBERSHIP_NOT_FOUND));
-        group.getMemberships().remove(membership);
-        user.getMemberships().remove(membership);
-        membershipRepository.deleteByUserAndGroup(user, group);
-    }
-
-    public void removeMembership(GroupT group) {
-        Set<Membership> memberships = membershipRepository.findByGroup(group);
-        memberships.forEach(membership -> {
-            membership.getUser().getMemberships().remove(membership);
-        });
-        group.getMemberships().removeIf(membership -> true);
-        membershipRepository.deleteByGroup(group);
-    }
-
-    public void removeMembership(User user) {
-        Set<Membership> memberships = membershipRepository.findByUser(user);
-        memberships.forEach(membership -> {
-            membership.getGroup().getMemberships().remove(membership);
-        });
-        user.getMemberships().removeIf(membership -> true);
-        membershipRepository.deleteByUser(user);
     }
 }
 

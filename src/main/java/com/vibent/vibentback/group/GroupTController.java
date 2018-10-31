@@ -108,4 +108,10 @@ public class GroupTController {
         Membership membership = membershipService.addMembership(request.getGroupRef(), request.getUserRef(), request.isAdmin());
         return new MembershipResponse(membership.getUser().getRef(), membership.getGroup().getRef(), membership.getAdmin());
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{groupRef}/leave")
+    void leaveGroup(@PathVariable String groupRef) {
+        log.info("Leaving group with ref : {}", groupRef);
+        groupTService.leaveGroup(groupRef);
+    }
 }

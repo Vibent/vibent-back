@@ -136,9 +136,6 @@ public class GroupMembershipDataTest extends VibentTest {
 
         membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false);
 
-        membershipService.removeMembership(RANDOM_GROUP);
-
-
         // Assert membership was deleted on both ends
         Assert.assertFalse(RANDOM_USER.getMemberships().stream().anyMatch(m -> m.getGroup().equals(RANDOM_GROUP)));
         Assert.assertFalse(RANDOM_GROUP.getMemberships().stream().anyMatch(m -> m.getUser().equals(RANDOM_USER)));
@@ -153,9 +150,6 @@ public class GroupMembershipDataTest extends VibentTest {
         Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
         membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false);
-
-        membershipService.removeMembership(RANDOM_USER);
-
 
         // Assert membership was deleted on both ends
         Assert.assertFalse(RANDOM_USER.getMemberships().stream().anyMatch(m -> m.getGroup().equals(RANDOM_GROUP)));
