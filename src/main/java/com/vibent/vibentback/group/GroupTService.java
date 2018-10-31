@@ -105,4 +105,10 @@ public class GroupTService {
         Set<String> recipients = request.getRecipients();
         mailService.sendGroupInviteMail(inviter, groupT, recipients);
     }
+
+    public void leaveGroup(String groupRef) {
+        GroupT groupT = groupTRepository.findByRef(groupRef)
+                .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+        membershipService.removeMembership(groupT, connectedUserUtils.getConnectedUser());
+    }
 }
