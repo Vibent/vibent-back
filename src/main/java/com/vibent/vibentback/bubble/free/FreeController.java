@@ -34,7 +34,7 @@ public class FreeController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     FreeBubble createBubble(@Valid @RequestBody FreeBubbleRequest request) {
         log.info("Creating free bubble for event with ref {}", request.getEventRef());
-        return service.createBubble(request.getEventRef());
+        return service.createBubble(request);
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/{id}")
