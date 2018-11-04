@@ -12,8 +12,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/bubble/travel",
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/bubble/travel", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class TravelController {
 

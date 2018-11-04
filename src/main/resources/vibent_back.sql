@@ -104,34 +104,6 @@ LOCK TABLES `alimentation_entry` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `attached_request`
---
-
-DROP TABLE IF EXISTS `attached_request`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `attached_request` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `proposal_id` int(11) DEFAULT NULL,
-  `request_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `attached_request_proposal__fk` (`proposal_id`),
-  KEY `attached_request_request__fk` (`request_id`),
-  CONSTRAINT `attached_request_proposal__fk` FOREIGN KEY (`proposal_id`) REFERENCES `travel_proposal` (`id`),
-  CONSTRAINT `attached_request_request__fk` FOREIGN KEY (`request_id`) REFERENCES `travel_request` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `attached_request`
---
-
-LOCK TABLES `attached_request` WRITE;
-/*!40000 ALTER TABLE `attached_request` DISABLE KEYS */;
-/*!40000 ALTER TABLE `attached_request` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `checkbox_option`
 --
 

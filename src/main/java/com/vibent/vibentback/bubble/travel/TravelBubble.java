@@ -10,6 +10,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Setter
@@ -21,10 +22,11 @@ public class TravelBubble  extends Bubble {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "bubble", cascade = CascadeType.ALL)
-    private Set<TravelProposal> proposals;
+    private Set<TravelProposal> proposals = new HashSet<>();
+
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "bubble", cascade = CascadeType.ALL)
-    private Set<TravelRequest> requests;
+    private Set<TravelRequest> requests = new HashSet<>();
 
     @JsonProperty
     public Set<TravelProposal> getProposals(){
