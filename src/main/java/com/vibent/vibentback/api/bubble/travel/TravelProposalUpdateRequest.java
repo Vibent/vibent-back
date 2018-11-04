@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 public class TravelProposalUpdateRequest {
     @Min(1)
     private Integer capacity;
-    @Size(min = 1, max = 500)
+
+    @Size(min = 1, max = 100)
     private String passByCities;
 }

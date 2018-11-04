@@ -8,6 +8,6 @@ import javax.validation.constraints.Size;
 @Data
 public class AlimentationBubbleRequest {
     @NotNull
-    @Size(max = 36, min = 36)
+    @Size(min = 36, max = 36)
     private String eventRef;
 }

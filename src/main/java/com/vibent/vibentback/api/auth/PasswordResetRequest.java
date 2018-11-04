@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class PasswordResetRequest {
-
     @Email
     @NotNull
     private String email;

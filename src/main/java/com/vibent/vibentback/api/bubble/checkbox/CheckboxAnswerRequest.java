@@ -7,8 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class CheckboxAnswerRequest {
-    @NotNull
     @Min(0)
+    @NotNull
     private Long optionId;
-
 }

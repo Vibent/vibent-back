@@ -10,6 +10,7 @@ public class AlimentationBringRequest {
     @NotNull
     @Min(0)
     private Long entryId;
+
     @Min(1)
     private Integer quantity;
 }

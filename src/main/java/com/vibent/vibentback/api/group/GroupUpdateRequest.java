@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 
 @Data
 public class GroupUpdateRequest {
-    @Size(min = 1, max = 64)
+    @Size(min = 1, max = 50)
     private String name;
 
     @Size(min = 1, max = 500)

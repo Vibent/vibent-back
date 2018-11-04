@@ -8,6 +8,6 @@ import javax.validation.constraints.Size;
 @Data
 public class CheckboxBubbleUpdateRequest {
     @NotNull
-    @Size(max = 500, min = 1)
+    @Size(min = 1, max = 500)
     private String title;
 }

@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 public class EventUpdateRequest {
-    @Size(min = 1, max = 64)
+    @Size(min = 1, max = 50)
     private String title;
 
     @Size(min = 1, max = 500)

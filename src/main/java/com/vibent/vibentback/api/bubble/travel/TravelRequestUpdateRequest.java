@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class TravelRequestUpdateRequest {
-    @NotNull
     @Min(1)
+    @NotNull
     private Integer capacity;
 }

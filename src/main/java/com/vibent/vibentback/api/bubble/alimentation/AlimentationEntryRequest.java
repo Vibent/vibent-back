@@ -9,12 +9,15 @@ import javax.validation.constraints.Size;
 
 @Data
 public class AlimentationEntryRequest {
-    @NotNull
     @Min(0)
-    private Long bubbleId;
     @NotNull
-    @Size(max = 64, min = 1)
+    private Long bubbleId;
+
+    @NotNull
+    @Size(min = 1, max = 50)
     private String name;
+
     private Integer totalRequested;
+
     private AlimentationEntry.Type type;
 }
