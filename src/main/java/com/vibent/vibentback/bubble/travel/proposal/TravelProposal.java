@@ -35,7 +35,6 @@ public class TravelProposal {
     @PrimaryKeyJoinColumn
     private TravelBubble bubble;
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "proposal", cascade = CascadeType.ALL)
     private Set<TravelRequest> attachedRequests = new HashSet<>();
 

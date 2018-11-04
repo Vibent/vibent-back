@@ -39,9 +39,11 @@ public enum VibentError {
     BRING_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "There is already a bring for the user and entry"),
 
     TRAVEL_PROPOSAL_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested travel proposal can not be found"),
-    TRAVEL_PROPOSAL_ALREADY_EXISTS(HttpStatus.NOT_FOUND, "The connected user has already created a travel proposal for this event"),
+    TRAVEL_PROPOSAL_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "The connected user has already created a travel proposal for this event"),
     TRAVEL_REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested travel request can not be found"),
-    TRAVEL_REQUEST_ALREADY_EXISTS(HttpStatus.NOT_FOUND, "The connected user has already created a travel request for this event"),
+    TRAVEL_REQUEST_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "The connected user has already created a travel request for this event"),
+    TRAVEL_REQUEST_AND_PROPOSAL_INCOMPATIBLE(HttpStatus.BAD_REQUEST, "The given request and proposal belong to different items and cannot be attached/detached"),
+    TRAVEL_PROPOSAL_CAPACITY_SURPASSED(HttpStatus.BAD_REQUEST, "The given request's capacity is too big for the proposal"),
 
     OPTION_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested option can not be found"),
     ANSWER_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested answer can not be found"),

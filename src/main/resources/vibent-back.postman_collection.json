@@ -1756,7 +1756,7 @@
 					"response": []
 				},
 				{
-					"name": "2. Get Profile Image (always exists)",
+					"name": "3. Get Profile Image (always exists)",
 					"event": [
 						{
 							"listen": "test",
@@ -3966,7 +3966,770 @@
 		},
 		{
 			"name": "12. Travel Bubble",
-			"item": []
+			"item": [
+				{
+					"name": "1. Create Travel Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"travelBubbleId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"eventRef\": \"{{eventRef}}\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Get Travel Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f8ec59af-4fda-4acb-adc2-0ffb6901ab11",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/{{travelBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"{{travelBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Delete Travel Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "69cb1caf-599c-4827-915e-2514492ec3a9",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/{{travelBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"{{travelBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Create Second Travel Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"travelBubbleId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"eventRef\": \"{{eventRef}}\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Create Travel Proposal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"travelProposalId\", jsonData.proposals[0].id);",
+									"",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bubbleId\": \"{{travelBubbleId}}\",\n  \"capacity\": 4,\n  \"passByCities\": \"Lyon, Paris, Madrid\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/proposal",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"proposal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Update Travel Proposal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"capacity\": 5,\n  \"passByCities\": \"Lyon, Paris\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/proposal/{{travelProposalId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"proposal",
+								"{{travelProposalId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. Delete Travel Proposal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/proposal/{{travelProposalId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"proposal",
+								"{{travelProposalId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. Create Second Travel Proposal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"travelProposalId\", jsonData.proposals[0].id);",
+									"",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bubbleId\": \"{{travelBubbleId}}\",\n  \"capacity\": 4,\n  \"passByCities\": \"Lyon, Paris, Madrid\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/proposal",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"proposal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. Create Travel Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"travelRequestId\", jsonData.requests[0].id);",
+									"",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bubbleId\": \"{{travelBubbleId}}\",\n  \"capacity\": 4\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/request",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Update Travel Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"capacity\": 5\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/request/{{travelRequestId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"request",
+								"{{travelRequestId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11. Delete Travel Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/request/{{travelRequestId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"request",
+								"{{travelRequestId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12. Create Second Travel Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"travelRequestId\", jsonData.requests[0].id);",
+									"",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bubbleId\": \"{{travelBubbleId}}\",\n  \"capacity\": 4\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/request",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "13. Attach Travel Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"proposalId\": \"{{travelProposalId}}\",\n  \"requestId\": \"{{travelRequestId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/attach",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"attach"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "14. Detach Travel Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"proposalId\": \"{{travelProposalId}}\",\n  \"requestId\": \"{{travelRequestId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/detach",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"detach"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "15. Delete Second Travel Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/request/{{travelRequestId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"request",
+								"{{travelRequestId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "16. Create and Attach Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"proposalId\": \"{{travelProposalId}}\",\n  \"capacity\": 4\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/proposal/request",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"proposal",
+								"request"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "9. Options Http Method",
