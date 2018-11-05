@@ -1,7 +1,6 @@
 package com.vibent.vibentback.bubble.travel;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.travel.proposal.TravelProposal;
 import com.vibent.vibentback.bubble.travel.proposal.TravelProposalRepository;
 import com.vibent.vibentback.bubble.travel.request.TravelRequest;
@@ -61,7 +60,6 @@ public class TravelDataTest extends VibentTest {
         RANDOM_BUBBLE = bubbleRepository.save(RANDOM_BUBBLE);
 
         RANDOM_REQUEST = new TravelRequest();
-        RANDOM_REQUEST.setProposal(RANDOM_PROPOSAL);
         RANDOM_REQUEST.setUser(RANDOM_USER);
         RANDOM_REQUEST.setDeleted(false);
         RANDOM_REQUEST.setCapacity(1);
@@ -72,7 +70,7 @@ public class TravelDataTest extends VibentTest {
         RANDOM_PROPOSAL.setBubble(RANDOM_BUBBLE);
         RANDOM_PROPOSAL.setPassByCities("Cities For Tests");
         RANDOM_PROPOSAL.setCapacity(5);
-        RANDOM_PROPOSAL.setRequests(new HashSet<TravelRequest>() {{
+        RANDOM_PROPOSAL.setAttachedRequests(new HashSet<TravelRequest>() {{
             add(RANDOM_REQUEST);
         }});
     }

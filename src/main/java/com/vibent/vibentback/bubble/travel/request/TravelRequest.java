@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = "bubble")
+@ToString(exclude = "user")
 @SQLDelete(sql = "UPDATE travel_request SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class TravelRequest {
@@ -30,20 +30,20 @@ public class TravelRequest {
 
     @ManyToOne
     @JsonIgnore
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JsonIgnore
     @PrimaryKeyJoinColumn
     private TravelBubble bubble;
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    private Integer capacity;
-
-    @ManyToOne
-    @JsonIgnore
     @PrimaryKeyJoinColumn
     private TravelProposal proposal;
+
+    private Integer capacity;
 
     @JsonIgnore
     private boolean deleted;

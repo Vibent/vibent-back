@@ -24,7 +24,7 @@ public class SurveyOption {
 
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

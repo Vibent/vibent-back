@@ -33,14 +33,17 @@ public enum VibentError {
     EVENT_PARTICIPATION_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "There should be no event participation duplicates"),
 
     BUBBLE_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested bubble can not be found"),
-    BUBBLE_CANT_CREATE(HttpStatus.NOT_FOUND, "Bubble can not be created"),
 
     ENTRY_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested response can not be found"),
     BRING_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested bring can not be found"),
     BRING_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "There is already a bring for the user and entry"),
 
     TRAVEL_PROPOSAL_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested travel proposal can not be found"),
+    TRAVEL_PROPOSAL_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "The connected user has already created a travel proposal for this event"),
     TRAVEL_REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested travel request can not be found"),
+    TRAVEL_REQUEST_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "The connected user has already created a travel request for this event"),
+    TRAVEL_REQUEST_AND_PROPOSAL_INCOMPATIBLE(HttpStatus.BAD_REQUEST, "The given request and proposal belong to different items and cannot be attached/detached"),
+    TRAVEL_PROPOSAL_CAPACITY_SURPASSED(HttpStatus.BAD_REQUEST, "The given request's capacity is too big for the proposal"),
 
     OPTION_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested option can not be found"),
     ANSWER_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested answer can not be found"),
@@ -48,11 +51,9 @@ public enum VibentError {
 
     // Authentication errors
     AUTHENTICATION_FAILED(HttpStatus.UNAUTHORIZED, "The username / password combination does not exist"),
-    USER_NOT_CONNECTED(HttpStatus.UNAUTHORIZED, "The user must be connected to access this endpoint"),
 
     // Token errors
     MALFORMED_TOKEN(HttpStatus.UNAUTHORIZED, "The provided token is malformed"),
-    TOKEN_CANNOT_BE_REFRESHED(HttpStatus.UNAUTHORIZED, "The provided token cannot be refreshed"),
     NO_TOKEN(HttpStatus.UNAUTHORIZED, "The token is either not provided or empty is expired"),
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "The provided token is expired"),
     UNSUPPORTED_TOKEN(HttpStatus.UNAUTHORIZED, "The format or configuration of the provided token is invalid"),
@@ -78,7 +79,7 @@ public enum VibentError {
     HTTP_MESSAGE_NOT_READABLE(HttpStatus.BAD_REQUEST, "Message not readable - probably because of a missing or malformed body"),
     METHOD_ARGUMENT_NOT_VALID(HttpStatus.BAD_REQUEST, "Argument not valid - probably because the body validation failed. Please check the API documentation"),
     UNSUPPORTED_ENCODING_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "The server could not encode a value");
-
+    
     private final HttpStatus status;
     private final String defaultMessage;
 

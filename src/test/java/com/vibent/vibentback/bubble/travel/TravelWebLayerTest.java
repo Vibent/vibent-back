@@ -2,7 +2,6 @@ package com.vibent.vibentback.bubble.travel;
 
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.api.bubble.travel.TravelBubbleRequest;
-import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.travel.proposal.TravelProposal;
 import com.vibent.vibentback.bubble.travel.request.TravelRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +32,7 @@ public class TravelWebLayerTest extends VibentTest {
     /**
      * String used to check the response (i.e. response body must contain this string)
      */
-    private final static String EXPECTED_CONTAIN = "\"requests\"";
+    private final static String EXPECTED_CONTAIN = "\"attachedRequests\"";
 
     @Autowired
     public MockMvc mockMvc;
@@ -71,14 +70,13 @@ public class TravelWebLayerTest extends VibentTest {
         RANDOM_PROPOSAL.setDeleted(false);
         RANDOM_PROPOSAL.setPassByCities("Cities For Tests");
         RANDOM_PROPOSAL.setUser(RANDOM_USER);
-        RANDOM_PROPOSAL.setRequests(new HashSet<TravelRequest>(){{
+        RANDOM_PROPOSAL.setAttachedRequests(new HashSet<TravelRequest>(){{
             add(RANDOM_REQUEST);
         }});
 
         RANDOM_REQUEST.setId(546L);
         RANDOM_REQUEST.setBubble(RANDOM_BUBBLE);
         RANDOM_REQUEST.setDeleted(false);
-        RANDOM_REQUEST.setProposal(RANDOM_PROPOSAL);
         RANDOM_REQUEST.setUser(RANDOM_USER);
         RANDOM_REQUEST.setCapacity(1);
 

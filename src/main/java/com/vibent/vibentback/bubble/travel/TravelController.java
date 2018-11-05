@@ -12,8 +12,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/bubble/travel",
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/bubble/travel", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class TravelController {
 
@@ -73,6 +72,14 @@ public class TravelController {
         return service.createRequest(request);
     }
 
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @RequestMapping(method = RequestMethod.POST, value = "/proposal/request",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    TravelBubble createRequestAndAttach(@Valid @RequestBody TravelRequestAndAttachRequest request) {
+        log.info("Creating travel request with body {}", request.toString());
+        return service.createRequestAndAttach(request);
+    }
+
     @RequestMapping(method = RequestMethod.PATCH, value = "/request/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     TravelBubble updateBring(@PathVariable("id") Long id, @Valid @RequestBody TravelRequestUpdateRequest request) {
@@ -85,5 +92,20 @@ public class TravelController {
     void deleteBring(@PathVariable Long id) {
         log.info("Deleting travel request with id : {}", id);
         service.deleteRequest(id);
+    }
+
+    // Attach / Detach
+    @RequestMapping(method = RequestMethod.POST, value = "/attach",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    TravelBubble attach(@Valid @RequestBody TravelAttachRequest request) {
+        log.info("Attaching travel request {} with proposal {}", request.getRequestId(), request.getProposalId());
+        return service.attach(request);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/detach",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    TravelBubble detach(@Valid @RequestBody TravelAttachRequest request) {
+        log.info("Detaching travel request {} with proposal {}", request.getRequestId(), request.getProposalId());
+        return service.detach(request);
     }
 }

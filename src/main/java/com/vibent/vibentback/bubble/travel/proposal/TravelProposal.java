@@ -5,25 +5,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.travel.TravelBubble;
 import com.vibent.vibentback.bubble.travel.request.TravelRequest;
 import com.vibent.vibentback.user.User;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Setter
 @Getter
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = "bubble")
+@ToString(exclude = {"bubble", "user"})
 @SQLDelete(sql = "UPDATE travel_proposal SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class TravelProposal {
 
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -31,9 +35,8 @@ public class TravelProposal {
     @PrimaryKeyJoinColumn
     private TravelBubble bubble;
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "proposal", cascade = CascadeType.ALL)
-    private Set<TravelRequest> requests;
+    private Set<TravelRequest> attachedRequests = new HashSet<>();
 
     @ManyToOne
     @JsonIgnore
@@ -41,13 +44,14 @@ public class TravelProposal {
     private User user;
 
     private Integer capacity;
+
     private String passByCities;
 
     @JsonIgnore
     private boolean deleted;
 
     @JsonProperty
-    public String getUserRef(){
+    public String getUserRef() {
         return user.getRef();
     }
 }
