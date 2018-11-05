@@ -14,7 +14,6 @@ import java.util.Set;
 
 @Data
 @Slf4j
-@JsonInclude(JsonInclude.Include.ALWAYS)
 public class DetailledGroupResponse {
     @JsonIgnore
     private GroupT group;

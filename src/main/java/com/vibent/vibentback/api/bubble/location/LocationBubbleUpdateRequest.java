@@ -7,9 +7,7 @@ import javax.validation.constraints.Size;
 
 @Data
 public class LocationBubbleUpdateRequest {
-
     @NotNull
-    @Size(max = 255, min = 1)
+    @Size(min = 1, max = 255)
     private String coord;
-
 }

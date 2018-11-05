@@ -18,7 +18,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@JsonInclude(JsonInclude.Include.ALWAYS)
 public class DetailledEventResponse {
 
     @JsonIgnore

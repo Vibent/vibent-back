@@ -8,12 +8,13 @@ import javax.validation.constraints.Size;
 @Data
 public class FreeBubbleRequest {
     @NotNull
-    @Size(max = 36, min = 36)
+    @Size(min = 36, max = 36)
     private String eventRef;
+
     @NotNull
-    @Size(max = 100, min = 1)
+    @Size(min = 1, max = 100)
     private String title;
 
-    @Size(max = 1000, min = 1)
+    @Size(min = 1, max = 1000)
     private String content;
 }

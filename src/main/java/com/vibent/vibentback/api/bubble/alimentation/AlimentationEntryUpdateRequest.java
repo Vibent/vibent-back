@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 
 @Data
 public class AlimentationEntryUpdateRequest {
-    @Size(max = 64, min = 1)
+    @Size(min = 1, max = 50)
     private String name;
 
     @Min(1)

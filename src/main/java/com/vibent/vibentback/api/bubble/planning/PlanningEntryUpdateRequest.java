@@ -8,13 +8,12 @@ import java.util.Date;
 
 @Data
 public class PlanningEntryUpdateRequest {
-
     @Future
     private Date start;
 
     @Future
     private Date end;
 
-    @Size(max = 500, min = 1)
+    @Size(min = 1, max = 500)
     private String content;
 }

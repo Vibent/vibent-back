@@ -9,7 +9,6 @@ import lombok.NonNull;
 @Data
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class AuthenticationApiResponse {
-
     @NonNull
     private String accessToken;
 

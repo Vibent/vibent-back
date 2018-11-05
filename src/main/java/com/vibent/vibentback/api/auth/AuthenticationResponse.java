@@ -6,7 +6,6 @@ import lombok.NonNull;
 
 @Data
 public class AuthenticationResponse {
-
     @NonNull
     private String token;
 

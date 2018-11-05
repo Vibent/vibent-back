@@ -10,7 +10,6 @@ import java.util.Date;
 
 @Data
 public class PlanningEntryRequest {
-
     @NotNull
     @Min(0)
     private Long bubbleId;
@@ -24,6 +23,6 @@ public class PlanningEntryRequest {
     private Date end;
 
     @NotNull
-    @Size(max = 500, min = 1)
+    @Size(min = 1, max = 500)
     private String content;
 }
