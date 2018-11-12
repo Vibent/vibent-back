@@ -52,7 +52,8 @@ public class EventService {
         Event event = new Event();
         event.setRef(UUID.randomUUID().toString());
         event.setTitle(request.getTitle());
-        event.setDescription(request.getDescription());
+        if(request.getDescription() != null)
+            event.setDescription(request.getDescription());
         event.setGroup(group);
         event.setStartDate(request.getStartDate());
         event.setEndDate(request.getEndDate());
