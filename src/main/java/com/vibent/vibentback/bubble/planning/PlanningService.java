@@ -64,7 +64,9 @@ public class PlanningService {
         entry.setBubble(bubble);
         entry.setContent(request.getContent());
         entry.setStart(request.getStart());
-        entry.setEnd(request.getEnd());
+        if (request.getEnd() != null)
+            entry.setEnd(request.getEnd());
+        entry.setHasTime(request.getHasTime());
         entry.setUser(userUtils.getConnectedUser());
         entry.setDeleted(false);
         bubble.getEntries().add(entry);
@@ -80,6 +82,9 @@ public class PlanningService {
             entry.setStart(request.getStart());
         if (request.getEnd() != null)
             entry.setEnd(request.getEnd());
+        if(request.getHasTime() != null){
+            entry.setHasTime(request.getHasTime());
+        }
         entry = entryRepository.save(entry);
         return entry.getBubble();
     }
