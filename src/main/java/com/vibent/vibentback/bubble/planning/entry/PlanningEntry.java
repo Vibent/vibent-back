@@ -3,6 +3,7 @@ package com.vibent.vibentback.bubble.planning.entry;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.vibent.vibentback.bubble.planning.PlanningBubble;
 import com.vibent.vibentback.user.User;
 import lombok.*;
@@ -46,6 +47,8 @@ public class PlanningEntry {
 
     @NonNull
     private String content;
+
+    private boolean hasTime;
 
     @JsonIgnore
     private boolean deleted;

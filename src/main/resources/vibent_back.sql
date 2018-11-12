@@ -420,6 +420,7 @@ CREATE TABLE `planning_entry` (
   `start` datetime DEFAULT NULL,
   `end` datetime DEFAULT NULL,
   `content` varchar(500) DEFAULT NULL,
+  `has_time` tinyint(1) DEFAULT '0',
   `bubble_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',

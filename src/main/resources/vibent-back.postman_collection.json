@@ -20,7 +20,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"password\": \"password\",\n\t\"email\": \"vibentPM@vibent.com\",\n\t\"phoneNumber\": \"0634578968\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
+							"raw": "{\n\t\"password\": \"password\",\n\t\"email\": \"vibentPM@vibent.com\",\n\t\"phoneNumber\": \"+33634578968\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/auth/register",
@@ -47,7 +47,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"password\": \"password\",\n\t\"email\": \"cr.in.france+1@gmail.com\",\n\t\"phoneNumber\": \"0634578941\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
+							"raw": "{\n\t\"password\": \"password\",\n\t\"email\": \"cr.in.france+1@gmail.com\",\n\t\"phoneNumber\": \"+33634578941\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/auth/register",
@@ -102,7 +102,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"password\": \"password\",\n\t\"email\": \"secondUser@vibent.com\",\n\t\"phoneNumber\": \"0634711545\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
+							"raw": "{\n\t\"password\": \"password\",\n\t\"email\": \"secondUser@vibent.com\",\n\t\"phoneNumber\": \"+33634711545\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/auth/register",
@@ -124,7 +124,6 @@
 							"listen": "test",
 							"script": {
 								"id": "62d89dee-e69a-40af-a1f1-68f46a7453c5",
-								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
@@ -132,7 +131,8 @@
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(200);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -268,7 +268,6 @@
 							"listen": "test",
 							"script": {
 								"id": "531c0c1a-78d9-425d-85a8-8c13e75bb050",
-								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
@@ -276,7 +275,8 @@
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(200);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -290,7 +290,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \r\n\t\"phoneNumber\": \"0634578968\",\r\n\t\"password\" : \"password\"\r\n}"
+							"raw": "{ \r\n\t\"phoneNumber\": \"+33634578968\",\r\n\t\"password\" : \"password\"\r\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/auth/login/phone",
@@ -946,7 +946,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"allAdmins\": true\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "{{URL}}/group/{{groupRef}}",
@@ -1086,7 +1086,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"allAdmins\": true\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "{{URL}}/group/{{groupRef}}/inviteToken",
@@ -1178,7 +1178,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\"\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "{{URL}}/group/me",
@@ -1547,7 +1547,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\"\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "{{URL}}/event/{{eventRef}}",
@@ -1592,7 +1592,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\"\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "{{URL}}/event/me",
@@ -1884,7 +1884,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\"\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "{{URL}}/bubble/alimentation/{{alimentationBubbleId}}",
@@ -3243,7 +3243,7 @@
 					"response": []
 				},
 				{
-					"name": "5. Create Second Planning Bubble Copy",
+					"name": "5. Create Second Planning Bubble",
 					"event": [
 						{
 							"listen": "test",
@@ -3324,7 +3324,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"bubbleId\": \"{{planningBubbleId}}\",\n  \"start\": \"2019-02-13T00:01:02.003Z\",\n  \"end\": \"2019-02-13T00:01:02.003Z\",\n  \"content\": \"Go fishing\"\n}"
+							"raw": "{\n  \"bubbleId\": \"{{planningBubbleId}}\",\n  \"start\": \"2019-02-13T00:01:02.003Z\",\n  \"end\": \"2019-02-13T00:01:02.003Z\",\n  \"content\": \"Go fishing\",\n  \"hasTime\": true\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/bubble/planning/entry",
@@ -3370,7 +3370,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"start\": \"2019-02-13T00:09:09.00Z\",\n  \"end\": \"2019-02-13T00:09:09.009Z\",\n  \"content\": \"Go fishing and huntingplanningEntryId\"\n}"
+							"raw": "{\n  \"start\": \"2019-02-13T00:09:09.00Z\",\n  \"end\": \"2019-02-13T00:09:09.009Z\",\n  \"content\": \"Go fishing and huntingplanningEntryId\",\n  \"hasTime\": false\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/bubble/planning/entry/{{planningEntryId}}",

@@ -19,8 +19,10 @@ public class PlanningEntryRequest {
     private Date start;
 
     @Future
-    @NotNull
     private Date end;
+
+    @NotNull
+    Boolean hasTime;
 
     @NotNull
     @Size(min = 1, max = 500)
