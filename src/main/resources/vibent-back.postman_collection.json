@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f9cecf6e-9948-4eac-944d-344f342f1507",
+		"_postman_id": "c97ac977-4d22-46bd-ba97-29be33281eb9",
 		"name": "Vibent Back",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -923,12 +923,12 @@
 							"listen": "test",
 							"script": {
 								"id": "5bc0b47b-2db3-408e-8f5a-f63cb3fbf2b9",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(200);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -1431,7 +1431,6 @@
 							"listen": "test",
 							"script": {
 								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
-								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"postman.setEnvironmentVariable(\"eventRef\", jsonData.ref);",
@@ -1439,7 +1438,8 @@
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -1651,6 +1651,98 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "6. Delete Event",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a7b4bbc-6daa-4fce-9c20-678c3e7b04d7",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/event/{{eventRef}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"event",
+								"{{eventRef}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. Create Second Event",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"eventRef\", jsonData.ref);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"startDate\": \"2019-04-22T09:49:05+00:00\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/event",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"event"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1690,7 +1782,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": null
+									"src": ""
 								}
 							]
 						},
@@ -1807,13 +1899,12 @@
 			"name": "6. Alimentation Bubble",
 			"item": [
 				{
-					"name": "1.Create Alimentation Bubble",
+					"name": "1. Create Alimentation Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"id": "40fb4964-5eb5-4235-b3bc-0d73ca4406b6",
-								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"postman.setEnvironmentVariable(\"alimentationBubbleId\", jsonData.id);",
@@ -1821,7 +1912,8 @@
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
