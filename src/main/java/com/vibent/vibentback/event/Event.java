@@ -37,7 +37,7 @@ public class Event implements Serializable {
     private String ref;
 
     @NonNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @PrimaryKeyJoinColumn
     private GroupT group;
 
