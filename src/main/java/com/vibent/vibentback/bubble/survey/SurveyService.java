@@ -1,9 +1,8 @@
 package com.vibent.vibentback.bubble.survey;
 
 
-import com.vibent.vibentback.ConnectedUserUtils;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.api.bubble.survey.*;
-import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.survey.answer.SurveyAnswer;
 import com.vibent.vibentback.bubble.survey.answer.SurveyAnswerRepository;
 import com.vibent.vibentback.bubble.survey.option.SurveyOption;

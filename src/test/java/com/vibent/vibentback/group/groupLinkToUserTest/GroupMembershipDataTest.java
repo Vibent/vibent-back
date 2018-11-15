@@ -1,6 +1,7 @@
 package com.vibent.vibentback.group.groupLinkToUserTest;
 
 import com.vibent.vibentback.VibentTest;
+import com.vibent.vibentback.auth.VibentAuthentication;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.group.GroupT;
@@ -17,6 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
@@ -41,6 +43,8 @@ public class GroupMembershipDataTest extends VibentTest {
         super.setUp();
         RANDOM_USER = userRepository.save(RANDOM_USER);
         RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
+
+        SecurityContextHolder.getContext().setAuthentication(AUTHENTICATION);
     }
 
     @Test
@@ -120,36 +124,6 @@ public class GroupMembershipDataTest extends VibentTest {
 
         membershipService.removeMembership(RANDOM_GROUP, RANDOM_USER);
 
-
-        // Assert membership was deleted on both ends
-        Assert.assertFalse(RANDOM_USER.getMemberships().stream().anyMatch(m -> m.getGroup().equals(RANDOM_GROUP)));
-        Assert.assertFalse(RANDOM_GROUP.getMemberships().stream().anyMatch(m -> m.getUser().equals(RANDOM_USER)));
-
-        // Assert member and group are not deleted
-        Assert.assertTrue(userRepository.findByRef(RANDOM_USER.getRef()).isPresent());
-        Assert.assertTrue(groupTRepository.findByRef(RANDOM_GROUP.getRef()).isPresent());
-    }
-
-    @Test
-    public void testDeleteAllGroupMembership() {
-        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
-
-        membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false);
-
-        // Assert membership was deleted on both ends
-        Assert.assertFalse(RANDOM_USER.getMemberships().stream().anyMatch(m -> m.getGroup().equals(RANDOM_GROUP)));
-        Assert.assertFalse(RANDOM_GROUP.getMemberships().stream().anyMatch(m -> m.getUser().equals(RANDOM_USER)));
-
-        // Assert member and group are not deleted
-        Assert.assertTrue(userRepository.findByRef(RANDOM_USER.getRef()).isPresent());
-        Assert.assertTrue(groupTRepository.findByRef(RANDOM_GROUP.getRef()).isPresent());
-    }
-
-    @Test
-    public void testDeleteAllUserMembership() {
-        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
-
-        membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false);
 
         // Assert membership was deleted on both ends
         Assert.assertFalse(RANDOM_USER.getMemberships().stream().anyMatch(m -> m.getGroup().equals(RANDOM_GROUP)));

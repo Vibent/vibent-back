@@ -1,9 +1,7 @@
-package com.vibent.vibentback;
+package com.vibent.vibentback.user;
 
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
-import com.vibent.vibentback.user.User;
-import com.vibent.vibentback.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,11 +13,11 @@ public class ConnectedUserUtils {
 
     private UserRepository userRepository;
 
-    public String getConnectedUserRef(){
-        return  (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public String getConnectedUserRef() {
+        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public User getConnectedUser(){
+    public User getConnectedUser() {
         return userRepository.findByRef(getConnectedUserRef())
                 .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
     }

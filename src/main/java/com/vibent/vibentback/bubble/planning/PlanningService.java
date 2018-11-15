@@ -1,6 +1,6 @@
 package com.vibent.vibentback.bubble.planning;
 
-import com.vibent.vibentback.ConnectedUserUtils;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.api.bubble.planning.PlanningBubbleRequest;
 import com.vibent.vibentback.api.bubble.planning.PlanningBubbleUpdateRequest;
 import com.vibent.vibentback.api.bubble.planning.PlanningEntryRequest;

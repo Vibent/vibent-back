@@ -1,9 +1,7 @@
 package com.vibent.vibentback.bubble.alimentation;
 
-import com.vibent.vibentback.ConnectedUserUtils;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.api.bubble.alimentation.*;
-import com.vibent.vibentback.bubble.Bubble;
-import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBringRepository;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
@@ -31,12 +29,10 @@ public class AlimentationService {
     ConnectedUserUtils userUtils;
 
     // Alimentation Bubble -------------------------------------------------------------
-    // @PreAuthorize(value = "hasPermission(#id, 'AlimentationBubble', 'ROLE_USER')")
     public AlimentationBubble getBubble(long id) {
         return bubbleRepository.findById(id).orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
     }
 
-    // @PreAuthorize(value = "hasPermission(#eventRef, 'Event', 'ROLE_ADMIN')")
     public AlimentationBubble createBubble(String eventRef) {
         Event event = eventRepository.findByRef(eventRef)
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
@@ -48,14 +44,11 @@ public class AlimentationService {
         return alimentationBubble;
     }
 
-    // @PreAuthorize(value = "hasPermission(#id, 'AlimentationBubble', 'ROLE_ADMIN')")
     public void deleteBubble(long id) {
         bubbleRepository.deleteById(id);
     }
 
     // Alimentation Entry -------------------------------------------------------------
-
-    // @PreAuthorize(value = "hasPermission(#request.bubbleId, 'AlimentationBubble', 'ROLE_USER')")
     public AlimentationBubble createEntry(AlimentationEntryRequest request) {
         AlimentationBubble bubble = bubbleRepository.findById(request.getBubbleId())
                 .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
@@ -71,7 +64,6 @@ public class AlimentationService {
         return entry.getBubble();
     }
 
-    // @PreAuthorize(value = "hasPermission(#id, 'AlimentationEntry', 'ROLE_USER')")
     public AlimentationBubble updateEntry(Long id, AlimentationEntryUpdateRequest request) {
         AlimentationEntry entry = entryRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
@@ -86,7 +78,6 @@ public class AlimentationService {
         return entry.getBubble();
     }
 
-    // @PreAuthorize(value = "hasPermission(#id, 'AlimentationEntry', 'ROLE_USER')")
     public void deleteEntry(Long id) {
         AlimentationEntry entry = entryRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
@@ -97,7 +88,6 @@ public class AlimentationService {
     }
 
     // Alimentation Bring -------------------------------------------------------------
-    // @PreAuthorize(value = "hasPermission(#request.entryId, 'AlimentationEntry', 'ROLE_USER')")
     public AlimentationBubble changeBring(AlimentationBringChangeRequest request) {
         AlimentationBring bring;
         AlimentationEntry entry = entryRepository.findById(request.getEntryId())
@@ -106,7 +96,7 @@ public class AlimentationService {
                 b -> b.getUserRef().equals(userUtils.getConnectedUserRef())).findFirst();
 
         // Bring already exists for connected user
-        if(bringOpt.isPresent()) {
+        if (bringOpt.isPresent()) {
             bring = bringOpt.get();
             bring.setQuantity(bring.getQuantity() + request.getQuantity());
             if (bring.getQuantity() < 1L) {
@@ -129,15 +119,14 @@ public class AlimentationService {
         }
     }
 
-
     public AlimentationBubble createBring(AlimentationBringRequest request) {
         AlimentationEntry entry = entryRepository.findById(request.getEntryId())
                 .orElseThrow(() -> new VibentException(VibentError.ENTRY_NOT_FOUND));
 
-        if(entry.getBrings().stream().anyMatch(b -> b.getUserRef().equals(userUtils.getConnectedUserRef()))){
+        if (entry.getBrings().stream().anyMatch(b -> b.getUserRef().equals(userUtils.getConnectedUserRef()))) {
             throw new VibentException(VibentError.BRING_ALREADY_EXISTS);
         }
-        
+
         AlimentationBring bring = new AlimentationBring();
         bring.setQuantity(request.getQuantity());
         bring.setUser(userUtils.getConnectedUser());
@@ -149,7 +138,6 @@ public class AlimentationService {
         return entry.getBubble();
     }
 
-    // @PreAuthorize(value = "hasPermission(#id, 'AlimentationEntry', 'ROLE_USER')")
     public AlimentationBubble updateBring(Long id, AlimentationBringUpdateRequest request) {
         if (request.getQuantity() == 0)
             deleteBring(id);
@@ -160,7 +148,6 @@ public class AlimentationService {
         return bring.getEntry().getBubble();
     }
 
-    // @PreAuthorize(value = "hasPermission(#id, 'AlimentationEntry', 'ROLE_USER')")
     public void deleteBring(Long id) {
         AlimentationBring bring = bringRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.BRING_NOT_FOUND));

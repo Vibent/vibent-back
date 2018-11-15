@@ -73,7 +73,7 @@ public class EventInternalTest extends VibentTest {
 
         Event RANDOM_UPDATE_EVENT = RANDOM_EVENT = new Event(RANDOM_EVENT.getRef(), RANDOM_EVENT.getGroup(), RANDOM_EVENT.getTitle(), RANDOM_EVENT_UPDATE_REQUEST.getDescription(), RANDOM_EVENT.getStartDate());
 
-        when(userRepository.findByRef(RANDOM_USER.getRef())).thenReturn(Optional.of(RANDOM_USER));
+        when(userRepository.findByRef((String) AUTHENTICATION.getPrincipal())).thenReturn(Optional.of(RANDOM_USER));
         when(eventRepository.findByRef(RANDOM_EVENT.getRef())).thenReturn(Optional.of(RANDOM_EVENT));
         when(eventRepository.save(RANDOM_UPDATE_EVENT)).thenReturn(RANDOM_UPDATE_EVENT);
         when(eventRepository.save(RANDOM_EVENT)).thenReturn(RANDOM_EVENT);

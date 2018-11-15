@@ -7,8 +7,11 @@ import com.vibent.vibentback.bubble.location.LocationBubble;
 import com.vibent.vibentback.bubble.planning.PlanningBubble;
 import com.vibent.vibentback.bubble.survey.SurveyBubble;
 import com.vibent.vibentback.bubble.travel.TravelBubble;
+import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.group.GroupT;
+import com.vibent.vibentback.group.membership.Membership;
+import com.vibent.vibentback.user.User;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -27,7 +30,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = "id")
 @SQLDelete(sql = "UPDATE event SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
-public class Event implements Serializable {
+public class Event implements Serializable, Permissible {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,4 +81,14 @@ public class Event implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
     private Set<TravelBubble> travelBubbles = new HashSet<>();
+
+    @Override
+    public boolean canRead(User user) {
+        return this.group.canRead(user);
+    }
+
+    @Override
+    public boolean canWrite(User user) {
+        return this.group.canWrite(user);
+    }
 }

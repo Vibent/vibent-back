@@ -74,6 +74,8 @@ public enum VibentError {
     PROTECTED_SERIALIZATION_EXCEPTION(HttpStatus.UNAUTHORIZED, "There was an attempt to serialize or deserialize a protected object"),
     UNKNOWN(HttpStatus.INTERNAL_SERVER_ERROR, "An unknown error has occured"),
     NOT_IMPLEMENTED(HttpStatus.INTERNAL_SERVER_ERROR, "A non implemented function was called"),
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "An internal error within the service has occured"),
+    FORBIDDEN(HttpStatus.FORBIDDEN, "The user is not allowed to access this resource"),
 
     // Spring error
     HTTP_MESSAGE_NOT_READABLE(HttpStatus.BAD_REQUEST, "Message not readable - probably because of a missing or malformed body"),

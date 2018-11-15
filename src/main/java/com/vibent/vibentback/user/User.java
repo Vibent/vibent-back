@@ -1,5 +1,6 @@
 package com.vibent.vibentback.user;
 
+import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.group.membership.MembershipRequest;
@@ -27,7 +28,7 @@ import java.util.Set;
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE user SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
-public class User implements UserDetails, Serializable {
+public class User implements UserDetails, Serializable, Permissible {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,5 +67,15 @@ public class User implements UserDetails, Serializable {
     @Override
     public String getUsername() {
         return this.getEmail();
+    }
+
+    @Override
+    public boolean canRead(User user) {
+        return this.equals(user);
+    }
+
+    @Override
+    public boolean canWrite(User user) {
+        return this.equals(user);
     }
 }

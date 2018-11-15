@@ -1,8 +1,10 @@
 package com.vibent.vibentback.group;
 
+import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.group.membership.MembershipRequest;
+import com.vibent.vibentback.user.User;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -21,7 +23,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @SQLDelete(sql = "UPDATE group_t SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
-public class GroupT {
+public class GroupT implements Permissible {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,4 +52,22 @@ public class GroupT {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "group", orphanRemoval = true)
     private Set<MembershipRequest> requests = new HashSet<>();
+
+    @Override
+    public boolean canRead(User user) {
+        return isMember(user);
+    }
+
+    @Override
+    public boolean canWrite(User user) {
+        return (this.isHasDefaultAdmin() && isMember(user)) || isAdmin(user);
+    }
+
+    public boolean isAdmin(User user) {
+        return this.getMemberships().stream().anyMatch(m -> m.getUser().equals(user) && m.getAdmin());
+    }
+
+    public boolean isMember(User user){
+        return this.getMemberships().stream().anyMatch(p -> p.getUser().equals(user));
+    }
 }

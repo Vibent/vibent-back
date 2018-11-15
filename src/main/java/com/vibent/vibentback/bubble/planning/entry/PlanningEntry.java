@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.vibent.vibentback.bubble.planning.PlanningBubble;
+import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.user.User;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -20,7 +21,7 @@ import java.util.Date;
 @EqualsAndHashCode(of = "id")
 @SQLDelete(sql = "UPDATE planning_entry SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
-public class PlanningEntry {
+public class PlanningEntry implements Permissible {
 
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -56,5 +57,15 @@ public class PlanningEntry {
     @JsonProperty
     public String getUserRef() {
         return user.getRef();
+    }
+
+    @Override
+    public boolean canRead(User user) {
+        return this.getBubble().canRead(user);
+    }
+
+    @Override
+    public boolean canWrite(User user) {
+        return this.getBubble().canWrite(user);
     }
 }

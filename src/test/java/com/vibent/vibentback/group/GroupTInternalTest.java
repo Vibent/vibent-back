@@ -1,6 +1,6 @@
 package com.vibent.vibentback.group;
 
-import com.vibent.vibentback.ConnectedUserUtils;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.api.group.DetailledGroupResponse;
 import com.vibent.vibentback.api.group.GroupRequest;

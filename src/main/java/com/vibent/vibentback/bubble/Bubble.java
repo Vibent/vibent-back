@@ -2,6 +2,7 @@ package com.vibent.vibentback.bubble;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.user.User;
 import lombok.EqualsAndHashCode;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @Getter
 @EqualsAndHashCode(of = {"id"})
 @MappedSuperclass
-public abstract class Bubble {
+public abstract class Bubble implements Permissible {
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,5 +42,15 @@ public abstract class Bubble {
     @JsonProperty
     public String getCreatorRef() {
         return creator.getRef();
+    }
+
+    @Override
+    public boolean canRead(User user) {
+        return this.event.canRead(user);
+    }
+
+    @Override
+    public boolean canWrite(User user) {
+        return this.event.canWrite(user);
     }
 }
