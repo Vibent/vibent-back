@@ -1,16 +1,14 @@
 package com.vibent.vibentback.event;
 
+import com.vibent.vibentback.common.util.CrudRefRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
-
-import java.util.Date;
 import java.util.Optional;
 
-public interface EventRepository extends CrudRepository<Event, Long> {
+public interface EventRepository extends CrudRefRepository<Event, Long> {
 
     Optional<Event> findByRef(String ref);
 

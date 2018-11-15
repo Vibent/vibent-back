@@ -3,6 +3,7 @@ package com.vibent.vibentback.bubble.alimentation.bring;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
+import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.user.User;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = "id")
 @SQLDelete(sql = "UPDATE alimentation_bring SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
-public class AlimentationBring {
+public class AlimentationBring implements Permissible {
 
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -43,5 +44,15 @@ public class AlimentationBring {
     @JsonProperty
     public String getUserRef(){
         return user.getRef();
+    }
+
+    @Override
+    public boolean canRead(User user) {
+        return this.getEntry().canRead(user);
+    }
+
+    @Override
+    public boolean canWrite(User user) {
+        return this.getEntry().canWrite(user);
     }
 }

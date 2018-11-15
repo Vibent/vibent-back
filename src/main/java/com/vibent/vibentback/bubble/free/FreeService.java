@@ -1,8 +1,7 @@
 package com.vibent.vibentback.bubble.free;
 
-import com.vibent.vibentback.ConnectedUserUtils;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.api.bubble.free.FreeBubbleRequest;
-import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;

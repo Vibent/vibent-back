@@ -1,8 +1,8 @@
 package com.vibent.vibentback.group;
 
+import com.vibent.vibentback.common.util.CrudRefRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 
 
-public interface GroupTRepository extends CrudRepository<GroupT, Long> {
+public interface GroupTRepository extends CrudRefRepository<GroupT, Long> {
 
     Optional<GroupT> findById(long id);
 

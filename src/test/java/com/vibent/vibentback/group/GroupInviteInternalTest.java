@@ -1,15 +1,13 @@
 package com.vibent.vibentback.group;
 
-import com.vibent.vibentback.ConnectedUserUtils;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.api.group.*;
-import com.vibent.vibentback.common.util.JWTUtils;
 import com.vibent.vibentback.common.util.TokenInfo;
 import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.group.membership.MembershipRequestRepository;
 import com.vibent.vibentback.group.membership.MembershipService;
-import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.checkbox.CheckboxBubble;
 import com.vibent.vibentback.bubble.checkbox.answer.CheckboxAnswer;
+import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.user.User;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -20,7 +21,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = "id")
 @SQLDelete(sql = "UPDATE checkbox_option SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
-public class CheckboxOption {
+public class CheckboxOption implements Permissible {
 
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -49,5 +50,15 @@ public class CheckboxOption {
     @JsonProperty
     public String getUserRef(){
         return user.getRef();
+    }
+
+    @Override
+    public boolean canRead(User user) {
+        return this.getBubble().canRead(user);
+    }
+
+    @Override
+    public boolean canWrite(User user) {
+        return this.getBubble().canWrite(user);
     }
 }

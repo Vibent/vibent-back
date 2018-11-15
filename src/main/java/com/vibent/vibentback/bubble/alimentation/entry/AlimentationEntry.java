@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
+import com.vibent.vibentback.common.permission.Permissible;
+import com.vibent.vibentback.user.User;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +24,7 @@ import java.util.Set;
 @ToString(exclude = "bubble")
 @SQLDelete(sql = "UPDATE alimentation_entry SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
-public class AlimentationEntry {
+public class AlimentationEntry implements Permissible {
 
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -59,6 +61,16 @@ public class AlimentationEntry {
     @JsonProperty
     public int getCurrentBringing(){
         return brings.stream().mapToInt(AlimentationBring::getQuantity).sum();
+    }
+
+    @Override
+    public boolean canRead(User user) {
+        return this.getBubble().canRead(user);
+    }
+
+    @Override
+    public boolean canWrite(User user) {
+        return this.getBubble().canWrite(user);
     }
 
     public enum Type {

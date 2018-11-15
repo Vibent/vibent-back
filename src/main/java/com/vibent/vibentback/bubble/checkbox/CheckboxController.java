@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ public class CheckboxController {
     CheckboxService service;
 
     // Checkbox Bubble -------------------------------------------------------------
+    @PostAuthorize("hasPermission(returnObject, 'read')")
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     CheckboxBubble getBubble(@PathVariable Long id) {
         log.info("Get checkbox bubble with id : {}", id);

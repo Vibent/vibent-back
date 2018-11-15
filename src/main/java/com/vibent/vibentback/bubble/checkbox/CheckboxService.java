@@ -1,9 +1,8 @@
 package com.vibent.vibentback.bubble.checkbox;
 
 
-import com.vibent.vibentback.ConnectedUserUtils;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.api.bubble.checkbox.*;
-import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.checkbox.answer.CheckboxAnswer;
 import com.vibent.vibentback.bubble.checkbox.answer.CheckboxAnswerRepository;
 import com.vibent.vibentback.bubble.checkbox.option.CheckboxOption;
@@ -93,7 +92,7 @@ public class CheckboxService {
     public CheckboxBubble createAnswer(CheckboxAnswerRequest request) {
         CheckboxOption option = optionRepository.findById(request.getOptionId())
                 .orElseThrow(() -> new VibentException(VibentError.OPTION_NOT_FOUND));
-        if(option.getAnswers().stream().anyMatch(a -> a.getUserRef().equals(userUtils.getConnectedUserRef()))){
+        if (option.getAnswers().stream().anyMatch(a -> a.getUserRef().equals(userUtils.getConnectedUserRef()))) {
             throw new VibentException(VibentError.ANSWER_ALREADY_CREATED);
         }
         CheckboxAnswer answer = new CheckboxAnswer();

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.survey.SurveyBubble;
 import com.vibent.vibentback.bubble.survey.answer.SurveyAnswer;
+import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.user.User;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -20,7 +21,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = "id")
 @SQLDelete(sql = "UPDATE survey_option SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
-public class SurveyOption {
+public class SurveyOption implements Permissible {
 
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -49,5 +50,15 @@ public class SurveyOption {
     @JsonProperty
     public String getUserRef(){
         return user.getRef();
+    }
+
+    @Override
+    public boolean canRead(User user) {
+        return this.getBubble().canRead(user);
+    }
+
+    @Override
+    public boolean canWrite(User user) {
+        return this.getBubble().canWrite(user);
     }
 }

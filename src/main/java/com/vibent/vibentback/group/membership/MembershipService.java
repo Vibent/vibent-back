@@ -1,6 +1,6 @@
 package com.vibent.vibentback.group.membership;
 
-import com.vibent.vibentback.ConnectedUserUtils;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.EventRepository;

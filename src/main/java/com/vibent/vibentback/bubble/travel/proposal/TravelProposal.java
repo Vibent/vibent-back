@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.travel.TravelBubble;
 import com.vibent.vibentback.bubble.travel.request.TravelRequest;
+import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.user.User;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,7 +24,7 @@ import java.util.Set;
 @ToString(exclude = {"bubble", "user"})
 @SQLDelete(sql = "UPDATE travel_proposal SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
-public class TravelProposal {
+public class TravelProposal implements Permissible {
 
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -53,5 +54,15 @@ public class TravelProposal {
     @JsonProperty
     public String getUserRef() {
         return user.getRef();
+    }
+
+    @Override
+    public boolean canRead(User user) {
+        return this.getBubble().canRead(user);
+    }
+
+    @Override
+    public boolean canWrite(User user) {
+        return this.getBubble().canWrite(user);
     }
 }

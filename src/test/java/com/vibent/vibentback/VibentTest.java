@@ -21,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 public class VibentTest {
