@@ -1524,12 +1524,12 @@
 							"listen": "test",
 							"script": {
 								"id": "1a7b4bbc-6daa-4fce-9c20-678c3e7b04d7",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(200);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -1999,7 +1999,6 @@
 							"listen": "test",
 							"script": {
 								"id": "1af7ca89-d1d1-4fda-80b5-aa09dad78877",
-								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"postman.setEnvironmentVariable(\"alimentationEntryId\", jsonData.entries[0].id);",
@@ -2007,7 +2006,8 @@
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -2420,6 +2420,52 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "11. Delete Alimentation Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6583649f-fa55-439e-af69-69b4f7da5f0e",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/alimentation/{{alimentationBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"alimentation",
+								"{{alimentationBubbleId}}"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -2810,7 +2856,6 @@
 							"listen": "test",
 							"script": {
 								"id": "b8eb742b-6189-4cc3-b28a-df46fee3faae",
-								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"postman.setEnvironmentVariable(\"checkboxOptionId\", jsonData.options[0].id);",
@@ -2818,7 +2863,8 @@
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],

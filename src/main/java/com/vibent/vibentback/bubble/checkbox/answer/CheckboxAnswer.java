@@ -3,6 +3,8 @@ package com.vibent.vibentback.bubble.checkbox.answer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.checkbox.option.CheckboxOption;
+import com.vibent.vibentback.common.error.VibentError;
+import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.user.User;
 import lombok.*;
@@ -49,5 +51,10 @@ public class CheckboxAnswer implements Permissible {
     @Override
     public boolean canWrite(User user) {
         return this.getOption().canWrite(user);
+    }
+
+    @Override
+    public boolean canWriteChildren(User user) {
+        throw new VibentException(VibentError.ILLOGICAL_PERMISSION);
     }
 }

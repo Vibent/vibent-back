@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,18 +32,21 @@ public class UserController {
         return new DetailledUserResponse(userService.getConnectedUser());
     }
 
+    @PreAuthorize(value = "hasPermission(#userRef, 'User', 'read')")
     @RequestMapping(method = RequestMethod.GET, value = "/{userRef}")
     SimpleUserResponse getUser(@PathVariable String userRef) {
         log.info("Get user with ref : {}", userRef);
         return new SimpleUserResponse(userService.getUserByRef(userRef));
     }
 
+    @PreAuthorize(value = "hasPermission(#userRef, 'User', 'write')")
     @RequestMapping(method = RequestMethod.PATCH, value = "/{userRef}")
     DetailledUserResponse updateUser(@PathVariable String userRef, @Valid @RequestBody UpdateUserRequest request) {
         log.info("Update request with ref {} body : {}", userRef, request.toString());
         return new DetailledUserResponse(userService.updateUser(userRef, request));
     }
 
+    @PreAuthorize(value = "hasPermission(#userRef, 'User', 'write')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/{userRef}")
     void deleteUser(@PathVariable String userRef) {

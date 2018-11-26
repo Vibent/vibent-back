@@ -1,9 +1,9 @@
 package com.vibent.vibentback.common.permission;
 
-import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.util.CrudRefRepository;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -56,6 +56,13 @@ public class VibentPermissionEvaluator implements PermissionEvaluator {
 
         if (permission.equals("write")) {
             if (!((Permissible) targetDomainObject).canWrite(userUtils.getConnectedUser())) {
+                throw new VibentException(VibentError.FORBIDDEN);
+            }
+            return true;
+        }
+
+        if (permission.equals("writeChildren")) {
+            if (!((Permissible) targetDomainObject).canWriteChildren(userUtils.getConnectedUser())) {
                 throw new VibentException(VibentError.FORBIDDEN);
             }
             return true;

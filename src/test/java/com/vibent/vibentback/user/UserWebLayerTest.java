@@ -11,6 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -30,6 +32,7 @@ public class UserWebLayerTest extends VibentTest {
     @Before
     public void setUp() {
         super.setUp();
+
         when(userService.getUserByRef(RANDOM_USER.getRef())).thenReturn(RANDOM_USER);
         when(userService.addUser(RANDOM_USER)).thenReturn(RANDOM_USER);
     }

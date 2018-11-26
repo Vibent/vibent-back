@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,12 +21,14 @@ public class TravelController {
     TravelService service;
 
     // Travel Bubble -------------------------------------------------------------
+    @PostAuthorize("hasPermission(returnObject, 'read')")
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     TravelBubble getBubble(@PathVariable Long id) {
         log.info("Get travel bubble with id : {}", id);
         return service.getBubble(id);
     }
 
+    @PreAuthorize("hasPermission(#request.eventRef, 'Event', 'writeChildren')")
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -33,6 +37,7 @@ public class TravelController {
         return service.createBubble(request.getEventRef());
     }
 
+    @PreAuthorize(value = "hasPermission(#id, 'TravelBubble', 'write')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     void deleteBubble(@PathVariable Long id) {
@@ -41,6 +46,7 @@ public class TravelController {
     }
 
     // Travel Proposal -------------------------------------------------------------
+    @PreAuthorize(value = "hasPermission(#request.bubbleId, 'TravelBubble', 'writeChildren')")
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/proposal",
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -49,6 +55,7 @@ public class TravelController {
         return service.createProposal(request);
     }
 
+    @PreAuthorize(value = "hasPermission(#id, 'TravelProposal', 'write')")
     @RequestMapping(method = RequestMethod.PATCH, value = "/proposal/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     TravelBubble updateProposal(@PathVariable("id") Long id, @Valid @RequestBody TravelProposalUpdateRequest request) {
@@ -56,14 +63,16 @@ public class TravelController {
         return service.updateProposal(id, request);
     }
 
+    @PreAuthorize(value = "hasPermission(#id, 'TravelProposal', 'write')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/proposal/{id}")
-    void deleteEntry(@PathVariable Long id) {
+    void deleteProposal(@PathVariable Long id) {
         log.info("Deleting travel proposal with id : {}", id);
         service.deleteProposal(id);
     }
 
     // Travel Request -------------------------------------------------------------
+    @PreAuthorize(value = "hasPermission(#request.bubbleId, 'TravelBubble', 'writeChildren')")
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/request",
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -72,6 +81,7 @@ public class TravelController {
         return service.createRequest(request);
     }
 
+    @PreAuthorize(value = "hasPermission(#request.proposalId, 'TravelProposal', 'writeChildren')")
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/proposal/request",
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -80,21 +90,25 @@ public class TravelController {
         return service.createRequestAndAttach(request);
     }
 
+    @PreAuthorize(value = "hasPermission(#id, 'TravelRequest', 'write')")
     @RequestMapping(method = RequestMethod.PATCH, value = "/request/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    TravelBubble updateBring(@PathVariable("id") Long id, @Valid @RequestBody TravelRequestUpdateRequest request) {
+    TravelBubble updateRequest(@PathVariable("id") Long id, @Valid @RequestBody TravelRequestUpdateRequest request) {
         log.info("Updating travel request {} with body {}", id, request.toString());
         return service.updateRequest(id, request);
     }
 
+    @PreAuthorize(value = "hasPermission(#id, 'TravelRequest', 'write')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/request/{id}")
-    void deleteBring(@PathVariable Long id) {
+    void deleteRequest(@PathVariable Long id) {
         log.info("Deleting travel request with id : {}", id);
         service.deleteRequest(id);
     }
 
     // Attach / Detach
+    @PreAuthorize(value = "hasPermission(#request.proposalId, 'TravelProposal', 'writeChildren') " +
+            "&& hasPermission(#request.requestId, 'TravelRequest', 'write')")
     @RequestMapping(method = RequestMethod.POST, value = "/attach",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     TravelBubble attach(@Valid @RequestBody TravelAttachRequest request) {
@@ -102,6 +116,7 @@ public class TravelController {
         return service.attach(request);
     }
 
+    @PreAuthorize(value = "hasPermission(#request.requestId, 'TravelRequest', 'write')")
     @RequestMapping(method = RequestMethod.POST, value = "/detach",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     TravelBubble detach(@Valid @RequestBody TravelAttachRequest request) {

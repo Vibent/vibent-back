@@ -30,7 +30,7 @@ public class AlimentationController {
         return service.getBubble(id);
     }
 
-    @PreAuthorize("hasPermission(#eventRef, 'Event', 'write')")
+    @PreAuthorize("hasPermission(#request.eventRef, 'Event', 'writeChildren')")
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -48,7 +48,7 @@ public class AlimentationController {
     }
 
     // Alimentation Entry -------------------------------------------------------------
-    @PreAuthorize(value = "hasPermission(#request.bubbleId, 'AlimentationBubble', 'write')")
+    @PreAuthorize(value = "hasPermission(#request.bubbleId, 'AlimentationBubble', 'writeChildren')")
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/entry",
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -75,7 +75,7 @@ public class AlimentationController {
 
 
     // Alimentation Bring -------------------------------------------------------------
-    @PreAuthorize(value = "hasPermission(#request.entryId, 'AlimentationEntry', 'write')")
+    @PreAuthorize(value = "hasPermission(#request.entryId, 'AlimentationEntry', 'writeChildren')")
     @ApiOperation(value = "Allow complete control over alimentation brings. The quantity parameter is the desired difference to the current " +
             "bring quantity. If the quantity is 0 or negative, it is deleted. If no bring for the connected user and entry exists, it will " +
             "be created with the quantity parameter.")
@@ -88,7 +88,7 @@ public class AlimentationController {
     }
 
 
-    @PreAuthorize(value = "hasPermission(#request.entryId, 'AlimentationEntry', 'write')")
+    @PreAuthorize(value = "hasPermission(#request.entryId, 'AlimentationEntry', 'writeChildren')")
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/bring",
             consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -75,6 +75,7 @@ public enum VibentError {
     UNKNOWN(HttpStatus.INTERNAL_SERVER_ERROR, "An unknown error has occured"),
     NOT_IMPLEMENTED(HttpStatus.INTERNAL_SERVER_ERROR, "A non implemented function was called"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "An internal error within the service has occured"),
+    ILLOGICAL_PERMISSION(HttpStatus.INTERNAL_SERVER_ERROR, "An internal error within the service has occured due to a illogical permission being checked"),
     FORBIDDEN(HttpStatus.FORBIDDEN, "The user is not allowed to access this resource"),
 
     // Spring error

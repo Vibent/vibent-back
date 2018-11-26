@@ -12,7 +12,11 @@ import com.vibent.vibentback.bubble.location.LocationBubble;
 import com.vibent.vibentback.bubble.planning.PlanningBubble;
 import com.vibent.vibentback.bubble.survey.SurveyBubble;
 import com.vibent.vibentback.bubble.travel.TravelBubble;
+import com.vibent.vibentback.common.error.VibentError;
+import com.vibent.vibentback.common.error.VibentException;
+import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.event.Event;
+import com.vibent.vibentback.user.User;
 
 import java.util.Date;
 import java.util.HashSet;
