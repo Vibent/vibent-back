@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.Set;
 
-
 public interface GroupTRepository extends CrudRefRepository<GroupT, Long> {
 
     Optional<GroupT> findById(long id);

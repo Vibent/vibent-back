@@ -1,5 +1,6 @@
 package com.vibent.vibentback.group;
 
+import com.vibent.vibentback.common.permission.VibentPermissionEvaluator;
 import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.api.group.*;
@@ -22,6 +23,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @Slf4j
@@ -36,6 +39,8 @@ public class GroupInviteInternalTest extends VibentTest {
     @InjectMocks
     private GroupTController controller;
 
+    @MockBean
+    VibentPermissionEvaluator permissionEvaluator;
     @MockBean
     private GroupTRepository groupTRepository;
     @MockBean
@@ -54,6 +59,9 @@ public class GroupInviteInternalTest extends VibentTest {
         RANDOM_GROUP.setId(5745L);
 
         Membership RANDOM_MEMBERSHIP = new Membership(RANDOM_USER, RANDOM_GROUP, false);
+
+        when(permissionEvaluator.hasPermission(any(), any(), any(), any())).thenReturn(false);
+        when(permissionEvaluator.hasPermission(eq(AUTHENTICATION), any(), any(), any())).thenReturn(true);
         when(connectedUserUtils.getConnectedUser()).thenReturn(RANDOM_USER);
         when(membershipRequestRepository.existsByUserAndGroup(RANDOM_USER, RANDOM_GROUP)).thenReturn(false);
         when(membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false)).thenReturn(RANDOM_MEMBERSHIP);

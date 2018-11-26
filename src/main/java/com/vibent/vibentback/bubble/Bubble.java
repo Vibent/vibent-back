@@ -2,6 +2,8 @@ package com.vibent.vibentback.bubble;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vibent.vibentback.common.error.VibentError;
+import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.user.User;
@@ -52,5 +54,10 @@ public abstract class Bubble implements Permissible {
     @Override
     public boolean canWrite(User user) {
         return this.event.canWrite(user);
+    }
+
+    @Override
+    public boolean canWriteChildren(User user) {
+        return this.canWrite(user);
     }
 }

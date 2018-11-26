@@ -1,5 +1,7 @@
 package com.vibent.vibentback.user;
 
+import com.vibent.vibentback.common.error.VibentError;
+import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.group.membership.Membership;
@@ -77,5 +79,10 @@ public class User implements UserDetails, Serializable, Permissible {
     @Override
     public boolean canWrite(User user) {
         return this.equals(user);
+    }
+
+    @Override
+    public boolean canWriteChildren(User user) {
+        throw new VibentException(VibentError.ILLOGICAL_PERMISSION);
     }
 }

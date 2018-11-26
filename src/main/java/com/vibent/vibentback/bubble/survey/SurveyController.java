@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,12 +22,14 @@ public class SurveyController {
     SurveyService service;
 
     // Survey Bubble -------------------------------------------------------------
+    @PostAuthorize("hasPermission(returnObject, 'read')")
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     SurveyBubble getBubble(@PathVariable Long id) {
         log.info("Get survey bubble with id : {}", id);
         return service.getBubble(id);
     }
 
+    @PreAuthorize("hasPermission(#request.eventRef, 'Event', 'writeChildren')")
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -34,12 +38,14 @@ public class SurveyController {
         return service.createBubble(request);
     }
 
+    @PreAuthorize(value = "hasPermission(#id, 'SurveyBubble', 'write')")
     @RequestMapping(method = RequestMethod.PATCH, value = "/{id}")
     SurveyBubble updateBubble(@PathVariable Long id, @Valid @RequestBody SurveyBubbleUpdateRequest request) {
         log.info("Updating survey bubble with id {} and body : {}", id, request.toString());
         return service.updateBubble(id, request);
     }
 
+    @PreAuthorize(value = "hasPermission(#id, 'SurveyBubble', 'write')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     void deleteBubble(@PathVariable Long id) {
@@ -48,7 +54,7 @@ public class SurveyController {
     }
 
     // Survey Bubble Option -------------------------------------------------------------
-
+    @PreAuthorize(value = "hasPermission(#request.bubbleId, 'SurveyBubble', 'writeChildren')")
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/option",
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -57,6 +63,7 @@ public class SurveyController {
         return service.createOption(request);
     }
 
+    @PreAuthorize(value = "hasPermission(#id, 'SurveyOption', 'write')")
     @RequestMapping(method = RequestMethod.PATCH, value = "/option/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     SurveyBubble updateOption(@PathVariable Long id, @Valid @RequestBody SurveyOptionUpdateRequest request) {
@@ -64,6 +71,7 @@ public class SurveyController {
         return service.updateOption(id, request);
     }
 
+    @PreAuthorize(value = "hasPermission(#id, 'SurveyOption', 'write')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/option/{id}")
     void deleteOption(@PathVariable Long id) {
@@ -72,7 +80,7 @@ public class SurveyController {
     }
 
     // Survey Bubble Answer -------------------------------------------------------------
-
+    @PreAuthorize(value = "hasPermission(#request.optionId, 'SurveyOption', 'writeChildren')")
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/answer",
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -81,6 +89,7 @@ public class SurveyController {
         return service.createAnswer(request);
     }
 
+    @PreAuthorize(value = "hasPermission(#id, 'SurveyAnswer', 'write')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/answer/{id}")
     void deleteAnswer(@PathVariable Long id) {
@@ -88,6 +97,7 @@ public class SurveyController {
         service.deleteAnswer(id);
     }
 
+    @PreAuthorize(value = "hasPermission(#id, 'SurveyAnswer', 'write')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/option/{id}/answer")
     void deleteAnswerOfOption(@PathVariable Long id) {

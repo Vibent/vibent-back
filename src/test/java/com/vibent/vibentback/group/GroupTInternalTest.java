@@ -1,5 +1,6 @@
 package com.vibent.vibentback.group;
 
+import com.vibent.vibentback.common.permission.VibentPermissionEvaluator;
 import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.api.group.DetailledGroupResponse;
@@ -21,6 +22,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @Slf4j
@@ -38,6 +41,8 @@ public class GroupTInternalTest extends VibentTest {
     private MembershipService membershipService;
     @MockBean
     private ConnectedUserUtils connectedUserUtils;
+    @MockBean
+    VibentPermissionEvaluator permissionEvaluator;
 
     private GroupRequest RANDOM_GROUP_REQUEST;
     private GroupUpdateRequest RANDOM_GROUP_UPDATE_REQUEST;
@@ -55,6 +60,9 @@ public class GroupTInternalTest extends VibentTest {
         RANDOM_GROUP_UPDATE_REQUEST.setName("New name");
 
         Membership RANDOM_MEMBERSHIP = new Membership(RANDOM_USER, RANDOM_GROUP, true);
+
+        when(permissionEvaluator.hasPermission(any(), any(), any(), any())).thenReturn(false);
+        when(permissionEvaluator.hasPermission(eq(AUTHENTICATION), any(), any(), any())).thenReturn(true);
         when(membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, true)).thenReturn(RANDOM_MEMBERSHIP);
         when(connectedUserUtils.getConnectedUser()).thenReturn(RANDOM_USER);
         when(groupTRepository.findByRef(RANDOM_GROUP.getRef())).thenReturn(Optional.ofNullable(RANDOM_GROUP));

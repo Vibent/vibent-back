@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,13 +24,14 @@ public class PlanningController {
     PlanningService service;
 
     // Planning Bubble -------------------------------------------------------------
-
+    @PreAuthorize("hasPermission(#id, 'PlanningBubble', 'read')")
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     PlanningBubble getBubble(@PathVariable Long id) {
         log.info("Get planning bubble with id : {}", id);
         return service.getBubble(id);
     }
 
+    @PreAuthorize("hasPermission(#request.eventRef, 'Event', 'writeChildren')")
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -38,12 +40,14 @@ public class PlanningController {
         return service.createBubble(request);
     }
 
+    @PreAuthorize("hasPermission(#id, 'PlanningBubble', 'write')")
     @RequestMapping(method = RequestMethod.PATCH, value = "/{id}")
     PlanningBubble updateBubble(@PathVariable Long id, @Valid @RequestBody PlanningBubbleUpdateRequest request) {
         log.info("Updating planning bubble with id {} and body : {}", id, request.toString());
         return service.updateBubble(id, request);
     }
 
+    @PreAuthorize("hasPermission(#id, 'PlanningBubble', 'write')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     void deleteBubble(@PathVariable Long id) {
@@ -52,15 +56,16 @@ public class PlanningController {
     }
 
     // Planning Bubble Entry -------------------------------------------------------------
-
+    @PreAuthorize("hasPermission(#request.bubbleId, 'PlanningBubble', 'writeChildren')")
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/entry",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    PlanningBubble createEntry(@Valid @RequestBody PlanningEntryRequest entry) {
-        log.info("Creating planning entry with body : {}", entry.toString());
-        return service.createEntry(entry);
+    PlanningBubble createEntry(@Valid @RequestBody PlanningEntryRequest request) {
+        log.info("Creating planning entry with body : {}", request.toString());
+        return service.createEntry(request);
     }
 
+    @PreAuthorize("hasPermission(#id, 'PlanningEntry', 'write')")
     @RequestMapping(method = RequestMethod.PATCH, value = "/entry/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     PlanningBubble updateEntry(@PathVariable Long id, @Valid @RequestBody PlanningEntryUpdateRequest entry) {
@@ -68,6 +73,7 @@ public class PlanningController {
         return service.updateEntry(id, entry);
     }
 
+    @PreAuthorize("hasPermission(#id, 'PlanningEntry', 'write')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/entry/{id}")
     void deleteEntry(@PathVariable Long id) {

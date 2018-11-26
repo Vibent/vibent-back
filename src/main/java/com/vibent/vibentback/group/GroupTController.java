@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -43,12 +44,14 @@ public class GroupTController {
         return new PublicGroupResponse(groupTService.getPublicGroupInfo(groupRef));
     }
 
+    @PreAuthorize(value = "hasPermission(#groupRef, 'GroupT', 'read')")
     @RequestMapping(method = RequestMethod.GET, value = "/{groupRef}")
     DetailledGroupResponse getGroupT(@PathVariable String groupRef) {
         log.info("Get group with ref : {}", groupRef);
         return new DetailledGroupResponse(groupTService.getGroupT(groupRef));
     }
 
+    @PreAuthorize(value = "hasPermission(#groupRef, 'GroupT', 'read')")
     @RequestMapping(method = RequestMethod.GET, value = "/{groupRef}/event")
     Set<DetailledEventResponse> getGroupEvents(@PathVariable String groupRef) {
         log.info("Get group events with ref : {}", groupRef);
@@ -63,12 +66,14 @@ public class GroupTController {
         return new DetailledGroupResponse(groupTService.createGroupT(request));
     }
 
+    @PreAuthorize(value = "hasPermission(#groupRef, 'GroupT', 'write')")
     @RequestMapping(method = RequestMethod.PATCH, value = "/{groupRef}")
     DetailledGroupResponse updateGroupT(@PathVariable String groupRef, @Valid @RequestBody GroupUpdateRequest request) {
         log.info("Update group with ref {} body : {}", groupRef, request.toString());
         return new DetailledGroupResponse(groupTService.updateGroupT(groupRef, request));
     }
 
+    @PreAuthorize(value = "hasPermission(#groupRef, 'GroupT', 'write')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(method = RequestMethod.DELETE, value = "/{groupRef}")
     void deleteGroupT(@PathVariable String groupRef) {
@@ -76,6 +81,7 @@ public class GroupTController {
         groupTService.deleteGroupT(groupRef);
     }
 
+    @PreAuthorize(value = "hasPermission(#groupRef, 'GroupT', 'write')")
     @RequestMapping(method = RequestMethod.GET, value = "/{groupRef}/inviteToken")
     InviteTokenResponse getInviteToken(@PathVariable String groupRef) {
         log.info("Getting invite token for group : {}", groupRef);
@@ -88,12 +94,12 @@ public class GroupTController {
         return new DetailledGroupResponse(groupTService.validateInviteToken(token));
     }
 
+    @PreAuthorize(value = "hasPermission(#request.groupRef, 'GroupT', 'write')")
     @RequestMapping(method = RequestMethod.POST, value = "/mailInvite")
     void mailInvite(@Valid @RequestBody MailInviteRequest request) {
         log.info("Sending mail invite for group : {}", request.getGroupRef());
         groupTService.sendMailInvite(request);
     }
-
 
     @RequestMapping(method = RequestMethod.POST, value = "/{groupRef}/request")
     UserMembershipRequestResponse requestMembership(@PathVariable String groupRef) {
@@ -102,6 +108,7 @@ public class GroupTController {
         return new UserMembershipRequestResponse(membershipRequest.getGroup().getRef());
     }
 
+    @PreAuthorize(value = "hasPermission(#request.groupRef, 'GroupT', 'write')")
     @RequestMapping(method = RequestMethod.POST, value = "/request/accept")
     MembershipResponse acceptMembershipRequest(@Valid @RequestBody AcceptGroupMembershipRequestRequest request) {
         log.info("Accepting group request by {} to {}", request.getUserRef(), request.getGroupRef());

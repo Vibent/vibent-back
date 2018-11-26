@@ -63,6 +63,11 @@ public class GroupT implements Permissible {
         return (this.isHasDefaultAdmin() && isMember(user)) || isAdmin(user);
     }
 
+    @Override
+    public boolean canWriteChildren(User user) {
+        return this.canWrite(user);
+    }
+
     public boolean isAdmin(User user) {
         return this.getMemberships().stream().anyMatch(m -> m.getUser().equals(user) && m.getAdmin());
     }

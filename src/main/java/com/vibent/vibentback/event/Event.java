@@ -10,7 +10,6 @@ import com.vibent.vibentback.bubble.travel.TravelBubble;
 import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.group.GroupT;
-import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.user.User;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -90,5 +89,11 @@ public class Event implements Serializable, Permissible {
     @Override
     public boolean canWrite(User user) {
         return this.group.canWrite(user);
+    }
+
+    @Override
+    public boolean canWriteChildren(User user) {
+        // If the user can read the event, he can write bubbles
+        return this.canRead(user);
     }
 }

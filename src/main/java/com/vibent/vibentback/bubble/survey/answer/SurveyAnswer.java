@@ -3,6 +3,8 @@ package com.vibent.vibentback.bubble.survey.answer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.bubble.survey.option.SurveyOption;
+import com.vibent.vibentback.common.error.VibentError;
+import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.user.User;
 import lombok.EqualsAndHashCode;
@@ -51,5 +53,10 @@ public class SurveyAnswer implements Permissible {
     @Override
     public boolean canWrite(User user) {
         return this.getOption().canWrite(user);
+    }
+
+    @Override
+    public boolean canWriteChildren(User user) {
+        throw new VibentException(VibentError.ILLOGICAL_PERMISSION);
     }
 }

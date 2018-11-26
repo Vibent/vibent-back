@@ -5,6 +5,7 @@ import com.vibent.vibentback.api.event.DetailledEventResponse;
 import com.vibent.vibentback.api.event.EventRequest;
 import com.vibent.vibentback.api.event.EventUpdateRequest;
 import com.vibent.vibentback.common.error.VibentException;
+import com.vibent.vibentback.common.permission.VibentPermissionEvaluator;
 import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.event.participation.EventParticipationRepository;
 import com.vibent.vibentback.group.GroupTRepository;
@@ -24,6 +25,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Optional;
 import java.util.Set;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @Slf4j
@@ -37,6 +40,9 @@ public class EventInternalTest extends VibentTest {
 
     @MockBean
     UserRepository userRepository;
+
+    @MockBean
+    VibentPermissionEvaluator permissionEvaluator;
 
     @MockBean
     private EventRepository eventRepository;
@@ -73,6 +79,9 @@ public class EventInternalTest extends VibentTest {
 
         Event RANDOM_UPDATE_EVENT = RANDOM_EVENT = new Event(RANDOM_EVENT.getRef(), RANDOM_EVENT.getGroup(), RANDOM_EVENT.getTitle(), RANDOM_EVENT_UPDATE_REQUEST.getDescription(), RANDOM_EVENT.getStartDate());
 
+
+        when(permissionEvaluator.hasPermission(any(), any(), any(), any())).thenReturn(false);
+        when(permissionEvaluator.hasPermission(eq(AUTHENTICATION), any(), any(), any())).thenReturn(true);
         when(userRepository.findByRef((String) AUTHENTICATION.getPrincipal())).thenReturn(Optional.of(RANDOM_USER));
         when(eventRepository.findByRef(RANDOM_EVENT.getRef())).thenReturn(Optional.of(RANDOM_EVENT));
         when(eventRepository.save(RANDOM_UPDATE_EVENT)).thenReturn(RANDOM_UPDATE_EVENT);
