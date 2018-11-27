@@ -49,7 +49,6 @@ public class GroupMembershipDataTest extends VibentTest {
 
     @Test
     public void testAddGroupMembership() {
-        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
         membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false);
 
@@ -68,7 +67,6 @@ public class GroupMembershipDataTest extends VibentTest {
 
     @Test
     public void testAddGroupAdminship() {
-        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
         membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, true);
 
@@ -85,7 +83,6 @@ public class GroupMembershipDataTest extends VibentTest {
 
     @Test
     public void testRemoveGroupMembership() {
-        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
         membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false);
         membershipService.removeMembership(RANDOM_GROUP, RANDOM_USER);
@@ -104,7 +101,6 @@ public class GroupMembershipDataTest extends VibentTest {
 
     @Test
     public void testChangeGroupMembership() {
-        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
         membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false);
 
@@ -118,7 +114,6 @@ public class GroupMembershipDataTest extends VibentTest {
 
     @Test
     public void testDeleteSingleMembership() {
-        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
         membershipService.addMembership(RANDOM_GROUP, RANDOM_USER, false);
 
@@ -136,7 +131,6 @@ public class GroupMembershipDataTest extends VibentTest {
 
     @Test
     public void testCreateGroupMembershipRequest() {
-        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
         membershipService.addMembershipRequestForConnectedUser(RANDOM_GROUP.getRef());
 
@@ -146,7 +140,6 @@ public class GroupMembershipDataTest extends VibentTest {
 
     @Test
     public void testDeleteGroupMembershipRequest() {
-        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
 
         membershipService.addMembershipRequestForConnectedUser(RANDOM_GROUP.getRef());
 

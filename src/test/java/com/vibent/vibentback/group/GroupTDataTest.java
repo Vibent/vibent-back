@@ -41,7 +41,6 @@ public class GroupTDataTest extends VibentTest {
 
     @Test
     public void testGetGroupT() {
-        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
         GroupT groupT = repository.findByRef(RANDOM_GROUP.getRef())
                 .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
         Assert.assertNotNull(groupT.getRef());
@@ -49,7 +48,6 @@ public class GroupTDataTest extends VibentTest {
 
     @Test
     public void testDeleteGroupT() {
-        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
         Integer deletedAmount = repository.deleteByRef(RANDOM_GROUP.getRef());
         Assert.assertEquals(1, deletedAmount.intValue());
     }

@@ -43,7 +43,7 @@ public class EventParticipation {
     @JsonIgnore
     private boolean isVisible;
 
-    @Column(insertable = false, updatable = false)
+    @Column(updatable = false)
     @JsonIgnore
     private boolean deleted;
 

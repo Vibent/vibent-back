@@ -9,7 +9,6 @@ cache:
 
 variables:
   DOCKER_DRIVER: overlay
-  SPRING_PROFILES_ACTIVE: gitlab-ci
   CONTAINER_URL: registry.gitlab.com
   CONTAINER_PATH: /vibent/vibent-back
   CONTAINER_IMAGE: ${CONTAINER_URL}${CONTAINER_PATH}

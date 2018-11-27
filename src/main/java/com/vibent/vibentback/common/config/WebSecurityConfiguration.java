@@ -41,12 +41,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/configuration/**",
             "/swagger-ui.html",
             "/webjars/**",
+            "/h2-console/**",
 
             "/auth/**"
     };
-
-    private CorsFilter corsFilter;
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -76,8 +74,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new AuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
-        // httpSecurity.addFilterBefore(corsFilter, ChannelProcessingFilter.class);
     }
 
 }

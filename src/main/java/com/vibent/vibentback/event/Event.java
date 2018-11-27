@@ -54,7 +54,7 @@ public class Event implements Serializable, Permissible {
 
     private Date endDate;
 
-    @Column(insertable = false, updatable = false)
+    @Column(updatable = false)
     private boolean deleted;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
