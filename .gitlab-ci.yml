@@ -18,7 +18,8 @@ build:
   stage: build
   image: maven:3.5.4-jdk-8-alpine
   script:
-  - echo "VERSION=$(mvn --non-recursive help:evaluate -Dexpression=project.version | grep -v '\[.*')" > env.sh
+  - apk add xmlstarlet
+  - echo "VERSION=$(xmlstarlet sel -N my=http://maven.apache.org/POM/4.0.0 -t -m my:project -v my:version pom.xml)" > env.sh
   - mvn package -B
   artifacts:
     paths:
