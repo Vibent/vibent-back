@@ -38,7 +38,6 @@ public class UserDataTest extends VibentTest {
 
     @Test
     public void testGetUser() {
-        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
         RANDOM_USER = userRepository.save(RANDOM_USER);
         log.info(RANDOM_USER.toString());
         User authUser = userRepository.findById(RANDOM_USER.getId())

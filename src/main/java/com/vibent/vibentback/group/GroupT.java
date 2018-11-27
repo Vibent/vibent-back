@@ -44,7 +44,7 @@ public class GroupT implements Permissible {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "group", orphanRemoval = true)
     private Set<Event> events = new HashSet<>();
 
-    @Column(insertable = false, updatable = false)
+    @Column(updatable = false)
     private boolean deleted;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "group", orphanRemoval = true)

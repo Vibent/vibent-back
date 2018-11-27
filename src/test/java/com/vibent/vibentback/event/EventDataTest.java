@@ -44,14 +44,12 @@ public class EventDataTest extends VibentTest {
 
     @Test
     public void testGetEvent() {
-        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
         Event event = repository.findByRef(RANDOM_EVENT.getRef()).orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         Assert.assertNotNull(event.getRef());
     }
 
     @Test
     public void testDeleteEvent() {
-        Assume.assumeFalse(env.acceptsProfiles("gitlab-ci"));
         Integer deletedAmount = repository.deleteByRef(RANDOM_EVENT.getRef());
         Assert.assertEquals(1, deletedAmount.intValue());
     }

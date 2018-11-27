@@ -1,7 +1,6 @@
-spring.profiles.active: local
-
-# All envs
 spring:
+  profiles:
+    active: local-h2
   jpa:
     hibernate.naming.physical-strategy: com.vibent.vibentback.common.util.VibentDbNamingStrategy
   mail:
@@ -37,62 +36,71 @@ vibent:
       accessKey: AKIAIN5HAIFCOJ2JDY3A
       secretKey: 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
       bucketName: vibent
+  client.url: https://dev.vibent.com
+  mail.autoConfirm: true
 
 spring.jackson.date-format: dd.MM.yyyy
 
+---
+### RUN PROFILES
+spring:
+  profiles: local
+  profiles.include: mysql-local, logger
 
 ---
 
-# Profile for GitlabCI
 spring:
-  profiles: gitlab-ci
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:${java.io.tmpdir}/database/vibent_back;AUTO_SERVER=TRUE
-    username: user
-    password: pass
-
-vibent.client.url: https://dev.vibent.com
-vibent.mail.autoConfirm: true
+  profiles: local-h2
+  profiles.include: h2, logger
 
 ---
 
-# Profile for Conors AWS Dev Server
 spring:
-  profiles: conor-aws
-
-  datasource:
-    url: jdbc:mysql://main.cwqlbqunkux0.eu-west-3.rds.amazonaws.com:3306/vibent_back?useUnicode=yes&characterEncoding=UTF-8
-    username: Main
-    password: '&5t7cvREx*5&b^v9'
+  profiles: dev
+  profiles.include: mysql-dev
 
 server.port: 8001
 
-vibent.client.url: https://dev.vibent.com
-vibent.mail.autoConfirm: true
+---
+### UTILITY DEFINITIONS ###
+spring:
+  profiles: logger
+
+logging.level:
+  org.springframework:
+    web.filter.CommonsRequestLoggingFilter: DEBUG
+    boot.autoconfigure.security: DEBUG
+    org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod: DEBUG
+log4j.logger.org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod: DEBUG
+
+---
+### DATA SOURCE DEFINITIONS ###
+spring:
+  profiles: h2
+  datasource:
+    url: jdbc:h2:~/vibent_back
+    username: sa
+    password: ''
+  h2.console.enabled: true
 
 ---
 
-# Local configuration
 spring:
-  profiles: local
+  profiles: mysql-local
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1/vibent_back?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://127.0.0.1/vibent_back?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=CET
     username: root
     password: root
   jpa:
     show-sql: true
 
-vibent.client.url: https://dev.vibent.com
-vibent.mail.autoConfirm: true
+---
 
-logging.level:
-  org.springframework:
-    web.filter.CommonsRequestLoggingFilter: DEBUG
-    boot.autoconfigure.security: INFO
-    org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod: DEBUG
-
-log4j.logger.org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod: DEBUG
+spring:
+  profiles: mysql-dev
+  datasource:
+    url: jdbc:mysql://main.cwqlbqunkux0.eu-west-3.rds.amazonaws.com:3306/vibent_back?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=CET
+    username: Main
+    password: '&5t7cvREx*5&b^v9'
 
 ---

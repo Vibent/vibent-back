@@ -40,7 +40,7 @@ public class User implements UserDetails, Serializable, Permissible {
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    @Column(insertable = false, updatable = false)
+    @Column(updatable = false)
     private boolean deleted = false;
 
     // Authentication

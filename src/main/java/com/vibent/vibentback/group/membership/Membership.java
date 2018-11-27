@@ -36,13 +36,13 @@ public class Membership {
     @PrimaryKeyJoinColumn
     private GroupT group;
 
-    @Column(insertable = false, updatable = false)
+    @Column(updatable = false)
     private boolean deleted;
 
     @NonNull
     private Boolean admin;
 
     @org.hibernate.annotations.Generated(value = GenerationTime.INSERT)
-    @Column(insertable = false, updatable = false)
+    @Column(updatable = false)
     private Date date;
 }
