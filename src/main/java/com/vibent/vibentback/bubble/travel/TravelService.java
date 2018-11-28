@@ -103,6 +103,7 @@ public class TravelService {
         TravelRequest travelRequest = new TravelRequest();
         travelRequest.setBubble(bubble);
         travelRequest.setCapacity(request.getCapacity());
+        travelRequest.setPassByCities(request.getPassByCities());
         travelRequest.setDeleted(false);
         travelRequest.setUser(userUtils.getConnectedUser());
         bubble.getRequests().add(travelRequest);
@@ -131,6 +132,7 @@ public class TravelService {
         TravelRequest travelRequest = new TravelRequest();
         travelRequest.setProposal(proposal);
         travelRequest.setCapacity(request.getCapacity());
+        travelRequest.setPassByCities(request.getPassByCities());
         travelRequest.setDeleted(false);
         travelRequest.setUser(userUtils.getConnectedUser());
         proposal.getAttachedRequests().add(travelRequest);
@@ -143,6 +145,8 @@ public class TravelService {
                 .orElseThrow(() -> new VibentException(VibentError.TRAVEL_REQUEST_NOT_FOUND));
         if (request.getCapacity() != null)
             travelRequest.setCapacity(request.getCapacity());
+        if (request.getPassByCities() != null)
+            travelRequest.setPassByCities(request.getPassByCities());
         requestRepository.save(travelRequest);
         return travelRequest.getBubble();
     }
