@@ -574,6 +574,7 @@ CREATE TABLE `travel_request` (
   `bubble_id` int(11) DEFAULT NULL,
   `capacity` int(11) DEFAULT NULL,
   `proposal_id`  int(11) DEFAULT NULL,
+  `pass_by_cities` varchar(100) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `travel_request_id` (`id`),

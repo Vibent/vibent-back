@@ -48,6 +48,8 @@ public class TravelRequest implements Permissible {
 
     private Integer capacity;
 
+    private String passByCities;
+
     @JsonIgnore
     private boolean deleted;
 
