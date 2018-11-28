@@ -1,6 +1,6 @@
 package com.vibent.vibentback.event.participation;
 
-import com.vibent.vibentback.api.event.participation.UpdateEventParticipationRequest;
+import com.vibent.vibentback.event.api.UpdateEventParticipationRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;

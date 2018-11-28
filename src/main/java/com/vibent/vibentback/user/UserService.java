@@ -1,7 +1,7 @@
 package com.vibent.vibentback.user;
 
-import com.vibent.vibentback.api.user.EmailChangeRequest;
-import com.vibent.vibentback.api.user.UpdateUserRequest;
+import com.vibent.vibentback.user.api.EmailChangeRequest;
+import com.vibent.vibentback.user.api.UpdateUserRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.mail.MailService;

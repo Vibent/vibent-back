@@ -3,7 +3,7 @@ package com.vibent.vibentback.common.error;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.vibent.vibentback.api.error.ErrorBody;
+import com.vibent.vibentback.common.error.api.ErrorBody;
 
 import java.io.IOException;
 

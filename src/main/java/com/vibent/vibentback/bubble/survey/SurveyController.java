@@ -1,6 +1,6 @@
 package com.vibent.vibentback.bubble.survey;
 
-import com.vibent.vibentback.api.bubble.survey.*;
+import com.vibent.vibentback.bubble.survey.api.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

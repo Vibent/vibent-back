@@ -1,7 +1,7 @@
 package com.vibent.vibentback.bubble.travel;
 
+import com.vibent.vibentback.bubble.travel.api.*;
 import com.vibent.vibentback.user.ConnectedUserUtils;
-import com.vibent.vibentback.api.bubble.travel.*;
 import com.vibent.vibentback.bubble.travel.proposal.TravelProposal;
 import com.vibent.vibentback.bubble.travel.proposal.TravelProposalRepository;
 import com.vibent.vibentback.bubble.travel.request.TravelRequest;

@@ -1,10 +1,10 @@
 package com.vibent.vibentback.group;
 
-import com.vibent.vibentback.api.event.DetailledEventResponse;
-import com.vibent.vibentback.api.group.*;
-import com.vibent.vibentback.api.group.membership.AcceptGroupMembershipRequestRequest;
-import com.vibent.vibentback.api.group.membership.MembershipResponse;
-import com.vibent.vibentback.api.group.membership.UserMembershipRequestResponse;
+import com.vibent.vibentback.event.api.DetailledEventResponse;
+import com.vibent.vibentback.group.api.*;
+import com.vibent.vibentback.group.api.AcceptGroupMembershipRequestRequest;
+import com.vibent.vibentback.group.api.MembershipResponse;
+import com.vibent.vibentback.group.api.UserMembershipRequestResponse;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.group.membership.MembershipRequest;

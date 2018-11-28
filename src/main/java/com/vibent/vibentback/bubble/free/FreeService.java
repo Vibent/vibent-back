@@ -1,12 +1,12 @@
 package com.vibent.vibentback.bubble.free;
 
 import com.vibent.vibentback.user.ConnectedUserUtils;
-import com.vibent.vibentback.api.bubble.free.FreeBubbleRequest;
+import com.vibent.vibentback.bubble.free.api.FreeBubbleRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.api.bubble.free.FreeBubbleUpdateRequest;
+import com.vibent.vibentback.bubble.free.api.FreeBubbleUpdateRequest;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

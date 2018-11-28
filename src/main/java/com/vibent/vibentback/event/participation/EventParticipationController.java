@@ -1,6 +1,6 @@
 package com.vibent.vibentback.event.participation;
 
-import com.vibent.vibentback.api.event.participation.UpdateEventParticipationRequest;
+import com.vibent.vibentback.event.api.UpdateEventParticipationRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

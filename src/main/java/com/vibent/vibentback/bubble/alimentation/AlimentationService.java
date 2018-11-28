@@ -1,7 +1,7 @@
 package com.vibent.vibentback.bubble.alimentation;
 
+import com.vibent.vibentback.bubble.alimentation.api.*;
 import com.vibent.vibentback.user.ConnectedUserUtils;
-import com.vibent.vibentback.api.bubble.alimentation.*;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBringRepository;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;

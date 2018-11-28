@@ -1,7 +1,7 @@
 package com.vibent.vibentback.bubble.location;
 
-import com.vibent.vibentback.api.bubble.location.LocationBubbleRequest;
-import com.vibent.vibentback.api.bubble.location.LocationBubbleUpdateRequest;
+import com.vibent.vibentback.bubble.location.api.LocationBubbleRequest;
+import com.vibent.vibentback.bubble.location.api.LocationBubbleUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

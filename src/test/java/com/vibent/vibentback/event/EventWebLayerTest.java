@@ -1,8 +1,8 @@
 package com.vibent.vibentback.event;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.api.event.EventRequest;
-import com.vibent.vibentback.api.event.EventUpdateRequest;
+import com.vibent.vibentback.event.api.EventRequest;
+import com.vibent.vibentback.event.api.EventUpdateRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

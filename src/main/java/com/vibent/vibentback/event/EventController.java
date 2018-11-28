@@ -1,13 +1,12 @@
 package com.vibent.vibentback.event;
 
-import com.vibent.vibentback.api.event.DetailledEventResponse;
-import com.vibent.vibentback.api.event.EventRequest;
-import com.vibent.vibentback.api.event.EventUpdateRequest;
+import com.vibent.vibentback.event.api.DetailledEventResponse;
+import com.vibent.vibentback.event.api.EventRequest;
+import com.vibent.vibentback.event.api.EventUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

@@ -2,7 +2,7 @@ package com.vibent.vibentback.common.error;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vibent.vibentback.api.error.ErrorBody;
+import com.vibent.vibentback.common.error.api.ErrorBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;

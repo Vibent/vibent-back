@@ -1,9 +1,9 @@
 package com.vibent.vibentback.event;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.api.event.DetailledEventResponse;
-import com.vibent.vibentback.api.event.EventRequest;
-import com.vibent.vibentback.api.event.EventUpdateRequest;
+import com.vibent.vibentback.event.api.DetailledEventResponse;
+import com.vibent.vibentback.event.api.EventRequest;
+import com.vibent.vibentback.event.api.EventUpdateRequest;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.permission.VibentPermissionEvaluator;
 import com.vibent.vibentback.event.participation.EventParticipation;
