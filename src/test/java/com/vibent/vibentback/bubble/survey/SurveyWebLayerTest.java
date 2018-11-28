@@ -1,11 +1,7 @@
 package com.vibent.vibentback.bubble.survey;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.api.bubble.survey.SurveyBubbleRequest;
-import com.vibent.vibentback.bubble.BubbleType;
-import com.vibent.vibentback.bubble.survey.SurveyBubble;
-import com.vibent.vibentback.bubble.survey.SurveyController;
-import com.vibent.vibentback.bubble.survey.SurveyService;
+import com.vibent.vibentback.bubble.survey.api.SurveyBubbleRequest;
 import com.vibent.vibentback.bubble.survey.answer.SurveyAnswer;
 import com.vibent.vibentback.bubble.survey.option.SurveyOption;
 import lombok.extern.slf4j.Slf4j;

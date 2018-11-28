@@ -1,10 +1,10 @@
 package com.vibent.vibentback.user;
 
-import com.vibent.vibentback.api.auth.MailConfirmationResponse;
-import com.vibent.vibentback.api.user.DetailledUserResponse;
-import com.vibent.vibentback.api.user.EmailChangeRequest;
-import com.vibent.vibentback.api.user.SimpleUserResponse;
-import com.vibent.vibentback.api.user.UpdateUserRequest;
+import com.vibent.vibentback.auth.api.MailConfirmationResponse;
+import com.vibent.vibentback.user.api.DetailledUserResponse;
+import com.vibent.vibentback.user.api.EmailChangeRequest;
+import com.vibent.vibentback.user.api.SimpleUserResponse;
+import com.vibent.vibentback.user.api.UpdateUserRequest;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

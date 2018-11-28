@@ -1,8 +1,8 @@
 package com.vibent.vibentback.group;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.api.group.GroupRequest;
-import com.vibent.vibentback.api.group.GroupUpdateRequest;
+import com.vibent.vibentback.group.api.GroupRequest;
+import com.vibent.vibentback.group.api.GroupUpdateRequest;
 import com.vibent.vibentback.group.membership.MembershipService;
 import org.junit.Before;
 import org.junit.Test;

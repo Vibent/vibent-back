@@ -1,9 +1,10 @@
 package com.vibent.vibentback.group;
 
 import com.vibent.vibentback.common.permission.VibentPermissionEvaluator;
+import com.vibent.vibentback.group.api.DetailledGroupResponse;
+import com.vibent.vibentback.group.api.InviteTokenResponse;
 import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.api.group.*;
 import com.vibent.vibentback.common.util.TokenInfo;
 import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.group.membership.Membership;

@@ -1,6 +1,6 @@
 package com.vibent.vibentback.bubble.alimentation;
 
-import com.vibent.vibentback.api.bubble.alimentation.*;
+import com.vibent.vibentback.bubble.alimentation.api.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

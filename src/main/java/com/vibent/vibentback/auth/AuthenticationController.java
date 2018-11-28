@@ -1,7 +1,7 @@
 package com.vibent.vibentback.auth;
 
-import com.vibent.vibentback.api.auth.*;
-import com.vibent.vibentback.api.user.DetailledUserResponse;
+import com.vibent.vibentback.user.api.DetailledUserResponse;
+import com.vibent.vibentback.auth.api.*;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.util.JWTUtils;

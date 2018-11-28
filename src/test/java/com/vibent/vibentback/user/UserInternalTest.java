@@ -1,8 +1,8 @@
 package com.vibent.vibentback.user;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.api.user.SimpleUserResponse;
-import com.vibent.vibentback.api.user.UpdateUserRequest;
+import com.vibent.vibentback.user.api.SimpleUserResponse;
+import com.vibent.vibentback.user.api.UpdateUserRequest;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.permission.VibentPermissionEvaluator;
 import lombok.extern.slf4j.Slf4j;

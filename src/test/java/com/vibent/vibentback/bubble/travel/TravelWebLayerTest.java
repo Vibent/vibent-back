@@ -1,7 +1,7 @@
 package com.vibent.vibentback.bubble.travel;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.api.bubble.travel.TravelBubbleRequest;
+import com.vibent.vibentback.bubble.travel.api.TravelBubbleRequest;
 import com.vibent.vibentback.bubble.travel.proposal.TravelProposal;
 import com.vibent.vibentback.bubble.travel.request.TravelRequest;
 import lombok.extern.slf4j.Slf4j;
