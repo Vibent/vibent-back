@@ -45,6 +45,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
             "/auth/**"
     };
+    
+    private CorsFilter corsFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
