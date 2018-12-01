@@ -32,7 +32,6 @@ public class UserController {
         return new DetailledUserResponse(userService.getConnectedUser());
     }
 
-    @PreAuthorize(value = "hasPermission(#userRef, 'User', 'read')")
     @RequestMapping(method = RequestMethod.GET, value = "/{userRef}")
     SimpleUserResponse getUser(@PathVariable String userRef) {
         log.info("Get user with ref : {}", userRef);
