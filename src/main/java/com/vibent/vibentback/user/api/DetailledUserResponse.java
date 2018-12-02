@@ -3,14 +3,15 @@ package com.vibent.vibentback.user.api;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vibent.vibentback.auth.social.SocialCredentials;
+import com.vibent.vibentback.auth.social.provider.Provider;
+import com.vibent.vibentback.event.api.UserParticipationResponse;
 import com.vibent.vibentback.group.api.UserMembershipRequestResponse;
 import com.vibent.vibentback.group.api.UserMembershipResponse;
-import com.vibent.vibentback.event.api.UserParticipationResponse;
 import com.vibent.vibentback.user.User;
 import lombok.Data;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @JsonInclude(JsonInclude.Include.ALWAYS)
@@ -70,5 +71,15 @@ public class DetailledUserResponse {
             requests.add(new UserMembershipRequestResponse(r.getGroup().getRef()));
         });
         return requests;
+    }
+
+    @JsonProperty
+    public Map<String, Boolean> getSocialCredentials() {
+        Map<String, Boolean> connectedSocialCredentials = new HashMap<>();
+        Arrays.stream(Provider.values()).forEach(
+                p -> connectedSocialCredentials.put(p.toString().toLowerCase(), false));
+        user.getCredentials().stream().map(SocialCredentials::getProvider).forEach(
+                p -> connectedSocialCredentials.put(p.toString().toLowerCase(), true));
+        return connectedSocialCredentials;
     }
 }

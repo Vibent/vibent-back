@@ -38,7 +38,7 @@ public class AuthenticationService {
     private final TokenUtils tokenUtils;
     private final MailService mailService;
 
-    private String createToken(User user) {
+    public String createToken(User user) {
         Authentication authentication = new VibentAuthentication(user.getRef(), user.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return this.JWTUtils.createUserAuthenticationToken((String) authentication.getPrincipal());
@@ -99,7 +99,9 @@ public class AuthenticationService {
         }
 
         User user = new User();
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        if (request.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
         user.setEmail(request.getEmail());
         user.setPhoneNumber(request.getPhoneNumber());
         user.setLastPasswordReset(new Date());

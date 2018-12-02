@@ -15,7 +15,7 @@ public enum VibentError {
     // Model level errors
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested user could not be found"),
     USER_CANT_CREATE(HttpStatus.INTERNAL_SERVER_ERROR, "The user could not be created"),
-    USER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "The requested username has already be assigned to a different user"),
+    USER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "The requested email has already be assigned to a different user"),
     USER_EMAIL_NOT_CONFIRMED(HttpStatus.UNAUTHORIZED, "The user hasn't confirmed his email yet"),
     INVALID_CONFIRMED_EMAIL(HttpStatus.UNAUTHORIZED, "The confirmed email does not match the user"),
     USER_NO_EMAIL_OR_PHONE(HttpStatus.UNAUTHORIZED, "An email or phone number must be specified at registration"),
@@ -51,6 +51,9 @@ public enum VibentError {
 
     // Authentication errors
     AUTHENTICATION_FAILED(HttpStatus.UNAUTHORIZED, "The username / password combination does not exist"),
+    SOCIAL_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "The social authentication token (authToken or idToken depending on provider) was not found"),
+    SOCIAL_AUTHENTICATION_FAILED(HttpStatus.UNAUTHORIZED, "The social authentication failed"),
+    SOCIAL_PROVIDER_UNKNOWN(HttpStatus.UNAUTHORIZED, "The requested social provider is unknown"),
 
     // Token errors
     MALFORMED_TOKEN(HttpStatus.UNAUTHORIZED, "The provided token is malformed"),

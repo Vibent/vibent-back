@@ -26,6 +26,8 @@
 		<spring-boot-version>${project.parent.version}</spring-boot-version>
 		<mysql-connector-version>8.0.13</mysql-connector-version>
 		<guava-version>27.0-jre</guava-version>
+		<google-api-version>1.27.0</google-api-version>
+		<facebook-api-version>2.0.3.RELEASE</facebook-api-version>
 		<lombok-version>1.18.4</lombok-version>
 		<springfox-version>2.9.2</springfox-version>
 		<jjwt-version>0.9.1</jjwt-version>
@@ -94,6 +96,20 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>${guava-version}</version>
+		</dependency>
+
+		<!-- Google API Client -->
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client</artifactId>
+			<version>${google-api-version}</version>
+		</dependency>
+
+		<!-- Facebook API Client -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-facebook</artifactId>
+			<version>${facebook-api-version}</version>
 		</dependency>
 
 		<!-- Swagger - Springfox Implementation -->

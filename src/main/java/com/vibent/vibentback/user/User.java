@@ -1,5 +1,6 @@
 package com.vibent.vibentback.user;
 
+import com.vibent.vibentback.auth.social.SocialCredentials;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.permission.Permissible;
@@ -51,7 +52,9 @@ public class User implements UserDetails, Serializable, Permissible {
     private boolean enabled = false;
     private Date lastPasswordReset;
 
-    // Links
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+    private Set<SocialCredentials> credentials = new HashSet<>();
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private Set<EventParticipation> participations = new HashSet<>();
 
