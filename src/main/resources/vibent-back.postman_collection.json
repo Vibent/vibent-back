@@ -1,165 +1,13 @@
 {
 	"info": {
-		"_postman_id": "afcdd4f9-0115-42b1-aa78-34cd800dafe6",
-		"name": "Vibent Back copy",
+		"_postman_id": "9fc5c771-91d3-4590-acbb-d595852472b8",
+		"name": "Vibent Back",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "1. Authentication",
 			"item": [
-				{
-					"name": "2. Register Real Email (Test Email Send)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"password\": \"password\",\n\t\"email\": \"cr.in.france+1@gmail.com\",\n\t\"phoneNumber\": \"+33634578941\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/auth/register",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"auth",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "7. Login Second User",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "9e5497f2-0bae-4b36-858c-6520c6246dca",
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"tokenSecondUser\", jsonData.token);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{ \r\n\t\"email\" : \"secondUser@vibent.com\",\r\n\t\"password\" : \"password\"\r\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/auth/login/email",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"auth",
-								"login",
-								"email"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "9. Request Password  Reset",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "531c0c1a-78d9-425d-85a8-8c13e75bb050",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{ \r\n\t\"email\": \"cr.in.france+1@gmail.com\"\r\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/auth/passwordReset",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"auth",
-								"passwordReset"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "10. Validate Password Reset",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "531c0c1a-78d9-425d-85a8-8c13e75bb050",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{ \r\n\t\"token\": \"EzJAsyMhy1MFzepBYnHGng\",\r\n\t\"newPassword\": \"password\"\r\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/auth/validatePasswordReset",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"auth",
-								"validatePasswordReset"
-							]
-						}
-					},
-					"response": []
-				},
 				{
 					"name": "1. Register",
 					"request": {
@@ -188,61 +36,7 @@
 					"response": []
 				},
 				{
-					"name": "6. Login API",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "431ac695-e7f7-4b25-863b-f64c88444276",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "client_id",
-									"value": "vibentPM@vibent.com",
-									"type": "text"
-								},
-								{
-									"key": "client_secret",
-									"value": "password",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{URL}}/auth/login/api",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"auth",
-								"login",
-								"api"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "4. Register Second User",
+					"name": "2. Register Real Email (Test Email Send)",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -253,7 +47,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"password\": \"password\",\n\t\"email\": \"secondUser@vibent.com\",\n\t\"phoneNumber\": \"+33634711545\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
+							"raw": "{\n\t\"password\": \"password\",\n\t\"email\": \"cr.in.france@gmail.com\",\n\t\"phoneNumber\": \"+33634578941\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/auth/register",
@@ -297,7 +91,79 @@
 					"response": []
 				},
 				{
-					"name": "5. Login Email",
+					"name": "4. Register Second User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"password\": \"password\",\n\t\"email\": \"secondUser@vibent.com\",\n\t\"phoneNumber\": \"+33634711545\",\n\t\"birthday\": \"2018-02-13\",\n\t\"firstName\": \"firstMock\",\n\t\"lastName\": \"lastMock\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/auth/register",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Login Real Email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "62d89dee-e69a-40af-a1f1-68f46a7453c5",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n  \"email\" : \"cr.in.france@gmail.com\",\r\n  \"password\" : \"password\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/auth/login/email",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"login",
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Login Email",
 					"event": [
 						{
 							"listen": "test",
@@ -342,7 +208,106 @@
 					"response": []
 				},
 				{
-					"name": "8. Login Phone",
+					"name": "7. Login API",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "431ac695-e7f7-4b25-863b-f64c88444276",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "vibentPM@vibent.com",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/auth/login/api",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"login",
+								"api"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. Login Second User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9e5497f2-0bae-4b36-858c-6520c6246dca",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"tokenSecondUser\", jsonData.token);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n\t\"email\" : \"secondUser@vibent.com\",\r\n\t\"password\" : \"password\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/auth/login/email",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"login",
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. Login Phone",
 					"event": [
 						{
 							"listen": "test",
@@ -385,6 +350,178 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "10. Request Password  Reset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "531c0c1a-78d9-425d-85a8-8c13e75bb050",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n\t\"email\": \"cr.in.france+1@gmail.com\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/auth/passwordReset",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"passwordReset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11. Validate Password Reset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "531c0c1a-78d9-425d-85a8-8c13e75bb050",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n\t\"token\": \"EzJAsyMhy1MFzepBYnHGng\",\r\n\t\"newPassword\": \"password\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/auth/validatePasswordReset",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"validatePasswordReset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12. Login Google",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "62d89dee-e69a-40af-a1f1-68f46a7453c5",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n\t\"provider\": \"GOOGLE\",\r\n\t\"idToken\" : \"dsfg\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/auth/social/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"social",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "13. Login Facebook",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "62d89dee-e69a-40af-a1f1-68f46a7453c5",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n\t\"provider\": \"FACEBOOK\",\r\n\t\"authToken\" : \"EAAC5BVfkATABAIz8qs2uRChQ1TbgshRJF9JS5p1kCrxXZAXjs0YZB2ZA6btf7PZBbNstZAB3zXFkXlM7q2ZC22qAVAWIHGDXnHLo5Y82ZB48DZCeuQ3LYq12NwbcDMzaVAxVbOUWDzHAkvCCM5SVYvBbHotkXDLq6WmrW6ZBP8BZCUMLRZBnkhi7ZCcxgZCOyLRpzgTqqoRLKBw7MGwZDZD\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/auth/social/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"social",
+								"login"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"event": [
@@ -414,13 +551,34 @@
 			"name": "2. User",
 			"item": [
 				{
-					"name": "6. Confirm Changed Email",
+					"name": "1. Get Connected User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2bd34932-6d7b-4983-a283-d0c084012eac",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"userRef\", jsonData.ref);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
 							}
 						],
 						"body": {
@@ -428,14 +586,61 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{URL}}/auth/confirmEmail/TOKEN_TO_ADD",
+							"raw": "{{URL}}/user/me",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"auth",
-								"confirmEmail",
-								"TOKEN_TO_ADD"
+								"user",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Get Second Connected User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cc0cc766-8db7-4314-a14d-b1eb45651b5d",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"userRefSecondUser\", jsonData.ref);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{tokenSecondUser}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/user/me",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								"me"
 							]
 						}
 					},
@@ -482,104 +687,6 @@
 							"path": [
 								"user",
 								"{{userRef}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "1. Get Connected User",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "2bd34932-6d7b-4983-a283-d0c084012eac",
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"userRef\", jsonData.ref);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/user/me",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"user",
-								"me"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "5. Change Email",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "2df5053c-07be-473e-9e83-dce17788d13e",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"changedEmail\", jsonData.email);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"email\": \"vibentPM@vibent.com\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/user/changeEmail",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"user",
-								"changeEmail"
 							]
 						}
 					},
@@ -636,34 +743,63 @@
 					"response": []
 				},
 				{
-					"name": "2. Get Second Connected User",
+					"name": "5. Change Email",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "cc0cc766-8db7-4314-a14d-b1eb45651b5d",
-								"type": "text/javascript",
+								"id": "2df5053c-07be-473e-9e83-dce17788d13e",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"userRefSecondUser\", jsonData.ref);",
+									"postman.setEnvironmentVariable(\"changedEmail\", jsonData.email);",
 									"",
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(200);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
 					"request": {
-						"method": "GET",
+						"method": "POST",
+						"header": [
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"vibentPM@vibent.com\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/user/changeEmail",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								"changeEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Confirm Changed Email",
+					"request": {
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{tokenSecondUser}}"
 							}
 						],
 						"body": {
@@ -671,13 +807,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{URL}}/user/me",
+							"raw": "{{URL}}/auth/confirmEmail/TOKEN_TO_ADD",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"user",
-								"me"
+								"auth",
+								"confirmEmail",
+								"TOKEN_TO_ADD"
 							]
 						}
 					},
@@ -688,97 +825,6 @@
 		{
 			"name": "3. Group",
 			"item": [
-				{
-					"name": "13. Invite By Mail Fail (too many recipients)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(400);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"1@nomail.com\",\n\t\t\"2@nomail.com\",\n\t\t\"3@nomail.com\",\n\t\t\"4@nomail.com\",\n\t\t\"5@nomail.com\",\n\t\t\"6@nomail.com\",\n\t\t\"7@nomail.com\",\n\t\t\"8@nomail.com\",\n\t\t\"9@nomail.com\",\n\t\t\"10@nomail.com\",\n\t\t\"11@nomail.com\"\n\t]\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/group/mailInvite",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"mailInvite"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "10. Validate Group Invite Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "02208cad-f5af-4364-a936-8dc5809dd10d",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{tokenSecondUser}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/group/validateInviteToken/{{groupInviteToken}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"validateInviteToken",
-								"{{groupInviteToken}}"
-							]
-						}
-					},
-					"response": []
-				},
 				{
 					"name": "1. Create Group",
 					"event": [
@@ -871,12 +917,12 @@
 					"response": []
 				},
 				{
-					"name": "11. Get Connected User Groups",
+					"name": "3. Second User Request Group Membership",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
+								"id": "31738b7c-ebd9-4c22-a495-579a6f680646",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status code test\", function () {",
@@ -887,7 +933,53 @@
 						}
 					],
 					"request": {
-						"method": "GET",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{tokenSecondUser}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/group/{{groupRef}}/request",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"group",
+								"{{groupRef}}",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Accept Group Membership Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8bc4f6bb-45d9-48c7-8db2-1f81258fa036",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -900,16 +992,62 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\n\t\n\t\"userRef\": \"{{userRefSecondUser}}\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"isAdmin\": false\n}"
 						},
 						"url": {
-							"raw": "{{URL}}/group/me",
+							"raw": "{{URL}}/group/request/accept",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"group",
-								"me"
+								"request",
+								"accept"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Update Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "588a86ef-95b2-4f90-9d97-ab1d5b04ac74",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"description\": \"Group for the coolest people around\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/group/{{groupRef}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"group",
+								"{{groupRef}}"
 							]
 						}
 					},
@@ -961,51 +1099,6 @@
 					"response": []
 				},
 				{
-					"name": "14. Invite By Mail Fail (one invalid email)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(400);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"vibentPM@vibent.com\",\n\t\t\"not_a_mail\"\n\t]\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/group/mailInvite",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"mailInvite"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "7. Delete Group",
 					"event": [
 						{
@@ -1036,100 +1129,6 @@
 						"body": {
 							"mode": "raw",
 							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/group/{{groupRef}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"{{groupRef}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "9. Get Group Invite Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "dbdd550c-00b3-4d26-ba4f-84e8cd0d7f8b",
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"groupInviteToken\", jsonData.token);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/group/{{groupRef}}/inviteToken",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"{{groupRef}}",
-								"inviteToken"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "5. Update Group",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "588a86ef-95b2-4f90-9d97-ab1d5b04ac74",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"description\": \"Group for the coolest people around\"\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/group/{{groupRef}}",
@@ -1192,15 +1191,64 @@
 					"response": []
 				},
 				{
-					"name": "14. Invite By Mail Fail (no recipients)",
+					"name": "9. Get Group Invite Token",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
+								"id": "dbdd550c-00b3-4d26-ba4f-84e8cd0d7f8b",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"groupInviteToken\", jsonData.token);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/group/{{groupRef}}/inviteToken",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"group",
+								"{{groupRef}}",
+								"inviteToken"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Validate Group Invite Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "02208cad-f5af-4364-a936-8dc5809dd10d",
 								"exec": [
 									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(400);",
+									"   pm.response.to.have.status(200);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1216,33 +1264,34 @@
 							},
 							{
 								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
+								"value": "Bearer {{tokenSecondUser}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"recipients\": []\n}"
+							"raw": ""
 						},
 						"url": {
-							"raw": "{{URL}}/group/mailInvite",
+							"raw": "{{URL}}/group/validateInviteToken/{{groupInviteToken}}",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"group",
-								"mailInvite"
+								"validateInviteToken",
+								"{{groupInviteToken}}"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "4. Accept Group Membership Request",
+					"name": "11. Get Connected User Groups",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "8bc4f6bb-45d9-48c7-8db2-1f81258fa036",
+								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status code test\", function () {",
@@ -1253,7 +1302,7 @@
 						}
 					],
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -1266,17 +1315,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\n\t\"userRef\": \"{{userRefSecondUser}}\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"isAdmin\": false\n}"
+							"raw": ""
 						},
 						"url": {
-							"raw": "{{URL}}/group/request/accept",
+							"raw": "{{URL}}/group/me",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"group",
-								"request",
-								"accept"
+								"me"
 							]
 						}
 					},
@@ -1328,18 +1376,18 @@
 					"response": []
 				},
 				{
-					"name": "3. Second User Request Group Membership",
+					"name": "13. Invite By Mail Fail (too many recipients)",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "31738b7c-ebd9-4c22-a495-579a6f680646",
-								"type": "text/javascript",
+								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
 								"exec": [
 									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
+									"   pm.response.to.have.status(400);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -1352,29 +1400,118 @@
 							},
 							{
 								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{tokenSecondUser}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"1@nomail.com\",\n\t\t\"2@nomail.com\",\n\t\t\"3@nomail.com\",\n\t\t\"4@nomail.com\",\n\t\t\"5@nomail.com\",\n\t\t\"6@nomail.com\",\n\t\t\"7@nomail.com\",\n\t\t\"8@nomail.com\",\n\t\t\"9@nomail.com\",\n\t\t\"10@nomail.com\",\n\t\t\"11@nomail.com\"\n\t]\n}"
 						},
 						"url": {
-							"raw": "{{URL}}/group/{{groupRef}}/request",
+							"raw": "{{URL}}/group/mailInvite",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"group",
-								"{{groupRef}}",
-								"request"
+								"mailInvite"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "15. Leave group (second user)",
+					"name": "14. Invite By Mail Fail (one invalid email)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"vibentPM@vibent.com\",\n\t\t\"not_a_mail\"\n\t]\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/group/mailInvite",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"group",
+								"mailInvite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "15. Invite By Mail Fail (no recipients)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"recipients\": []\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/group/mailInvite",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"group",
+								"mailInvite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "16. Leave group (second user)",
 					"event": [
 						{
 							"listen": "test",
@@ -1424,6 +1561,53 @@
 		{
 			"name": "4. Event",
 			"item": [
+				{
+					"name": "1. Create Event",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"eventRef\", jsonData.ref);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"startDate\": \"2019-04-22T09:49:05+00:00\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/event",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"event"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "2. Get Group Events",
 					"event": [
@@ -1516,6 +1700,51 @@
 					"response": []
 				},
 				{
+					"name": "4. Get Connected User Events",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c8630110-171e-4a8e-90cf-cefa1ab8b624",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/event/me",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"event",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "5. Get Second User Events",
 					"event": [
 						{
@@ -1555,100 +1784,6 @@
 							"path": [
 								"event",
 								"me"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "1. Create Event",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"eventRef\", jsonData.ref);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"startDate\": \"2019-04-22T09:49:05+00:00\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/event",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"event"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "7. Create Second Event",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"eventRef\", jsonData.ref);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"startDate\": \"2019-04-22T09:49:05+00:00\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/event",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"event"
 							]
 						}
 					},
@@ -1700,23 +1835,26 @@
 					"response": []
 				},
 				{
-					"name": "4. Get Connected User Events",
+					"name": "7. Create Second Event",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "c8630110-171e-4a8e-90cf-cefa1ab8b624",
-								"type": "text/javascript",
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
 								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"eventRef\", jsonData.ref);",
+									"",
 									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
+									"   pm.response.to.have.status(201);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -1729,16 +1867,15 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"startDate\": \"2019-04-22T09:49:05+00:00\"\n}"
 						},
 						"url": {
-							"raw": "{{URL}}/event/me",
+							"raw": "{{URL}}/event",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"event",
-								"me"
+								"event"
 							]
 						}
 					},
@@ -1899,23 +2036,26 @@
 			"name": "6. Alimentation Bubble",
 			"item": [
 				{
-					"name": "8. Update Alimentation Bring",
+					"name": "1. Create Alimentation Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "da5c4b94-7b28-4dc5-88d0-4394261bd7e4",
-								"type": "text/javascript",
+								"id": "40fb4964-5eb5-4235-b3bc-0d73ca4406b6",
 								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"alimentationBubbleId\", jsonData.id);",
+									"",
 									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
+									"   pm.response.to.have.status(201);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
 					"request": {
-						"method": "PATCH",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -1928,18 +2068,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"entryId\": \"{{alimentationEntryId}}\",\n\t\"quantity\": 2\n}"
+							"raw": "{\n\t\"eventRef\": \"{{eventRef}}\"\n}"
 						},
 						"url": {
-							"raw": "{{URL}}/bubble/alimentation/bring/{{alimentationBringId}}",
+							"raw": "{{URL}}/bubble/alimentation",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"bubble",
-								"alimentation",
-								"bring",
-								"{{alimentationBringId}}"
+								"alimentation"
 							]
 						}
 					},
@@ -1986,196 +2124,6 @@
 								"bubble",
 								"alimentation",
 								"{{alimentationBubbleId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "11. Delete Alimentation Bubble",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "6583649f-fa55-439e-af69-69b4f7da5f0e",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(204);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/alimentation/{{alimentationBubbleId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"alimentation",
-								"{{alimentationBubbleId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "7. Create Alimentation Bring",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "a8d443d7-8386-4a53-9c6b-4f2dfdc38c60",
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"alimentationBringId\", jsonData.entries[0].brings[0].id);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"entryId\": \"{{alimentationEntryId}}\",\n\t\"quantity\": 5\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/alimentation/bring",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"alimentation",
-								"bring"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "4. Update Alimentation Entry",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "a3c53525-4acd-4892-8159-ee5e13e06357",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"totalRequested\": 10\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/alimentation/entry/{{alimentationEntryId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"alimentation",
-								"entry",
-								"{{alimentationEntryId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "1. Create Alimentation Bubble",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "40fb4964-5eb5-4235-b3bc-0d73ca4406b6",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"alimentationBubbleId\", jsonData.id);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"eventRef\": \"{{eventRef}}\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/alimentation",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"alimentation"
 							]
 						}
 					},
@@ -2231,23 +2179,23 @@
 					"response": []
 				},
 				{
-					"name": "8. Delete Alimentation Bring",
+					"name": "4. Update Alimentation Entry",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "d6e1e75d-f928-41d6-9d83-1eb5c250e7bc",
+								"id": "a3c53525-4acd-4892-8159-ee5e13e06357",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(204);",
+									"   pm.response.to.have.status(200);",
 									"});"
 								]
 							}
 						}
 					],
 					"request": {
-						"method": "DELETE",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -2260,65 +2208,18 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"entryId\": \"{{alimentationEntryId}}\",\n\t\"quantity\": 5\n}"
+							"raw": "{\n\t\"totalRequested\": 10\n}"
 						},
 						"url": {
-							"raw": "{{URL}}/bubble/alimentation/bring/{{alimentationBringId}}",
+							"raw": "{{URL}}/bubble/alimentation/entry/{{alimentationEntryId}}",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"bubble",
 								"alimentation",
-								"bring",
-								"{{alimentationBringId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "10. Change to Delete Alimentation Bring",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "57426f84-cd78-4ddf-b0b0-c7288ab4f562",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"entryId\": \"{{alimentationEntryId}}\",\n\t\"quantity\": -10\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/alimentation/bring/change",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"alimentation",
-								"bring",
-								"change"
+								"entry",
+								"{{alimentationEntryId}}"
 							]
 						}
 					},
@@ -2372,53 +2273,6 @@
 					"response": []
 				},
 				{
-					"name": "9. Change Alimentation Bring",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "57426f84-cd78-4ddf-b0b0-c7288ab4f562",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"entryId\": \"{{alimentationEntryId}}\",\n\t\"quantity\": 5\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/alimentation/bring/change",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"alimentation",
-								"bring",
-								"change"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "6. Create Second Alimentation Entry",
 					"event": [
 						{
@@ -2466,28 +2320,23 @@
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "7. Checkbox Bubble",
-			"item": [
+				},
 				{
-					"name": "9. Create Second Checkbox Option",
+					"name": "7. Create Alimentation Bring",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "b8eb742b-6189-4cc3-b28a-df46fee3faae",
+								"id": "a8d443d7-8386-4a53-9c6b-4f2dfdc38c60",
+								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"checkboxOptionId\", jsonData.options[0].id);",
+									"postman.setEnvironmentVariable(\"alimentationBringId\", jsonData.entries[0].brings[0].id);",
 									"",
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});"
-								],
-								"type": "text/javascript"
+								]
 							}
 						}
 					],
@@ -2505,22 +2354,261 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"bubbleId\": \"{{checkboxBubbleId}}\",\n  \"content\": \"Don't know\"\n}"
+							"raw": "{\n\t\"entryId\": \"{{alimentationEntryId}}\",\n\t\"quantity\": 5\n}"
 						},
 						"url": {
-							"raw": "{{URL}}/bubble/checkbox/option",
+							"raw": "{{URL}}/bubble/alimentation/bring",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"bubble",
-								"checkbox",
-								"option"
+								"alimentation",
+								"bring"
 							]
 						}
 					},
 					"response": []
 				},
+				{
+					"name": "8. Update Alimentation Bring",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "da5c4b94-7b28-4dc5-88d0-4394261bd7e4",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"entryId\": \"{{alimentationEntryId}}\",\n\t\"quantity\": 2\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/alimentation/bring/{{alimentationBringId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"alimentation",
+								"bring",
+								"{{alimentationBringId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. Delete Alimentation Bring",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d6e1e75d-f928-41d6-9d83-1eb5c250e7bc",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"entryId\": \"{{alimentationEntryId}}\",\n\t\"quantity\": 5\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/alimentation/bring/{{alimentationBringId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"alimentation",
+								"bring",
+								"{{alimentationBringId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Change Alimentation Bring",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "57426f84-cd78-4ddf-b0b0-c7288ab4f562",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"entryId\": \"{{alimentationEntryId}}\",\n\t\"quantity\": 5\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/alimentation/bring/change",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"alimentation",
+								"bring",
+								"change"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11. Change to Delete Alimentation Bring",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "57426f84-cd78-4ddf-b0b0-c7288ab4f562",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"entryId\": \"{{alimentationEntryId}}\",\n\t\"quantity\": -10\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/alimentation/bring/change",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"alimentation",
+								"bring",
+								"change"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12. Delete Alimentation Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6583649f-fa55-439e-af69-69b4f7da5f0e",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/alimentation/{{alimentationBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"alimentation",
+								"{{alimentationBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "7. Checkbox Bubble",
+			"item": [
 				{
 					"name": "1. Create Checkbox Bubble",
 					"event": [
@@ -2570,160 +2658,15 @@
 					"response": []
 				},
 				{
-					"name": "5. Create Second Checkbox Bubble",
+					"name": "2. Get Checkbox Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"checkboxBubbleId\", jsonData.id);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"eventRef\": \"{{eventRef}}\",\n  \"title\": \"Torvalds for life ?\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/checkbox",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"checkbox"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "8. Delete Checkbox Option",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "99f9d302-894a-4407-a841-fa2a5baf676c",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(204);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/checkbox/option/{{checkboxOptionId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"checkbox",
-								"option",
-								"{{checkboxOptionId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "7. Update Checkbox Bubble",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "4317e5cc-3def-480e-a122-933180904688",
-								"type": "text/javascript",
+								"id": "f8ec59af-4fda-4acb-adc2-0ffb6901ab11",
 								"exec": [
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(200);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"content\": \"Of course\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/checkbox/option/{{checkboxOptionId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"checkbox",
-								"option",
-								"{{checkboxOptionId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "10. Create Checkbox Answer",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "b437f608-f6ae-46e9-9426-37fd49ad68ee",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"checkboxAnswerId\", jsonData.options[0].answers[0].id);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2731,102 +2674,7 @@
 						}
 					],
 					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"optionId\": {{checkboxOptionId}}\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/checkbox/answer",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"checkbox",
-								"answer"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "6. Create Checkbox Option",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"checkboxOptionId\", jsonData.options[0].id);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"bubbleId\": \"{{checkboxBubbleId}}\",\n  \"content\": \"Don't know\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/checkbox/option",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"checkbox",
-								"option"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "11. Delete Checkbox Answer",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "d3258d3d-9b0b-45ec-a1f9-583f3922365f",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(204);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -2842,15 +2690,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{URL}}/bubble/checkbox/answer/{{checkboxAnswerId}}",
+							"raw": "{{URL}}/bubble/checkbox/{{checkboxBubbleId}}",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"bubble",
 								"checkbox",
-								"answer",
-								"{{checkboxAnswerId}}"
+								"{{checkboxBubbleId}}"
 							]
 						}
 					},
@@ -2949,23 +2796,26 @@
 					"response": []
 				},
 				{
-					"name": "2. Get Checkbox Bubble",
+					"name": "5. Create Second Checkbox Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "f8ec59af-4fda-4acb-adc2-0ffb6901ab11",
+								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
+								"type": "text/javascript",
 								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"checkboxBubbleId\", jsonData.id);",
+									"",
 									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
+									"   pm.response.to.have.status(201);",
 									"});"
-								],
-								"type": "text/javascript"
+								]
 							}
 						}
 					],
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -2978,40 +2828,83 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\n  \"eventRef\": \"{{eventRef}}\",\n  \"title\": \"Torvalds for life ?\"\n}"
 						},
 						"url": {
-							"raw": "{{URL}}/bubble/checkbox/{{checkboxBubbleId}}",
+							"raw": "{{URL}}/bubble/checkbox",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Create Checkbox Option",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"checkboxOptionId\", jsonData.options[0].id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bubbleId\": \"{{checkboxBubbleId}}\",\n  \"content\": \"Don't know\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox/option",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"bubble",
 								"checkbox",
-								"{{checkboxBubbleId}}"
+								"option"
 							]
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "8. Free Bubble",
-			"item": [
+				},
 				{
-					"name": "3. Update Free Bubble",
+					"name": "7. Update Checkbox Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "c545cf09-def3-42d3-9a40-850878f0e8cd",
+								"id": "4317e5cc-3def-480e-a122-933180904688",
+								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(200);",
 									"});"
-								],
-								"type": "text/javascript"
+								]
 							}
 						}
 					],
@@ -3029,17 +2922,263 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"title\": \"New title I guess...\",\n  \"content\": \"...and content !!!!!!\"\n}"
+							"raw": "{\n  \"content\": \"Of course\"\n}"
 						},
 						"url": {
-							"raw": "{{URL}}/bubble/free/{{freeBubbleId}}",
+							"raw": "{{URL}}/bubble/checkbox/option/{{checkboxOptionId}}",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"bubble",
-								"free",
-								"{{freeBubbleId}}"
+								"checkbox",
+								"option",
+								"{{checkboxOptionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. Delete Checkbox Option",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "99f9d302-894a-4407-a841-fa2a5baf676c",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox/option/{{checkboxOptionId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox",
+								"option",
+								"{{checkboxOptionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. Create Second Checkbox Option",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b8eb742b-6189-4cc3-b28a-df46fee3faae",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"checkboxOptionId\", jsonData.options[0].id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bubbleId\": \"{{checkboxBubbleId}}\",\n  \"content\": \"Don't know\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox/option",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox",
+								"option"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Create Checkbox Answer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b437f608-f6ae-46e9-9426-37fd49ad68ee",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"checkboxAnswerId\", jsonData.options[0].answers[0].id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"optionId\": {{checkboxOptionId}}\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox/answer",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox",
+								"answer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11. Delete Checkbox Answer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d3258d3d-9b0b-45ec-a1f9-583f3922365f",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/checkbox/answer/{{checkboxAnswerId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"checkbox",
+								"answer",
+								"{{checkboxAnswerId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "8. Free Bubble",
+			"item": [
+				{
+					"name": "1. Create Free Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"freeBubbleId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"eventRef\": \"{{eventRef}}\",\n  \"title\": \"I think free bubbles the best\",\n  \"content\": \"And I'm sure !\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/free",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"free"
 							]
 						}
 					},
@@ -3092,18 +3231,15 @@
 					"response": []
 				},
 				{
-					"name": "1. Create Free Bubble",
+					"name": "3. Update Free Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
+								"id": "c545cf09-def3-42d3-9a40-850878f0e8cd",
 								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"freeBubbleId\", jsonData.id);",
-									"",
 									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
+									"   pm.response.to.have.status(200);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -3111,7 +3247,7 @@
 						}
 					],
 					"request": {
-						"method": "POST",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -3124,16 +3260,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"eventRef\": \"{{eventRef}}\",\n  \"title\": \"I think free bubbles the best\",\n  \"content\": \"And I'm sure !\"\n}"
+							"raw": "{\n  \"title\": \"New title I guess...\",\n  \"content\": \"...and content !!!!!!\"\n}"
 						},
 						"url": {
-							"raw": "{{URL}}/bubble/free",
+							"raw": "{{URL}}/bubble/free/{{freeBubbleId}}",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"bubble",
-								"free"
+								"free",
+								"{{freeBubbleId}}"
 							]
 						}
 					},
@@ -3289,146 +3426,6 @@
 					"response": []
 				},
 				{
-					"name": "4. Delete Planning Bubble",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "69cb1caf-599c-4827-915e-2514492ec3a9",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(204);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/planning/{{planningBubbleId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"planning",
-								"{{planningBubbleId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "7. Delete Planning Entry",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(204);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/planning/entry/{{planningEntryId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"planning",
-								"entry",
-								"{{planningEntryId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "7. Update Planning Entry",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"start\": \"2019-02-13T00:09:09.00Z\",\n  \"end\": \"2019-02-13T00:09:09.009Z\",\n  \"content\": \"Go fishing and huntingplanningEntryId\",\n  \"hasTime\": false\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/planning/entry/{{planningEntryId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"planning",
-								"entry",
-								"{{planningEntryId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "3. Update Planning Bubble",
 					"event": [
 						{
@@ -3459,6 +3456,52 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"title\": \"New titlewittle\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/planning/{{planningBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"planning",
+								"{{planningBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Delete Planning Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "69cb1caf-599c-4827-915e-2514492ec3a9",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
 						},
 						"url": {
 							"raw": "{{URL}}/bubble/planning/{{planningBubbleId}}",
@@ -3571,6 +3614,100 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "7. Update Planning Entry",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"start\": \"2019-02-13T00:09:09.00Z\",\n  \"end\": \"2019-02-13T00:09:09.009Z\",\n  \"content\": \"Go fishing and huntingplanningEntryId\",\n  \"hasTime\": false\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/planning/entry/{{planningEntryId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"planning",
+								"entry",
+								"{{planningEntryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. Delete Planning Entry",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/planning/entry/{{planningEntryId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"planning",
+								"entry",
+								"{{planningEntryId}}"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -3578,13 +3715,12 @@
 			"name": "11. Survey Bubble",
 			"item": [
 				{
-					"name": "5. Create Second Survey Bubble",
+					"name": "1. Create Survey Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
-								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"postman.setEnvironmentVariable(\"surveyBubbleId\", jsonData.id);",
@@ -3592,7 +3728,8 @@
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -3620,247 +3757,6 @@
 							"path": [
 								"bubble",
 								"survey"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "7. Update Survey Bubble",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "4317e5cc-3def-480e-a122-933180904688",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"content\": \"Of course\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/survey/option/{{surveyOptionId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"survey",
-								"option",
-								"{{surveyOptionId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "4. Delete Survey Bubble",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "69cb1caf-599c-4827-915e-2514492ec3a9",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(204);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/survey/{{surveyBubbleId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"survey",
-								"{{surveyBubbleId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "6. Create Survey Option",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"surveyOptionId\", jsonData.options[0].id);",
-									"",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"bubbleId\": \"{{surveyBubbleId}}\",\n  \"content\": \"Don't know\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/survey/option",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"survey",
-								"option"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "10. Create Survey Answer",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "b437f608-f6ae-46e9-9426-37fd49ad68ee",
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"surveyAnswerId\", jsonData.options[0].answers[0].id);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"optionId\": {{surveyOptionId}}\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/survey/answer",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"survey",
-								"answer"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "9. Create Second Survey Option",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "b8eb742b-6189-4cc3-b28a-df46fee3faae",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"surveyOptionId\", jsonData.options[0].id);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"bubbleId\": \"{{surveyBubbleId}}\",\n  \"content\": \"Don't know\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/survey/option",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"survey",
-								"option"
 							]
 						}
 					},
@@ -3959,6 +3855,197 @@
 					"response": []
 				},
 				{
+					"name": "4. Delete Survey Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "69cb1caf-599c-4827-915e-2514492ec3a9",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey/{{surveyBubbleId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey",
+								"{{surveyBubbleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Create Second Survey Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"surveyBubbleId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"eventRef\": \"{{eventRef}}\",\n  \"title\": \"Torvalds for life ?\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Create Survey Option",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"surveyOptionId\", jsonData.options[0].id);",
+									"",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bubbleId\": \"{{surveyBubbleId}}\",\n  \"content\": \"Don't know\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey/option",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey",
+								"option"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. Update Survey Bubble",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4317e5cc-3def-480e-a122-933180904688",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"Of course\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey/option/{{surveyOptionId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey",
+								"option",
+								"{{surveyOptionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "8. Delete Survey Option",
 					"event": [
 						{
@@ -4000,6 +4087,104 @@
 								"survey",
 								"option",
 								"{{surveyOptionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. Create Second Survey Option",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b8eb742b-6189-4cc3-b28a-df46fee3faae",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"surveyOptionId\", jsonData.options[0].id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bubbleId\": \"{{surveyBubbleId}}\",\n  \"content\": \"Don't know\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey/option",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey",
+								"option"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Create Survey Answer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b437f608-f6ae-46e9-9426-37fd49ad68ee",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"surveyAnswerId\", jsonData.options[0].answers[0].id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"optionId\": {{surveyOptionId}}\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/survey/answer",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"survey",
+								"answer"
 							]
 						}
 					},
@@ -4051,253 +4236,12 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "1. Create Survey Bubble",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "c9a39ae8-b815-49d1-8f67-6b4c9f79847a",
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"surveyBubbleId\", jsonData.id);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"eventRef\": \"{{eventRef}}\",\n  \"title\": \"Torvalds for life ?\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/survey",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"survey"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
 		{
 			"name": "12. Travel Bubble",
 			"item": [
-				{
-					"name": "9. Create Travel Request",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"travelRequestId\", jsonData.requests[0].id);",
-									"",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"bubbleId\": \"{{travelBubbleId}}\",\n  \"capacity\": 4,\n  \"passByCities\": \"Paris, Lyon\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/travel/request",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"travel",
-								"request"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "6. Update Travel Proposal",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"capacity\": 5,\n  \"passByCities\": \"Lyon, Paris\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/travel/proposal/{{travelProposalId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"travel",
-								"proposal",
-								"{{travelProposalId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "3. Delete Travel Bubble",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "69cb1caf-599c-4827-915e-2514492ec3a9",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(204);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/travel/{{travelBubbleId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"travel",
-								"{{travelBubbleId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "8. Create Second Travel Proposal",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"travelProposalId\", jsonData.proposals[0].id);",
-									"",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"bubbleId\": \"{{travelBubbleId}}\",\n  \"capacity\": 4,\n  \"passByCities\": \"Lyon, Paris, Madrid\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/travel/proposal",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"travel",
-								"proposal"
-							]
-						}
-					},
-					"response": []
-				},
 				{
 					"name": "1. Create Travel Bubble",
 					"event": [
@@ -4341,53 +4285,6 @@
 							"path": [
 								"bubble",
 								"travel"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "15. Delete Second Travel Request",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(204);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/travel/request/{{travelRequestId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"travel",
-								"request",
-								"{{travelRequestId}}"
 							]
 						}
 					},
@@ -4440,12 +4337,12 @@
 					"response": []
 				},
 				{
-					"name": "11. Delete Travel Request",
+					"name": "3. Delete Travel Bubble",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"id": "69cb1caf-599c-4827-915e-2514492ec3a9",
 								"exec": [
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(204);",
@@ -4472,109 +4369,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{URL}}/bubble/travel/request/{{travelRequestId}}",
+							"raw": "{{URL}}/bubble/travel/{{travelBubbleId}}",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"bubble",
 								"travel",
-								"request",
-								"{{travelRequestId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "7. Delete Travel Proposal",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(204);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/travel/proposal/{{travelProposalId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"travel",
-								"proposal",
-								"{{travelProposalId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "10. Update Travel Request",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"capacity\": 5,\n  \"passByCities\": \"Lyon\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/travel/request/{{travelRequestId}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"travel",
-								"request",
-								"{{travelRequestId}}"
+								"{{travelBubbleId}}"
 							]
 						}
 					},
@@ -4679,6 +4481,294 @@
 					"response": []
 				},
 				{
+					"name": "6. Update Travel Proposal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"capacity\": 5,\n  \"passByCities\": \"Lyon, Paris\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/proposal/{{travelProposalId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"proposal",
+								"{{travelProposalId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. Delete Travel Proposal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/proposal/{{travelProposalId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"proposal",
+								"{{travelProposalId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. Create Second Travel Proposal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"travelProposalId\", jsonData.proposals[0].id);",
+									"",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bubbleId\": \"{{travelBubbleId}}\",\n  \"capacity\": 4,\n  \"passByCities\": \"Lyon, Paris, Madrid\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/proposal",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"proposal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. Create Travel Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"travelRequestId\", jsonData.requests[0].id);",
+									"",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bubbleId\": \"{{travelBubbleId}}\",\n  \"capacity\": 4,\n  \"passByCities\": \"Paris, Lyon\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/request",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Update Travel Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"capacity\": 5,\n  \"passByCities\": \"Lyon\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/request/{{travelRequestId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"request",
+								"{{travelRequestId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11. Delete Travel Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/request/{{travelRequestId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"request",
+								"{{travelRequestId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "12. Create Second Travel Request",
 					"event": [
 						{
@@ -4722,53 +4812,6 @@
 							"path": [
 								"bubble",
 								"travel",
-								"request"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "16. Create and Attach Request",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"proposalId\": \"{{travelProposalId}}\",\n  \"capacity\": 4\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/bubble/travel/proposal/request",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"bubble",
-								"travel",
-								"proposal",
 								"request"
 							]
 						}
@@ -4866,22 +4909,116 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "15. Delete Second Travel Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/request/{{travelRequestId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"request",
+								"{{travelRequestId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "16. Create and Attach Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81862ef0-f7ef-415d-aef9-c8a0d49ffff2",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"proposalId\": \"{{travelProposalId}}\",\n  \"capacity\": 4\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/bubble/travel/proposal/request",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bubble",
+								"travel",
+								"proposal",
+								"request"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
-			"name": "9. Options Http Method",
+			"name": "13. Options Http Method",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"id": "dc76eac4-aa7c-46bf-9e16-eafa4a03c485",
-						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Status code test\", function () {",
 							"   pm.response.to.have.status(200);",
 							"});"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -4912,6 +5049,28 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "ca42f4a8-5932-499e-a90b-22f30b8fde27",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "8c04597d-c616-4b8d-bc0a-a35b84bb9231",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

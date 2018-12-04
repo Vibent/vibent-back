@@ -7,6 +7,7 @@ import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.util.JWTUtils;
 import com.vibent.vibentback.user.User;
 import io.jsonwebtoken.Claims;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,21 +20,14 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthenticationController {
 
-    @Value("${vibent.auth.header.key}")
-    private String AUTH_HEADER_KEY;
     @Value("${vibent.auth.expirationSeconds}")
     private long EXPIRATION_SECONDS;
 
     private final AuthenticationService authenticationService;
     private final JWTUtils JWTUtils;
-
-    @Autowired
-    public AuthenticationController(AuthenticationService authenticationService, JWTUtils JWTUtils) {
-        this.authenticationService = authenticationService;
-        this.JWTUtils = JWTUtils;
-    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/login/api", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public AuthenticationApiResponse loginApi(@RequestParam MultiValueMap<String, String> request) {

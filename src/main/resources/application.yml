@@ -38,6 +38,7 @@ vibent:
       bucketName: vibent
   client.url: https://dev.vibent.com
   mail.autoConfirm: true
+  social.google.clientId: "821632933125-0re06sp9j4l9nurpql79glsfm4k64sai.apps.googleusercontent.com"
 
 spring.jackson.date-format: dd.MM.yyyy
 

@@ -606,10 +606,10 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ref` char(36) NOT NULL,
-  `email` varchar(50),
+  `email` varchar(50) UNIQUE,
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
-  `phone_number` varchar(20) DEFAULT NULL,
+  `phone_number` varchar(20) DEFAULT NULL UNIQUE,
   `deleted` tinyint(1) DEFAULT '0',
   `password` varchar(255) DEFAULT NULL,
   `account_non_expired` tinyint(1) DEFAULT '1',
@@ -629,6 +629,35 @@ CREATE TABLE `user` (
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+--
+-- Table structure for table `social_credentials`
+--
+
+DROP TABLE IF EXISTS `social_credentials`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `social_credentials` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `provider` int(2) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `provider_id` varchar(50) NOT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `social_credentials_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `social_credentials`
+--
+
+LOCK TABLES `social_credentials` WRITE;
+/*!40000 ALTER TABLE `social_credentials` DISABLE KEYS */;
+/*!40000 ALTER TABLE `social_credentials` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
