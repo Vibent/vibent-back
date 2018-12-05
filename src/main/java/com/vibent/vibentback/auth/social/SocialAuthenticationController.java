@@ -2,7 +2,9 @@ package com.vibent.vibentback.auth.social;
 
 import com.vibent.vibentback.auth.api.AuthenticationResponse;
 import com.vibent.vibentback.auth.social.api.SocialLoginRequest;
-import lombok.AllArgsConstructor;
+import com.vibent.vibentback.auth.social.api.SocialUnlinkRequest;
+import com.vibent.vibentback.user.User;
+import com.vibent.vibentback.user.api.DetailledUserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,6 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping("/auth/social")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SocialAuthenticationController {
 
@@ -25,10 +26,24 @@ public class SocialAuthenticationController {
 
     private final SocialAuthenticationService socialAuthenticationService;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/login")
+    @RequestMapping(method = RequestMethod.POST, value = "/auth/social/login")
     public AuthenticationResponse loginSocial(@Valid @RequestBody SocialLoginRequest request) {
         log.info("Attempted login with social provider {}", request.getProvider());
         String token = socialAuthenticationService.loginSocial(request);
         return new AuthenticationResponse(token, EXPIRATION_SECONDS);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/social/link")
+    public DetailledUserResponse linkSocial(@Valid @RequestBody SocialLoginRequest request) {
+        log.info("Attempted link social provider {}", request.getProvider());
+        User user = socialAuthenticationService.linkSocial(request);
+        return new DetailledUserResponse(user);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/social/unlink")
+    public DetailledUserResponse unlinkSocial(@Valid @RequestBody SocialUnlinkRequest request) {
+        log.info("Attempted unlink social provider {}", request.getProvider());
+        User user = socialAuthenticationService.unlinkSocial(request);
+        return new DetailledUserResponse(user);
     }
 }

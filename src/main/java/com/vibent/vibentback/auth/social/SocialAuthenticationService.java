@@ -4,10 +4,12 @@ import com.vibent.vibentback.auth.AuthenticationService;
 import com.vibent.vibentback.auth.api.RegistrationRequest;
 import com.vibent.vibentback.auth.social.api.SocialLoginDetails;
 import com.vibent.vibentback.auth.social.api.SocialLoginRequest;
+import com.vibent.vibentback.auth.social.api.SocialUnlinkRequest;
 import com.vibent.vibentback.auth.social.provider.facebook.FacebookAuthVerifier;
 import com.vibent.vibentback.auth.social.provider.google.GoogleAuthVerifier;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.AllArgsConstructor;
@@ -27,8 +29,9 @@ public class SocialAuthenticationService {
     private final AuthenticationService authenticationService;
     private final UserRepository userRepository;
     private final SocialCredentialsRepository credentialsRepository;
+    private final ConnectedUserUtils userUtils;
 
-    public String loginSocial(SocialLoginRequest request) {
+    private SocialLoginDetails getDetails(SocialLoginRequest request) {
         SocialLoginDetails details = null;
         switch (request.getProvider()) {
             case GOOGLE:
@@ -40,14 +43,18 @@ public class SocialAuthenticationService {
             default:
                 throw new VibentException(VibentError.SOCIAL_PROVIDER_UNKNOWN);
         }
+        return details;
+    }
 
+    public String loginSocial(SocialLoginRequest request) {
+        SocialLoginDetails details = this.getDetails(request);
 
         String token;
-        SocialCredentials credentials = credentialsRepository.findByProviderAndProviderId(request.getProvider(), details.getProviderId());
+        Optional<SocialCredentials> credentials = credentialsRepository.findByProviderAndProviderId(request.getProvider(), details.getProviderId());
         // User has already logged in with social provider
-        if (credentials != null) {
+        if (credentials.isPresent()) {
             log.info("User has already logged in with social provider");
-            token = loginExistingCredentials(credentials);
+            token = loginExistingCredentials(credentials.get());
 
         } else {
             Optional<User> user = userRepository.findByEmail(details.getEmail());
@@ -67,7 +74,7 @@ public class SocialAuthenticationService {
         return token;
     }
 
-    public String loginExistingCredentials(SocialCredentials credentials) {
+    private String loginExistingCredentials(SocialCredentials credentials) {
         return authenticationService.createToken(credentials.getUser());
     }
 
@@ -87,7 +94,7 @@ public class SocialAuthenticationService {
         return authenticationService.createToken(user);
     }
 
-    public String loginNewAccount(SocialLoginDetails details) {
+    private String loginNewAccount(SocialLoginDetails details) {
         RegistrationRequest registrationRequest = new RegistrationRequest(
                 null,
                 details.getEmail(),
@@ -99,5 +106,30 @@ public class SocialAuthenticationService {
         User user = authenticationService.register(registrationRequest);
         loginExistingAccount(user, details);
         return authenticationService.createToken(user);
+    }
+
+    public User linkSocial(SocialLoginRequest request) {
+        User user = userUtils.getConnectedUser();
+        if (user.getCredentials().stream().anyMatch(sc -> sc.getProvider().equals(request.getProvider()))) {
+            throw new VibentException(VibentError.SOCIAL_USER_ALREADY_LINKED);
+        }
+        SocialLoginDetails details = this.getDetails(request);
+        if (credentialsRepository.findByProviderAndProviderId(details.getProvider(), details.getProviderId()).isPresent()) {
+            throw new VibentException(VibentError.SOCIAL_ALREADY_LINKED);
+        }
+        this.loginExistingAccount(user, details);
+        return user;
+    }
+
+    public User unlinkSocial(SocialUnlinkRequest request) {
+        User user = userUtils.getConnectedUser();
+        Optional<SocialCredentials> credentials = user.getCredentials().stream().filter(
+                sc -> sc.getProvider().equals(request.getProvider())).findFirst();
+        if (!credentials.isPresent()) {
+            throw new VibentException(VibentError.SOCIAL_NOT_LINKED);
+        }
+        user.getCredentials().remove(credentials.get());
+        credentialsRepository.delete(credentials.get());
+        return userRepository.save(user);
     }
 }

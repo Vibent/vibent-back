@@ -3,7 +3,6 @@ package com.vibent.vibentback.user.api;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vibent.vibentback.auth.social.SocialCredentials;
 import com.vibent.vibentback.auth.social.provider.Provider;
 import com.vibent.vibentback.event.api.UserParticipationResponse;
 import com.vibent.vibentback.group.api.UserMembershipRequestResponse;
@@ -74,12 +73,12 @@ public class DetailledUserResponse {
     }
 
     @JsonProperty
-    public Map<String, Boolean> getSocialCredentials() {
-        Map<String, Boolean> connectedSocialCredentials = new HashMap<>();
-        Arrays.stream(Provider.values()).forEach(
-                p -> connectedSocialCredentials.put(p.toString().toLowerCase(), false));
-        user.getCredentials().stream().map(SocialCredentials::getProvider).forEach(
-                p -> connectedSocialCredentials.put(p.toString().toLowerCase(), true));
+    public Map<Provider, Boolean> getSocialCredentials() {
+        Map<Provider, Boolean> connectedSocialCredentials = new HashMap<>();
+        Arrays.stream(Provider.values()).forEach(p -> {
+            boolean exists = user.getCredentials().stream().anyMatch(c -> c.getProvider().equals(p));
+            connectedSocialCredentials.put(p, exists);
+        });
         return connectedSocialCredentials;
     }
 }

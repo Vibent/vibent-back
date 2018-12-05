@@ -7,10 +7,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 public interface SocialCredentialsRepository extends CrudRepository<SocialCredentials, Long> {
 
-    SocialCredentials findByProviderAndProviderId(Provider provider, String providerId);
+    Optional<SocialCredentials> findByProviderAndProviderId(Provider provider, String providerId);
 
     @Modifying
     @Transactional
