@@ -54,6 +54,9 @@ public enum VibentError {
     SOCIAL_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "The social authentication token (authToken or idToken depending on provider) was not found"),
     SOCIAL_AUTHENTICATION_FAILED(HttpStatus.UNAUTHORIZED, "The social authentication failed"),
     SOCIAL_PROVIDER_UNKNOWN(HttpStatus.UNAUTHORIZED, "The requested social provider is unknown"),
+    SOCIAL_USER_ALREADY_LINKED(HttpStatus.BAD_REQUEST, "The connected user is already linked with that social provider"),
+    SOCIAL_ALREADY_LINKED(HttpStatus.BAD_REQUEST, "The social provider account is already linked to a Vibent account"),
+    SOCIAL_NOT_LINKED(HttpStatus.BAD_REQUEST, "The connected user is already not linked with that social provider"),
 
     // Token errors
     MALFORMED_TOKEN(HttpStatus.UNAUTHORIZED, "The provided token is malformed"),
