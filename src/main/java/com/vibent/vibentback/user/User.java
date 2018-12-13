@@ -51,6 +51,7 @@ public class User implements UserDetails, Serializable, Permissible {
     private boolean credentialsNonExpired = true;
     private boolean enabled = false;
     private Date lastPasswordReset;
+    private String profilePicLocation = null;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private Set<SocialCredentials> credentials = new HashSet<>();

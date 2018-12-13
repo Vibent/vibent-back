@@ -48,6 +48,11 @@ public class DetailledUserResponse {
     }
 
     @JsonProperty
+    public String getProfilePicLocation() {
+        return user.getProfilePicLocation();
+    }
+
+    @JsonProperty
     public Set<UserParticipationResponse> getParticipations() {
         Set<UserParticipationResponse> participationResponses = new HashSet<>();
         user.getParticipations().forEach(e ->

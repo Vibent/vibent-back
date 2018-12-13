@@ -71,8 +71,9 @@ public enum VibentError {
 
 
     // Image
-    GET_IMAGE_FAILED(HttpStatus.NOT_FOUND, "The requested image could not be recovered"),
     UPLOAD_IMAGE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "The requested image could not be uploaded"),
+    INCORRECT_IMAGE_FORMAT(HttpStatus.BAD_REQUEST, "The uploaded image is in the wrong format"),
+    FILE_SIZE_TOO_BIG(HttpStatus.BAD_REQUEST, "The uploaded file is too big, the maximum is 128KB"),
 
 
     // General errors

@@ -4,9 +4,7 @@ import com.vibent.vibentback.auth.api.*;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.mail.MailService;
-import com.vibent.vibentback.common.util.JWTUtils;
-import com.vibent.vibentback.common.util.TokenInfo;
-import com.vibent.vibentback.common.util.TokenUtils;
+import com.vibent.vibentback.common.util.*;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
 import com.vibent.vibentback.user.UserService;
@@ -37,6 +35,7 @@ public class AuthenticationService {
     private final JWTUtils JWTUtils;
     private final TokenUtils tokenUtils;
     private final MailService mailService;
+    private final MD5Utils md5Utils;
 
     public String createToken(User user) {
         Authentication authentication = new VibentAuthentication(user.getRef(), user.getPassword());
@@ -108,6 +107,7 @@ public class AuthenticationService {
         user.setRef(UUID.randomUUID().toString());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
+        user.setProfilePicLocation(getDefaultProfilePicLocation(user.getRef()));
 
         userService.addUser(user);
         mailService.sendConfirmationMail(user);
@@ -136,5 +136,9 @@ public class AuthenticationService {
                 .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
+    }
+
+    private String getDefaultProfilePicLocation(String seed) {
+        return "https://gravatar.com/avatar/" + md5Utils.hash(seed) + ".jpg?s=128&d=retro";
     }
 }

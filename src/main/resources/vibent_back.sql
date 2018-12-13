@@ -605,12 +605,13 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ref` char(36) NOT NULL,
+  `ref` char(36) NOT NULL UNIQUE,
   `email` varchar(50) UNIQUE,
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
   `phone_number` varchar(20) DEFAULT NULL UNIQUE,
   `deleted` tinyint(1) DEFAULT '0',
+  `profile_pic_location` varchar(100) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `account_non_expired` tinyint(1) DEFAULT '1',
   `account_non_locked` tinyint(1) DEFAULT '1',

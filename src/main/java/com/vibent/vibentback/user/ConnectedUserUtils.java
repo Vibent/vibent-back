@@ -21,4 +21,8 @@ public class ConnectedUserUtils {
         return userRepository.findByRef(getConnectedUserRef())
                 .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
     }
+
+    public User updateConnectedUser(){
+        return userRepository.save(getConnectedUser());
+    }
 }
