@@ -9,23 +9,27 @@ public class SimpleUserResponse {
     @JsonIgnore
     private User user;
 
-    public SimpleUserResponse(User user){
+    public SimpleUserResponse(User user) {
         this.user = user;
     }
 
     @JsonProperty
-    public String getRef(){
+    public String getRef() {
         return user.getRef();
     }
 
     @JsonProperty
-    public String getFirstName(){
+    public String getFirstName() {
         return user.getFirstName();
     }
 
     @JsonProperty
-    public String getLastName(){
+    public String getLastName() {
         return user.getLastName();
     }
 
+    @JsonProperty
+    public String getProfilePicLocation() {
+        return user.getProfilePicLocation();
+    }
 }
