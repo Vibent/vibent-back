@@ -6,6 +6,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,9 @@ public class S3Utils {
 
     public void uploadObject(String key, File object) {
         amazonS3.putObject(new PutObjectRequest(bucketName, key, object));
+    }
+
+    public void deleteObject(String key) {
+        amazonS3.deleteObject(new DeleteObjectRequest(bucketName, key));
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -43,7 +44,8 @@ public class ImageService {
     }
 
     public void uploadProfileImage(MultipartFile file) {
-        String uploadLocation = "profile/" + userUtils.getConnectedUserRef() + ".jpg";
+        String deleteLocation = userUtils.getConnectedUser().getProfilePicLocation();
+        String uploadLocation = "profile/" + UUID.randomUUID() + ".jpg";
         File profilePic = multipartToFile(file);
         if (!isJpeg(profilePic)) {
             throw new VibentException(VibentError.INCORRECT_IMAGE_FORMAT);
@@ -53,6 +55,7 @@ public class ImageService {
             User user = userUtils.getConnectedUser();
             user.setProfilePicLocation(s3Utils.getBucketBaseUrl() + uploadLocation);
             userUtils.updateConnectedUser();
+            s3Utils.deleteObject(deleteLocation);
         } catch (Exception e) {
             e.printStackTrace();
             throw new VibentException(VibentError.UPLOAD_IMAGE_FAILED);
