@@ -618,8 +618,7 @@ CREATE TABLE `user` (
   `credentials_non_expired` tinyint(1) DEFAULT '1',
   `last_password_reset` datetime DEFAULT NULL,
   `enabled` tinyint(1) DEFAULT '1',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `ref` (`ref`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
