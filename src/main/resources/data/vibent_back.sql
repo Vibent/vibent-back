@@ -1,5 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `vibent_back` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `vibent_back`;
+-- CREATE DATABASE  IF NOT EXISTS `vibent_back` /*!40100 DEFAULT CHARACTER SET utf8 */;
+-- USE `vibent_back`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: vibent_back
