@@ -12,7 +12,8 @@ variables:
 stages:
 - build
 - dockerize
-- deploy
+- deploy-dev
+- deploy-prod
 
 build:
   stage: build
@@ -42,10 +43,19 @@ dockerize:
   dependencies:
   - build
 
-deploy:
-  stage: deploy
+deploy-dev:
+  stage: deploy-dev
   only:
   - develop
   script:
   - apk add --update curl && rm -rf /var/cache/apk/*
-  - curl -X POST -d "{\"token\":\"$AWS_UTIL_TOKEN\",\"restart\":\"vibent-back\"}" https://admin.dev.vibent.com
+  - curl -X POST -d "{\"token\":\"$AWS_UTIL_TOKEN\",\"restart\":\"vibent-back-dev\"}" https://admin.dev.vibent.com
+
+deploy-prod:
+  stage: deploy-prod
+  only:
+  - develop
+  when: manual
+  script:
+  - apk add --update curl && rm -rf /var/cache/apk/*
+  - curl -X POST -d "{\"token\":\"$AWS_UTIL_TOKEN\",\"restart\":\"vibent-back-prod\"}" https://admin.dev.vibent.com
