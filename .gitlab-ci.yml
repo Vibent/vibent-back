@@ -49,7 +49,7 @@ deploy-dev:
   - develop
   script:
   - apk add --update curl && rm -rf /var/cache/apk/*
-  - curl -X POST -d "{\"token\":\"$AWS_UTIL_TOKEN\",\"restart\":\"vibent-back-dev\"}" https://admin.dev.vibent.com
+  - curl -X POST -d "{\"token\":\"$AWS_UTIL_TOKEN\",\"restart\":\"vibent-back-dev\"}" https://admin.vibent.com
 
 deploy-prod:
   stage: deploy-prod
@@ -58,4 +58,4 @@ deploy-prod:
   when: manual
   script:
   - apk add --update curl && rm -rf /var/cache/apk/*
-  - curl -X POST -d "{\"token\":\"$AWS_UTIL_TOKEN\",\"restart\":\"vibent-back-prod\"}" https://admin.dev.vibent.com
+  - curl -X POST -d "{\"token\":\"$AWS_UTIL_TOKEN\",\"restart\":\"vibent-back-prod\"}" https://admin.vibent.com
