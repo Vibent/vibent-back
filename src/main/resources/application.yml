@@ -76,7 +76,9 @@ spring:
 
 server.port: 80
 
-vibent.client.url: https://vibent.com
+vibent:
+  client.url: https://vibent.com
+  social.google.clientId: "634029875861-09kdkppk1khbs7krahm18tcqmggts3ee.apps.googleusercontent.com"
 
 ---
 ### UTILITY DEFINITIONS ###
