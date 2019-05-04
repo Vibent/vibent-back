@@ -84,7 +84,6 @@ public class EventInternalTest extends VibentTest {
         RANDOM_UPDATE_EVENT.setDescription(RANDOM_EVENT_UPDATE_REQUEST.getDescription());
         RANDOM_UPDATE_EVENT.setStartDate(RANDOM_EVENT.getStartDate());
 
-
         when(permissionEvaluator.hasPermission(any(), any(), any(), any())).thenReturn(false);
         when(permissionEvaluator.hasPermission(eq(AUTHENTICATION), any(), any(), any())).thenReturn(true);
         when(userRepository.findByRef((String) AUTHENTICATION.getPrincipal())).thenReturn(Optional.of(RANDOM_USER));

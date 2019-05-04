@@ -3,6 +3,8 @@ package com.vibent.vibentback.event;
 import com.vibent.vibentback.event.api.DetailledEventResponse;
 import com.vibent.vibentback.event.api.EventRequest;
 import com.vibent.vibentback.event.api.EventUpdateRequest;
+import com.vibent.vibentback.event.api.StandaloneEventRequest;
+import com.vibent.vibentback.group.api.InviteTokenResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +60,25 @@ public class EventController {
     void deleteEvent(@PathVariable String eventRef) {
         log.info("Deleting event with ref : {}", eventRef);
         eventService.deleteEvent(eventRef);
+    }
+
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @RequestMapping(method = RequestMethod.POST, value = "/standalone")
+    DetailledEventResponse createStandaloneEvent(@Valid @RequestBody StandaloneEventRequest request) {
+        log.info("Creating standalone event with body : {}", request.toString());
+        return new DetailledEventResponse(eventService.createStandaloneEvent(request));
+    }
+
+    @PreAuthorize(value = "hasPermission(#eventRef, 'Event', 'write')")
+    @RequestMapping(method = RequestMethod.GET, value = "/standalone/{eventRef}/inviteToken")
+    InviteTokenResponse getStandaloneEventInviteToken(@PathVariable String eventRef) {
+        log.info("Getting invite token for standalone event : {}", eventRef);
+        return new InviteTokenResponse(eventService.generateStandaloneEventInviteToken(eventRef));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/standalone/validateInviteToken/{token:.+}")
+    DetailledEventResponse validateStandaloneEventInviteToken(@PathVariable String token) {
+        log.info("Validating standalone event invite token : {}", token);
+        return new DetailledEventResponse(eventService.validateStandaloneEventInviteToken(token));
     }
 }

@@ -27,6 +27,8 @@ public enum VibentError {
 
 
     EVENT_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested event could not be found"),
+    EVENT_NOT_STANDALONE(HttpStatus.BAD_REQUEST, "The requested operation is only possible on a standalone event"),
+    EVENT_STANDALONE(HttpStatus.BAD_REQUEST, "The requested operation is only possible on a non standalone group event"),
     EVENT_DATE_INVALID(HttpStatus.BAD_REQUEST, "An event's end date must be after its start date, and it's start date must be after the current date"),
 
     EVENT_PARTICIPATION_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested event participation could not be found"),
@@ -67,7 +69,7 @@ public enum VibentError {
     ILLEGAL_TOKEN_ARGUMENT(HttpStatus.UNAUTHORIZED, "The provided token has an illegal argument"),
     ILLEGAL_TOKEN_ISSUER(HttpStatus.UNAUTHORIZED, "The provided token was not issued by Vibent"),
     FAILED_TO_CREATE_TOKEN(HttpStatus.INTERNAL_SERVER_ERROR, "The token creation has failed"),
-    WRONG_TOKEN_TYPE(HttpStatus.INTERNAL_SERVER_ERROR, "The provided token is of the wrong type"),
+    WRONG_TOKEN_TYPE(HttpStatus.BAD_REQUEST, "The provided token is of the wrong type"),
 
 
     // Image

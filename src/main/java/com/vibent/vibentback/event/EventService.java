@@ -2,8 +2,11 @@ package com.vibent.vibentback.event;
 
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
+import com.vibent.vibentback.common.util.TokenInfo;
+import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.event.api.EventRequest;
 import com.vibent.vibentback.event.api.EventUpdateRequest;
+import com.vibent.vibentback.event.api.StandaloneEventRequest;
 import com.vibent.vibentback.event.participation.EventParticipationService;
 import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.group.GroupTRepository;
@@ -30,6 +33,7 @@ public class EventService {
     private final EventRepository eventRepository;
     private final EventParticipationService eventParticipationService;
     private final GroupTRepository groupTRepository;
+    private final TokenUtils tokenUtils;
 
     public Set<Event> getConnectedUserEvents() {
         Set<GroupT> groups = connectedUserUtils.getConnectedUser().getMemberships().stream()
@@ -55,6 +59,7 @@ public class EventService {
         if (request.getDescription() != null)
             event.setDescription(request.getDescription());
         event.setGroup(group);
+        event.setStandalone(false);
         event.setStartDate(request.getStartDate());
         event.setEndDate(request.getEndDate());
         Event created = eventRepository.save(event);
@@ -80,5 +85,41 @@ public class EventService {
         if (existing.getStartDate() != null && existing.getEndDate() != null && existing.getStartDate().after(existing.getEndDate()))
             throw new VibentException(VibentError.EVENT_DATE_INVALID);
         return eventRepository.save(existing);
+    }
+
+    public Event createStandaloneEvent(StandaloneEventRequest request) {
+        if (request.getStartDate().before(new Date()))
+            throw new VibentException(VibentError.EVENT_DATE_INVALID);
+        if (request.getEndDate() != null && request.getStartDate().after(request.getEndDate()))
+            throw new VibentException(VibentError.EVENT_DATE_INVALID);
+        Event event = new Event();
+        event.setRef(UUID.randomUUID().toString());
+        event.setTitle(request.getTitle());
+        if (request.getDescription() != null)
+            event.setDescription(request.getDescription());
+        event.setStartDate(request.getStartDate());
+        event.setEndDate(request.getEndDate());
+        event.setStandalone(true);
+        Event created = eventRepository.save(event);
+        eventParticipationService.createEventParticipation(event, connectedUserUtils.getConnectedUser());
+        return eventRepository.save(created);
+    }
+
+    public String generateStandaloneEventInviteToken(String eventRef) {
+        Event event = eventRepository.findByRef(eventRef)
+                .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
+        if (!event.isStandalone()) {
+            throw new VibentException(VibentError.EVENT_NOT_STANDALONE);
+        }
+        return tokenUtils.getStandaloneEventInviteToken(event.getId());
+
+    }
+
+    public Event validateStandaloneEventInviteToken(String token) {
+        TokenInfo info = tokenUtils.readStandaloneEventInviteToken(token);
+        Event event = eventRepository.findById(info.getId())
+                .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
+        eventParticipationService.createEventParticipation(event, connectedUserUtils.getConnectedUser());
+        return event;
     }
 }

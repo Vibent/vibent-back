@@ -54,12 +54,12 @@ public class GroupT implements Permissible {
 
     @Override
     public boolean canRead(User user) {
-        return isMember(user);
+        return this.isMember(user);
     }
 
     @Override
     public boolean canWrite(User user) {
-        return (this.isHasDefaultAdmin() && isMember(user)) || isAdmin(user);
+        return (this.isHasDefaultAdmin() && this.isMember(user)) || this.isAdmin(user);
     }
 
     @Override

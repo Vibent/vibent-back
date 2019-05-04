@@ -30,6 +30,7 @@ public class EventParticipationService {
 
     /**
      * Creates all default event participations when event is created
+     * based on members in the events group
      *
      * @param event the event to add the participations to
      */
@@ -41,15 +42,19 @@ public class EventParticipationService {
 
         GroupT groupT = event.getGroup();
         for (User user : groupT.getMemberships().stream().map(Membership::getUser).collect(Collectors.toSet())) {
-            EventParticipation participation = new EventParticipation();
-            participation.setUser(user);
-            participation.setEvent(event);
-            participation.setVisible(true);
-            participation.setAnswer(EventParticipation.Answer.UNANSWERED);
-            user.getParticipations().add(participation);
-            event.getParticipations().add(participation);
-            eventParticipationRepository.save(participation);
+            createEventParticipation(event, user);
         }
+    }
+
+    public void createEventParticipation(Event event, User user) {
+        EventParticipation participation = new EventParticipation();
+        participation.setUser(user);
+        participation.setEvent(event);
+        participation.setVisible(true);
+        participation.setAnswer(EventParticipation.Answer.UNANSWERED);
+        user.getParticipations().add(participation);
+        event.getParticipations().add(participation);
+        eventParticipationRepository.save(participation);
     }
 
     Set<EventParticipation> getEventParticipations(String eventRef) {
