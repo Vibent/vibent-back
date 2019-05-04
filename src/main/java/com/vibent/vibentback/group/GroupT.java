@@ -20,7 +20,6 @@ import java.util.Set;
 @EqualsAndHashCode(of = "id")
 @ToString(of = {"id", "ref", "name", "imagePath", "hasDefaultAdmin", "deleted"})
 @NoArgsConstructor
-@RequiredArgsConstructor
 @SQLDelete(sql = "UPDATE group_t SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class GroupT implements Permissible {
@@ -72,7 +71,7 @@ public class GroupT implements Permissible {
         return this.getMemberships().stream().anyMatch(m -> m.getUser().equals(user) && m.getAdmin());
     }
 
-    public boolean isMember(User user){
+    public boolean isMember(User user) {
         return this.getMemberships().stream().anyMatch(p -> p.getUser().equals(user));
     }
 }

@@ -15,7 +15,6 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-@RequiredArgsConstructor
 @SQLDelete(sql = "UPDATE event_participation SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class EventParticipation {

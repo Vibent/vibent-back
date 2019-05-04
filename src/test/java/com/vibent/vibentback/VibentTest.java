@@ -59,8 +59,15 @@ public class VibentTest {
         SecurityContextHolder.getContext().setAuthentication(AUTHENTICATION);
 
 
-        RANDOM_GROUP = new GroupT(UUID.randomUUID().toString(), "test");
-        RANDOM_EVENT = new Event(UUID.randomUUID().toString(), RANDOM_GROUP, "test", "test", getFutureDate(5));
+        RANDOM_GROUP = new GroupT();
+        RANDOM_GROUP.setRef(UUID.randomUUID().toString());
+        RANDOM_GROUP.setName("test");
+        RANDOM_EVENT = new Event();
+        RANDOM_EVENT.setRef(UUID.randomUUID().toString());
+        RANDOM_EVENT.setGroup(RANDOM_GROUP);
+        RANDOM_EVENT.setTitle("test");
+        RANDOM_EVENT.setDescription("test");
+        RANDOM_EVENT.setStartDate(getFutureDate(5));
     }
 
     protected String getJsonString(Object object) throws JsonProcessingException {

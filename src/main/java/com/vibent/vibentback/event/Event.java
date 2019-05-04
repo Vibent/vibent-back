@@ -25,7 +25,6 @@ import java.util.Set;
 @Entity
 @ToString(of = {"id", "ref", "title", "description", "startDate", "endDate", "deleted"})
 @NoArgsConstructor
-@RequiredArgsConstructor
 @EqualsAndHashCode(of = "id")
 @SQLDelete(sql = "UPDATE event SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")

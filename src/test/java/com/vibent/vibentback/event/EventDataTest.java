@@ -5,7 +5,6 @@ import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.group.GroupTRepository;
 import org.junit.Assert;
-import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,8 +34,12 @@ public class EventDataTest extends VibentTest {
 
     @Test
     public void testAddEvent() {
-        Event event = new Event(UUID.randomUUID().toString(), RANDOM_GROUP, "eventTest", "description",
-                getFutureDate(4));
+        Event event = new Event();
+        event.setRef(UUID.randomUUID().toString());
+        event.setGroup(RANDOM_GROUP);
+        event.setTitle("test");
+        event.setDescription("test");
+        event.setStartDate(getFutureDate(5));
         event.setEndDate(getFutureDate(8));
         Assert.assertNotNull(event.getRef());
         repository.save(event);

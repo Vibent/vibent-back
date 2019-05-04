@@ -1,11 +1,11 @@
 package com.vibent.vibentback.event;
 
 import com.vibent.vibentback.VibentTest;
+import com.vibent.vibentback.common.error.VibentException;
+import com.vibent.vibentback.common.permission.VibentPermissionEvaluator;
 import com.vibent.vibentback.event.api.DetailledEventResponse;
 import com.vibent.vibentback.event.api.EventRequest;
 import com.vibent.vibentback.event.api.EventUpdateRequest;
-import com.vibent.vibentback.common.error.VibentException;
-import com.vibent.vibentback.common.permission.VibentPermissionEvaluator;
 import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.event.participation.EventParticipationRepository;
 import com.vibent.vibentback.group.GroupTRepository;
@@ -57,7 +57,7 @@ public class EventInternalTest extends VibentTest {
     private EventUpdateRequest RANDOM_EVENT_UPDATE_REQUEST;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         super.setUp();
         MockitoAnnotations.initMocks(this);
 
@@ -77,7 +77,12 @@ public class EventInternalTest extends VibentTest {
         RANDOM_EVENT_UPDATE_REQUEST = new EventUpdateRequest();
         RANDOM_EVENT_UPDATE_REQUEST.setDescription("New description");
 
-        Event RANDOM_UPDATE_EVENT = RANDOM_EVENT = new Event(RANDOM_EVENT.getRef(), RANDOM_EVENT.getGroup(), RANDOM_EVENT.getTitle(), RANDOM_EVENT_UPDATE_REQUEST.getDescription(), RANDOM_EVENT.getStartDate());
+        Event RANDOM_UPDATE_EVENT = new Event();
+        RANDOM_UPDATE_EVENT.setRef(RANDOM_EVENT.getRef());
+        RANDOM_UPDATE_EVENT.setGroup(RANDOM_EVENT.getGroup());
+        RANDOM_UPDATE_EVENT.setTitle(RANDOM_EVENT.getTitle());
+        RANDOM_UPDATE_EVENT.setDescription(RANDOM_EVENT_UPDATE_REQUEST.getDescription());
+        RANDOM_UPDATE_EVENT.setStartDate(RANDOM_EVENT.getStartDate());
 
 
         when(permissionEvaluator.hasPermission(any(), any(), any(), any())).thenReturn(false);
@@ -92,47 +97,47 @@ public class EventInternalTest extends VibentTest {
     }
 
     @Test
-    public void getConnectedUserEvents(){
+    public void getConnectedUserEvents() {
         Set<DetailledEventResponse> events = controller.getConnectedUserEvents();
         log.info(String.valueOf(events.size()));
     }
 
 
     @Test
-    public void getEvent(){
+    public void getEvent() {
         DetailledEventResponse event = controller.getEvent(RANDOM_EVENT.getRef());
         Assert.assertEquals(RANDOM_EVENT.getRef(), event.getRef());
         Assert.assertEquals(RANDOM_EVENT.getDescription(), event.getDescription());
     }
 
     @Test
-    public void addEvent(){
+    public void addEvent() {
         DetailledEventResponse event = controller.createEvent(RANDOM_EVENT_REQUEST);
         Assert.assertEquals(RANDOM_EVENT.getRef(), event.getRef());
         Assert.assertEquals(RANDOM_EVENT.getDescription(), event.getDescription());
     }
 
     @Test(expected = VibentException.class)
-    public void addEventWithInvalidEndDate(){
+    public void addEventWithInvalidEndDate() {
         RANDOM_EVENT_REQUEST.setEndDate(getFutureDate(2));
         controller.createEvent(RANDOM_EVENT_REQUEST);
     }
 
     @Test(expected = VibentException.class)
-    public void addEventWithInvalidStartDate(){
+    public void addEventWithInvalidStartDate() {
         RANDOM_EVENT_REQUEST.setStartDate(getPastDate(2));
         controller.createEvent(RANDOM_EVENT_REQUEST);
     }
 
     @Test
-    public void updateEvent(){
+    public void updateEvent() {
         DetailledEventResponse event = controller.updateEvent(RANDOM_EVENT.getRef(), RANDOM_EVENT_UPDATE_REQUEST);
         Assert.assertEquals(event.getRef(), RANDOM_EVENT.getRef());
         Assert.assertEquals(RANDOM_EVENT_UPDATE_REQUEST.getDescription(), event.getDescription());
     }
 
     @Test
-    public void deleteEvent(){
+    public void deleteEvent() {
         controller.deleteEvent(RANDOM_EVENT.getRef());
     }
 }

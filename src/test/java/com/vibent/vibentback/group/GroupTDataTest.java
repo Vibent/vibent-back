@@ -4,7 +4,6 @@ import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import org.junit.Assert;
-import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,8 +29,10 @@ public class GroupTDataTest extends VibentTest {
     }
 
     @Test
-    public void testAddGroup(){
-        GroupT group = new GroupT(UUID.randomUUID().toString(), "groupTest");
+    public void testAddGroup() {
+        GroupT group = new GroupT();
+        group.setRef(UUID.randomUUID().toString());
+        group.setName("test");
         repository.save(group);
         Assert.assertNotNull(group.getRef());
 
