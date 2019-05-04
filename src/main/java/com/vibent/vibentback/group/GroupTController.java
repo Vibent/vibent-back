@@ -1,15 +1,12 @@
 package com.vibent.vibentback.group;
 
+import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.api.DetailledEventResponse;
 import com.vibent.vibentback.group.api.*;
-import com.vibent.vibentback.group.api.AcceptGroupMembershipRequestRequest;
-import com.vibent.vibentback.group.api.MembershipResponse;
-import com.vibent.vibentback.group.api.UserMembershipRequestResponse;
-import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.group.membership.MembershipRequest;
 import com.vibent.vibentback.group.membership.MembershipService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/group")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GroupTController {
 
     private final GroupTService groupTService;

@@ -1,15 +1,15 @@
 package com.vibent.vibentback.group.api;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class InviteTokenResponse {
     @NotNull
     @Size(min = 1)
-    private String token;
+    private final String token;
 }

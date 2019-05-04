@@ -1,7 +1,6 @@
 package com.vibent.vibentback.bubble.travel;
 
 import com.vibent.vibentback.bubble.travel.api.*;
-import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.bubble.travel.proposal.TravelProposal;
 import com.vibent.vibentback.bubble.travel.proposal.TravelProposalRepository;
 import com.vibent.vibentback.bubble.travel.request.TravelRequest;
@@ -10,21 +9,22 @@ import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.user.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TravelService {
 
-    TravelBubbleRepository bubbleRepository;
-    TravelRequestRepository requestRepository;
-    TravelProposalRepository proposalRepository;
-    EventRepository eventRepository;
-    UserRepository userRepository;
-    ConnectedUserUtils userUtils;
+    private final TravelBubbleRepository bubbleRepository;
+    private final TravelRequestRepository requestRepository;
+    private final TravelProposalRepository proposalRepository;
+    private final EventRepository eventRepository;
+    private final UserRepository userRepository;
+    private final ConnectedUserUtils userUtils;
 
     // Travel Bubble -------------------------------------------------------------
     public TravelBubble getBubble(long id) {
@@ -175,7 +175,7 @@ public class TravelService {
                 .orElseThrow(() -> new VibentException(VibentError.TRAVEL_REQUEST_NOT_FOUND));
         TravelProposal proposal = proposalRepository.findById(request.getProposalId())
                 .orElseThrow(() -> new VibentException(VibentError.TRAVEL_PROPOSAL_NOT_FOUND));
-        
+
         TravelBubble bubble = travelRequest.getBubble();
         if (bubble == null || !bubble.equals(proposal.getBubble())) {
             throw new VibentException(VibentError.TRAVEL_REQUEST_AND_PROPOSAL_INCOMPATIBLE);

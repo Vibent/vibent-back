@@ -1,7 +1,6 @@
 package com.vibent.vibentback.bubble.alimentation;
 
 import com.vibent.vibentback.bubble.alimentation.api.*;
-import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBringRepository;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
@@ -10,23 +9,22 @@ import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.user.UserRepository;
-import lombok.AllArgsConstructor;
+import com.vibent.vibentback.user.ConnectedUserUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AlimentationService {
 
-    AlimentationBubbleRepository bubbleRepository;
-    AlimentationEntryRepository entryRepository;
-    AlimentationBringRepository bringRepository;
-    EventRepository eventRepository;
-    UserRepository userRepository;
-    ConnectedUserUtils userUtils;
+    private final AlimentationBubbleRepository bubbleRepository;
+    private final AlimentationEntryRepository entryRepository;
+    private final AlimentationBringRepository bringRepository;
+    private final EventRepository eventRepository;
+    private final ConnectedUserUtils userUtils;
 
     // Alimentation Bubble -------------------------------------------------------------
     public AlimentationBubble getBubble(long id) {

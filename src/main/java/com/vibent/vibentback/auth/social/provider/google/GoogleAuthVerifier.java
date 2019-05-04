@@ -48,12 +48,12 @@ public class GoogleAuthVerifier implements SocialVerifier {
     private SocialLoginDetails getDetails(String idTokenReq) throws GeneralSecurityException, IOException {
         GoogleIdToken idToken = verifier.verify(idTokenReq);
         GoogleIdToken.Payload payload = idToken.getPayload();
-        return new SocialLoginDetails(
-                GOOGLE,
-                payload.getSubject(),
-                (String) payload.get("given_name"),
-                (String) payload.get("family_name"),
-                payload.getEmail()
-        );
+        SocialLoginDetails details = new SocialLoginDetails();
+        details.setProvider(GOOGLE);
+        details.setProviderId(payload.getSubject());
+        details.setEmail(payload.getEmail());
+        details.setFirstName((String) payload.get("given_name"));
+        details.setLastName((String) payload.get("family_name"));
+        return details;
     }
 }

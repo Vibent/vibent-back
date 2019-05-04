@@ -1,31 +1,31 @@
 package com.vibent.vibentback.bubble.survey;
 
 
-import com.vibent.vibentback.bubble.survey.api.*;
-import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.bubble.survey.answer.SurveyAnswer;
 import com.vibent.vibentback.bubble.survey.answer.SurveyAnswerRepository;
+import com.vibent.vibentback.bubble.survey.api.*;
 import com.vibent.vibentback.bubble.survey.option.SurveyOption;
 import com.vibent.vibentback.bubble.survey.option.SurveyOptionRepository;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
-import lombok.AllArgsConstructor;
+import com.vibent.vibentback.user.ConnectedUserUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SurveyService {
 
-    SurveyBubbleRepository bubbleRepository;
-    SurveyOptionRepository optionRepository;
-    SurveyAnswerRepository answerRepository;
-    EventRepository eventRepository;
-    ConnectedUserUtils userUtils;
+    private final SurveyBubbleRepository bubbleRepository;
+    private final SurveyOptionRepository optionRepository;
+    private final SurveyAnswerRepository answerRepository;
+    private final EventRepository eventRepository;
+    private final ConnectedUserUtils userUtils;
 
     // Survey Bubble -------------------------------------------------------------
     public SurveyBubble getBubble(long id) {

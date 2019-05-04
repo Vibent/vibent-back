@@ -1,25 +1,23 @@
 package com.vibent.vibentback.bubble.free;
 
-import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.bubble.free.api.FreeBubbleRequest;
+import com.vibent.vibentback.bubble.free.api.FreeBubbleUpdateRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.bubble.free.api.FreeBubbleUpdateRequest;
-import com.vibent.vibentback.user.UserRepository;
-import lombok.AllArgsConstructor;
+import com.vibent.vibentback.user.ConnectedUserUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class FreeService {
 
-    FreeBubbleRepository bubbleRepository;
-    EventRepository eventRepository;
-    UserRepository userRepository;
-    ConnectedUserUtils userUtils;
+    private final FreeBubbleRepository bubbleRepository;
+    private final EventRepository eventRepository;
+    private final ConnectedUserUtils userUtils;
 
     // Free Bubble -------------------------------------------------------------
     public FreeBubble getBubble(long id) {
@@ -42,9 +40,9 @@ public class FreeService {
     public FreeBubble updateBubble(long id, FreeBubbleUpdateRequest request) {
         FreeBubble bubble = bubbleRepository.findById(id)
                 .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
-        if(request.getTitle() != null)
+        if (request.getTitle() != null)
             bubble.setTitle(request.getTitle());
-        if(request.getContent() != null)
+        if (request.getContent() != null)
             bubble.setContent(request.getContent());
         bubble = bubbleRepository.save(bubble);
         return bubble;

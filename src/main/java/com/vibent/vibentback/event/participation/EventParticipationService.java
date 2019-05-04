@@ -1,16 +1,16 @@
 package com.vibent.vibentback.event.participation;
 
-import com.vibent.vibentback.event.api.UpdateEventParticipationRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
+import com.vibent.vibentback.event.api.UpdateEventParticipationRequest;
 import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 
 
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EventParticipationService {
 
-    UserRepository userRepository;
-    EventRepository eventRepository;
-    GroupTRepository groupTRepository;
-    EventParticipationRepository eventParticipationRepository;
+    private final UserRepository userRepository;
+    private final EventRepository eventRepository;
+    private final GroupTRepository groupTRepository;
+    private final EventParticipationRepository eventParticipationRepository;
 
     /**
      * Creates all default event participations when event is created

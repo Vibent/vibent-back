@@ -1,17 +1,17 @@
 package com.vibent.vibentback.common.util;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TokenInfo {
     /**
      * ID of concerned entity (groupId, userId, etc)
      */
-    Long id;
+    private final Long id;
     /**
      * Additional information in token. May be null
      */
-    String body;
+    private final String body;
 }

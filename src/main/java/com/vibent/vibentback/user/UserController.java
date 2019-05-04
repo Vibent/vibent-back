@@ -6,7 +6,7 @@ import com.vibent.vibentback.user.api.EmailChangeRequest;
 import com.vibent.vibentback.user.api.SimpleUserResponse;
 import com.vibent.vibentback.user.api.UpdateUserRequest;
 import io.swagger.annotations.Api;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ import javax.validation.Valid;
 @RequestMapping(value = "/user",
         produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(value = "user", description = "Operations pertaining to user management")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
     private final UserService userService;

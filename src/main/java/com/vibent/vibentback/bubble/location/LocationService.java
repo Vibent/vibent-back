@@ -1,24 +1,22 @@
 package com.vibent.vibentback.bubble.location;
 
-import com.vibent.vibentback.user.ConnectedUserUtils;
+import com.vibent.vibentback.bubble.location.api.LocationBubbleUpdateRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.bubble.location.api.LocationBubbleUpdateRequest;
-import com.vibent.vibentback.user.UserRepository;
-import lombok.AllArgsConstructor;
+import com.vibent.vibentback.user.ConnectedUserUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LocationService {
 
-    LocationBubbleRepository bubbleRepository;
-    EventRepository eventRepository;
-    UserRepository userRepository;
-    ConnectedUserUtils userUtils;
+    private final LocationBubbleRepository bubbleRepository;
+    private final EventRepository eventRepository;
+    private final ConnectedUserUtils userUtils;
 
     // Location Bubble -------------------------------------------------------------
     public LocationBubble getBubble(long id) {

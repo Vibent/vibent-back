@@ -1,15 +1,15 @@
 package com.vibent.vibentback.event;
 
-import com.vibent.vibentback.user.ConnectedUserUtils;
-import com.vibent.vibentback.event.api.EventRequest;
-import com.vibent.vibentback.event.api.EventUpdateRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
+import com.vibent.vibentback.event.api.EventRequest;
+import com.vibent.vibentback.event.api.EventUpdateRequest;
 import com.vibent.vibentback.event.participation.EventParticipationService;
 import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.group.membership.Membership;
-import lombok.AllArgsConstructor;
+import com.vibent.vibentback.user.ConnectedUserUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,13 +23,13 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @Transactional
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EventService {
 
-    ConnectedUserUtils connectedUserUtils;
-    EventRepository eventRepository;
-    EventParticipationService eventParticipationService;
-    GroupTRepository groupTRepository;
+    private final ConnectedUserUtils connectedUserUtils;
+    private final EventRepository eventRepository;
+    private final EventParticipationService eventParticipationService;
+    private final GroupTRepository groupTRepository;
 
     public Set<Event> getConnectedUserEvents() {
         Set<GroupT> groups = connectedUserUtils.getConnectedUser().getMemberships().stream()
@@ -52,7 +52,7 @@ public class EventService {
         Event event = new Event();
         event.setRef(UUID.randomUUID().toString());
         event.setTitle(request.getTitle());
-        if(request.getDescription() != null)
+        if (request.getDescription() != null)
             event.setDescription(request.getDescription());
         event.setGroup(group);
         event.setStartDate(request.getStartDate());

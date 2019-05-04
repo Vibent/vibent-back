@@ -1,6 +1,6 @@
 package com.vibent.vibentback.image;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,10 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 @RestController
 @RequestMapping("/image")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ImageController {
 
-    ImageService imageService;
+    private final ImageService imageService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/profile/upload", consumes = "multipart/form-data")
     void uploadProfileImage(@RequestParam("file") MultipartFile file) {

@@ -29,12 +29,12 @@ public class FacebookAuthVerifier implements SocialVerifier {
         FacebookTemplate facebook = new FacebookTemplate(authToken);
         String[] fields = {"id", "email", "first_name", "last_name"};
         User userProfile = facebook.fetchObject("me", User.class, fields);
-        return new SocialLoginDetails(
-                FACEBOOK,
-                userProfile.getId(),
-                userProfile.getFirstName(),
-                userProfile.getLastName(),
-                userProfile.getEmail()
-        );
+        SocialLoginDetails details = new SocialLoginDetails();
+        details.setProvider(FACEBOOK);
+        details.setProviderId(userProfile.getId());
+        details.setEmail(userProfile.getEmail());
+        details.setFirstName(userProfile.getFirstName());
+        details.setLastName(userProfile.getLastName());
+        return details;
     }
 }

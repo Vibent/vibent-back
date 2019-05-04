@@ -1,7 +1,7 @@
 package com.vibent.vibentback.bubble.travel;
 
 import com.vibent.vibentback.bubble.travel.api.*;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,10 +15,10 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping(value = "/bubble/travel", produces = MediaType.APPLICATION_JSON_VALUE)
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TravelController {
 
-    TravelService service;
+    private final TravelService service;
 
     // Travel Bubble -------------------------------------------------------------
     @PostAuthorize("hasPermission(returnObject, 'read')")

@@ -4,7 +4,7 @@ import com.vibent.vibentback.bubble.planning.api.PlanningBubbleRequest;
 import com.vibent.vibentback.bubble.planning.api.PlanningBubbleUpdateRequest;
 import com.vibent.vibentback.bubble.planning.api.PlanningEntryRequest;
 import com.vibent.vibentback.bubble.planning.api.PlanningEntryUpdateRequest;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +18,10 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(value = "/bubble/planning",
         produces = MediaType.APPLICATION_JSON_VALUE)
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PlanningController {
 
-    PlanningService service;
+    private final PlanningService service;
 
     // Planning Bubble -------------------------------------------------------------
     @PreAuthorize("hasPermission(#id, 'PlanningBubble', 'read')")
