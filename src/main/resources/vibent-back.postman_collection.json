@@ -1,10 +1,87 @@
 {
 	"info": {
-		"_postman_id": "9fc5c771-91d3-4590-acbb-d595852472b8",
+		"_postman_id": "73a4a3c6-e0a3-432e-9da6-683a0c790b67",
 		"name": "Vibent Back",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "0. Set Variables",
+			"item": [
+				{
+					"name": "Set LOCAL",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ed043e6d-3af7-4f14-a844-9aae6614613e",
+								"exec": [
+									"pm.environment.set(\"URL\", \"http://localhost:8080\");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://postman-echo.com/get",
+							"protocol": "https",
+							"host": [
+								"postman-echo",
+								"com"
+							],
+							"path": [
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set DEV",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ed043e6d-3af7-4f14-a844-9aae6614613e",
+								"exec": [
+									"pm.environment.set(\"URL\", \"https://dev.api.vibent.com\");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://postman-echo.com/get",
+							"protocol": "https",
+							"host": [
+								"postman-echo",
+								"com"
+							],
+							"path": [
+								"get"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "1. Authentication",
 			"item": [
@@ -1594,7 +1671,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"startDate\": \"2019-04-22T09:49:05+00:00\"\n}"
+							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"startDate\": \"2024-04-22T09:49:05+00:00\"\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/event",
@@ -1876,6 +1953,247 @@
 							],
 							"path": [
 								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. Create Standalone Event",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"eventRef\", jsonData.ref);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"startDate\": \"2024-04-22T09:49:05+00:00\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/event/standalone",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"event",
+								"standalone"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. Get Standalone Event Invite Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "dbdd550c-00b3-4d26-ba4f-84e8cd0d7f8b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"standaloneEventInviteToken\", jsonData.token);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/event/standalone/{{eventRef}}/inviteToken",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"event",
+								"standalone",
+								"{{eventRef}}",
+								"inviteToken"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Validate Standalone Event Invite Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "02208cad-f5af-4364-a936-8dc5809dd10d",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{tokenSecondUser}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/event/standalone/validateInviteToken/{{standaloneEventInviteToken}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"event",
+								"standalone",
+								"validateInviteToken",
+								"{{standaloneEventInviteToken}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11. Create Standalone Event with Invited Users from Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"eventRef\", jsonData.ref);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"startDate\": \"2024-04-22T09:49:05+00:00\",\n\t\"groupRef\": \"{{groupRef}}\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/event/standalone",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"event",
+								"standalone"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12. Create Standalone Event with Invited Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"eventRef\", jsonData.ref);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"startDate\": \"2024-04-22T09:49:05+00:00\",\n\t\"invitedUserRefs\": [\n\t\t\"{{userRefSecondUser}}\"\n\t]\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/event/standalone",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"event",
+								"standalone"
 							]
 						}
 					},

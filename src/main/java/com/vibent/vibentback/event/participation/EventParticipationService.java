@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,15 +35,19 @@ public class EventParticipationService {
      *
      * @param event the event to add the participations to
      */
-    public void createAllEventParticipations(Event event) {
+    public void createNewlyCreatedEventParticipations(Event event) {
         // If there are already participations, then this would create duplicates
         if (!eventParticipationRepository.findByEvent(event).isEmpty()) {
             throw new VibentException(VibentError.EVENT_PARTICIPATION_ALREADY_EXISTS);
         }
 
         GroupT groupT = event.getGroup();
-        for (User user : groupT.getMemberships().stream().map(Membership::getUser).collect(Collectors.toSet())) {
-            createEventParticipation(event, user);
+        createEventParticipations(event, groupT.getMemberships().stream().map(Membership::getUser).collect(Collectors.toSet()));
+    }
+
+    public void createEventParticipations(Event event, Collection<User> users) {
+        for (User user : users) {
+            this.createEventParticipation(event, user);
         }
     }
 

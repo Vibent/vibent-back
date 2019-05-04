@@ -52,6 +52,7 @@ public class EventWebLayerTest extends VibentTest {
         RANDOM_STANDALONE_EVENT_REQUEST.setDescription("Random descipt.");
         RANDOM_STANDALONE_EVENT_REQUEST.setStartDate(getFutureDate(5));
         RANDOM_STANDALONE_EVENT_REQUEST.setStartDate(getFutureDate(10));
+        RANDOM_STANDALONE_EVENT_REQUEST.setGroupRef(RANDOM_GROUP.getRef());
 
         RANDOM_EVENT_UPDATE_REQUEST = new EventUpdateRequest();
         RANDOM_EVENT_UPDATE_REQUEST.setDescription("New description");

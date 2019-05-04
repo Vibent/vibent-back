@@ -12,6 +12,8 @@ import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.user.ConnectedUserUtils;
+import com.vibent.vibentback.user.User;
+import com.vibent.vibentback.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -33,6 +36,7 @@ public class EventService {
     private final EventRepository eventRepository;
     private final EventParticipationService eventParticipationService;
     private final GroupTRepository groupTRepository;
+    private final UserRepository userRepository;
     private final TokenUtils tokenUtils;
 
     public Set<Event> getConnectedUserEvents() {
@@ -63,7 +67,7 @@ public class EventService {
         event.setStartDate(request.getStartDate());
         event.setEndDate(request.getEndDate());
         Event created = eventRepository.save(event);
-        eventParticipationService.createAllEventParticipations(event);
+        eventParticipationService.createNewlyCreatedEventParticipations(event);
         return eventRepository.save(created);
     }
 
@@ -101,7 +105,26 @@ public class EventService {
         event.setEndDate(request.getEndDate());
         event.setStandalone(true);
         Event created = eventRepository.save(event);
-        eventParticipationService.createEventParticipation(event, connectedUserUtils.getConnectedUser());
+
+        Set<User> invitedUsers = new HashSet<>();
+        invitedUsers.add(connectedUserUtils.getConnectedUser());
+
+        if (request.getGroupRef() != null) {
+            GroupT group = groupTRepository.findByRef(request.getGroupRef())
+                    .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
+            invitedUsers.addAll(group.getMemberships().stream().map(Membership::getUser).collect(Collectors.toList()));
+        }
+
+        if (request.getInvitedUserRefs() != null) {
+            for (String userRef : request.getInvitedUserRefs()) {
+                User user = userRepository.findByRef(userRef)
+                        .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
+                invitedUsers.add(user);
+            }
+        }
+
+        eventParticipationService.createEventParticipations(event, invitedUsers);
+
         return eventRepository.save(created);
     }
 

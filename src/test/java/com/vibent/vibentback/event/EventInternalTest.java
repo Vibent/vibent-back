@@ -6,6 +6,7 @@ import com.vibent.vibentback.common.permission.VibentPermissionEvaluator;
 import com.vibent.vibentback.event.api.DetailledEventResponse;
 import com.vibent.vibentback.event.api.EventRequest;
 import com.vibent.vibentback.event.api.EventUpdateRequest;
+import com.vibent.vibentback.event.api.StandaloneEventRequest;
 import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.event.participation.EventParticipationRepository;
 import com.vibent.vibentback.group.GroupTRepository;
@@ -22,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 
@@ -54,6 +56,7 @@ public class EventInternalTest extends VibentTest {
     GroupTRepository groupTRepository;
 
     private EventRequest RANDOM_EVENT_REQUEST;
+    private StandaloneEventRequest RANDOM_STANDALONE_EVENT_REQUEST;
     private EventUpdateRequest RANDOM_EVENT_UPDATE_REQUEST;
 
     @Before
@@ -73,6 +76,16 @@ public class EventInternalTest extends VibentTest {
         RANDOM_EVENT_REQUEST.setStartDate(getFutureDate(5));
         RANDOM_EVENT_REQUEST.setEndDate(getFutureDate(10));
         RANDOM_EVENT_REQUEST.setGroupRef(RANDOM_GROUP.getRef());
+
+        RANDOM_STANDALONE_EVENT_REQUEST = new StandaloneEventRequest();
+        RANDOM_STANDALONE_EVENT_REQUEST.setTitle("Random title");
+        RANDOM_STANDALONE_EVENT_REQUEST.setDescription("Random descipt.");
+        RANDOM_STANDALONE_EVENT_REQUEST.setStartDate(getFutureDate(5));
+        RANDOM_STANDALONE_EVENT_REQUEST.setEndDate(getFutureDate(10));
+        RANDOM_STANDALONE_EVENT_REQUEST.setGroupRef(RANDOM_GROUP.getRef());
+        RANDOM_STANDALONE_EVENT_REQUEST.setInvitedUserRefs(
+                Collections.singleton(RANDOM_USER.getRef())
+        );
 
         RANDOM_EVENT_UPDATE_REQUEST = new EventUpdateRequest();
         RANDOM_EVENT_UPDATE_REQUEST.setDescription("New description");
@@ -112,6 +125,13 @@ public class EventInternalTest extends VibentTest {
     @Test
     public void addEvent() {
         DetailledEventResponse event = controller.createEvent(RANDOM_EVENT_REQUEST);
+        Assert.assertEquals(RANDOM_EVENT.getRef(), event.getRef());
+        Assert.assertEquals(RANDOM_EVENT.getDescription(), event.getDescription());
+    }
+
+    @Test
+    public void addStandaloneEvent() {
+        DetailledEventResponse event = controller.createStandaloneEvent(RANDOM_STANDALONE_EVENT_REQUEST);
         Assert.assertEquals(RANDOM_EVENT.getRef(), event.getRef());
         Assert.assertEquals(RANDOM_EVENT.getDescription(), event.getDescription());
     }
