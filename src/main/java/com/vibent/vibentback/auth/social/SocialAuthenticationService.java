@@ -12,7 +12,7 @@ import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SocialAuthenticationService {
 
     private final GoogleAuthVerifier googleAuthVerifier;
@@ -95,14 +95,10 @@ public class SocialAuthenticationService {
     }
 
     private String loginNewAccount(SocialLoginDetails details) {
-        RegistrationRequest registrationRequest = new RegistrationRequest(
-                null,
-                details.getEmail(),
-                null,
-                null,
-                details.getFirstName(),
-                details.getLastName()
-        );
+        RegistrationRequest registrationRequest = new RegistrationRequest();
+        registrationRequest.setEmail(details.getEmail());
+        registrationRequest.setFirstName(details.getFirstName());
+        registrationRequest.setLastName(details.getLastName());
         User user = authenticationService.register(registrationRequest);
         loginExistingAccount(user, details);
         return authenticationService.createToken(user);

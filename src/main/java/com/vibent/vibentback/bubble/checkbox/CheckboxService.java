@@ -1,31 +1,31 @@
 package com.vibent.vibentback.bubble.checkbox;
 
 
-import com.vibent.vibentback.bubble.checkbox.api.*;
-import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.bubble.checkbox.answer.CheckboxAnswer;
 import com.vibent.vibentback.bubble.checkbox.answer.CheckboxAnswerRepository;
+import com.vibent.vibentback.bubble.checkbox.api.*;
 import com.vibent.vibentback.bubble.checkbox.option.CheckboxOption;
 import com.vibent.vibentback.bubble.checkbox.option.CheckboxOptionRepository;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
-import lombok.AllArgsConstructor;
+import com.vibent.vibentback.user.ConnectedUserUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CheckboxService {
 
-    CheckboxBubbleRepository bubbleRepository;
-    CheckboxOptionRepository optionRepository;
-    CheckboxAnswerRepository answerRepository;
-    EventRepository eventRepository;
-    ConnectedUserUtils userUtils;
+    private final CheckboxBubbleRepository bubbleRepository;
+    private final CheckboxOptionRepository optionRepository;
+    private final CheckboxAnswerRepository answerRepository;
+    private final EventRepository eventRepository;
+    private final ConnectedUserUtils userUtils;
 
     // Checkbox Bubble -------------------------------------------------------------
     public CheckboxBubble getBubble(long id) {

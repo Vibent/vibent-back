@@ -1,7 +1,7 @@
 package com.vibent.vibentback.bubble.checkbox;
 
 import com.vibent.vibentback.bubble.checkbox.api.*;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +16,10 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(value = "/bubble/checkbox",
         produces = MediaType.APPLICATION_JSON_VALUE)
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CheckboxController {
 
-    CheckboxService service;
+    private final CheckboxService service;
 
     // Checkbox Bubble -------------------------------------------------------------
     @PostAuthorize("hasPermission(returnObject, 'read')")

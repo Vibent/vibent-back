@@ -1,19 +1,19 @@
 package com.vibent.vibentback.group;
 
-import com.vibent.vibentback.user.ConnectedUserUtils;
-import com.vibent.vibentback.group.api.GroupRequest;
-import com.vibent.vibentback.group.api.GroupUpdateRequest;
-import com.vibent.vibentback.group.api.MailInviteRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.mail.MailService;
 import com.vibent.vibentback.common.util.TokenInfo;
 import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.event.Event;
+import com.vibent.vibentback.group.api.GroupRequest;
+import com.vibent.vibentback.group.api.GroupUpdateRequest;
+import com.vibent.vibentback.group.api.MailInviteRequest;
 import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.group.membership.MembershipService;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.user.User;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +22,14 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GroupTService {
 
-    MembershipService membershipService;
-    ConnectedUserUtils connectedUserUtils;
-    GroupTRepository groupTRepository;
-    TokenUtils tokenUtils;
-    MailService mailService;
+    private final MembershipService membershipService;
+    private final ConnectedUserUtils connectedUserUtils;
+    private final GroupTRepository groupTRepository;
+    private final TokenUtils tokenUtils;
+    private final MailService mailService;
 
     public Set<GroupT> getConnectedUserGroups() {
         return connectedUserUtils.getConnectedUser().getMemberships().stream().map(Membership::getGroup).collect(Collectors.toSet());

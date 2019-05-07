@@ -1,7 +1,7 @@
 package com.vibent.vibentback.bubble.survey;
 
 import com.vibent.vibentback.bubble.survey.api.*;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +16,10 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(value = "/bubble/survey",
         produces = MediaType.APPLICATION_JSON_VALUE)
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SurveyController {
 
-    SurveyService service;
+    private final SurveyService service;
 
     // Survey Bubble -------------------------------------------------------------
     @PostAuthorize("hasPermission(returnObject, 'read')")

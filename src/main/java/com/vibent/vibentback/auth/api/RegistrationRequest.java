@@ -3,7 +3,6 @@ package com.vibent.vibentback.auth.api;
 import com.vibent.vibentback.common.validate.Email;
 import com.vibent.vibentback.common.validate.Password;
 import com.vibent.vibentback.common.validate.PhoneNumber;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,7 +13,6 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class RegistrationRequest {
     @NotNull
     @Password

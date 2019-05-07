@@ -1,6 +1,5 @@
 package com.vibent.vibentback.group.membership;
 
-import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.EventRepository;
@@ -8,9 +7,10 @@ import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.event.participation.EventParticipationRepository;
 import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.group.GroupTRepository;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,16 +18,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MembershipService {
 
-    private ConnectedUserUtils connectedUserUtils;
-    private MembershipRepository membershipRepository;
-    private MembershipRequestRepository membershipRequestRepository;
-    private GroupTRepository groupTRepository;
-    private UserRepository userRepository;
-    private EventRepository eventRepository;
-    private EventParticipationRepository eventParticipationRepository;
+    private final ConnectedUserUtils connectedUserUtils;
+    private final MembershipRepository membershipRepository;
+    private final MembershipRequestRepository membershipRequestRepository;
+    private final GroupTRepository groupTRepository;
+    private final UserRepository userRepository;
+    private final EventRepository eventRepository;
+    private final EventParticipationRepository eventParticipationRepository;
 
     public MembershipRequest addMembershipRequestForConnectedUser(String groupRef) {
         GroupT groupT = groupTRepository.findByRef(groupRef)
@@ -35,7 +35,9 @@ public class MembershipService {
         if (connectedUserUtils.getConnectedUser().getMemberships().stream().anyMatch(m -> m.getGroup().getRef().equals(groupRef))) {
             throw new VibentException(VibentError.USER_ALREADY_PART_OF_GROUP);
         }
-        MembershipRequest created = new MembershipRequest(connectedUserUtils.getConnectedUser(), groupT);
+        MembershipRequest created = new MembershipRequest();
+        created.setUser(connectedUserUtils.getConnectedUser());
+        created.setGroup(groupT);
         groupT.getRequests().add(created);
         connectedUserUtils.getConnectedUser().getRequests().add(created);
         return membershipRequestRepository.save(created);
@@ -64,14 +66,20 @@ public class MembershipService {
         }
 
         // Link both entities
-        Membership membership = new Membership(user, group, isAdmin);
+        Membership membership = new Membership();
+        membership.setUser(user);
+        membership.setGroup(group);
+        membership.setAdmin(isAdmin);
         membershipRepository.save(membership);
         group.getMemberships().add(membership);
         user.getMemberships().add(membership);
 
         // Add a participation for all existing events
         group.getEvents().forEach(event -> {
-            event.getParticipations().add(new EventParticipation(user, event));
+            EventParticipation eventParticipation = new EventParticipation();
+            eventParticipation.setUser(user);
+            eventParticipation.setEvent(event);
+            event.getParticipations().add(eventParticipation);
             eventRepository.save(event);
         });
 

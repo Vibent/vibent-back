@@ -15,7 +15,6 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
 @EqualsAndHashCode(of = {"user", "group"})
 @SQLDelete(sql = "UPDATE membership SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")

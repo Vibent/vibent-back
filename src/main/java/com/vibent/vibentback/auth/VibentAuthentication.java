@@ -2,18 +2,17 @@ package com.vibent.vibentback.auth;
 
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class VibentAuthentication implements Authentication {
 
-
-    private String userRef;
-    private String encodedPassword;
+    private final String userRef;
+    private final String encodedPassword;
 
     /**
      * Unused
@@ -59,7 +58,8 @@ public class VibentAuthentication implements Authentication {
      * Unused
      */
     @Override
-    public void setAuthenticated(boolean b) throws IllegalArgumentException { }
+    public void setAuthenticated(boolean b) throws IllegalArgumentException {
+    }
 
     /**
      * Unused

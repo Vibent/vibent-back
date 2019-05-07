@@ -18,7 +18,6 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
 @EqualsAndHashCode(of = "id")
 @SQLDelete(sql = "UPDATE checkbox_option SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")

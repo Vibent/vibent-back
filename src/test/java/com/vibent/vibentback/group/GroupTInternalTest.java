@@ -1,13 +1,13 @@
 package com.vibent.vibentback.group;
 
-import com.vibent.vibentback.common.permission.VibentPermissionEvaluator;
-import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.VibentTest;
+import com.vibent.vibentback.common.permission.VibentPermissionEvaluator;
 import com.vibent.vibentback.group.api.DetailledGroupResponse;
 import com.vibent.vibentback.group.api.GroupRequest;
 import com.vibent.vibentback.group.api.GroupUpdateRequest;
 import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.group.membership.MembershipService;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
@@ -59,7 +59,10 @@ public class GroupTInternalTest extends VibentTest {
         RANDOM_GROUP_UPDATE_REQUEST = new GroupUpdateRequest();
         RANDOM_GROUP_UPDATE_REQUEST.setName("New name");
 
-        Membership RANDOM_MEMBERSHIP = new Membership(RANDOM_USER, RANDOM_GROUP, true);
+        Membership RANDOM_MEMBERSHIP = new Membership();
+        RANDOM_MEMBERSHIP.setUser(RANDOM_USER);
+        RANDOM_MEMBERSHIP.setGroup(RANDOM_GROUP);
+        RANDOM_MEMBERSHIP.setAdmin(true);
 
         when(permissionEvaluator.hasPermission(any(), any(), any(), any())).thenReturn(false);
         when(permissionEvaluator.hasPermission(eq(AUTHENTICATION), any(), any(), any())).thenReturn(true);

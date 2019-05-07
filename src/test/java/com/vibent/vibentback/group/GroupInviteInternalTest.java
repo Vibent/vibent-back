@@ -59,7 +59,10 @@ public class GroupInviteInternalTest extends VibentTest {
         // Needed as invite tokens are based on group ID
         RANDOM_GROUP.setId(5745L);
 
-        Membership RANDOM_MEMBERSHIP = new Membership(RANDOM_USER, RANDOM_GROUP, false);
+        Membership RANDOM_MEMBERSHIP = new Membership();
+        RANDOM_MEMBERSHIP.setUser(RANDOM_USER);
+        RANDOM_MEMBERSHIP.setGroup(RANDOM_GROUP);
+        RANDOM_MEMBERSHIP.setAdmin(false);
 
         when(permissionEvaluator.hasPermission(any(), any(), any(), any())).thenReturn(false);
         when(permissionEvaluator.hasPermission(eq(AUTHENTICATION), any(), any(), any())).thenReturn(true);

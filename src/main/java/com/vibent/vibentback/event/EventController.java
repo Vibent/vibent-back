@@ -3,7 +3,7 @@ package com.vibent.vibentback.event;
 import com.vibent.vibentback.event.api.DetailledEventResponse;
 import com.vibent.vibentback.event.api.EventRequest;
 import com.vibent.vibentback.event.api.EventUpdateRequest;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import java.util.Set;
 @Slf4j
 @RestController
 @RequestMapping("/event")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EventController {
 
     private final EventService eventService;

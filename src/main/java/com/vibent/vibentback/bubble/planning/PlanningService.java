@@ -1,6 +1,5 @@
 package com.vibent.vibentback.bubble.planning;
 
-import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.bubble.planning.api.PlanningBubbleRequest;
 import com.vibent.vibentback.bubble.planning.api.PlanningBubbleUpdateRequest;
 import com.vibent.vibentback.bubble.planning.api.PlanningEntryRequest;
@@ -11,20 +10,21 @@ import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.user.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PlanningService {
 
-    PlanningBubbleRepository bubbleRepository;
-    PlanningEntryRepository entryRepository;
-    EventRepository eventRepository;
-    UserRepository userRepository;
-    ConnectedUserUtils userUtils;
+    private final PlanningBubbleRepository bubbleRepository;
+    private final PlanningEntryRepository entryRepository;
+    private final EventRepository eventRepository;
+    private final UserRepository userRepository;
+    private final ConnectedUserUtils userUtils;
 
     // Planning Bubble -------------------------------------------------------------
     public PlanningBubble getBubble(long id) {
@@ -82,7 +82,7 @@ public class PlanningService {
             entry.setStart(request.getStart());
         if (request.getEnd() != null)
             entry.setEnd(request.getEnd());
-        if(request.getHasTime() != null){
+        if (request.getHasTime() != null) {
             entry.setHasTime(request.getHasTime());
         }
         entry = entryRepository.save(entry);

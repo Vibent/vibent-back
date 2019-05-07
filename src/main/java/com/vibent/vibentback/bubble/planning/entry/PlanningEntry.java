@@ -19,7 +19,6 @@ import java.util.Date;
 @Data
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
 @EqualsAndHashCode(of = "id")
 @SQLDelete(sql = "UPDATE planning_entry SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")

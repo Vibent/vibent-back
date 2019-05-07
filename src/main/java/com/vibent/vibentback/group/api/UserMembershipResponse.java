@@ -1,11 +1,11 @@
 package com.vibent.vibentback.group.api;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserMembershipResponse {
-    private String groupRef;
-    private Boolean isAdmin;
+    private final String groupRef;
+    private final Boolean isAdmin;
 }

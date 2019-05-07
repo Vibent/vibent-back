@@ -1,7 +1,7 @@
 package com.vibent.vibentback.event.participation;
 
 import com.vibent.vibentback.event.api.UpdateEventParticipationRequest;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,7 @@ import java.util.Set;
 @Slf4j
 @RestController
 @RequestMapping("/participation")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EventParticipationController {
 
     private final EventParticipationService eventParticipationService;

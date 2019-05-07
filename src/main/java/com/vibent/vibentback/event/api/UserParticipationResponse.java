@@ -1,12 +1,12 @@
 package com.vibent.vibentback.event.api;
 
 import com.vibent.vibentback.event.participation.EventParticipation.Answer;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserParticipationResponse {
-    private String eventRef;
-    private Answer answer;
+    private final String eventRef;
+    private final Answer answer;
 }

@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @SQLDelete(sql = "UPDATE social_credentials SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
