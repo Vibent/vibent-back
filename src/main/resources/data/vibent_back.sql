@@ -173,7 +173,7 @@ DROP TABLE IF EXISTS `event`;
 CREATE TABLE `event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ref` char(36) NOT NULL,
-  `group_id` int(11) NOT NULL,
+  `group_id` int(11),
   `title` varchar(50) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
   `start_date` datetime DEFAULT NULL,

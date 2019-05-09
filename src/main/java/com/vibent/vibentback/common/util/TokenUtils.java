@@ -21,6 +21,9 @@ public class TokenUtils {
     private final static String GROUP_INVITE_PREFIX = "g";
     private final static int GROUP_INVITE_EXPIRY_HOURS = 169; // 1W < X < 1W1H
 
+    private final static String STANDALONE_EVENT_INVITE_PREFIX = "v";
+    private final static int STANDALONE_EVENT_INVITE_EXPIRY_HOURS = 169; // 1W < X < 1W1H
+
     private final static String PASSWORD_RESET_PREFIX = "p";
     private final static int PASSWORD_RESET_EXPIRY_HOURS = 2; // 1h < X < 2h
 
@@ -103,6 +106,36 @@ public class TokenUtils {
             throw new VibentException(VibentError.MALFORMED_TOKEN);
         }
         return new TokenInfo(groupId, null);
+    }
+
+    public String getStandaloneEventInviteToken(Long eventId) {
+        String toEncrypt = STANDALONE_EVENT_INVITE_PREFIX + String.valueOf(eventId)
+                + " " + getExpiryTime(STANDALONE_EVENT_INVITE_EXPIRY_HOURS);
+        return aesUtils.encrypt(toEncrypt);
+    }
+
+    public TokenInfo readStandaloneEventInviteToken(String encryptedToken) {
+        String decrypted = aesUtils.decrypt(encryptedToken);
+
+        if (!decrypted.startsWith(STANDALONE_EVENT_INVITE_PREFIX)) {
+            throw new VibentException(VibentError.WRONG_TOKEN_TYPE);
+        }
+        decrypted = decrypted.substring(STANDALONE_EVENT_INVITE_PREFIX.length());
+
+        String[] splitted = decrypted.split(" ");
+        if (splitted.length != 2) {
+            throw new VibentException(VibentError.MALFORMED_TOKEN);
+        }
+
+        checkExpiryTime(splitted[1]);
+
+        Long eventId;
+        try {
+            eventId = Long.valueOf(splitted[0]);
+        } catch (NumberFormatException e) {
+            throw new VibentException(VibentError.MALFORMED_TOKEN);
+        }
+        return new TokenInfo(eventId, null);
     }
 
     public String getPasswordResetToken(Long userId) {

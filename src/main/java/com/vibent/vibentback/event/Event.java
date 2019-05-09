@@ -37,10 +37,12 @@ public class Event implements Serializable, Permissible {
     @NonNull
     private String ref;
 
-    @NonNull
     @ManyToOne
     @PrimaryKeyJoinColumn
     private GroupT group;
+
+    @NonNull
+    private boolean standalone;
 
     @NonNull
     private String title;
@@ -82,11 +84,15 @@ public class Event implements Serializable, Permissible {
 
     @Override
     public boolean canRead(User user) {
-        return this.group.canRead(user);
+        return this.isParticipant(user);
     }
 
     @Override
     public boolean canWrite(User user) {
+        // If standalone then consider everyone is admin
+        if (this.isStandalone()) {
+            return true;
+        }
         return this.group.canWrite(user);
     }
 
@@ -94,5 +100,9 @@ public class Event implements Serializable, Permissible {
     public boolean canWriteChildren(User user) {
         // If the user can read the event, he can write bubbles
         return this.canRead(user);
+    }
+
+    public boolean isParticipant(User user) {
+        return this.getParticipations().stream().anyMatch(p -> p.getUser().equals(user));
     }
 }

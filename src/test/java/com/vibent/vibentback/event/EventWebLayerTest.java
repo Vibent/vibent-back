@@ -3,6 +3,7 @@ package com.vibent.vibentback.event;
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.event.api.EventRequest;
 import com.vibent.vibentback.event.api.EventUpdateRequest;
+import com.vibent.vibentback.event.api.StandaloneEventRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +33,7 @@ public class EventWebLayerTest extends VibentTest {
     EventService eventService;
 
     private EventRequest RANDOM_EVENT_REQUEST;
+    private StandaloneEventRequest RANDOM_STANDALONE_EVENT_REQUEST;
     private EventUpdateRequest RANDOM_EVENT_UPDATE_REQUEST;
 
     @Before
@@ -45,11 +47,19 @@ public class EventWebLayerTest extends VibentTest {
         RANDOM_EVENT_REQUEST.setStartDate(getFutureDate(10));
         RANDOM_EVENT_REQUEST.setGroupRef(RANDOM_GROUP.getRef());
 
+        RANDOM_STANDALONE_EVENT_REQUEST = new StandaloneEventRequest();
+        RANDOM_STANDALONE_EVENT_REQUEST.setTitle("Random title");
+        RANDOM_STANDALONE_EVENT_REQUEST.setDescription("Random descipt.");
+        RANDOM_STANDALONE_EVENT_REQUEST.setStartDate(getFutureDate(5));
+        RANDOM_STANDALONE_EVENT_REQUEST.setStartDate(getFutureDate(10));
+        RANDOM_STANDALONE_EVENT_REQUEST.setGroupRef(RANDOM_GROUP.getRef());
+
         RANDOM_EVENT_UPDATE_REQUEST = new EventUpdateRequest();
         RANDOM_EVENT_UPDATE_REQUEST.setDescription("New description");
 
         when(eventService.getEvent(RANDOM_EVENT.getRef())).thenReturn(RANDOM_EVENT);
         when(eventService.createEvent(RANDOM_EVENT_REQUEST)).thenReturn(RANDOM_EVENT);
+        when(eventService.createStandaloneEvent(RANDOM_STANDALONE_EVENT_REQUEST)).thenReturn(RANDOM_EVENT);
         when(eventService.updateEvent(RANDOM_EVENT.getRef(), RANDOM_EVENT_UPDATE_REQUEST)).thenReturn(RANDOM_EVENT);
     }
 
@@ -60,10 +70,20 @@ public class EventWebLayerTest extends VibentTest {
     }
 
     @Test
-    public void testAddEvent() throws Exception {
+    public void testCreateEvent() throws Exception {
         String body = super.getJsonString(RANDOM_EVENT_REQUEST);
 
         mockMvc.perform(post("/event").contentType(APPLICATION_JSON_UTF8)
+                .content(body))
+                .andExpect(status().isCreated())
+                .andExpect(content().string(containsString("title")));
+    }
+
+    @Test
+    public void testCreateStandaloneEvent() throws Exception {
+        String body = super.getJsonString(RANDOM_STANDALONE_EVENT_REQUEST);
+
+        mockMvc.perform(post("/event/standalone").contentType(APPLICATION_JSON_UTF8)
                 .content(body))
                 .andExpect(status().isCreated())
                 .andExpect(content().string(containsString("title")));

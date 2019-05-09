@@ -3,7 +3,6 @@ package com.vibent.vibentback.event.api;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vibent.vibentback.event.api.EventParticipationResponse;
 import com.vibent.vibentback.bubble.alimentation.AlimentationBubble;
 import com.vibent.vibentback.bubble.checkbox.CheckboxBubble;
 import com.vibent.vibentback.bubble.free.FreeBubble;
@@ -33,7 +32,15 @@ public class DetailledEventResponse {
 
     @JsonProperty
     public String getGroupRef() {
+        if (event.isStandalone()) {
+            return null;
+        }
         return event.getGroup().getRef();
+    }
+
+    @JsonProperty
+    public Boolean isStandalone() {
+        return event.isStandalone();
     }
 
     @JsonProperty
@@ -45,7 +52,6 @@ public class DetailledEventResponse {
     public String getDescription() {
         return event.getDescription();
     }
-
 
     @JsonProperty
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
