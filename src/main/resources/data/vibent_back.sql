@@ -617,6 +617,7 @@ CREATE TABLE `user` (
   `account_non_locked` tinyint(1) DEFAULT '1',
   `credentials_non_expired` tinyint(1) DEFAULT '1',
   `last_password_reset` datetime DEFAULT NULL,
+  `last_login` datetime DEFAULT NULL,
   `enabled` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

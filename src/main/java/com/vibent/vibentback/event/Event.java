@@ -41,7 +41,6 @@ public class Event implements Serializable, Permissible {
     @PrimaryKeyJoinColumn
     private GroupT group;
 
-    @NonNull
     private boolean standalone;
 
     @NonNull

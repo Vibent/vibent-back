@@ -1,16 +1,13 @@
 package com.vibent.vibentback.auth;
 
-import com.vibent.vibentback.user.api.DetailledUserResponse;
 import com.vibent.vibentback.auth.api.*;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
-import com.vibent.vibentback.common.util.JWTUtils;
 import com.vibent.vibentback.user.User;
-import io.jsonwebtoken.Claims;
+import com.vibent.vibentback.user.api.DetailledUserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -23,39 +20,29 @@ import javax.validation.Valid;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthenticationController {
 
-    @Value("${vibent.auth.expirationSeconds}")
-    private long EXPIRATION_SECONDS;
-
     private final AuthenticationService authenticationService;
-    private final JWTUtils JWTUtils;
 
     @RequestMapping(method = RequestMethod.POST, value = "/login/api", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public AuthenticationApiResponse loginApi(@RequestParam MultiValueMap<String, String> request) {
         log.info("Attempted api for user email {} ", request.getFirst("client_id"));
-        String token = this.authenticationService.loginApi(request);
-        return new AuthenticationApiResponse(token, EXPIRATION_SECONDS);
+        return new AuthenticationApiResponse(this.authenticationService.loginApi(request));
     }
 
     @RequestMapping(value = "/login/email", method = RequestMethod.POST)
     public AuthenticationResponse loginEmail(@Valid @RequestBody EmailLoginRequest request) {
         log.info("Attempted login with email {}", request.getEmail());
-        String token = this.authenticationService.loginEmail(request);
-        return new AuthenticationResponse(token, EXPIRATION_SECONDS);
+        return this.authenticationService.loginEmail(request);
     }
 
     @RequestMapping(value = "/login/phone", method = RequestMethod.POST)
     public AuthenticationResponse loginPhone(@Valid @RequestBody PhoneLoginRequest request) {
         log.info("Attempted login with phone number {}", request.getPhoneNumber());
-        String token = this.authenticationService.loginPhone(request);
-        return new AuthenticationResponse(token, EXPIRATION_SECONDS);
+        return this.authenticationService.loginPhone(request);
     }
 
     @RequestMapping(value = "/refresh", method = RequestMethod.GET)
     public AuthenticationResponse refresh(@RequestHeader(value = "${vibent.auth.header.key}") String token) {
-        Claims claims = this.JWTUtils.validateJWTToken(token);
-        String userRef = claims.getSubject();
-        // TODO
-        return new AuthenticationResponse(null, EXPIRATION_SECONDS);
+        throw new VibentException(VibentError.NOT_IMPLEMENTED);
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)

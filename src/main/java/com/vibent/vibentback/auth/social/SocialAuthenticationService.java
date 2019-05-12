@@ -1,6 +1,7 @@
 package com.vibent.vibentback.auth.social;
 
 import com.vibent.vibentback.auth.AuthenticationService;
+import com.vibent.vibentback.auth.api.AuthenticationResponse;
 import com.vibent.vibentback.auth.api.RegistrationRequest;
 import com.vibent.vibentback.auth.social.api.SocialLoginDetails;
 import com.vibent.vibentback.auth.social.api.SocialLoginRequest;
@@ -15,6 +16,7 @@ import com.vibent.vibentback.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,6 +26,9 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SocialAuthenticationService {
 
+    @Value("${vibent.auth.expirationSeconds}")
+    private long EXPIRATION_SECONDS;
+
     private final GoogleAuthVerifier googleAuthVerifier;
     private final FacebookAuthVerifier facebookAuthVerifier;
     private final AuthenticationService authenticationService;
@@ -32,7 +37,7 @@ public class SocialAuthenticationService {
     private final ConnectedUserUtils userUtils;
 
     private SocialLoginDetails getDetails(SocialLoginRequest request) {
-        SocialLoginDetails details = null;
+        SocialLoginDetails details;
         switch (request.getProvider()) {
             case GOOGLE:
                 details = googleAuthVerifier.login(request);
@@ -46,39 +51,36 @@ public class SocialAuthenticationService {
         return details;
     }
 
-    public String loginSocial(SocialLoginRequest request) {
+    public AuthenticationResponse loginSocial(SocialLoginRequest request) {
         SocialLoginDetails details = this.getDetails(request);
 
-        String token;
+        User user;
         Optional<SocialCredentials> credentials = credentialsRepository.findByProviderAndProviderId(request.getProvider(), details.getProviderId());
         // User has already logged in with social provider
         if (credentials.isPresent()) {
             log.info("User has already logged in with social provider");
-            token = loginExistingCredentials(credentials.get());
+            user = credentials.get().getUser();
 
         } else {
-            Optional<User> user = userRepository.findByEmail(details.getEmail());
+            Optional<User> foundUser = userRepository.findByEmail(details.getEmail());
 
             // User has never logged in with social provider but has account
-            if (user.isPresent()) {
+            if (foundUser.isPresent()) {
                 log.info("User has never logged in with social provider but has account");
-                token = loginExistingAccount(user.get(), details);
+                user = loginExistingAccount(foundUser.get(), details);
             }
 
             // User doesn't have an account
             else {
                 log.info("User doesn't have an account");
-                token = loginNewAccount(details);
+                user = loginNewAccount(details);
             }
         }
-        return token;
+
+        return authenticationService.createAuthenticationResponse(user);
     }
 
-    private String loginExistingCredentials(SocialCredentials credentials) {
-        return authenticationService.createToken(credentials.getUser());
-    }
-
-    private String loginExistingAccount(User user, SocialLoginDetails details) {
+    private User loginExistingAccount(User user, SocialLoginDetails details) {
         SocialCredentials credentials = new SocialCredentials();
         credentials.setUser(user);
         credentials.setProvider(details.getProvider());
@@ -91,17 +93,17 @@ public class SocialAuthenticationService {
             user.setLastName(details.getLastName());
         credentialsRepository.save(credentials);
         userRepository.save(user);
-        return authenticationService.createToken(user);
+        return user;
     }
 
-    private String loginNewAccount(SocialLoginDetails details) {
+    private User loginNewAccount(SocialLoginDetails details) {
         RegistrationRequest registrationRequest = new RegistrationRequest();
         registrationRequest.setEmail(details.getEmail());
         registrationRequest.setFirstName(details.getFirstName());
         registrationRequest.setLastName(details.getLastName());
         User user = authenticationService.register(registrationRequest);
         loginExistingAccount(user, details);
-        return authenticationService.createToken(user);
+        return user;
     }
 
     public User linkSocial(SocialLoginRequest request) {
