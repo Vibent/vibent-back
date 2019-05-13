@@ -179,6 +179,7 @@ CREATE TABLE `event` (
   `start_date` datetime DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
+  `standalone` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `event_id` (`id`),
   UNIQUE KEY `event_ref` (`ref`),

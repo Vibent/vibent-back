@@ -40,10 +40,10 @@ VALUES (1, 1, 1, 1, 0, '2019-04-14 13:58:11'),
        (7, 7, 1, 1, 0, '2019-04-14 13:58:11');
 
 -- Event
-INSERT INTO event (id, ref, group_id, title, description, start_date, end_date, deleted)
+INSERT INTO event (id, ref, group_id, title, description, start_date, end_date, deleted, standalone)
 VALUES (1, '7783962b-c7f1-4825-89e4-4e54052fa011', 1, 'Weekend at sea',
         'Let''s all go the beach ! Activities include swimming, sunbathing, barbecues, fishing, etc !',
-        '2021-04-28 08:00:00', null, 0);
+        '2021-04-28 08:00:00', null, 0, 0);
 
 -- Event Participation
 INSERT INTO event_participation (id, user_id, event_id, answer, is_visible, deleted)
