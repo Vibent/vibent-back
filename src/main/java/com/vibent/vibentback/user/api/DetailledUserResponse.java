@@ -1,5 +1,6 @@
 package com.vibent.vibentback.user.api;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -50,6 +51,12 @@ public class DetailledUserResponse {
     @JsonProperty
     public String getProfilePicLocation() {
         return user.getProfilePicLocation();
+    }
+
+    @JsonProperty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    public Date getLastLogin() {
+        return user.getLastLogin();
     }
 
     @JsonProperty

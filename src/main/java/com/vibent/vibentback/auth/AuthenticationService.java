@@ -4,7 +4,10 @@ import com.vibent.vibentback.auth.api.*;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.mail.MailService;
-import com.vibent.vibentback.common.util.*;
+import com.vibent.vibentback.common.util.JWTUtils;
+import com.vibent.vibentback.common.util.MD5Utils;
+import com.vibent.vibentback.common.util.TokenInfo;
+import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
 import com.vibent.vibentback.user.UserService;
@@ -29,6 +32,9 @@ public class AuthenticationService {
     @Value("${vibent.mail.autoConfirm}")
     private boolean AUTO_CONFIRM_MAIL;
 
+    @Value("${vibent.auth.expirationSeconds}")
+    private long EXPIRATION_SECONDS;
+
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
     private final UserRepository userRepository;
@@ -43,7 +49,7 @@ public class AuthenticationService {
         return this.JWTUtils.createUserAuthenticationToken((String) authentication.getPrincipal());
     }
 
-    public String loginApi(MultiValueMap<String, String> request) {
+    public AuthenticationResponse loginApi(MultiValueMap<String, String> request) {
         String email = request.getFirst("client_id");
         String password = request.getFirst("client_secret");
 
@@ -63,26 +69,36 @@ public class AuthenticationService {
      * @param request the authentication request
      * @return a token if authentication is successful
      */
-    public String loginEmail(EmailLoginRequest request) {
+    public AuthenticationResponse loginEmail(EmailLoginRequest request) {
         User user = this.userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword()))
-            throw new VibentException(VibentError.AUTHENTICATION_FAILED);
-        if (!user.isEnabled()) {
-            throw new VibentException(VibentError.USER_EMAIL_NOT_CONFIRMED);
-        }
-        return createToken(user);
+        return login(user, request.getPassword());
     }
 
-    public String loginPhone(PhoneLoginRequest request) {
+    public AuthenticationResponse loginPhone(PhoneLoginRequest request) {
         User user = this.userRepository.findByPhoneNumber(request.getPhoneNumber())
                 .orElseThrow(() -> new VibentException(VibentError.USER_NOT_FOUND));
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword()))
+        return login(user, request.getPassword());
+    }
+
+    public AuthenticationResponse login(User user, String password) {
+        if (!passwordEncoder.matches(password, user.getPassword()))
             throw new VibentException(VibentError.AUTHENTICATION_FAILED);
         if (!user.isEnabled()) {
             throw new VibentException(VibentError.USER_EMAIL_NOT_CONFIRMED);
         }
-        return createToken(user);
+        return createAuthenticationResponse(user);
+    }
+
+    public AuthenticationResponse createAuthenticationResponse(User user) {
+        Date lastLogin = user.getLastLogin();
+        user.setLastLogin(new Date());
+        userRepository.save(user);
+        return new AuthenticationResponse(
+                createToken(user),
+                EXPIRATION_SECONDS,
+                lastLogin
+        );
     }
 
     public User register(RegistrationRequest request) {

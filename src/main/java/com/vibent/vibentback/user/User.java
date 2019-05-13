@@ -43,6 +43,7 @@ public class User implements UserDetails, Serializable, Permissible {
     private String phoneNumber;
     @Column(updatable = false)
     private boolean deleted = false;
+    private Date lastLogin;
 
     // Authentication
     private String password;
