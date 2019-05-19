@@ -7,6 +7,7 @@ import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.event.api.EventRequest;
 import com.vibent.vibentback.event.api.EventUpdateRequest;
 import com.vibent.vibentback.event.api.StandaloneEventRequest;
+import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.event.participation.EventParticipationService;
 import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.group.GroupTRepository;
@@ -40,9 +41,10 @@ public class EventService {
     private final TokenUtils tokenUtils;
 
     public Set<Event> getConnectedUserEvents() {
-        Set<GroupT> groups = connectedUserUtils.getConnectedUser().getMemberships().stream()
-                .map(Membership::getGroup).collect(Collectors.toSet());
-        return groups.stream().flatMap(g -> g.getEvents().stream()).collect(Collectors.toSet());
+        return connectedUserUtils.getConnectedUser()
+                .getParticipations().stream()
+                .map(EventParticipation::getEvent)
+                .collect(Collectors.toSet());
     }
 
     public Event getEvent(String ref) {
