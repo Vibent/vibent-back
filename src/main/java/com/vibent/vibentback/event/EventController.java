@@ -5,6 +5,7 @@ import com.vibent.vibentback.event.api.EventRequest;
 import com.vibent.vibentback.event.api.EventUpdateRequest;
 import com.vibent.vibentback.event.api.StandaloneEventRequest;
 import com.vibent.vibentback.group.api.InviteTokenResponse;
+import com.vibent.vibentback.group.api.MailInviteRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,13 @@ public class EventController {
     InviteTokenResponse getStandaloneEventInviteToken(@PathVariable String eventRef) {
         log.info("Getting invite token for standalone event : {}", eventRef);
         return new InviteTokenResponse(eventService.generateStandaloneEventInviteToken(eventRef));
+    }
+
+    @PreAuthorize(value = "hasPermission(#request.ref, 'Event', 'write')")
+    @RequestMapping(method = RequestMethod.POST, value = "/standalone/mailInvite")
+    void mailInvite(@Valid @RequestBody MailInviteRequest request) {
+        log.info("Sending mail invite for standalone event : {}", request.getRef());
+        eventService.sendMailInvite(request);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/standalone/validateInviteToken/{token:.+}")

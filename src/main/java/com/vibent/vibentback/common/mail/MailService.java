@@ -1,6 +1,7 @@
 package com.vibent.vibentback.common.mail;
 
 import com.vibent.vibentback.common.util.TokenUtils;
+import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.user.User;
 import lombok.NonNull;
@@ -44,6 +45,21 @@ public class MailService {
         String content = templateEngine.process("groupInviteTemplate", context);
         recipients.forEach(r -> {
             prepareAndSend(r, "Vibent Group Invitation", content);
+        });
+    }
+
+    public void sendStandaloneEventInviteMail(User inviter, Event event, Set<String> recipients) {
+        String secret = tokenUtils.getStandaloneEventInviteToken(event.getId());
+        Context context = new Context();
+        context.setVariable("inviterFirstName", inviter.getFirstName());
+        context.setVariable("inviterLastName", inviter.getLastName());
+        context.setVariable("eventTitle", event.getTitle());
+        context.setVariable("secret", secret);
+        context.setVariable("clientUrl", CLIENT_URL);
+
+        String content = templateEngine.process("standaloneEventInviteTemplate", context);
+        recipients.forEach(r -> {
+            prepareAndSend(r, "Vibent Event Invitation", content);
         });
     }
 
@@ -100,6 +116,4 @@ public class MailService {
             }
         }).start();
     }
-
-
 }

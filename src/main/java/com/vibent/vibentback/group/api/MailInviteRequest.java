@@ -17,5 +17,5 @@ public class MailInviteRequest {
 
     @NotNull
     @Size(min = 36, max = 36)
-    private String groupRef;
+    private String ref;
 }

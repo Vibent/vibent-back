@@ -91,10 +91,10 @@ public class GroupTController {
         return new DetailledGroupResponse(groupTService.validateInviteToken(token));
     }
 
-    @PreAuthorize(value = "hasPermission(#request.groupRef, 'GroupT', 'write')")
+    @PreAuthorize(value = "hasPermission(#request.ref, 'GroupT', 'write')")
     @RequestMapping(method = RequestMethod.POST, value = "/mailInvite")
     void mailInvite(@Valid @RequestBody MailInviteRequest request) {
-        log.info("Sending mail invite for group : {}", request.getGroupRef());
+        log.info("Sending mail invite for group : {}", request.getRef());
         groupTService.sendMailInvite(request);
     }
 

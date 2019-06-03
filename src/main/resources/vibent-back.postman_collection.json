@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "73a4a3c6-e0a3-432e-9da6-683a0c790b67",
+		"_postman_id": "d196e088-3d24-44e6-9761-f795f0691e9e",
 		"name": "Vibent Back",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -27,10 +27,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "https://postman-echo.com/get",
 							"protocol": "https",
@@ -63,10 +59,39 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
+						"url": {
+							"raw": "https://postman-echo.com/get",
+							"protocol": "https",
+							"host": [
+								"postman-echo",
+								"com"
+							],
+							"path": [
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set for Test Running",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ed043e6d-3af7-4f14-a844-9aae6614613e",
+								"exec": [
+									"pm.environment.set(\"URL\", \"http://localhost:8080\");",
+									"pm.environment.set(\"TOKEN_HEADER\", \"Authorization\");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
 						"url": {
 							"raw": "https://postman-echo.com/get",
 							"protocol": "https",
@@ -455,7 +480,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \r\n\t\"email\": \"cr.in.france+1@gmail.com\"\r\n}"
+							"raw": "{ \r\n\t\"email\": \"cr.in.france@gmail.com\"\r\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/auth/passwordReset",
@@ -517,12 +542,7 @@
 							"script": {
 								"id": "62d89dee-e69a-40af-a1f1-68f46a7453c5",
 								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -564,12 +584,7 @@
 							"script": {
 								"id": "62d89dee-e69a-40af-a1f1-68f46a7453c5",
 								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -659,10 +674,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/user/me",
 							"host": [
@@ -707,10 +718,6 @@
 								"value": "Bearer {{tokenSecondUser}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/user/me",
 							"host": [
@@ -753,10 +760,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/user/{{userRef}}",
 							"host": [
@@ -803,10 +806,6 @@
 								"disabled": true
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/user/{{userRef}}",
 							"host": [
@@ -910,7 +909,6 @@
 							"listen": "test",
 							"script": {
 								"id": "f824a0cf-9642-4aff-85fd-30fc6ae10616",
-								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"postman.setEnvironmentVariable(\"groupRef\", jsonData.ref);",
@@ -918,7 +916,8 @@
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -1159,10 +1158,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/group/{{groupRef}}",
 							"host": [
@@ -1299,10 +1294,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/group/{{groupRef}}/inviteToken",
 							"host": [
@@ -1391,10 +1382,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/group/me",
 							"host": [
@@ -1438,7 +1425,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"test@nomail.com\",\n\t\t\"test2@nomail.com\"\n\t]\n}"
+							"raw": "{\n\t\"ref\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"test@nomail.com\",\n\t\t\"test2@nomail.com\"\n\t]\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/group/mailInvite",
@@ -1483,7 +1470,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"1@nomail.com\",\n\t\t\"2@nomail.com\",\n\t\t\"3@nomail.com\",\n\t\t\"4@nomail.com\",\n\t\t\"5@nomail.com\",\n\t\t\"6@nomail.com\",\n\t\t\"7@nomail.com\",\n\t\t\"8@nomail.com\",\n\t\t\"9@nomail.com\",\n\t\t\"10@nomail.com\",\n\t\t\"11@nomail.com\"\n\t]\n}"
+							"raw": "{\n\t\"ref\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"1@nomail.com\",\n\t\t\"2@nomail.com\",\n\t\t\"3@nomail.com\",\n\t\t\"4@nomail.com\",\n\t\t\"5@nomail.com\",\n\t\t\"6@nomail.com\",\n\t\t\"7@nomail.com\",\n\t\t\"8@nomail.com\",\n\t\t\"9@nomail.com\",\n\t\t\"10@nomail.com\",\n\t\t\"11@nomail.com\"\n\t]\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/group/mailInvite",
@@ -1528,7 +1515,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"vibentPM@vibent.com\",\n\t\t\"not_a_mail\"\n\t]\n}"
+							"raw": "{\n\t\"ref\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"vibentPM@vibent.com\",\n\t\t\"not_a_mail\"\n\t]\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/group/mailInvite",
@@ -1573,7 +1560,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"recipients\": []\n}"
+							"raw": "{\n\t\"ref\": \"{{groupRef}}\",\n\t\"recipients\": []\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/group/mailInvite",
@@ -1687,53 +1674,6 @@
 					"response": []
 				},
 				{
-					"name": "1. Create Standalone Event",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"eventRef\", jsonData.ref);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"startDate\": \"2024-04-22T09:49:05+00:00\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/event",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"event"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "2. Get Group Events",
 					"event": [
 						{
@@ -1761,10 +1701,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/group/{{groupRef}}/event",
 							"host": [
@@ -1807,10 +1743,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/event/{{eventRef}}",
 							"host": [
@@ -1852,10 +1784,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/event/me",
 							"host": [
@@ -1897,10 +1825,6 @@
 								"value": "Bearer {{tokenSecondUser}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/event/me",
 							"host": [
@@ -1992,7 +1916,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"startDate\": \"2019-04-22T09:49:05+00:00\"\n}"
+							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"startDate\": \"2025-04-22T09:49:05+00:00\"\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/event",
@@ -2001,6 +1925,193 @@
 							],
 							"path": [
 								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. Create Standalone Event",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"eventRef\", jsonData.ref);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"startDate\": \"2024-04-22T09:49:05+00:00\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/event/standalone",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"event",
+								"standalone"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. Get Standalone Event Invite Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "dbdd550c-00b3-4d26-ba4f-84e8cd0d7f8b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"eventInviteToken\", jsonData.token);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/event/standalone/{{eventRef}}/inviteToken",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"event",
+								"standalone",
+								"{{eventRef}}",
+								"inviteToken"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Validate Standalone Event Invite Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "02208cad-f5af-4364-a936-8dc5809dd10d",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{tokenSecondUser}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/event/standalone/validateInviteToken/{{eventInviteToken}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"event",
+								"standalone",
+								"validateInviteToken",
+								"{{eventInviteToken}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12. Invite By Mail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"ref\": \"{{eventRef}}\",\n\t\"recipients\": [\n\t\t\"cr.in.france@gmail.com\",\n\t\t\"test2@nomail.com\"\n\t]\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/event/standalone/mailInvite",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"event",
+								"standalone",
+								"mailInvite"
 							]
 						}
 					},
@@ -2043,8 +2154,8 @@
 							"formdata": [
 								{
 									"key": "file",
-									"type": "file",
-									"src": ""
+									"value": "",
+									"type": "file"
 								}
 							]
 						},
@@ -2091,10 +2202,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/image/profile/{{userRef}}.jpg",
 							"host": [
@@ -2110,18 +2217,16 @@
 					"response": []
 				},
 				{
-					"name": "3. Get Profile Image (always exists)",
+					"name": "3. Get Profile Image (userRef.jpg)",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"id": "b7b5ac5e-5853-4738-875a-934f136eb0f8",
-								"type": "text/javascript",
 								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								]
+									""
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -2137,10 +2242,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/image/profile/userRef.jpg",
 							"host": [
@@ -2236,10 +2337,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/bubble/alimentation/{{alimentationBubbleId}}",
 							"host": [
@@ -2810,10 +2907,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/bubble/checkbox/{{checkboxBubbleId}}",
 							"host": [
@@ -3337,10 +3430,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/bubble/free/{{freeBubbleId}}",
 							"host": [
@@ -3532,10 +3621,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/bubble/planning/{{planningBubbleId}}",
 							"host": [
@@ -3724,7 +3809,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"bubbleId\": \"{{planningBubbleId}}\",\n  \"start\": \"2019-02-13T00:01:02.003Z\",\n  \"end\": \"2019-02-13T00:01:02.003Z\",\n  \"content\": \"Go fishing\",\n  \"hasTime\": true\n}"
+							"raw": "{\n  \"bubbleId\": \"{{planningBubbleId}}\",\n  \"start\": \"2026-02-13T00:01:02.003Z\",\n  \"end\": \"2027-02-13T00:01:02.003Z\",\n  \"content\": \"Go fishing\",\n  \"hasTime\": true\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/bubble/planning/entry",
@@ -3770,7 +3855,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"start\": \"2019-02-13T00:09:09.00Z\",\n  \"end\": \"2019-02-13T00:09:09.009Z\",\n  \"content\": \"Go fishing and huntingplanningEntryId\",\n  \"hasTime\": false\n}"
+							"raw": "{\n  \"content\": \"Go fishing and huntingplanningEntryId\",\n  \"hasTime\": false\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/bubble/planning/entry/{{planningEntryId}}",
@@ -3915,10 +4000,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/bubble/survey/{{surveyBubbleId}}",
 							"host": [
@@ -4443,10 +4524,6 @@
 								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{URL}}/bubble/travel/{{travelBubbleId}}",
 							"host": [
