@@ -99,7 +99,7 @@ public class GroupTService {
     }
 
     public void sendMailInvite(MailInviteRequest request) {
-        GroupT groupT = groupTRepository.findByRef(request.getGroupRef())
+        GroupT groupT = groupTRepository.findByRef(request.getRef())
                 .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
         User inviter = connectedUserUtils.getConnectedUser();
         Set<String> recipients = request.getRecipients();

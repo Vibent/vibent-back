@@ -2,6 +2,7 @@ package com.vibent.vibentback.event;
 
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
+import com.vibent.vibentback.common.mail.MailService;
 import com.vibent.vibentback.common.util.TokenInfo;
 import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.event.api.EventRequest;
@@ -11,6 +12,7 @@ import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.event.participation.EventParticipationService;
 import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.group.GroupTRepository;
+import com.vibent.vibentback.group.api.MailInviteRequest;
 import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.user.User;
@@ -39,6 +41,7 @@ public class EventService {
     private final GroupTRepository groupTRepository;
     private final UserRepository userRepository;
     private final TokenUtils tokenUtils;
+    private final MailService mailService;
 
     public Set<Event> getConnectedUserEvents() {
         return connectedUserUtils.getConnectedUser()
@@ -146,5 +149,13 @@ public class EventService {
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         eventParticipationService.createEventParticipation(event, connectedUserUtils.getConnectedUser());
         return event;
+    }
+
+    public void sendMailInvite(MailInviteRequest request) {
+        Event event = eventRepository.findByRef(request.getRef())
+                .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
+        User inviter = connectedUserUtils.getConnectedUser();
+        Set<String> recipients = request.getRecipients();
+        mailService.sendStandaloneEventInviteMail(inviter, event, recipients);
     }
 }

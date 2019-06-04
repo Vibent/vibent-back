@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<h1>Vibent Event Invitation</h1>
+<section>
+  <p>
+    Hi there ! <span th:text="${inviterFirstName}"></span> <span th:text="${inviterLastName}"></span> has invited you to join the event
+    <em th:text="${eventTitle}"></em> on Vibent.
+  </p>
+  <div>
+    <a th:href="@{${clientUrl}+ '/invite/e/' + ${secret}}">Click here to join the event</a>
+  </div>
+  <p>
+    We hope you enjoy Vibent !
+  </p>
+
+  - The Vibent Team
+
+  <p><small>If you do not wish to use Vibent or join the event, please ignore this message.</small></p>
+</section>
+</body>
+</html>
