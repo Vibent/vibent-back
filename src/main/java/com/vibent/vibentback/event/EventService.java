@@ -69,6 +69,7 @@ public class EventService {
             event.setDescription(request.getDescription());
         event.setGroup(group);
         event.setStandalone(false);
+        event.setCreator(connectedUserUtils.getConnectedUser());
         event.setStartDate(request.getStartDate());
         event.setEndDate(request.getEndDate());
         Event created = eventRepository.save(event);
@@ -109,6 +110,7 @@ public class EventService {
         event.setStartDate(request.getStartDate());
         event.setEndDate(request.getEndDate());
         event.setStandalone(true);
+        event.setCreator(connectedUserUtils.getConnectedUser());
         Event created = eventRepository.save(event);
 
         Set<User> invitedUsers = new HashSet<>();

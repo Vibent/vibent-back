@@ -62,6 +62,7 @@ public class VibentTest {
         RANDOM_EVENT = new Event();
         RANDOM_EVENT.setRef(UUID.randomUUID().toString());
         RANDOM_EVENT.setGroup(RANDOM_GROUP);
+        RANDOM_EVENT.setCreator(RANDOM_USER);
         RANDOM_EVENT.setTitle("test");
         RANDOM_EVENT.setDescription("test");
         RANDOM_EVENT.setStartDate(getFutureDate(5));
