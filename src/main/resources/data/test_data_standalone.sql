@@ -25,8 +25,8 @@ VALUES (1, '6dd8e18a-9f8b-412c-8d20-7b93039ee583', 'cr.in.france@gmail.com', 'Co
         '$2a$10$bfyg6zikIO5gtzK0pVAJDulKBuvBz5Km6hpPp4FMUU8VVH9HY3MiC', 1, 1, 1, '2019-04-14 15:57:28', 1);
 
 -- Event
-INSERT INTO event (id, ref, group_id, title, description, start_date, end_date, deleted, standalone)
-VALUES (1, '7783962b-c7f1-4825-89e4-4e54052fa011', null, 'Weekend at sea',
+INSERT INTO event (id, ref, group_id, user_id, title, description, start_date, end_date, deleted, standalone)
+VALUES (1, '7783962b-c7f1-4825-89e4-4e54052fa011', null, 1,'Weekend at sea',
         'Let''s all go the beach ! Activities include swimming, sunbathing, barbecues, fishing, etc !',
         '2021-04-28 08:00:00', null, 0, 1);
 

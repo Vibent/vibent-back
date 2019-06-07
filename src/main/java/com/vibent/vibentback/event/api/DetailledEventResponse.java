@@ -44,6 +44,11 @@ public class DetailledEventResponse {
     }
 
     @JsonProperty
+    public String getCreatorRef() {
+        return event.getCreator().getRef();
+    }
+
+    @JsonProperty
     public String getTitle() {
         return event.getTitle();
     }

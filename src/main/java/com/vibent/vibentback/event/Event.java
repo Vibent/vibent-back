@@ -46,6 +46,10 @@ public class Event implements Serializable, Permissible {
     @NonNull
     private String title;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User creator;
+
     @NonNull
     private String description;
 

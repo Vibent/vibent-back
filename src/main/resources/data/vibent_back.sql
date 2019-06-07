@@ -174,6 +174,7 @@ CREATE TABLE `event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ref` char(36) NOT NULL,
   `group_id` int(11),
+  `user_id` int(11) NOT NULL,
   `title` varchar(50) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
   `start_date` datetime DEFAULT NULL,
@@ -185,6 +186,7 @@ CREATE TABLE `event` (
   UNIQUE KEY `event_ref` (`ref`),
   KEY `ref` (`ref`),
   KEY `event_group__fk` (`group_id`),
+  CONSTRAINT `event_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `event_group__fk` FOREIGN KEY (`group_id`) REFERENCES `group_t` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
