@@ -1,13 +1,11 @@
 package com.vibent.vibentback.bubble.alimentation;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBring;
 import com.vibent.vibentback.bubble.alimentation.bring.AlimentationBringRepository;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntry;
 import com.vibent.vibentback.bubble.alimentation.entry.AlimentationEntryRepository;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -37,8 +35,6 @@ public class AlimentationDataTest extends VibentTest {
     UserRepository userRepository;
     @Autowired
     EventRepository eventRepository;
-    @Autowired
-    GroupTRepository groupTRepository;
 
     private AlimentationEntry RANDOM_ENTRY;
     private AlimentationBubble RANDOM_BUBBLE;
@@ -49,7 +45,6 @@ public class AlimentationDataTest extends VibentTest {
         super.setUp();
 
         RANDOM_USER = userRepository.save(RANDOM_USER);
-        RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
         RANDOM_EVENT = eventRepository.save(RANDOM_EVENT);
 
         RANDOM_BUBBLE = new AlimentationBubble();

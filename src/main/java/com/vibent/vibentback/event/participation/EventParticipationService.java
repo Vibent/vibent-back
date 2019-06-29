@@ -5,9 +5,6 @@ import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
 import com.vibent.vibentback.event.api.UpdateEventParticipationRequest;
-import com.vibent.vibentback.group.GroupT;
-import com.vibent.vibentback.group.GroupTRepository;
-import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Collection;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -26,24 +22,7 @@ public class EventParticipationService {
 
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
-    private final GroupTRepository groupTRepository;
     private final EventParticipationRepository eventParticipationRepository;
-
-    /**
-     * Creates all default event participations when event is created
-     * based on members in the events group
-     *
-     * @param event the event to add the participations to
-     */
-    public void createNewlyCreatedEventParticipations(Event event) {
-        // If there are already participations, then this would create duplicates
-        if (!eventParticipationRepository.findByEvent(event).isEmpty()) {
-            throw new VibentException(VibentError.EVENT_PARTICIPATION_ALREADY_EXISTS);
-        }
-
-        GroupT groupT = event.getGroup();
-        createEventParticipations(event, groupT.getMemberships().stream().map(Membership::getUser).collect(Collectors.toSet()));
-    }
 
     public void createEventParticipations(Event event, Collection<User> users) {
         for (User user : users) {

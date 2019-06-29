@@ -9,7 +9,6 @@ import com.vibent.vibentback.bubble.survey.SurveyBubble;
 import com.vibent.vibentback.bubble.travel.TravelBubble;
 import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.event.participation.EventParticipation;
-import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.user.User;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -36,12 +35,6 @@ public class Event implements Serializable, Permissible {
 
     @NonNull
     private String ref;
-
-    @ManyToOne
-    @PrimaryKeyJoinColumn
-    private GroupT group;
-
-    private boolean standalone;
 
     @NonNull
     private String title;
@@ -92,11 +85,7 @@ public class Event implements Serializable, Permissible {
 
     @Override
     public boolean canWrite(User user) {
-        // If standalone then consider everyone is admin
-        if (this.isStandalone()) {
-            return true;
-        }
-        return this.group.canWrite(user);
+        return true;
     }
 
     @Override

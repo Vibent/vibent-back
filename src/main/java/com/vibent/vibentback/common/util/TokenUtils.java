@@ -9,20 +9,14 @@ import org.springframework.util.Assert;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-/**
- * Utils used for general tokens like group invite tokens and email confirmation tokens
- */
 @Component
 public class TokenUtils {
 
     private final static String EMAIL_CONFIRM_PREFIX = "e";
     private final static int EMAIL_CONFIRM_EXPIRY_HOURS = 2; // 1h < X < 2h
 
-    private final static String GROUP_INVITE_PREFIX = "g";
-    private final static int GROUP_INVITE_EXPIRY_HOURS = 169; // 1W < X < 1W1H
-
-    private final static String STANDALONE_EVENT_INVITE_PREFIX = "v";
-    private final static int STANDALONE_EVENT_INVITE_EXPIRY_HOURS = 169; // 1W < X < 1W1H
+    private final static String EVENT_INVITE_PREFIX = "v";
+    private final static int EVENT_INVITE_EXPIRY_HOURS = 169; // 1W < X < 1W1H
 
     private final static String PASSWORD_RESET_PREFIX = "p";
     private final static int PASSWORD_RESET_EXPIRY_HOURS = 2; // 1h < X < 2h
@@ -48,7 +42,7 @@ public class TokenUtils {
     }
 
     public String getEmailConfirmToken(Long userId, String email) {
-        String toEncrypt = EMAIL_CONFIRM_PREFIX + String.valueOf(userId)
+        String toEncrypt = EMAIL_CONFIRM_PREFIX + userId
                 + " " + email
                 + " " + getExpiryTime(EMAIL_CONFIRM_EXPIRY_HOURS);
         return aesUtils.encrypt(toEncrypt);
@@ -78,49 +72,19 @@ public class TokenUtils {
         return new TokenInfo(userId, splitted[1]);
     }
 
-    public String getGroupInviteToken(Long groupId) {
-        String toEncrypt = GROUP_INVITE_PREFIX + String.valueOf(groupId)
-                + " " + getExpiryTime(GROUP_INVITE_EXPIRY_HOURS);
+    public String getEventInviteToken(Long eventId) {
+        String toEncrypt = EVENT_INVITE_PREFIX + String.valueOf(eventId)
+                + " " + getExpiryTime(EVENT_INVITE_EXPIRY_HOURS);
         return aesUtils.encrypt(toEncrypt);
     }
 
-    public TokenInfo readGroupInviteToken(String encryptedToken) {
+    public TokenInfo readEventInviteToken(String encryptedToken) {
         String decrypted = aesUtils.decrypt(encryptedToken);
 
-        if (!decrypted.startsWith(GROUP_INVITE_PREFIX)) {
+        if (!decrypted.startsWith(EVENT_INVITE_PREFIX)) {
             throw new VibentException(VibentError.WRONG_TOKEN_TYPE);
         }
-        decrypted = decrypted.substring(GROUP_INVITE_PREFIX.length());
-
-        String[] splitted = decrypted.split(" ");
-        if (splitted.length != 2) {
-            throw new VibentException(VibentError.MALFORMED_TOKEN);
-        }
-
-        checkExpiryTime(splitted[1]);
-
-        Long groupId;
-        try {
-            groupId = Long.valueOf(splitted[0]);
-        } catch (NumberFormatException e) {
-            throw new VibentException(VibentError.MALFORMED_TOKEN);
-        }
-        return new TokenInfo(groupId, null);
-    }
-
-    public String getStandaloneEventInviteToken(Long eventId) {
-        String toEncrypt = STANDALONE_EVENT_INVITE_PREFIX + String.valueOf(eventId)
-                + " " + getExpiryTime(STANDALONE_EVENT_INVITE_EXPIRY_HOURS);
-        return aesUtils.encrypt(toEncrypt);
-    }
-
-    public TokenInfo readStandaloneEventInviteToken(String encryptedToken) {
-        String decrypted = aesUtils.decrypt(encryptedToken);
-
-        if (!decrypted.startsWith(STANDALONE_EVENT_INVITE_PREFIX)) {
-            throw new VibentException(VibentError.WRONG_TOKEN_TYPE);
-        }
-        decrypted = decrypted.substring(STANDALONE_EVENT_INVITE_PREFIX.length());
+        decrypted = decrypted.substring(EVENT_INVITE_PREFIX.length());
 
         String[] splitted = decrypted.split(" ");
         if (splitted.length != 2) {

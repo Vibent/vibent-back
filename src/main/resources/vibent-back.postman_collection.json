@@ -900,731 +900,7 @@
 			]
 		},
 		{
-			"name": "3. Group",
-			"item": [
-				{
-					"name": "1. Create Group",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "f824a0cf-9642-4aff-85fd-30fc6ae10616",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"groupRef\", jsonData.ref);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"description\": \"Group for the badest people around\",\n\t\"allAdmins\": true\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/group",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "2. Create Group Invalid Body",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "296e4737-7cf8-495d-bc01-9afc77798134",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(400);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"description\": \"\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/group",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "3. Second User Request Group Membership",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "31738b7c-ebd9-4c22-a495-579a6f680646",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{tokenSecondUser}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/group/{{groupRef}}/request",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"{{groupRef}}",
-								"request"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "4. Accept Group Membership Request",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "8bc4f6bb-45d9-48c7-8db2-1f81258fa036",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\n\t\"userRef\": \"{{userRefSecondUser}}\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"isAdmin\": false\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/group/request/accept",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"request",
-								"accept"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "5. Update Group",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "588a86ef-95b2-4f90-9d97-ab1d5b04ac74",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"description\": \"Group for the coolest people around\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/group/{{groupRef}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"{{groupRef}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "6. Get Group",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "5bc0b47b-2db3-408e-8f5a-f63cb3fbf2b9",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"url": {
-							"raw": "{{URL}}/group/{{groupRef}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"{{groupRef}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "7. Delete Group",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "03872a48-94ae-4dff-86a9-b3f9d482cd13",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(204);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/group/{{groupRef}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"{{groupRef}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "8. Create Second Group",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "f824a0cf-9642-4aff-85fd-30fc6ae10616",
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"groupRef\", jsonData.ref);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Coolio group\",\n\t\"description\": \"Group for the badest people around\",\n\t\"allAdmins\": true\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/group",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "9. Get Group Invite Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "dbdd550c-00b3-4d26-ba4f-84e8cd0d7f8b",
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"groupInviteToken\", jsonData.token);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"url": {
-							"raw": "{{URL}}/group/{{groupRef}}/inviteToken",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"{{groupRef}}",
-								"inviteToken"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "10. Validate Group Invite Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "02208cad-f5af-4364-a936-8dc5809dd10d",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{tokenSecondUser}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{URL}}/group/validateInviteToken/{{groupInviteToken}}",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"validateInviteToken",
-								"{{groupInviteToken}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "11. Get Connected User Groups",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"url": {
-							"raw": "{{URL}}/group/me",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"me"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "12. Invite By Mail",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"ref\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"test@nomail.com\",\n\t\t\"test2@nomail.com\"\n\t]\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/group/mailInvite",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"mailInvite"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "13. Invite By Mail Fail (too many recipients)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(400);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"ref\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"1@nomail.com\",\n\t\t\"2@nomail.com\",\n\t\t\"3@nomail.com\",\n\t\t\"4@nomail.com\",\n\t\t\"5@nomail.com\",\n\t\t\"6@nomail.com\",\n\t\t\"7@nomail.com\",\n\t\t\"8@nomail.com\",\n\t\t\"9@nomail.com\",\n\t\t\"10@nomail.com\",\n\t\t\"11@nomail.com\"\n\t]\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/group/mailInvite",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"mailInvite"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "14. Invite By Mail Fail (one invalid email)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(400);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"ref\": \"{{groupRef}}\",\n\t\"recipients\": [\n\t\t\"vibentPM@vibent.com\",\n\t\t\"not_a_mail\"\n\t]\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/group/mailInvite",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"mailInvite"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "15. Invite By Mail Fail (no recipients)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(400);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"ref\": \"{{groupRef}}\",\n\t\"recipients\": []\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/group/mailInvite",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"mailInvite"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "16. Leave group (second user)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{tokenSecondUser}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/group/{{groupRef}}/leave",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"{{groupRef}}",
-								"leave"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "4. Event",
+			"name": "3. Event",
 			"item": [
 				{
 					"name": "1. Create Event",
@@ -1659,7 +935,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"startDate\": \"2024-04-22T09:49:05+00:00\"\n}"
+							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"startDate\": \"2024-04-22T09:49:05+00:00\"\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/event",
@@ -1674,49 +950,7 @@
 					"response": []
 				},
 				{
-					"name": "2. Get Group Events",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "5c27115d-fcaf-4d97-b58b-abc5c6a9e514",
-								"exec": [
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"url": {
-							"raw": "{{URL}}/group/{{groupRef}}/event",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"group",
-								"{{groupRef}}",
-								"event"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "3. Get Event",
+					"name": "2. Get Event",
 					"event": [
 						{
 							"listen": "test",
@@ -1757,7 +991,7 @@
 					"response": []
 				},
 				{
-					"name": "4. Get Connected User Events",
+					"name": "3. Get Connected User Events",
 					"event": [
 						{
 							"listen": "test",
@@ -1798,7 +1032,7 @@
 					"response": []
 				},
 				{
-					"name": "5. Get Second User Events",
+					"name": "4. Get Second User Events",
 					"event": [
 						{
 							"listen": "test",
@@ -1839,7 +1073,7 @@
 					"response": []
 				},
 				{
-					"name": "6. Delete Event",
+					"name": "5. Delete Event",
 					"event": [
 						{
 							"listen": "test",
@@ -1884,54 +1118,7 @@
 					"response": []
 				},
 				{
-					"name": "7. Create Second Event",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"eventRef\", jsonData.ref);",
-									"",
-									"pm.test(\"Status code test\", function () {",
-									"   pm.response.to.have.status(201);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "{{TOKEN_HEADER}}",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"groupRef\": \"{{groupRef}}\",\n\t\"startDate\": \"2025-04-22T09:49:05+00:00\"\n}"
-						},
-						"url": {
-							"raw": "{{URL}}/event",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"event"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "8. Create Standalone Event",
+					"name": "6. Create Second Event",
 					"event": [
 						{
 							"listen": "test",
@@ -1966,20 +1153,19 @@
 							"raw": "{\n\t\"title\": \"Johnny's birthday\",\n\t\"description\": \"Party for Johnny's birthday\",\n\t\"startDate\": \"2024-04-22T09:49:05+00:00\"\n}"
 						},
 						"url": {
-							"raw": "{{URL}}/event/standalone",
+							"raw": "{{URL}}/event",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"event",
-								"standalone"
+								"event"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "9. Get Standalone Event Invite Token",
+					"name": "7. Get Event Invite Token",
 					"event": [
 						{
 							"listen": "test",
@@ -2010,13 +1196,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{URL}}/event/standalone/{{eventRef}}/inviteToken",
+							"raw": "{{URL}}/event/{{eventRef}}/inviteToken",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"event",
-								"standalone",
 								"{{eventRef}}",
 								"inviteToken"
 							]
@@ -2025,7 +1210,7 @@
 					"response": []
 				},
 				{
-					"name": "10. Validate Standalone Event Invite Token",
+					"name": "8. Validate Event Invite Token",
 					"event": [
 						{
 							"listen": "test",
@@ -2057,13 +1242,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{URL}}/event/standalone/validateInviteToken/{{eventInviteToken}}",
+							"raw": "{{URL}}/event/validateInviteToken/{{eventInviteToken}}",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"event",
-								"standalone",
 								"validateInviteToken",
 								"{{eventInviteToken}}"
 							]
@@ -2072,7 +1256,7 @@
 					"response": []
 				},
 				{
-					"name": "12. Invite By Mail",
+					"name": "9. Invite By Mail",
 					"event": [
 						{
 							"listen": "test",
@@ -2104,13 +1288,12 @@
 							"raw": "{\n\t\"ref\": \"{{eventRef}}\",\n\t\"recipients\": [\n\t\t\"cr.in.france@gmail.com\",\n\t\t\"test2@nomail.com\"\n\t]\n}"
 						},
 						"url": {
-							"raw": "{{URL}}/event/standalone/mailInvite",
+							"raw": "{{URL}}/event/mailInvite",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"event",
-								"standalone",
 								"mailInvite"
 							]
 						}
@@ -2120,7 +1303,7 @@
 			]
 		},
 		{
-			"name": "5. Image",
+			"name": "4. Image",
 			"item": [
 				{
 					"name": "1. Upload Profile Image",
@@ -2259,7 +1442,7 @@
 			]
 		},
 		{
-			"name": "6. Alimentation Bubble",
+			"name": "5. Alimentation Bubble",
 			"item": [
 				{
 					"name": "1. Create Alimentation Bubble",
@@ -2829,7 +2012,7 @@
 			]
 		},
 		{
-			"name": "7. Checkbox Bubble",
+			"name": "6. Checkbox Bubble",
 			"item": [
 				{
 					"name": "1. Create Checkbox Bubble",
@@ -3352,7 +2535,7 @@
 			]
 		},
 		{
-			"name": "8. Free Bubble",
+			"name": "7. Free Bubble",
 			"item": [
 				{
 					"name": "1. Create Free Bubble",
@@ -3539,11 +2722,7 @@
 			]
 		},
 		{
-			"name": "9. Location Bubble",
-			"item": []
-		},
-		{
-			"name": "10. Planning Bubble",
+			"name": "8. Planning Bubble",
 			"item": [
 				{
 					"name": "1. Create Planning Bubble",
@@ -3922,7 +3101,7 @@
 			]
 		},
 		{
-			"name": "11. Survey Bubble",
+			"name": "9. Survey Bubble",
 			"item": [
 				{
 					"name": "1. Create Survey Bubble",
@@ -4446,7 +3625,7 @@
 			]
 		},
 		{
-			"name": "12. Travel Bubble",
+			"name": "10. Travel Bubble",
 			"item": [
 				{
 					"name": "1. Create Travel Bubble",
@@ -5209,7 +4388,7 @@
 			]
 		},
 		{
-			"name": "13. Options Http Method",
+			"name": "11. Options Http Method",
 			"event": [
 				{
 					"listen": "test",

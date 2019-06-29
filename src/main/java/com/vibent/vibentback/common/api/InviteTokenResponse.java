@@ -1,4 +1,4 @@
-package com.vibent.vibentback.group.api;
+package com.vibent.vibentback.common.api;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

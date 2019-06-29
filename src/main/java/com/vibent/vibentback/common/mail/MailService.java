@@ -2,7 +2,6 @@ package com.vibent.vibentback.common.mail;
 
 import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.event.Event;
-import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.user.User;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -33,23 +32,8 @@ public class MailService {
     @NonNull
     private JavaMailSender mailSender;
 
-    public void sendGroupInviteMail(User inviter, GroupT groupT, Set<String> recipients) {
-        String secret = tokenUtils.getGroupInviteToken(groupT.getId());
-        Context context = new Context();
-        context.setVariable("inviterFirstName", inviter.getFirstName());
-        context.setVariable("inviterLastName", inviter.getLastName());
-        context.setVariable("groupName", groupT.getName());
-        context.setVariable("secret", secret);
-        context.setVariable("clientUrl", CLIENT_URL);
-
-        String content = templateEngine.process("groupInviteTemplate", context);
-        recipients.forEach(r -> {
-            prepareAndSend(r, "Vibent Group Invitation", content);
-        });
-    }
-
-    public void sendStandaloneEventInviteMail(User inviter, Event event, Set<String> recipients) {
-        String secret = tokenUtils.getStandaloneEventInviteToken(event.getId());
+    public void sendEventInviteMail(User inviter, Event event, Set<String> recipients) {
+        String secret = tokenUtils.getEventInviteToken(event.getId());
         Context context = new Context();
         context.setVariable("inviterFirstName", inviter.getFirstName());
         context.setVariable("inviterLastName", inviter.getLastName());
@@ -57,7 +41,7 @@ public class MailService {
         context.setVariable("secret", secret);
         context.setVariable("clientUrl", CLIENT_URL);
 
-        String content = templateEngine.process("standaloneEventInviteTemplate", context);
+        String content = templateEngine.process("eventInviteTemplate", context);
         recipients.forEach(r -> {
             prepareAndSend(r, "Vibent Event Invitation", content);
         });

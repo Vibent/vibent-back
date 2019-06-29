@@ -1,13 +1,11 @@
 package com.vibent.vibentback.bubble.survey;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.survey.answer.SurveyAnswer;
 import com.vibent.vibentback.bubble.survey.answer.SurveyAnswerRepository;
 import com.vibent.vibentback.bubble.survey.option.SurveyOption;
 import com.vibent.vibentback.bubble.survey.option.SurveyOptionRepository;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -36,8 +34,6 @@ public class SurveyDataTest extends VibentTest {
     UserRepository userRepository;
     @Autowired
     EventRepository eventRepository;
-    @Autowired
-    GroupTRepository groupTRepository;
 
     SurveyOption RANDOM_OPTION;
     SurveyBubble RANDOM_BUBBLE;
@@ -48,7 +44,6 @@ public class SurveyDataTest extends VibentTest {
         super.setUp();
 
         RANDOM_USER = userRepository.save(RANDOM_USER);
-        RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
         RANDOM_EVENT = eventRepository.save(RANDOM_EVENT);
 
         RANDOM_BUBBLE = new SurveyBubble();

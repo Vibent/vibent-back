@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TokenInfo {
     /**
-     * ID of concerned entity (groupId, userId, etc)
+     * ID of concerned entity
      */
     private final Long id;
     /**

@@ -1,10 +1,12 @@
 package com.vibent.vibentback.event.api;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.Set;
 
 @Data
 public class EventRequest {
@@ -16,11 +18,10 @@ public class EventRequest {
     private String description;
 
     @NotNull
-    @Size(min = 36, max = 36)
-    private String groupRef;
-
-    @NotNull
     private Date startDate;
 
     private Date endDate;
+
+    @ApiModelProperty(notes = "If set, every user defined will be added to the event")
+    private Set<String> invitedUserRefs;
 }

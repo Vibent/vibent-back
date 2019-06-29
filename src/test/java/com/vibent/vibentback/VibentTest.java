@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.vibent.vibentback.auth.VibentAuthentication;
 import com.vibent.vibentback.event.Event;
-import com.vibent.vibentback.group.GroupT;
 import com.vibent.vibentback.user.User;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
@@ -37,7 +36,6 @@ public class VibentTest {
     protected static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
     protected User RANDOM_USER;
-    protected GroupT RANDOM_GROUP;
     protected Event RANDOM_EVENT;
     protected Authentication AUTHENTICATION;
 
@@ -56,12 +54,8 @@ public class VibentTest {
         );
         SecurityContextHolder.getContext().setAuthentication(AUTHENTICATION);
 
-        RANDOM_GROUP = new GroupT();
-        RANDOM_GROUP.setRef(UUID.randomUUID().toString());
-        RANDOM_GROUP.setName("test");
         RANDOM_EVENT = new Event();
         RANDOM_EVENT.setRef(UUID.randomUUID().toString());
-        RANDOM_EVENT.setGroup(RANDOM_GROUP);
         RANDOM_EVENT.setCreator(RANDOM_USER);
         RANDOM_EVENT.setTitle("test");
         RANDOM_EVENT.setDescription("test");
