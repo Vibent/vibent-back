@@ -31,19 +31,6 @@ public class DetailledEventResponse {
     }
 
     @JsonProperty
-    public String getGroupRef() {
-        if (event.isStandalone()) {
-            return null;
-        }
-        return event.getGroup().getRef();
-    }
-
-    @JsonProperty
-    public Boolean isStandalone() {
-        return event.isStandalone();
-    }
-
-    @JsonProperty
     public String getCreatorRef() {
         return event.getCreator().getRef();
     }

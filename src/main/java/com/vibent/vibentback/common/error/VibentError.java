@@ -20,15 +20,7 @@ public enum VibentError {
     INVALID_CONFIRMED_EMAIL(HttpStatus.UNAUTHORIZED, "The confirmed email does not match the user"),
     USER_NO_EMAIL_OR_PHONE(HttpStatus.UNAUTHORIZED, "An email or phone number must be specified at registration"),
 
-    GROUP_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested group could not be found"),
-    MEMBERSHIP_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested membership could not be found"),
-    MEMBERSHIP_REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested membership request could not be found"),
-    USER_ALREADY_PART_OF_GROUP(HttpStatus.BAD_REQUEST, "The requested membership is to a group the user is already a part of"),
-
-
     EVENT_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested event could not be found"),
-    EVENT_NOT_STANDALONE(HttpStatus.BAD_REQUEST, "The requested operation is only possible on a standalone event"),
-    EVENT_STANDALONE(HttpStatus.BAD_REQUEST, "The requested operation is only possible on a non standalone group event"),
     EVENT_DATE_INVALID(HttpStatus.BAD_REQUEST, "An event's end date must be after its start date, and it's start date must be after the current date"),
 
     EVENT_PARTICIPATION_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested event participation could not be found"),

@@ -4,12 +4,10 @@ import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.permission.VibentPermissionEvaluator;
 import com.vibent.vibentback.event.api.DetailledEventResponse;
-import com.vibent.vibentback.event.api.EventRequest;
 import com.vibent.vibentback.event.api.EventUpdateRequest;
-import com.vibent.vibentback.event.api.StandaloneEventRequest;
+import com.vibent.vibentback.event.api.EventRequest;
 import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.event.participation.EventParticipationRepository;
-import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -52,11 +50,7 @@ public class EventInternalTest extends VibentTest {
     @MockBean
     EventParticipationRepository eventParticipationRepository;
 
-    @MockBean
-    GroupTRepository groupTRepository;
-
     private EventRequest RANDOM_EVENT_REQUEST;
-    private StandaloneEventRequest RANDOM_STANDALONE_EVENT_REQUEST;
     private EventUpdateRequest RANDOM_EVENT_UPDATE_REQUEST;
 
     @Before
@@ -75,15 +69,7 @@ public class EventInternalTest extends VibentTest {
         RANDOM_EVENT_REQUEST.setDescription("Random descipt.");
         RANDOM_EVENT_REQUEST.setStartDate(getFutureDate(5));
         RANDOM_EVENT_REQUEST.setEndDate(getFutureDate(10));
-        RANDOM_EVENT_REQUEST.setGroupRef(RANDOM_GROUP.getRef());
-
-        RANDOM_STANDALONE_EVENT_REQUEST = new StandaloneEventRequest();
-        RANDOM_STANDALONE_EVENT_REQUEST.setTitle("Random title");
-        RANDOM_STANDALONE_EVENT_REQUEST.setDescription("Random descipt.");
-        RANDOM_STANDALONE_EVENT_REQUEST.setStartDate(getFutureDate(5));
-        RANDOM_STANDALONE_EVENT_REQUEST.setEndDate(getFutureDate(10));
-        RANDOM_STANDALONE_EVENT_REQUEST.setGroupRef(RANDOM_GROUP.getRef());
-        RANDOM_STANDALONE_EVENT_REQUEST.setInvitedUserRefs(
+        RANDOM_EVENT_REQUEST.setInvitedUserRefs(
                 Collections.singleton(RANDOM_USER.getRef())
         );
 
@@ -92,7 +78,6 @@ public class EventInternalTest extends VibentTest {
 
         Event RANDOM_UPDATE_EVENT = new Event();
         RANDOM_UPDATE_EVENT.setRef(RANDOM_EVENT.getRef());
-        RANDOM_UPDATE_EVENT.setGroup(RANDOM_EVENT.getGroup());
         RANDOM_UPDATE_EVENT.setTitle(RANDOM_EVENT.getTitle());
         RANDOM_UPDATE_EVENT.setDescription(RANDOM_EVENT_UPDATE_REQUEST.getDescription());
         RANDOM_UPDATE_EVENT.setStartDate(RANDOM_EVENT.getStartDate());
@@ -105,7 +90,6 @@ public class EventInternalTest extends VibentTest {
         when(eventRepository.save(RANDOM_EVENT)).thenReturn(RANDOM_EVENT);
         when(eventRepository.deleteByRef(RANDOM_EVENT.getRef())).thenReturn(1);
         when(eventParticipationRepository.save(participation)).thenReturn(participation);
-        when(groupTRepository.findByRef(RANDOM_GROUP.getRef())).thenReturn(Optional.ofNullable(RANDOM_GROUP));
     }
 
     @Test
@@ -125,13 +109,6 @@ public class EventInternalTest extends VibentTest {
     @Test
     public void addEvent() {
         DetailledEventResponse event = controller.createEvent(RANDOM_EVENT_REQUEST);
-        Assert.assertEquals(RANDOM_EVENT.getRef(), event.getRef());
-        Assert.assertEquals(RANDOM_EVENT.getDescription(), event.getDescription());
-    }
-
-    @Test
-    public void addStandaloneEvent() {
-        DetailledEventResponse event = controller.createStandaloneEvent(RANDOM_STANDALONE_EVENT_REQUEST);
         Assert.assertEquals(RANDOM_EVENT.getRef(), event.getRef());
         Assert.assertEquals(RANDOM_EVENT.getDescription(), event.getDescription());
     }

@@ -1,11 +1,10 @@
 package com.vibent.vibentback.event;
 
+import com.vibent.vibentback.common.api.InviteTokenResponse;
+import com.vibent.vibentback.common.api.MailInviteRequest;
 import com.vibent.vibentback.event.api.DetailledEventResponse;
 import com.vibent.vibentback.event.api.EventRequest;
 import com.vibent.vibentback.event.api.EventUpdateRequest;
-import com.vibent.vibentback.event.api.StandaloneEventRequest;
-import com.vibent.vibentback.group.api.InviteTokenResponse;
-import com.vibent.vibentback.group.api.MailInviteRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,6 @@ public class EventController {
         return new DetailledEventResponse(eventService.getEvent(eventRef));
     }
 
-    @PreAuthorize("hasPermission(#request.groupRef, 'GroupT', 'writeChildren')")
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
     DetailledEventResponse createEvent(@Valid @RequestBody EventRequest request) {
@@ -63,30 +61,23 @@ public class EventController {
         eventService.deleteEvent(eventRef);
     }
 
-    @ResponseStatus(value = HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST, value = "/standalone")
-    DetailledEventResponse createStandaloneEvent(@Valid @RequestBody StandaloneEventRequest request) {
-        log.info("Creating standalone event with body : {}", request.toString());
-        return new DetailledEventResponse(eventService.createStandaloneEvent(request));
-    }
-
     @PreAuthorize(value = "hasPermission(#eventRef, 'Event', 'write')")
-    @RequestMapping(method = RequestMethod.GET, value = "/standalone/{eventRef}/inviteToken")
-    InviteTokenResponse getStandaloneEventInviteToken(@PathVariable String eventRef) {
-        log.info("Getting invite token for standalone event : {}", eventRef);
-        return new InviteTokenResponse(eventService.generateStandaloneEventInviteToken(eventRef));
+    @RequestMapping(method = RequestMethod.GET, value = "/{eventRef}/inviteToken")
+    InviteTokenResponse getEventInviteToken(@PathVariable String eventRef) {
+        log.info("Getting invite token for event : {}", eventRef);
+        return new InviteTokenResponse(eventService.generateEventInviteToken(eventRef));
     }
 
     @PreAuthorize(value = "hasPermission(#request.ref, 'Event', 'write')")
-    @RequestMapping(method = RequestMethod.POST, value = "/standalone/mailInvite")
+    @RequestMapping(method = RequestMethod.POST, value = "/mailInvite")
     void mailInvite(@Valid @RequestBody MailInviteRequest request) {
-        log.info("Sending mail invite for standalone event : {}", request.getRef());
+        log.info("Sending mail invite for event : {}", request.getRef());
         eventService.sendMailInvite(request);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/standalone/validateInviteToken/{token:.+}")
-    DetailledEventResponse validateStandaloneEventInviteToken(@PathVariable String token) {
-        log.info("Validating standalone event invite token : {}", token);
-        return new DetailledEventResponse(eventService.validateStandaloneEventInviteToken(token));
+    @RequestMapping(method = RequestMethod.POST, value = "/validateInviteToken/{token:.+}")
+    DetailledEventResponse validateEventInviteToken(@PathVariable String token) {
+        log.info("Validating event invite token : {}", token);
+        return new DetailledEventResponse(eventService.validateEventInviteToken(token));
     }
 }

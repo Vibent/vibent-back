@@ -6,7 +6,6 @@ import com.vibent.vibentback.bubble.travel.proposal.TravelProposalRepository;
 import com.vibent.vibentback.bubble.travel.request.TravelRequest;
 import com.vibent.vibentback.bubble.travel.request.TravelRequestRepository;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -36,8 +35,6 @@ public class TravelDataTest extends VibentTest {
     UserRepository userRepository;
     @Autowired
     EventRepository eventRepository;
-    @Autowired
-    GroupTRepository groupTRepository;
 
     TravelProposal RANDOM_PROPOSAL;
     TravelBubble RANDOM_BUBBLE;
@@ -48,7 +45,6 @@ public class TravelDataTest extends VibentTest {
         super.setUp();
 
         RANDOM_USER = userRepository.save(RANDOM_USER);
-        RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
         RANDOM_EVENT = eventRepository.save(RANDOM_EVENT);
 
         log.info("{}", RANDOM_EVENT.getRef());

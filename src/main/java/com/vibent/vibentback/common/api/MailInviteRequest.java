@@ -1,4 +1,4 @@
-package com.vibent.vibentback.group.api;
+package com.vibent.vibentback.common.api;
 
 import com.vibent.vibentback.common.validate.Emails;
 import lombok.Data;

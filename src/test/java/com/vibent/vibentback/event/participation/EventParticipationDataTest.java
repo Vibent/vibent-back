@@ -2,7 +2,6 @@ package com.vibent.vibentback.event.participation;
 
 import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,8 +24,6 @@ public class EventParticipationDataTest extends VibentTest {
     UserRepository userRepository;
     @Autowired
     EventRepository eventRepository;
-    @Autowired
-    GroupTRepository groupTRepository;
 
     private EventParticipation RANDOM_EVENT_PARTICIPATION;
 
@@ -34,7 +31,6 @@ public class EventParticipationDataTest extends VibentTest {
     public void setUp() {
         super.setUp();
         RANDOM_USER = userRepository.save(RANDOM_USER);
-        RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
         RANDOM_EVENT = eventRepository.save(RANDOM_EVENT);
 
         RANDOM_EVENT_PARTICIPATION = new EventParticipation();

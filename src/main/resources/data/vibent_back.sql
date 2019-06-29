@@ -173,21 +173,17 @@ DROP TABLE IF EXISTS `event`;
 CREATE TABLE `event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ref` char(36) NOT NULL,
-  `group_id` int(11),
   `user_id` int(11) NOT NULL,
   `title` varchar(50) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
   `start_date` datetime DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
-  `standalone` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `event_id` (`id`),
   UNIQUE KEY `event_ref` (`ref`),
   KEY `ref` (`ref`),
-  KEY `event_group__fk` (`group_id`),
-  CONSTRAINT `event_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `event_group__fk` FOREIGN KEY (`group_id`) REFERENCES `group_t` (`id`)
+  CONSTRAINT `event_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -259,98 +255,6 @@ CREATE TABLE `free_bubble` (
 LOCK TABLES `free_bubble` WRITE;
 /*!40000 ALTER TABLE `free_bubble` DISABLE KEYS */;
 /*!40000 ALTER TABLE `free_bubble` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `group_t`
---
-
-DROP TABLE IF EXISTS `group_t`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `group_t` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ref` char(36) NOT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `description` varchar(500) DEFAULT NULL,
-  `image_path` varchar(255) DEFAULT NULL,
-  `has_default_admin` tinyint(1) DEFAULT NULL,
-  `deleted` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `group_ref` (`ref`),
-  KEY `ref` (`ref`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `group_t`
---
-
-LOCK TABLES `group_t` WRITE;
-/*!40000 ALTER TABLE `group_t` DISABLE KEYS */;
-/*!40000 ALTER TABLE `group_t` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
---
--- Table structure for table `membership`
---
-
-DROP TABLE IF EXISTS `membership`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `membership` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  `admin` tinyint(1) NOT NULL,
-  `deleted` tinyint(1) DEFAULT 0,
-  `date` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `group_id` (`group_id`),
-  CONSTRAINT `membership_group__fk` FOREIGN KEY (`group_id`) REFERENCES `group_t` (`id`),
-  CONSTRAINT `membership_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `membership`
---
-
-LOCK TABLES `membership` WRITE;
-/*!40000 ALTER TABLE `membership` DISABLE KEYS */;
-/*!40000 ALTER TABLE `membership` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `membership_request`
---
-
-DROP TABLE IF EXISTS `membership_request`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `membership_request` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  `deleted` tinyint(1) DEFAULT 0,
-  `date` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `group_id` (`group_id`),
-  CONSTRAINT `membership_request_group__fk` FOREIGN KEY (`group_id`) REFERENCES `group_t` (`id`),
-  CONSTRAINT `membership_request_user__fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `membership_request`
---
-
-LOCK TABLES `membership_request` WRITE;
-/*!40000 ALTER TABLE `membership_request` DISABLE KEYS */;
-/*!40000 ALTER TABLE `membership_request` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

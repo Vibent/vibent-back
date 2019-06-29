@@ -1,9 +1,7 @@
 package com.vibent.vibentback.bubble.location;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -28,8 +26,6 @@ public class LocationDataTest extends VibentTest {
     LocationBubbleRepository bubbleRepository;
     @Autowired
     EventRepository eventRepository;
-    @Autowired
-    GroupTRepository groupTRepository;
 
     LocationBubble RANDOM_BUBBLE;
 
@@ -38,7 +34,6 @@ public class LocationDataTest extends VibentTest {
         super.setUp();
 
         RANDOM_USER = userRepository.save(RANDOM_USER);
-        RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
         RANDOM_EVENT = eventRepository.save(RANDOM_EVENT);
 
         log.info("{}", RANDOM_EVENT.getRef());

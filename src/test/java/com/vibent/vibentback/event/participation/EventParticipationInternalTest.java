@@ -1,9 +1,8 @@
 package com.vibent.vibentback.event.participation;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.event.api.UpdateEventParticipationRequest;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.group.GroupTRepository;
+import com.vibent.vibentback.event.api.UpdateEventParticipationRequest;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -38,15 +37,13 @@ public class EventParticipationInternalTest extends VibentTest {
     @MockBean
     private UserRepository userRepository;
     @MockBean
-    private GroupTRepository groupTRepository;
-    @MockBean
     private EventRepository eventRepository;
 
     private EventParticipation RANDOM_PARTICIPATION;
     private UpdateEventParticipationRequest RANDOM_EVENT_PARTICIPATION_UPDATE_REQUEST;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         super.setUp();
         MockitoAnnotations.initMocks(this);
 
@@ -75,24 +72,23 @@ public class EventParticipationInternalTest extends VibentTest {
         when(repository.save(RANDOM_PARTICIPATION)).thenReturn(RANDOM_PARTICIPATION);
         when(repository.findById(RANDOM_PARTICIPATION.getId())).thenReturn(Optional.ofNullable(RANDOM_PARTICIPATION));
         when(userRepository.findByRef(RANDOM_USER.getRef())).thenReturn(Optional.ofNullable(RANDOM_USER));
-        when(groupTRepository.findByRef(RANDOM_GROUP.getRef())).thenReturn(Optional.ofNullable(RANDOM_GROUP));
         when(eventRepository.findByRef(RANDOM_EVENT.getRef())).thenReturn(Optional.ofNullable(RANDOM_EVENT));
     }
 
     @Test
-    public void getEventParticipations(){
+    public void getEventParticipations() {
         Set<EventParticipation> participations = controller.getEventParticipations(RANDOM_EVENT.getRef());
         Assert.assertEquals(2, participations.size());
     }
 
     @Test
-    public void getUserParticipations(){
+    public void getUserParticipations() {
         Set<EventParticipation> participations = controller.getUserParticipations(RANDOM_USER.getRef());
         Assert.assertEquals(2, participations.size());
     }
 
     @Test
-    public void updateEventParticipation(){
+    public void updateEventParticipation() {
         EventParticipation participation = controller.updateEventParticipation(RANDOM_PARTICIPATION.getId(), RANDOM_EVENT_PARTICIPATION_UPDATE_REQUEST);
         Assert.assertEquals(EventParticipation.Answer.NO, participation.getAnswer());
     }

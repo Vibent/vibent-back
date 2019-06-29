@@ -1,13 +1,11 @@
 package com.vibent.vibentback.bubble.checkbox;
 
 import com.vibent.vibentback.VibentTest;
-import com.vibent.vibentback.bubble.BubbleType;
 import com.vibent.vibentback.bubble.checkbox.answer.CheckboxAnswer;
 import com.vibent.vibentback.bubble.checkbox.answer.CheckboxAnswerRepository;
 import com.vibent.vibentback.bubble.checkbox.option.CheckboxOption;
 import com.vibent.vibentback.bubble.checkbox.option.CheckboxOptionRepository;
 import com.vibent.vibentback.event.EventRepository;
-import com.vibent.vibentback.group.GroupTRepository;
 import com.vibent.vibentback.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -36,8 +34,6 @@ public class CheckboxDataTest extends VibentTest {
     UserRepository userRepository;
     @Autowired
     EventRepository eventRepository;
-    @Autowired
-    GroupTRepository groupTRepository;
 
     CheckboxOption RANDOM_OPTION;
     CheckboxBubble RANDOM_BUBBLE;
@@ -48,7 +44,6 @@ public class CheckboxDataTest extends VibentTest {
         super.setUp();
 
         RANDOM_USER = userRepository.save(RANDOM_USER);
-        RANDOM_GROUP = groupTRepository.save(RANDOM_GROUP);
         RANDOM_EVENT = eventRepository.save(RANDOM_EVENT);
 
         RANDOM_BUBBLE = new CheckboxBubble();

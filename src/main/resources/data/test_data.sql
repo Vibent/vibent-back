@@ -1,49 +1,41 @@
 -- User
 INSERT INTO user (id, ref, email, first_name, last_name, phone_number, deleted, profile_pic_location,
-                                  password, account_non_expired, account_non_locked, credentials_non_expired,
-                                  last_password_reset, enabled)
-VALUES (1, '6dd8e18a-9f8b-412c-8d20-7b93039ee583', 'cr.in.france@gmail.com', 'Conor', 'Ryan', '+33673804354', 0,
+                  password, account_non_expired, account_non_locked, credentials_non_expired,
+                  last_password_reset, enabled)
+VALUES (1, '6dd8e18a-9f8b-412c-8d20-7b93039ee583', 'cr.in.france@gmail.com', 'Conor', 'Ryan',
+        ' + 33673804354 ', 0,
         'https://gravatar.com/avatar/11933c4bb091d5e4fc447d302512dd84.jpg?s=128&d=retro',
         '$2a$10$bfyg6zikIO5gtzK0pVAJDulKBuvBz5Km6hpPp4FMUU8VVH9HY3MiC', 1, 1, 1, '2019-04-14 15:57:28', 1),
-       (2, '7dd8e18a-9f8b-412c-8d20-7b93039ee583', 'frank.spizza@gmail.com', 'Frank', 'Spizza', '+33673804355', 0,
+       (2, '7dd8e18a-9f8b-412c-8d20-7b93039ee583', 'frank.spizza@gmail.com', 'Frank', 'Spizza',
+        ' + 33673804355 ', 0,
         'https://gravatar.com/avatar/12933c4bb091d5e4fc447d302512dd84.jpg?s=128&d=retro',
         '$2a$10$bfyg6zikIO5gtzK0pVAJDulKBuvBz5Km6hpPp4FMUU8VVH9HY3MiC', 1, 1, 1, '2019-04-14 15:57:28', 1),
-       (3, '8dd8e18a-9f8b-412c-8d20-7b93039ee583', 'thomas.malik@gmail.com', 'Thomas', 'Malik', '+33673504355', 0,
+       (3, '8dd8e18a-9f8b-412c-8d20-7b93039ee583', 'thomas.malik@gmail.com', 'Thomas', 'Malik',
+        ' + 33673504355 ', 0,
         'https://gravatar.com/avatar/12933c4bb09177e4f8847d302512dd84.jpg?s=128&d=retro',
         '$2a$10$bfyg6zikIO5gtzK0pVAJDulKBuvBz5Km6hpPp4FMUU8VVH9HY3MiC', 1, 1, 1, '2019-04-14 15:57:28', 1),
-       (4, '9dd8e18a-9f8b-412c-8d20-7b93039ee583', 'kevin.felin@gmail.com', 'Kevin', 'Felin', '+33643804355', 0,
+       (4, '9dd8e18a-9f8b-412c-8d20-7b93039ee583', 'kevin.felin@gmail.com', 'Kevin', 'Felin',
+        ' + 33643804355 ', 0,
         'https://gravatar.com/avatar/12933c4bb09166e4fc447d302512dd84.jpg?s=128&d=retro',
         '$2a$10$bfyg6zikIO5gtzK0pVAJDulKBuvBz5Km6hpPp4FMUU8VVH9HY3MiC', 1, 1, 1, '2019-04-14 15:57:28', 1),
-       (5, '1dd8e18a-9f8b-412c-8d20-7b93039ee583', 'sophie.catere@gmail.com', 'Sophie', 'Catere', '+33573804355', 0,
+       (5, '1dd8e18a-9f8b-412c-8d20-7b93039ee583', 'sophie.catere@gmail.com', 'Sophie', 'Catere',
+        ' + 33573804355 ', 0,
         'https://gravatar.com/avatar/12933c4bb09555e4fc447d302512dd84.jpg?s=128&d=retro',
         '$2a$10$bfyg6zikIO5gtzK0pVAJDulKBuvBz5Km6hpPp4FMUU8VVH9HY3MiC', 1, 1, 1, '2019-04-14 15:57:28', 1),
-       (6, '0dd8e18a-9f8b-412c-8d20-7b93039ee583', 'lea.blanc@gmail.com', 'Lea', 'Blanc', '+33773804355', 0,
+       (6, '0dd8e18a-9f8b-412c-8d20-7b93039ee583', 'lea.blanc@gmail.com', 'Lea', 'Blanc', ' + 33773804355 ',
+        0,
         'https://gravatar.com/avatar/12933c4bb441d5e4fc447d302512dd84.jpg?s=128&d=retro',
         '$2a$10$bfyg6zikIO5gtzK0pVAJDulKBuvBz5Km6hpPp4FMUU8VVH9HY3MiC', 1, 1, 1, '2019-04-14 15:57:28', 1),
-       (7, '2dd8e18a-9f8b-412c-8d20-7b93039ee583', 'marga.zaragon@gmail.com', 'Marga', 'Zaragon', '+33773847155', 0,
+       (7, '2dd8e18a-9f8b-412c-8d20-7b93039ee583', 'marga.zaragon@gmail.com', 'Marga', 'Zaragon',
+        ' + 33773847155 ', 0,
         'https://gravatar.com/avatar/12933c4bb44621e4fc447d302512dd84.jpg?s=128&d=retro',
         '$2a$10$bfyg6zikIO5gtzK0pVAJDulKBuvBz5Km6hpPp4FMUU8VVH9HY3MiC', 1, 1, 1, '2019-04-14 15:57:28', 1);
 
--- Group
-INSERT INTO group_t (id, ref, name, description, image_path, has_default_admin, deleted)
-VALUES (1, 'd53e3a2e-4035-4ee2-a8cb-853d424c0197', 'INSA buddies',
-        'A group to share activities between friends in our class', null, 1, 0);
-
--- Group Membership
-INSERT INTO membership (id, user_id, group_id, admin, deleted, date)
-VALUES (1, 1, 1, 1, 0, '2019-04-14 13:58:11'),
-       (2, 2, 1, 1, 0, '2019-04-14 13:58:11'),
-       (3, 3, 1, 1, 0, '2019-04-14 13:58:11'),
-       (4, 4, 1, 1, 0, '2019-04-14 13:58:11'),
-       (5, 5, 1, 1, 0, '2019-04-14 13:58:11'),
-       (6, 6, 1, 1, 0, '2019-04-14 13:58:11'),
-       (7, 7, 1, 1, 0, '2019-04-14 13:58:11');
-
 -- Event
-INSERT INTO event (id, ref, group_id, user_id, title, description, start_date, end_date, deleted, standalone)
-VALUES (1, '7783962b-c7f1-4825-89e4-4e54052fa011', 1, 1, 'Weekend at sea',
+INSERT INTO event (id, ref, user_id, title, description, start_date, end_date, deleted)
+VALUES (1, '7783962b-c7f1-4825-89e4-4e54052fa011', 1, 'Weekend at sea',
         'Let''s all go the beach ! Activities include swimming, sunbathing, barbecues, fishing, etc !',
-        '2021-04-28 08:00:00', null, 0, 0);
+        '2021-04-28 08:00:00', null, 0);
 
 -- Event Participation
 INSERT INTO event_participation (id, user_id, event_id, answer, is_visible, deleted)

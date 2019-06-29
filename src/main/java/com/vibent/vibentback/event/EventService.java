@@ -1,5 +1,6 @@
 package com.vibent.vibentback.event;
 
+import com.vibent.vibentback.common.api.MailInviteRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.mail.MailService;
@@ -7,13 +8,8 @@ import com.vibent.vibentback.common.util.TokenInfo;
 import com.vibent.vibentback.common.util.TokenUtils;
 import com.vibent.vibentback.event.api.EventRequest;
 import com.vibent.vibentback.event.api.EventUpdateRequest;
-import com.vibent.vibentback.event.api.StandaloneEventRequest;
 import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.event.participation.EventParticipationService;
-import com.vibent.vibentback.group.GroupT;
-import com.vibent.vibentback.group.GroupTRepository;
-import com.vibent.vibentback.group.api.MailInviteRequest;
-import com.vibent.vibentback.group.membership.Membership;
 import com.vibent.vibentback.user.ConnectedUserUtils;
 import com.vibent.vibentback.user.User;
 import com.vibent.vibentback.user.UserRepository;
@@ -38,7 +34,6 @@ public class EventService {
     private final ConnectedUserUtils connectedUserUtils;
     private final EventRepository eventRepository;
     private final EventParticipationService eventParticipationService;
-    private final GroupTRepository groupTRepository;
     private final UserRepository userRepository;
     private final TokenUtils tokenUtils;
     private final MailService mailService;
@@ -53,28 +48,6 @@ public class EventService {
     public Event getEvent(String ref) {
         return eventRepository.findByRef(ref)
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
-    }
-
-    public Event createEvent(EventRequest request) {
-        if (request.getStartDate().before(new Date()))
-            throw new VibentException(VibentError.EVENT_DATE_INVALID);
-        if (request.getEndDate() != null && request.getStartDate().after(request.getEndDate()))
-            throw new VibentException(VibentError.EVENT_DATE_INVALID);
-        GroupT group = groupTRepository.findByRef(request.getGroupRef())
-                .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-        Event event = new Event();
-        event.setRef(UUID.randomUUID().toString());
-        event.setTitle(request.getTitle());
-        if (request.getDescription() != null)
-            event.setDescription(request.getDescription());
-        event.setGroup(group);
-        event.setStandalone(false);
-        event.setCreator(connectedUserUtils.getConnectedUser());
-        event.setStartDate(request.getStartDate());
-        event.setEndDate(request.getEndDate());
-        Event created = eventRepository.save(event);
-        eventParticipationService.createNewlyCreatedEventParticipations(event);
-        return eventRepository.save(created);
     }
 
     public void deleteEvent(String eventRef) {
@@ -97,7 +70,7 @@ public class EventService {
         return eventRepository.save(existing);
     }
 
-    public Event createStandaloneEvent(StandaloneEventRequest request) {
+    public Event createEvent(EventRequest request) {
         if (request.getStartDate().before(new Date()))
             throw new VibentException(VibentError.EVENT_DATE_INVALID);
         if (request.getEndDate() != null && request.getStartDate().after(request.getEndDate()))
@@ -109,18 +82,11 @@ public class EventService {
             event.setDescription(request.getDescription());
         event.setStartDate(request.getStartDate());
         event.setEndDate(request.getEndDate());
-        event.setStandalone(true);
         event.setCreator(connectedUserUtils.getConnectedUser());
         Event created = eventRepository.save(event);
 
         Set<User> invitedUsers = new HashSet<>();
         invitedUsers.add(connectedUserUtils.getConnectedUser());
-
-        if (request.getGroupRef() != null) {
-            GroupT group = groupTRepository.findByRef(request.getGroupRef())
-                    .orElseThrow(() -> new VibentException(VibentError.GROUP_NOT_FOUND));
-            invitedUsers.addAll(group.getMemberships().stream().map(Membership::getUser).collect(Collectors.toList()));
-        }
 
         if (request.getInvitedUserRefs() != null) {
             for (String userRef : request.getInvitedUserRefs()) {
@@ -135,18 +101,16 @@ public class EventService {
         return eventRepository.save(created);
     }
 
-    public String generateStandaloneEventInviteToken(String eventRef) {
+    public String generateEventInviteToken(String eventRef) {
         Event event = eventRepository.findByRef(eventRef)
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
-        if (!event.isStandalone()) {
-            throw new VibentException(VibentError.EVENT_NOT_STANDALONE);
-        }
-        return tokenUtils.getStandaloneEventInviteToken(event.getId());
+
+        return tokenUtils.getEventInviteToken(event.getId());
 
     }
 
-    public Event validateStandaloneEventInviteToken(String token) {
-        TokenInfo info = tokenUtils.readStandaloneEventInviteToken(token);
+    public Event validateEventInviteToken(String token) {
+        TokenInfo info = tokenUtils.readEventInviteToken(token);
         Event event = eventRepository.findById(info.getId())
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         eventParticipationService.createEventParticipation(event, connectedUserUtils.getConnectedUser());
@@ -158,6 +122,6 @@ public class EventService {
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         User inviter = connectedUserUtils.getConnectedUser();
         Set<String> recipients = request.getRecipients();
-        mailService.sendStandaloneEventInviteMail(inviter, event, recipients);
+        mailService.sendEventInviteMail(inviter, event, recipients);
     }
 }
