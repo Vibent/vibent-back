@@ -5,6 +5,7 @@ import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.permission.Permissible;
 import com.vibent.vibentback.event.participation.EventParticipation;
+import com.vibent.vibentback.distributionlist.membership.DistributionListMembership;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,6 +58,9 @@ public class User implements UserDetails, Serializable, Permissible {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private Set<EventParticipation> participations = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+    private Set<DistributionListMembership> distributionListMemberships = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

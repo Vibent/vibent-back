@@ -22,9 +22,12 @@ public enum VibentError {
 
     EVENT_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested event could not be found"),
     EVENT_DATE_INVALID(HttpStatus.BAD_REQUEST, "An event's end date must be after its start date, and it's start date must be after the current date"),
-
     EVENT_PARTICIPATION_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested event participation could not be found"),
     EVENT_PARTICIPATION_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "There should be no event participation duplicates"),
+
+    DISTRIBUTION_LIST_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested distribution list could not be found"),
+    DISTRIBUTION_LIST_MEMBERSHIP_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested distribution list membership could not be found"),
+    DISTRIBUTION_LIST_CANT_LEAVE_IF_CREATOR(HttpStatus.BAD_REQUEST, "The distribution list can not be left as the user is the admin. He must delete the list."),
 
     BUBBLE_NOT_FOUND(HttpStatus.NOT_FOUND, "The requested bubble can not be found"),
 

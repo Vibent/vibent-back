@@ -1,0 +1,34 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+  <changeSet author="ConorRyan" id="distribution-lists-create-test-data">
+    <loadData
+        file="classpath:db/1-distribution-lists/test-data/distribution_list.csv"
+        tableName="distribution_list">
+      <column name="id" type="NUMERIC"/>
+      <column name="title" type="STRING"/>
+      <column name="description" type="STRING"/>
+      <column name="creator_id" type="NUMERIC"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+
+    <loadData
+        file="classpath:db/1-distribution-lists/test-data/distribution_list_events.csv"
+        tableName="distribution_list_events">
+      <column name="distribution_lists_id" type="NUMERIC"/>
+      <column name="events_id" type="NUMERIC"/>
+    </loadData>
+
+    <loadData
+        file="classpath:db/1-distribution-lists/test-data/distribution_list_membership.csv"
+        tableName="distribution_list_membership">
+      <column name="id" type="NUMERIC"/>
+      <column name="distribution_list_id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+
+  </changeSet>
+</databaseChangeLog>

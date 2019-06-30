@@ -10,11 +10,13 @@ import com.vibent.vibentback.bubble.location.LocationBubble;
 import com.vibent.vibentback.bubble.planning.PlanningBubble;
 import com.vibent.vibentback.bubble.survey.SurveyBubble;
 import com.vibent.vibentback.bubble.travel.TravelBubble;
+import com.vibent.vibentback.distributionlist.api.SimpleDistributionListResponse;
 import com.vibent.vibentback.event.Event;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DetailledEventResponse {
 
@@ -62,6 +64,13 @@ public class DetailledEventResponse {
         Set<EventParticipationResponse> participationResponses = new HashSet<>();
         event.getParticipations().forEach(e -> participationResponses.add(new EventParticipationResponse(e.getUserRef(), e.getAnswer())));
         return participationResponses;
+    }
+
+    @JsonProperty
+    public Set<SimpleDistributionListResponse> getDistributionListIds() {
+        return event.getDistributionLists().stream()
+                .map(dl -> new SimpleDistributionListResponse(dl.getId(), dl.getTitle()))
+                .collect(Collectors.toSet());
     }
 
     @JsonProperty

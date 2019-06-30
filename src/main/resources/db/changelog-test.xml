@@ -2,6 +2,8 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-  <include file="classpath:db/create-db.xml"/>
-  <include file="classpath:db/create-test-data.xml"/>
+  <include file="classpath:db/0-migrate-to-liquibase/create-db.xml"/>
+  <include file="classpath:db/0-migrate-to-liquibase/create-test-data.xml"/>
+  <include file="classpath:db/1-distribution-lists/create-db.xml"/>
+  <include file="classpath:db/1-distribution-lists/create-test-data.xml"/>
 </databaseChangeLog>

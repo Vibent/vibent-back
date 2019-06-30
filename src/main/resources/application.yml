@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: local-h2
+    active: local-liquibase
   jpa:
     hibernate.naming.physical-strategy: com.vibent.vibentback.common.util.VibentDbNamingStrategy
   servlet.multipart.max-file-size: 128KB
@@ -47,8 +47,8 @@ spring.jackson.date-format: dd.MM.yyyy
 ---
 ### RUN PROFILES
 spring:
-  profiles: local
-  profiles.include: mysql-local, logger
+  profiles: local-mysql
+  profiles.include: data-mysql-local, logger
 
 server.port: 8080
 
@@ -56,15 +56,22 @@ server.port: 8080
 
 spring:
   profiles: local-h2
-  profiles.include: h2, logger
+  profiles.include: data-h2, logger
 
 server.port: 8080
 
 ---
 
 spring:
+  profiles: local-liquibase
+  profiles.include: data-liquibase, logger
+
+server.port: 8080
+---
+
+spring:
   profiles: dev
-  profiles.include: mysql-dev
+  profiles.include: data-mysql-dev
 
 server.port: 80
 
@@ -72,7 +79,7 @@ server.port: 80
 
 spring:
   profiles: prod
-  profiles.include: mysql-prod
+  profiles.include: data-mysql-prod
 
 server.port: 80
 
@@ -94,8 +101,9 @@ log4j.logger.org.springframework.web.servlet.mvc.method.annotation.ServletInvoca
 
 ---
 ### DATA SOURCE DEFINITIONS ###
+# liquibase profile generates DB in memory from the liquibase changelog like dev and production
 spring:
-  profiles: h2
+  profiles: data-liquibase
   datasource:
     url: jdbc:h2:mem:vibent;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: root
@@ -104,9 +112,19 @@ spring:
   liquibase.change-log: classpath:db/changelog-test.xml
 
 ---
-
+# h2 profile generates  DB in file automatically from entity processing
 spring:
-  profiles: mysql-local
+  profiles: data-h2
+  datasource:
+    url: jdbc:h2:~/vibent_back
+    username: sa
+    password: ''
+  h2.console.enabled: true
+  liquibase.enabled: false
+
+---
+spring:
+  profiles: data-mysql-local
   datasource:
     url: jdbc:mysql://127.0.0.1/vibent?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=CET
     username: root
@@ -118,7 +136,7 @@ spring:
 ---
 
 spring:
-  profiles: mysql-dev
+  profiles: data-mysql-dev
   datasource:
     url: jdbc:mysql://ec2-35-180-31-104.eu-west-3.compute.amazonaws.com:3336/vibent_dev?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=CET
     username: vibent_dev
@@ -128,7 +146,7 @@ spring:
 ---
 
 spring:
-  profiles: mysql-prod
+  profiles: data-mysql-prod
   datasource:
     url: jdbc:mysql://ec2-35-180-31-104.eu-west-3.compute.amazonaws.com:3336/vibent_prod?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=CET
     username: vibent_prod

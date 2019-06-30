@@ -1,11 +1,15 @@
 package com.vibent.vibentback.event;
 
-import com.vibent.vibentback.common.api.MailInviteRequest;
+import com.vibent.vibentback.common.api.MailInviteRefRequest;
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.mail.MailService;
 import com.vibent.vibentback.common.util.TokenInfo;
 import com.vibent.vibentback.common.util.TokenUtils;
+import com.vibent.vibentback.distributionlist.DistributionList;
+import com.vibent.vibentback.distributionlist.DistributionListRepository;
+import com.vibent.vibentback.distributionlist.api.DistributionListInviteRequest;
+import com.vibent.vibentback.distributionlist.membership.DistributionListMembership;
 import com.vibent.vibentback.event.api.EventRequest;
 import com.vibent.vibentback.event.api.EventUpdateRequest;
 import com.vibent.vibentback.event.participation.EventParticipation;
@@ -33,6 +37,7 @@ public class EventService {
 
     private final ConnectedUserUtils connectedUserUtils;
     private final EventRepository eventRepository;
+    private final DistributionListRepository distributionListRepository;
     private final EventParticipationService eventParticipationService;
     private final UserRepository userRepository;
     private final TokenUtils tokenUtils;
@@ -97,6 +102,7 @@ public class EventService {
         }
 
         eventParticipationService.createEventParticipations(event, invitedUsers);
+        eventParticipationService.updateAnswer(connectedUserUtils.getConnectedUser(), event, EventParticipation.Answer.YES);
 
         return eventRepository.save(created);
     }
@@ -117,11 +123,31 @@ public class EventService {
         return event;
     }
 
-    public void sendMailInvite(MailInviteRequest request) {
+    public void sendMailInvite(MailInviteRefRequest request) {
         Event event = eventRepository.findByRef(request.getRef())
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         User inviter = connectedUserUtils.getConnectedUser();
-        Set<String> recipients = request.getRecipients();
-        mailService.sendEventInviteMail(inviter, event, recipients);
+        mailService.sendEventInviteMail(inviter, event, request.getRecipients());
+    }
+
+    public void inviteDistributionList(DistributionListInviteRequest request) {
+        Event event = eventRepository.findByRef(request.getEventRef())
+                .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
+        DistributionList list = distributionListRepository.findById(request.getDistributionListId())
+                .orElseThrow(() -> new VibentException(VibentError.DISTRIBUTION_LIST_NOT_FOUND));
+
+        event.getDistributionLists().add(list);
+        list.getEvents().add(event);
+
+        Set<User> usersToAdd = list.getMemberships().stream()
+                .filter(dlm -> event.getParticipations().stream().noneMatch(ep -> ep.getUserRef().equals(dlm.getUserRef())))
+                .map(DistributionListMembership::getUser)
+                .collect(Collectors.toSet());
+
+        eventParticipationService.createEventParticipations(event, usersToAdd);
+        mailService.sendEventInviteByDistributionListNotification(connectedUserUtils.getConnectedUser(), list, event, usersToAdd);
+
+        distributionListRepository.save(list);
+        eventRepository.save(event);
     }
 }

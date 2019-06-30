@@ -8,6 +8,7 @@ import com.vibent.vibentback.bubble.planning.PlanningBubble;
 import com.vibent.vibentback.bubble.survey.SurveyBubble;
 import com.vibent.vibentback.bubble.travel.TravelBubble;
 import com.vibent.vibentback.common.permission.Permissible;
+import com.vibent.vibentback.distributionlist.DistributionList;
 import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.user.User;
 import lombok.*;
@@ -57,6 +58,9 @@ public class Event implements Serializable, Permissible {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
     private Set<EventParticipation> participations = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")
+    private Set<DistributionList> distributionLists = new HashSet<>();
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
     private Set<AlimentationBubble> alimentationBubbles = new HashSet<>();
 
@@ -85,7 +89,7 @@ public class Event implements Serializable, Permissible {
 
     @Override
     public boolean canWrite(User user) {
-        return true;
+        return this.isParticipant(user);
     }
 
     @Override

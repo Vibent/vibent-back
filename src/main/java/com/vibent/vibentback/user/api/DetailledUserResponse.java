@@ -5,11 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vibent.vibentback.auth.social.provider.Provider;
+import com.vibent.vibentback.distributionlist.api.SimpleDistributionListResponse;
 import com.vibent.vibentback.event.api.UserParticipationResponse;
 import com.vibent.vibentback.user.User;
 import lombok.Data;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Data
 @JsonInclude(JsonInclude.Include.ALWAYS)
@@ -63,6 +65,13 @@ public class DetailledUserResponse {
         user.getParticipations().forEach(e ->
                 participationResponses.add(new UserParticipationResponse(e.getEventRef(), e.getAnswer())));
         return participationResponses;
+    }
+
+    @JsonProperty
+    public Set<SimpleDistributionListResponse> getDistributionListMemberships() {
+        return user.getDistributionListMemberships().stream()
+                .map(dlm -> new SimpleDistributionListResponse(dlm.getDistributionList().getId(), dlm.getDistributionList().getTitle()))
+                .collect(Collectors.toSet());
     }
 
     @JsonProperty

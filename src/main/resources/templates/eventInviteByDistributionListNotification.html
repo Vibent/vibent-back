@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<h1>Vibent Event Invitation</h1>
+<section>
+    <p>
+        Hi there ! <span th:text="${inviterFirstName}"></span> <span th:text="${inviterLastName}"></span> has added you
+        to the event <em th:text="${eventTitle}"></em> on Vibent. This invitation was made through the distribution list
+        <em th:text="${distributionListTitle}"></em>.
+    </p>
+
+    <p>
+        We hope you continue to enjoy Vibent !
+    </p>
+
+    - The Vibent Team
+
+    <p>
+        <small>If you do not wish to be invited to the events of this distribution list, log into Vibent and leave the
+            distribution list from your profile page.
+        </small>
+    </p>
+</section>
+</body>
+</html>

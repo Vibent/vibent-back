@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
-public class MailInviteRequest {
+public class MailInviteRefRequest {
     @Emails
     @NotNull
     @Size(min = 1, max = 10)

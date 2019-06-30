@@ -371,7 +371,6 @@
 							"listen": "test",
 							"script": {
 								"id": "9e5497f2-0bae-4b36-858c-6520c6246dca",
-								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"postman.setEnvironmentVariable(\"tokenSecondUser\", jsonData.token);",
@@ -379,7 +378,8 @@
 									"pm.test(\"Status code test\", function () {",
 									"   pm.response.to.have.status(200);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -1337,8 +1337,8 @@
 							"formdata": [
 								{
 									"key": "file",
-									"value": "",
-									"type": "file"
+									"type": "file",
+									"src": []
 								}
 							]
 						},
@@ -4384,6 +4384,560 @@
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "11. Distribution List",
+			"item": [
+				{
+					"name": "1. Create Distribution List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"distributionListId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"eventRef\": \"{{eventRef}}\",\n\t\"title\": \"Les potos du Rhône\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/distribution-list",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"distribution-list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Get Distribution List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/distribution-list/{{distributionListId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"distribution-list",
+								"{{distributionListId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Get Connected User Distribution Lists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/distribution-list/me",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"distribution-list",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Update Distribution List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"description\": \"Le meilleur groupe du 69 !\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/distribution-list/{{distributionListId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"distribution-list",
+								"{{distributionListId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Leave Distribution List (Error because creator)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/distribution-list/{{distributionListId}}/leave",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"distribution-list",
+								"{{distributionListId}}",
+								"leave"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Delete Distribution List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/distribution-list/{{distributionListId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"distribution-list",
+								"{{distributionListId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. Create Second Distribution List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"distributionListId\", jsonData.id);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"eventRef\": \"{{eventRef}}\",\n\t\"title\": \"Les potos du Rhône\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/distribution-list",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"distribution-list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. Get Distribution List Invite Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "dbdd550c-00b3-4d26-ba4f-84e8cd0d7f8b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"distributionListInviteToken\", jsonData.token);",
+									"",
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/distribution-list/{{distributionListId}}/inviteToken",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"distribution-list",
+								"{{distributionListId}}",
+								"inviteToken"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. Validate Distribution List Invite Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "02208cad-f5af-4364-a936-8dc5809dd10d",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{tokenSecondUser}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/distribution-list/validateInviteToken/{{distributionListInviteToken}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"distribution-list",
+								"validateInviteToken",
+								"{{distributionListInviteToken}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Invite By Mail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": \"{{distributionListId}}\",\n\t\"recipients\": [\n\t\t\"cr.in.france@gmail.com\",\n\t\t\"test2@nomail.com\"\n\t]\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/distribution-list/mailInvite",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"distribution-list",
+								"mailInvite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11. Leave Distribution List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6f16156-398d-44ec-a80d-4116bfef410b",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{tokenSecondUser}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/distribution-list/{{distributionListId}}/leave",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"distribution-list",
+								"{{distributionListId}}",
+								"leave"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12. Invite to Event by Distribution List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "053a63c3-1db1-4b19-a489-20adf2eb47cc",
+								"exec": [
+									"pm.test(\"Status code test\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{TOKEN_HEADER}}",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"distributionListId\": \"{{distributionListId}}\",\n\t\"eventRef\": \"{{eventRef}}\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/event/inviteDistributionList",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"event",
+								"inviteDistributionList"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7bfb7776-2eec-4749-a68a-70fdb2d6f48c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9049c105-0c43-411d-b8c5-2998dad6bb60",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},

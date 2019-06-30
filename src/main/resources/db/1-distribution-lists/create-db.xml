@@ -1,0 +1,64 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+  <changeSet author="ConorRyan" id="distribution-lists-create-db">
+    <createTable tableName="distribution_list">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="title" type="VARCHAR(255)"/>
+      <column name="description" type="VARCHAR(255)"/>
+      <column name="creator_id" type="INT"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <addUniqueConstraint columnNames="id" constraintName="distribution_list_id" tableName="distribution_list"/>
+
+    <createTable tableName="distribution_list_events">
+      <column name="distribution_lists_id" type="INT"/>
+      <column name="events_id" type="INT"/>
+    </createTable>
+    <addUniqueConstraint columnNames="distribution_lists_id, events_id" constraintName="distribution_list_events_pk"
+                         tableName="distribution_list_events"/>
+    <createIndex indexName="distribution_list_events_list__fk" tableName="distribution_list_events">
+      <column name="distribution_lists_id"/>
+    </createIndex>
+    <createIndex indexName="distribution_list_events_event__fk" tableName="distribution_list_events">
+      <column name="events_id"/>
+    </createIndex>
+    <addForeignKeyConstraint baseColumnNames="distribution_lists_id" baseTableName="distribution_list_events"
+                             constraintName="distribution_list_events_list_fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="distribution_list"/>
+    <addForeignKeyConstraint baseColumnNames="events_id" baseTableName="distribution_list_events"
+                             constraintName="distribution_list_events_event_fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="event"/>
+
+    <createTable tableName="distribution_list_membership">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="distribution_list_id" type="INT"/>
+      <column name="user_id" type="INT"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <addUniqueConstraint columnNames="id" constraintName="distribution_list_membership_id"
+                         tableName="distribution_list_membership"/>
+    <createIndex indexName="distribution_list_membership_list__fk" tableName="distribution_list_membership">
+      <column name="distribution_list_id"/>
+    </createIndex>
+    <createIndex indexName="distribution_list_membership_user__fk" tableName="distribution_list_membership">
+      <column name="user_id"/>
+    </createIndex>
+    <addForeignKeyConstraint baseColumnNames="distribution_list_id" baseTableName="distribution_list_membership"
+                             constraintName="distribution_list_membership_list_fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="distribution_list"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="distribution_list_membership"
+                             constraintName="distribution_list_membership_user_fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="user"/>
+
+  </changeSet>
+</databaseChangeLog>

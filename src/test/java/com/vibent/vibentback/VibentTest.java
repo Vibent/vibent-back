@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.vibent.vibentback.auth.VibentAuthentication;
+import com.vibent.vibentback.distributionlist.DistributionList;
 import com.vibent.vibentback.event.Event;
+import com.vibent.vibentback.distributionlist.membership.DistributionListMembership;
 import com.vibent.vibentback.user.User;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
@@ -19,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.nio.charset.Charset;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
 
@@ -37,6 +40,7 @@ public class VibentTest {
 
     protected User RANDOM_USER;
     protected Event RANDOM_EVENT;
+    protected DistributionList RANDOM_DISTRIBUTION_LIST;
     protected Authentication AUTHENTICATION;
 
     protected void setUp() {
@@ -60,6 +64,16 @@ public class VibentTest {
         RANDOM_EVENT.setTitle("test");
         RANDOM_EVENT.setDescription("test");
         RANDOM_EVENT.setStartDate(getFutureDate(5));
+
+        RANDOM_DISTRIBUTION_LIST = new DistributionList();
+        RANDOM_DISTRIBUTION_LIST.setId(5L);
+        RANDOM_DISTRIBUTION_LIST.setTitle("Distribution list");
+        RANDOM_DISTRIBUTION_LIST.setDescription("Descr");
+        RANDOM_DISTRIBUTION_LIST.setCreator(RANDOM_USER);
+        DistributionListMembership membership = new DistributionListMembership();
+        membership.setUser(RANDOM_USER);
+        membership.setDistributionList(RANDOM_DISTRIBUTION_LIST);
+        RANDOM_DISTRIBUTION_LIST.setMemberships(Collections.singleton(membership));
     }
 
     protected String getJsonString(Object object) throws JsonProcessingException {
