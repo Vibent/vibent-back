@@ -1,0 +1,515 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+  <changeSet author="ConorRyan" id="migrate-to-liquibase">
+    <createTable tableName="alimentation_bring">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="entry_id" type="INT"/>
+      <column name="user_id" type="INT"/>
+      <column name="quantity" type="INT"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="alimentation_bubble">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="event_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="INT"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="alimentation_entry">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="bubble_id" type="INT"/>
+      <column name="name" type="VARCHAR(50)"/>
+      <column name="total_requested" type="INT"/>
+      <column name="type" type="ENUM('FOOD', 'DRINK', 'OTHER')"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="checkbox_answer">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="user_id" type="INT"/>
+      <column name="option_id" type="INT"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="checkbox_bubble">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="title" type="VARCHAR(500)"/>
+      <column name="event_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="checkbox_option">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="bubble_id" type="INT"/>
+      <column name="user_id" type="INT"/>
+      <column name="content" type="VARCHAR(500)"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="event">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="ref" type="CHAR(36)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="title" type="VARCHAR(50)"/>
+      <column name="description" type="VARCHAR(500)"/>
+      <column name="start_date" type="datetime(6)"/>
+      <column name="end_date" type="datetime(6)"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="event_participation">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="user_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="event_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValue="UNANSWERED" name="answer" type="ENUM('YES', 'NO', 'MAYBE', 'UNANSWERED')"/>
+      <column name="is_visible" type="BIT(1)"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="free_bubble">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="title" type="VARCHAR(100)"/>
+      <column name="content" type="VARCHAR(1000)"/>
+      <column name="event_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="location_bubble">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="coord" type="VARCHAR(255)"/>
+      <column name="event_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="planning_bubble">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="title" type="VARCHAR(500)"/>
+      <column name="event_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="planning_entry">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="start" type="datetime(6)"/>
+      <column name="end" type="datetime(6)"/>
+      <column name="content" type="VARCHAR(500)"/>
+      <column defaultValueBoolean="false" name="has_time" type="BIT(1)"/>
+      <column name="bubble_id" type="INT"/>
+      <column name="user_id" type="INT"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="social_credentials">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="provider" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="provider_id" type="VARCHAR(50)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="survey_answer">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="user_id" type="INT"/>
+      <column name="option_id" type="INT"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="survey_bubble">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="title" type="VARCHAR(500)"/>
+      <column name="event_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="survey_option">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="bubble_id" type="INT"/>
+      <column name="user_id" type="INT"/>
+      <column name="content" type="VARCHAR(500)"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="travel_bubble">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="event_id" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="INT"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="travel_proposal">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="bubble_id" type="INT"/>
+      <column name="user_id" type="INT"/>
+      <column name="capacity" type="INT"/>
+      <column name="pass_by_cities" type="VARCHAR(100)"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="travel_request">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="user_id" type="INT"/>
+      <column name="bubble_id" type="INT"/>
+      <column name="capacity" type="INT"/>
+      <column name="proposal_id" type="INT"/>
+      <column name="pass_by_cities" type="VARCHAR(100)"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+    </createTable>
+    <createTable tableName="user">
+      <column autoIncrement="true" name="id" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="ref" type="CHAR(36)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="email" type="VARCHAR(50)"/>
+      <column name="first_name" type="VARCHAR(50)"/>
+      <column name="last_name" type="VARCHAR(50)"/>
+      <column name="phone_number" type="VARCHAR(20)"/>
+      <column defaultValueBoolean="false" name="deleted" type="BIT(1)"/>
+      <column name="profile_pic_location" type="VARCHAR(100)"/>
+      <column name="password" type="VARCHAR(255)"/>
+      <column defaultValueBoolean="true" name="account_non_expired" type="BIT(1)"/>
+      <column defaultValueBoolean="true" name="account_non_locked" type="BIT(1)"/>
+      <column defaultValueBoolean="true" name="credentials_non_expired" type="BIT(1)"/>
+      <column name="last_password_reset" type="datetime(6)"/>
+      <column name="last_login" type="datetime(6)"/>
+      <column defaultValueBoolean="true" name="enabled" type="BIT(1)"/>
+    </createTable>
+
+    <addUniqueConstraint columnNames="id" constraintName="alimentation_entry_id" tableName="alimentation_entry"/>
+    <addUniqueConstraint columnNames="id" constraintName="checkbox_bubble_id" tableName="checkbox_bubble"/>
+    <addUniqueConstraint columnNames="id" constraintName="checkbox_option_id" tableName="checkbox_option"/>
+    <addUniqueConstraint columnNames="email" constraintName="email" tableName="user"/>
+    <addUniqueConstraint columnNames="id" constraintName="event_id" tableName="event"/>
+    <addUniqueConstraint columnNames="ref" constraintName="event_ref" tableName="event"/>
+    <addUniqueConstraint columnNames="id" constraintName="free_bubble_id" tableName="free_bubble"/>
+    <addUniqueConstraint columnNames="id" constraintName="location_bubble_id" tableName="location_bubble"/>
+    <addUniqueConstraint columnNames="phone_number" constraintName="phone_number" tableName="user"/>
+    <addUniqueConstraint columnNames="id" constraintName="planning_bubble_id" tableName="planning_bubble"/>
+    <addUniqueConstraint columnNames="id" constraintName="planning_entry_id" tableName="planning_entry"/>
+    <addUniqueConstraint columnNames="ref" constraintName="ref" tableName="user"/>
+    <addUniqueConstraint columnNames="id" constraintName="survey_bubble_id" tableName="survey_bubble"/>
+    <addUniqueConstraint columnNames="id" constraintName="survey_option_id" tableName="survey_option"/>
+    <addUniqueConstraint columnNames="id" constraintName="travel_proposal_id" tableName="travel_proposal"/>
+    <addUniqueConstraint columnNames="id" constraintName="travel_request_id" tableName="travel_request"/>
+
+    <createIndex indexName="alimentation_bring_alimentry__fk" tableName="alimentation_bring">
+      <column name="entry_id"/>
+    </createIndex>
+    <createIndex indexName="alimentation_bubble_event__fk" tableName="alimentation_bubble">
+      <column name="event_id"/>
+    </createIndex>
+    <createIndex indexName="alimentation_bubble_user__fk" tableName="alimentation_bubble">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="alimentation_entry_bubble__fk" tableName="alimentation_entry">
+      <column name="bubble_id"/>
+    </createIndex>
+    <createIndex indexName="checkbox_answer_bubble__fk" tableName="checkbox_answer">
+      <column name="option_id"/>
+    </createIndex>
+    <createIndex indexName="checkbox_bubble_event__fk" tableName="checkbox_bubble">
+      <column name="event_id"/>
+    </createIndex>
+    <createIndex indexName="checkbox_bubble_user__fk" tableName="checkbox_bubble">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="checkbox_option_bubble__fk" tableName="checkbox_option">
+      <column name="bubble_id"/>
+    </createIndex>
+    <createIndex indexName="event_id" tableName="event_participation">
+      <column name="event_id"/>
+    </createIndex>
+    <createIndex indexName="event_user__fk" tableName="event">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="free_bubble_event__fk" tableName="free_bubble">
+      <column name="event_id"/>
+    </createIndex>
+    <createIndex indexName="free_bubble_user__fk" tableName="free_bubble">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="location_bubble_event__fk" tableName="location_bubble">
+      <column name="event_id"/>
+    </createIndex>
+    <createIndex indexName="location_bubble_user__fk" tableName="location_bubble">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="planning_bubble_event__fk" tableName="planning_bubble">
+      <column name="event_id"/>
+    </createIndex>
+    <createIndex indexName="planning_bubble_user__fk" tableName="planning_bubble">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="planning_entry_bubble__fk" tableName="planning_entry">
+      <column name="bubble_id"/>
+    </createIndex>
+    <createIndex indexName="survey_answer_bubble__fk" tableName="survey_answer">
+      <column name="option_id"/>
+    </createIndex>
+    <createIndex indexName="survey_bubble_event__fk" tableName="survey_bubble">
+      <column name="event_id"/>
+    </createIndex>
+    <createIndex indexName="survey_bubble_user__fk" tableName="survey_bubble">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="survey_option_bubble__fk" tableName="survey_option">
+      <column name="bubble_id"/>
+    </createIndex>
+    <createIndex indexName="travel_bubble_event__fk" tableName="travel_bubble">
+      <column name="event_id"/>
+    </createIndex>
+    <createIndex indexName="travel_bubble_user__fk" tableName="travel_bubble">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="travel_proposal_bubble__fk" tableName="travel_proposal">
+      <column name="bubble_id"/>
+    </createIndex>
+    <createIndex indexName="travel_request_bubble__fk" tableName="travel_request">
+      <column name="bubble_id"/>
+    </createIndex>
+    <createIndex indexName="travel_request_proposal__fk" tableName="travel_request">
+      <column name="proposal_id"/>
+    </createIndex>
+    <createIndex indexName="alimentation_bring_user_id" tableName="alimentation_bring">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="checkbox_answer_user_id" tableName="checkbox_answer">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="checkbox_option_user_id" tableName="checkbox_option">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="event_participation_user_id" tableName="event_participation">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="planning_entry_user_id" tableName="planning_entry">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="social_credentials_user_id" tableName="social_credentials">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="survey_answer_user_id" tableName="survey_answer">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="survey_option_user_id" tableName="survey_option">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="travel_proposal_user_id" tableName="travel_proposal">
+      <column name="user_id"/>
+    </createIndex>
+    <createIndex indexName="travel_request_user_id" tableName="travel_request">
+      <column name="user_id"/>
+    </createIndex>
+
+    <addForeignKeyConstraint baseColumnNames="entry_id" baseTableName="alimentation_bring"
+                             constraintName="alimentation_bring_alimentry__fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="alimentation_entry"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="alimentation_bring"
+                             constraintName="alimentation_bring_user__fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="alimentation_bubble"
+                             constraintName="alimentation_bubble_event__fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="event"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="alimentation_bubble"
+                             constraintName="alimentation_bubble_user__fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="bubble_id" baseTableName="alimentation_entry"
+                             constraintName="alimentation_entry_bubble__fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="alimentation_bubble"/>
+    <addForeignKeyConstraint baseColumnNames="option_id" baseTableName="checkbox_answer"
+                             constraintName="checkbox_answer_bubble__fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="checkbox_option"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="checkbox_answer"
+                             constraintName="checkbox_answer_user__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="checkbox_bubble"
+                             constraintName="checkbox_bubble_event__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="event"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="checkbox_bubble"
+                             constraintName="checkbox_bubble_user__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="bubble_id" baseTableName="checkbox_option"
+                             constraintName="checkbox_option_bubble__fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="checkbox_bubble"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="checkbox_option"
+                             constraintName="checkbox_option_user__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="event_participation"
+                             constraintName="event_participation_event__fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="event"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="event_participation"
+                             constraintName="event_participation_user__fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="event" constraintName="event_user__fk"
+                             deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="free_bubble"
+                             constraintName="free_bubble_event__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="event"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="free_bubble"
+                             constraintName="free_bubble_user__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="location_bubble"
+                             constraintName="location_bubble_event__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="event"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="location_bubble"
+                             constraintName="location_bubble_user__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="planning_bubble"
+                             constraintName="planning_bubble_event__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="event"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="planning_bubble"
+                             constraintName="planning_bubble_user__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="bubble_id" baseTableName="planning_entry"
+                             constraintName="planning_entry_bubble__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="planning_bubble"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="planning_entry"
+                             constraintName="planning_entry_user__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="social_credentials"
+                             constraintName="social_credentials_user__fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="option_id" baseTableName="survey_answer"
+                             constraintName="survey_answer_bubble__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="survey_option"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="survey_answer"
+                             constraintName="survey_answer_user__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="survey_bubble"
+                             constraintName="survey_bubble_event__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="event"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="survey_bubble"
+                             constraintName="survey_bubble_user__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="bubble_id" baseTableName="survey_option"
+                             constraintName="survey_option_bubble__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="survey_bubble"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="survey_option"
+                             constraintName="survey_option_user__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="travel_bubble"
+                             constraintName="travel_bubble_event__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="event"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="travel_bubble"
+                             constraintName="travel_bubble_user__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="bubble_id" baseTableName="travel_proposal"
+                             constraintName="travel_proposal_bubble__fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="travel_bubble"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="travel_proposal"
+                             constraintName="travel_proposal_user__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="user"/>
+    <addForeignKeyConstraint baseColumnNames="bubble_id" baseTableName="travel_request"
+                             constraintName="travel_request_bubble__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="travel_bubble"/>
+    <addForeignKeyConstraint baseColumnNames="proposal_id" baseTableName="travel_request"
+                             constraintName="travel_request_proposal__fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="id" referencedTableName="travel_proposal"/>
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="travel_request"
+                             constraintName="travel_request_user__fk" deferrable="false" initiallyDeferred="false"
+                             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                             referencedTableName="user"/>
+  </changeSet>
+</databaseChangeLog>

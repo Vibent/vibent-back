@@ -1,0 +1,6 @@
+id,bubble_id,name,total_requested,type,deleted
+1,1,Cola,5,DRINK,0
+2,1,Mountain Dew,10,DRINK,0
+3,1,Hambugers,12,FOOD,0
+4,1,Cheetos,10,FOOD,0
+5,1,Saucisson,15,FOOD,0

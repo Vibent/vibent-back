@@ -33,6 +33,7 @@
 		<jjwt-version>0.9.1</jjwt-version>
 		<aws-s3-version>1.11.456</aws-s3-version>
 		<h2-version>1.4.197</h2-version>
+		<liquidbase-version>3.6.3</liquidbase-version>
 	</properties>
 
 	<dependencies>
@@ -81,6 +82,12 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>${h2-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>${liquidbase-version}</version>
 			<scope>runtime</scope>
 		</dependency>
 
@@ -148,6 +155,7 @@
 				<includes>
 					<include>application.yml</include>
 					<include>templates/**</include>
+					<include>db/**</include>
 				</includes>
 			</resource>
 		</resources>

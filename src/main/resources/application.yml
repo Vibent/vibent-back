@@ -97,38 +97,42 @@ log4j.logger.org.springframework.web.servlet.mvc.method.annotation.ServletInvoca
 spring:
   profiles: h2
   datasource:
-    url: jdbc:h2:~/vibent_back
-    username: sa
-    password: ''
+    url: jdbc:h2:mem:vibent;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: root
+    password: root
   h2.console.enabled: true
+  liquibase.change-log: classpath:db/changelog-test.xml
 
 ---
 
 spring:
   profiles: mysql-local
   datasource:
-    url: jdbc:mysql://127.0.0.1/vibent_back?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=CET
+    url: jdbc:mysql://127.0.0.1/vibent?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=CET
     username: root
     password: root
   jpa:
     show-sql: true
+  liquibase.change-log: classpath:db/changelog-test.xml
 
 ---
 
 spring:
   profiles: mysql-dev
   datasource:
-    url: jdbc:mysql://main.cwqlbqunkux0.eu-west-3.rds.amazonaws.com:3306/vibent_back_dev?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=CET
+    url: jdbc:mysql://ec2-35-180-31-104.eu-west-3.compute.amazonaws.com:3336/vibent_dev?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=CET
     username: vibent_dev
     password: '9L%b85u^WGLEin7D'
+  liquibase.change-log: classpath:db/changelog-test.xml
 
 ---
 
 spring:
   profiles: mysql-prod
   datasource:
-    url: jdbc:mysql://main.cwqlbqunkux0.eu-west-3.rds.amazonaws.com:3306/vibent_back_prod?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=CET
+    url: jdbc:mysql://ec2-35-180-31-104.eu-west-3.compute.amazonaws.com:3336/vibent_prod?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=CET
     username: vibent_prod
     password: 'N6^1kr4OwItUoK4#'
+  liquibase.change-log: classpath:db/changelog-prod.xml
 
 ---

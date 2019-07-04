@@ -1,0 +1,5 @@
+id,bubble_id,user_id,content,deleted
+1,1,1,"None",0
+2,1,1,"Vegetarian",0
+3,1,1,"Flexitarian",0
+4,1,1,"Halal",0
