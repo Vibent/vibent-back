@@ -1,0 +1,6 @@
+id,start,end,content,has_time,bubble_id,user_id,deleted
+1,"2021-04-28 08:00:00",null,"Arrival",1,1,1,0
+2,"2021-04-28 09:00:00",null,"Fishing",1,1,1,0
+3,"2021-04-28 12:00:00",null,"Barbecue",1,1,1,0
+4,"2021-04-28 14:00:00",null,"Free time",1,1,1,0
+5,"2021-04-29 13:00:00",null,"Go home :(",1,1,1,0

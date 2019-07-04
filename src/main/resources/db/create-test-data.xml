@@ -1,0 +1,188 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+  <changeSet author="ConorRyan" id="migrate-to-liquibase-test-data">
+    <loadData
+        file="classpath:db/test-data/user.csv"
+        tableName="user">
+      <column name="id" type="NUMERIC"/>
+      <column name="ref" type="STRING"/>
+      <column name="email" type="STRING"/>
+      <column name="first_name" type="STRING"/>
+      <column name="last_name" type="STRING"/>
+      <column name="phone_number" type="STRING"/>
+      <column name="deleted" type="BOOLEAN"/>
+      <column name="profile_pic_location" type="STRING"/>
+      <column name="password" type="STRING"/>
+      <column name="account_non_expired" type="BOOLEAN"/>
+      <column name="account_non_locked" type="BOOLEAN"/>
+      <column name="credentials_non_expired" type="BOOLEAN"/>
+      <column name="last_password_reset" type="DATE"/>
+      <column name="last_login" type="DATE"/>
+      <column name="enabled" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/event.csv"
+        tableName="event">
+      <column name="id" type="NUMERIC"/>
+      <column name="ref" type="STRING"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="title" type="STRING"/>
+      <column name="description" type="STRING"/>
+      <column name="start_date" type="DATE"/>
+      <column name="end_date" type="DATE"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/event_participation.csv"
+        tableName="event_participation">
+      <column name="id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="event_id" type="NUMERIC"/>
+      <column name="answer" type="STRING"/>
+      <column name="is_visible" type="BOOLEAN"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/alimentation_bubble.csv"
+        tableName="alimentation_bubble">
+      <column name="id" type="NUMERIC"/>
+      <column name="event_id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/alimentation_entry.csv"
+        tableName="alimentation_entry">
+      <column name="id" type="NUMERIC"/>
+      <column name="bubble_id" type="NUMERIC"/>
+      <column name="name" type="STRING"/>
+      <column name="total_requested" type="NUMERIC"/>
+      <column name="type" type="STRING"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/alimentation_bring.csv"
+        tableName="alimentation_bring">
+      <column name="id" type="NUMERIC"/>
+      <column name="entry_id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="quantity" type="NUMERIC"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/checkbox_bubble.csv"
+        tableName="checkbox_bubble">
+      <column name="id" type="NUMERIC"/>
+      <column name="title" type="STRING"/>
+      <column name="event_id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/checkbox_option.csv"
+        tableName="checkbox_option">
+      <column name="id" type="NUMERIC"/>
+      <column name="bubble_id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="content" type="STRING"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/checkbox_answer.csv"
+        tableName="checkbox_answer">
+      <column name="id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="option_id" type="NUMERIC"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/free_bubble.csv"
+        tableName="free_bubble">
+      <column name="id" type="NUMERIC"/>
+      <column name="title" type="STRING"/>
+      <column name="content" type="STRING"/>
+      <column name="event_id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/planning_bubble.csv"
+        tableName="planning_bubble">
+      <column name="id" type="NUMERIC"/>
+      <column name="title" type="STRING"/>
+      <column name="event_id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/planning_entry.csv"
+        tableName="planning_entry">
+      <column name="id" type="NUMERIC"/>
+      <column name="start" type="DATE"/>
+      <column name="end" type="DATE"/>
+      <column name="content" type="STRING"/>
+      <column name="has_time" type="BOOLEAN"/>
+      <column name="bubble_id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/survey_bubble.csv"
+        tableName="survey_bubble">
+      <column name="id" type="NUMERIC"/>
+      <column name="title" type="STRING"/>
+      <column name="event_id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/survey_option.csv"
+        tableName="survey_option">
+      <column name="id" type="NUMERIC"/>
+      <column name="bubble_id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="content" type="STRING"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/survey_answer.csv"
+        tableName="survey_answer">
+      <column name="id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="option_id" type="NUMERIC"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/travel_bubble.csv"
+        tableName="travel_bubble">
+      <column name="id" type="NUMERIC"/>
+      <column name="event_id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/travel_proposal.csv"
+        tableName="travel_proposal">
+      <column name="id" type="NUMERIC"/>
+      <column name="bubble_id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="capacity" type="NUMERIC"/>
+      <column name="pass_by_cities" type="STRING"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+    <loadData
+        file="classpath:db/test-data/travel_request.csv"
+        tableName="travel_request">
+      <column name="id" type="NUMERIC"/>
+      <column name="user_id" type="NUMERIC"/>
+      <column name="bubble_id" type="NUMERIC"/>
+      <column name="capacity" type="NUMERIC"/>
+      <column name="proposal_id" type="NUMERIC"/>
+      <column name="pass_by_cities" type="STRING"/>
+      <column name="deleted" type="BOOLEAN"/>
+    </loadData>
+  </changeSet>
+
+</databaseChangeLog>
