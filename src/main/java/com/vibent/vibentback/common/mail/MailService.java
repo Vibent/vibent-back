@@ -1,6 +1,7 @@
 package com.vibent.vibentback.common.mail;
 
 import com.vibent.vibentback.common.util.TokenUtils;
+import com.vibent.vibentback.distributionlist.DistributionList;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.user.User;
 import lombok.NonNull;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.util.Collection;
 import java.util.Set;
 
 @Slf4j
@@ -31,6 +33,8 @@ public class MailService {
     private TemplateEngine templateEngine;
     @NonNull
     private JavaMailSender mailSender;
+    @Autowired
+    private MailTaskExecutor mailTaskExecutor;
 
     public void sendEventInviteMail(User inviter, Event event, Set<String> recipients) {
         String secret = tokenUtils.getEventInviteToken(event.getId());
@@ -42,9 +46,34 @@ public class MailService {
         context.setVariable("clientUrl", CLIENT_URL);
 
         String content = templateEngine.process("eventInviteTemplate", context);
-        recipients.forEach(r -> {
-            prepareAndSend(r, "Vibent Event Invitation", content);
-        });
+        prepareAndSend(recipients, "Vibent Event Invitation", content);
+    }
+
+    public void sendDistributionListInviteMail(User inviter, DistributionList distributionList, Set<String> recipients) {
+        String secret = tokenUtils.getDistributionListInviteToken(distributionList.getId());
+        Event exampleEvent = distributionList.getEvents().iterator().next();
+        Context context = new Context();
+        context.setVariable("inviterFirstName", inviter.getFirstName());
+        context.setVariable("inviterLastName", inviter.getLastName());
+        context.setVariable("distributionListTitle", distributionList.getTitle());
+        context.setVariable("eventTitle", exampleEvent.getTitle());
+        context.setVariable("secret", secret);
+        context.setVariable("clientUrl", CLIENT_URL);
+
+        String content = templateEngine.process("distributionListInviteTemplate", context);
+        prepareAndSend(recipients, "Vibent Distribution List Invitation", content);
+    }
+
+    public void sendEventInviteByDistributionListNotification(User inviter, DistributionList distributionList, Event event, Set<User> recipients) {
+        Context context = new Context();
+        context.setVariable("inviterFirstName", inviter.getFirstName());
+        context.setVariable("inviterLastName", inviter.getLastName());
+        context.setVariable("distributionListTitle", distributionList.getTitle());
+        context.setVariable("eventTitle", event.getTitle());
+        context.setVariable("clientUrl", CLIENT_URL);
+
+        String content = templateEngine.process("eventInviteByDistributionListNotification", context);
+        prepareAndSend(recipients, "Vibent Event Invitation", content);
     }
 
     public void sendChangeEmailConfirmationMail(User user, String newEmail) {
@@ -83,21 +112,34 @@ public class MailService {
         prepareAndSend(user.getEmail(), "Vibent Password Reset", content);
     }
 
-    private void prepareAndSend(String recipient, String subject, String content) {
+
+    private void prepareAndSend(Collection<User> recipients, String subject, String content) {
+        for (User recipient : recipients) {
+            prepareAndSend(recipient.getEmail(), subject, content);
+        }
+    }
+
+    private void prepareAndSend(Iterable<String> recipientEmails, String subject, String content) {
+        for (String recipientEmail : recipientEmails) {
+            prepareAndSend(recipientEmail, subject, content);
+        }
+    }
+
+    private void prepareAndSend(String recipientEmail, String subject, String content) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom("Vibent");
-            messageHelper.setTo(recipient);
+            messageHelper.setTo(recipientEmail);
             messageHelper.setSubject(subject);
             messageHelper.setText(content, true);
         };
 
-        new Thread(() -> {
+        mailTaskExecutor.execute(() -> {
             try {
                 mailSender.send(messagePreparator);
             } catch (Exception e) {
-                log.error("Failed sending email : {}", e.getMessage());
+                log.error("Failed sending email to {} : {}", recipientEmail, e.getMessage());
             }
-        }).start();
+        });
     }
 }

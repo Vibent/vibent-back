@@ -4,8 +4,8 @@ import com.vibent.vibentback.VibentTest;
 import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.common.permission.VibentPermissionEvaluator;
 import com.vibent.vibentback.event.api.DetailledEventResponse;
-import com.vibent.vibentback.event.api.EventUpdateRequest;
 import com.vibent.vibentback.event.api.EventRequest;
+import com.vibent.vibentback.event.api.EventUpdateRequest;
 import com.vibent.vibentback.event.participation.EventParticipation;
 import com.vibent.vibentback.event.participation.EventParticipationRepository;
 import com.vibent.vibentback.user.UserRepository;
@@ -90,6 +90,7 @@ public class EventInternalTest extends VibentTest {
         when(eventRepository.save(RANDOM_EVENT)).thenReturn(RANDOM_EVENT);
         when(eventRepository.deleteByRef(RANDOM_EVENT.getRef())).thenReturn(1);
         when(eventParticipationRepository.save(participation)).thenReturn(participation);
+        when(eventParticipationRepository.findByUserAndEvent(RANDOM_USER, RANDOM_EVENT)).thenReturn(Optional.of(participation));
     }
 
     @Test

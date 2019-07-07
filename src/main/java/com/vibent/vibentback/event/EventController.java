@@ -1,7 +1,8 @@
 package com.vibent.vibentback.event;
 
 import com.vibent.vibentback.common.api.InviteTokenResponse;
-import com.vibent.vibentback.common.api.MailInviteRequest;
+import com.vibent.vibentback.common.api.MailInviteRefRequest;
+import com.vibent.vibentback.distributionlist.api.DistributionListInviteRequest;
 import com.vibent.vibentback.event.api.DetailledEventResponse;
 import com.vibent.vibentback.event.api.EventRequest;
 import com.vibent.vibentback.event.api.EventUpdateRequest;
@@ -70,7 +71,7 @@ public class EventController {
 
     @PreAuthorize(value = "hasPermission(#request.ref, 'Event', 'write')")
     @RequestMapping(method = RequestMethod.POST, value = "/mailInvite")
-    void mailInvite(@Valid @RequestBody MailInviteRequest request) {
+    void mailInvite(@Valid @RequestBody MailInviteRefRequest request) {
         log.info("Sending mail invite for event : {}", request.getRef());
         eventService.sendMailInvite(request);
     }
@@ -79,5 +80,12 @@ public class EventController {
     DetailledEventResponse validateEventInviteToken(@PathVariable String token) {
         log.info("Validating event invite token : {}", token);
         return new DetailledEventResponse(eventService.validateEventInviteToken(token));
+    }
+
+    @PreAuthorize(value = "hasPermission(#request.eventRef, 'Event', 'write')")
+    @RequestMapping(method = RequestMethod.POST, value = "/inviteDistributionList")
+    void inviteDistributionList(@Valid @RequestBody DistributionListInviteRequest request) {
+        log.info("Inviting distribution list {} to event : {}", request.getDistributionListId(), request.getEventRef());
+        eventService.inviteDistributionList(request);
     }
 }

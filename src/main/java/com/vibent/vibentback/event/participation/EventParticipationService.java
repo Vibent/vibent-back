@@ -30,6 +30,20 @@ public class EventParticipationService {
         }
     }
 
+    public void createEventParticipations(Collection<Event> events, User user) {
+        for (Event event : events) {
+            this.createEventParticipation(event, user);
+        }
+    }
+
+    public void createEventParticipations(Collection<Event> events, Collection<User> users) {
+        for (Event event : events) {
+            for (User user : users) {
+                this.createEventParticipation(event, user);
+            }
+        }
+    }
+
     public void createEventParticipation(Event event, User user) {
         EventParticipation participation = new EventParticipation();
         participation.setUser(user);
@@ -60,6 +74,13 @@ public class EventParticipationService {
             participation.setAnswer(request.getAnswer());
         if (request.getIsVisible() != null)
             participation.setVisible(request.getIsVisible());
+        return eventParticipationRepository.save(participation);
+    }
+
+    public EventParticipation updateAnswer(User user, Event event, EventParticipation.Answer answer) {
+        EventParticipation participation = eventParticipationRepository.findByUserAndEvent(user, event)
+                .orElseThrow(() -> new VibentException(VibentError.EVENT_PARTICIPATION_NOT_FOUND));
+        participation.setAnswer(answer);
         return eventParticipationRepository.save(participation);
     }
 }

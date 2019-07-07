@@ -14,18 +14,73 @@ public class TokenUtils {
 
     private final static String EMAIL_CONFIRM_PREFIX = "e";
     private final static int EMAIL_CONFIRM_EXPIRY_HOURS = 2; // 1h < X < 2h
+    private final static int EMAIL_CONFIRM_SUBJECT_COUNT = 4; // prefix/expiryDate/email/userId
 
     private final static String EVENT_INVITE_PREFIX = "v";
     private final static int EVENT_INVITE_EXPIRY_HOURS = 169; // 1W < X < 1W1H
+    private final static int EVENT_INVITE_SUBJECT_COUNT = 3; // prefix/expiryDate/eventId
+
+    private final static String DISTRIBUTION_LIST_INVITE_PREFIX = "l";
+    private final static int DISTRIBUTION_LIST_INVITE_EXPIRY_HOURS = 169; // 1W < X < 1W1H
+    private final static int DISTRIBUTION_LIST_INVITE_SUBJECT_COUNT = 3; // prefix/expiryDate/distributionListId
 
     private final static String PASSWORD_RESET_PREFIX = "p";
     private final static int PASSWORD_RESET_EXPIRY_HOURS = 2; // 1h < X < 2h
+    private final static int PASSWORD_RESET_SUBJECT_COUNT = 3; // prefix/expiryDate/userId
+
 
     private static final long SECONDS_TO_HOURS = 3600;
 
     @Autowired
     AESUtils aesUtils;
 
+    public String getEmailConfirmToken(Long userId, String email) {
+        return aesUtils.encrypt(EMAIL_CONFIRM_PREFIX, getExpiryTime(EMAIL_CONFIRM_EXPIRY_HOURS), email, String.valueOf(userId));
+    }
+
+    public TokenInfo readEmailConfirmToken(String encryptedToken) {
+        String[] subjects = decrypt(encryptedToken, EMAIL_CONFIRM_PREFIX, EMAIL_CONFIRM_SUBJECT_COUNT);
+
+        Long userId = toLong(subjects[3]);
+        return new TokenInfo(userId, subjects[2]);
+    }
+
+    public String getEventInviteToken(Long eventId) {
+        return aesUtils.encrypt(EVENT_INVITE_PREFIX, getExpiryTime(EVENT_INVITE_EXPIRY_HOURS), String.valueOf(eventId));
+    }
+
+    public TokenInfo readEventInviteToken(String encryptedToken) {
+        String[] subjects = decrypt(encryptedToken, EVENT_INVITE_PREFIX, EVENT_INVITE_SUBJECT_COUNT);
+
+        Long eventId = toLong(subjects[2]);
+        return new TokenInfo(eventId, null);
+    }
+
+    public String getPasswordResetToken(Long userId) {
+        return aesUtils.encrypt(PASSWORD_RESET_PREFIX, getExpiryTime(PASSWORD_RESET_EXPIRY_HOURS), String.valueOf(userId));
+    }
+
+    public TokenInfo readPasswordResetToken(String encryptedToken) {
+        String[] subjects = decrypt(encryptedToken, PASSWORD_RESET_PREFIX, PASSWORD_RESET_SUBJECT_COUNT);
+
+        Long userId = toLong(subjects[2]);
+        return new TokenInfo(userId, null);
+    }
+
+    public String getDistributionListInviteToken(Long distributionListId) {
+        return aesUtils.encrypt(DISTRIBUTION_LIST_INVITE_PREFIX,
+                getExpiryTime(DISTRIBUTION_LIST_INVITE_EXPIRY_HOURS),
+                String.valueOf(distributionListId));
+    }
+
+    public TokenInfo readDistributionListInviteToken(String encryptedToken) {
+        String[] subjects = decrypt(encryptedToken, DISTRIBUTION_LIST_INVITE_PREFIX, DISTRIBUTION_LIST_INVITE_SUBJECT_COUNT);
+
+        Long distributionListId = toLong(subjects[2]);
+        return new TokenInfo(distributionListId, null);
+    }
+
+    // Helper functions
     private String getExpiryTime(int hours) {
         Instant i = Instant.now().plus(hours, ChronoUnit.HOURS);
         return String.valueOf(i.getEpochSecond() / SECONDS_TO_HOURS);
@@ -41,94 +96,27 @@ public class TokenUtils {
         }
     }
 
-    public String getEmailConfirmToken(Long userId, String email) {
-        String toEncrypt = EMAIL_CONFIRM_PREFIX + userId
-                + " " + email
-                + " " + getExpiryTime(EMAIL_CONFIRM_EXPIRY_HOURS);
-        return aesUtils.encrypt(toEncrypt);
-    }
-
-    public TokenInfo readEmailConfirmToken(String encryptedToken) {
+    private String[] decrypt(String encryptedToken, String prefix, int subjectCount) {
         String decrypted = aesUtils.decrypt(encryptedToken);
 
-        if (!decrypted.startsWith(EMAIL_CONFIRM_PREFIX)) {
-            throw new VibentException(VibentError.WRONG_TOKEN_TYPE);
-        }
-        decrypted = decrypted.substring(EMAIL_CONFIRM_PREFIX.length());
-
         String[] splitted = decrypted.split(" ");
-        if (splitted.length != 3) {
+        if (splitted.length != subjectCount) {
             throw new VibentException(VibentError.MALFORMED_TOKEN);
         }
-
-        checkExpiryTime(splitted[2]);
-
-        Long userId;
-        try {
-            userId = Long.valueOf(splitted[0]);
-        } catch (NumberFormatException e) {
-            throw new VibentException(VibentError.MALFORMED_TOKEN);
-        }
-        return new TokenInfo(userId, splitted[1]);
-    }
-
-    public String getEventInviteToken(Long eventId) {
-        String toEncrypt = EVENT_INVITE_PREFIX + String.valueOf(eventId)
-                + " " + getExpiryTime(EVENT_INVITE_EXPIRY_HOURS);
-        return aesUtils.encrypt(toEncrypt);
-    }
-
-    public TokenInfo readEventInviteToken(String encryptedToken) {
-        String decrypted = aesUtils.decrypt(encryptedToken);
-
-        if (!decrypted.startsWith(EVENT_INVITE_PREFIX)) {
+        if (!prefix.equals(splitted[0])) {
             throw new VibentException(VibentError.WRONG_TOKEN_TYPE);
-        }
-        decrypted = decrypted.substring(EVENT_INVITE_PREFIX.length());
-
-        String[] splitted = decrypted.split(" ");
-        if (splitted.length != 2) {
-            throw new VibentException(VibentError.MALFORMED_TOKEN);
         }
 
         checkExpiryTime(splitted[1]);
 
-        Long eventId;
+        return splitted;
+    }
+
+    private Long toLong(String subject) {
         try {
-            eventId = Long.valueOf(splitted[0]);
+            return Long.valueOf(subject);
         } catch (NumberFormatException e) {
             throw new VibentException(VibentError.MALFORMED_TOKEN);
         }
-        return new TokenInfo(eventId, null);
-    }
-
-    public String getPasswordResetToken(Long userId) {
-        String toEncrypt = PASSWORD_RESET_PREFIX + String.valueOf(userId)
-                + " " + getExpiryTime(PASSWORD_RESET_EXPIRY_HOURS);
-        return aesUtils.encrypt(toEncrypt);
-    }
-
-    public TokenInfo readPasswordResetToken(String encryptedToken) {
-        String decrypted = aesUtils.decrypt(encryptedToken);
-
-        if (!decrypted.startsWith(PASSWORD_RESET_PREFIX)) {
-            throw new VibentException(VibentError.WRONG_TOKEN_TYPE);
-        }
-        decrypted = decrypted.substring(PASSWORD_RESET_PREFIX.length());
-
-        String[] splitted = decrypted.split(" ");
-        if (splitted.length != 2) {
-            throw new VibentException(VibentError.MALFORMED_TOKEN);
-        }
-
-        checkExpiryTime(splitted[1]);
-
-        Long userId;
-        try {
-            userId = Long.valueOf(splitted[0]);
-        } catch (NumberFormatException e) {
-            throw new VibentException(VibentError.MALFORMED_TOKEN);
-        }
-        return new TokenInfo(userId, null);
     }
 }
