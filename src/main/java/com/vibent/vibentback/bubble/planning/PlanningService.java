@@ -1,7 +1,6 @@
 package com.vibent.vibentback.bubble.planning;
 
 import com.vibent.vibentback.bubble.planning.api.PlanningBubbleRequest;
-import com.vibent.vibentback.bubble.planning.api.PlanningBubbleUpdateRequest;
 import com.vibent.vibentback.bubble.planning.api.PlanningEntryRequest;
 import com.vibent.vibentback.bubble.planning.api.PlanningEntryUpdateRequest;
 import com.vibent.vibentback.bubble.planning.entry.PlanningEntry;
@@ -11,7 +10,6 @@ import com.vibent.vibentback.common.error.VibentException;
 import com.vibent.vibentback.event.Event;
 import com.vibent.vibentback.event.EventRepository;
 import com.vibent.vibentback.user.ConnectedUserUtils;
-import com.vibent.vibentback.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +21,6 @@ public class PlanningService {
     private final PlanningBubbleRepository bubbleRepository;
     private final PlanningEntryRepository entryRepository;
     private final EventRepository eventRepository;
-    private final UserRepository userRepository;
     private final ConnectedUserUtils userUtils;
 
     // Planning Bubble -------------------------------------------------------------
@@ -35,20 +32,11 @@ public class PlanningService {
         Event event = eventRepository.findByRef(request.getEventRef())
                 .orElseThrow(() -> new VibentException(VibentError.EVENT_NOT_FOUND));
         PlanningBubble planningBubble = new PlanningBubble();
-        planningBubble.setTitle(request.getTitle());
         planningBubble.setEvent(event);
         planningBubble.setCreator(userUtils.getConnectedUser());
         planningBubble.setDeleted(false);
         planningBubble = bubbleRepository.save(planningBubble);
         return planningBubble;
-    }
-
-    public PlanningBubble updateBubble(long id, PlanningBubbleUpdateRequest update) {
-        PlanningBubble bubble = bubbleRepository.findById(id)
-                .orElseThrow(() -> new VibentException(VibentError.BUBBLE_NOT_FOUND));
-        bubble.setTitle(update.getTitle());
-        bubble = bubbleRepository.save(bubble);
-        return bubble;
     }
 
     public void deleteBubble(long id) {

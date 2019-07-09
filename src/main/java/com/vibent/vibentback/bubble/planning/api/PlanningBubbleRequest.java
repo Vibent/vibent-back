@@ -10,8 +10,4 @@ public class PlanningBubbleRequest {
     @NotNull
     @Size(min = 36, max = 36)
     private String eventRef;
-
-    @NotNull
-    @Size(min = 1, max = 500)
-    private String title;
 }
