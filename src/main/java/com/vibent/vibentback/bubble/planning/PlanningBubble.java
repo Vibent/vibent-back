@@ -20,8 +20,6 @@ import java.util.Set;
 @Where(clause = "deleted = false")
 public class PlanningBubble extends Bubble {
 
-    private String title;
-
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "bubble", cascade = CascadeType.ALL)
     private Set<PlanningEntry> entries = new HashSet<>();

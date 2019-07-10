@@ -53,7 +53,6 @@ public class PlanningWebLayerTest extends VibentTest {
 
         RANDOM_REQ = new PlanningBubbleRequest();
         RANDOM_REQ.setEventRef(RANDOM_EVENT.getRef());
-        RANDOM_REQ.setTitle("Here's a title");
 
         RANDOM_BUBBLE.setId(666L);
         RANDOM_BUBBLE.setEntries(new HashSet<PlanningEntry>(){{
@@ -62,7 +61,6 @@ public class PlanningWebLayerTest extends VibentTest {
         RANDOM_BUBBLE.setEvent(RANDOM_EVENT);
         RANDOM_BUBBLE.setCreator(RANDOM_USER);
         RANDOM_BUBBLE.setDeleted(false);
-        RANDOM_BUBBLE.setTitle("Title For Test");
 
         RANDOM_ENTRY.setId(123L);
         RANDOM_ENTRY.setBubble(RANDOM_BUBBLE);

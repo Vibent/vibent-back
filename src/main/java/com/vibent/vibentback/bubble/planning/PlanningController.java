@@ -1,7 +1,6 @@
 package com.vibent.vibentback.bubble.planning;
 
 import com.vibent.vibentback.bubble.planning.api.PlanningBubbleRequest;
-import com.vibent.vibentback.bubble.planning.api.PlanningBubbleUpdateRequest;
 import com.vibent.vibentback.bubble.planning.api.PlanningEntryRequest;
 import com.vibent.vibentback.bubble.planning.api.PlanningEntryUpdateRequest;
 import lombok.RequiredArgsConstructor;
@@ -38,13 +37,6 @@ public class PlanningController {
     PlanningBubble createBubble(@Valid @RequestBody PlanningBubbleRequest request) {
         log.info("Creating planning bubble for event with ref {}", request.getEventRef());
         return service.createBubble(request);
-    }
-
-    @PreAuthorize("hasPermission(#id, 'PlanningBubble', 'write')")
-    @RequestMapping(method = RequestMethod.PATCH, value = "/{id}")
-    PlanningBubble updateBubble(@PathVariable Long id, @Valid @RequestBody PlanningBubbleUpdateRequest request) {
-        log.info("Updating planning bubble with id {} and body : {}", id, request.toString());
-        return service.updateBubble(id, request);
     }
 
     @PreAuthorize("hasPermission(#id, 'PlanningBubble', 'write')")
