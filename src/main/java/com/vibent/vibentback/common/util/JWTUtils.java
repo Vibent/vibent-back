@@ -2,21 +2,27 @@ package com.vibent.vibentback.common.util;
 
 import com.vibent.vibentback.common.error.VibentError;
 import com.vibent.vibentback.common.error.VibentException;
+import com.vibent.vibentback.user.ConnectedUserUtils;
 import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Utils for generating and reading JWT tokens, used for authentication
  */
 @Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JWTUtils {
+
+    private final ConnectedUserUtils connectedUserUtils;
 
     private static final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
 
@@ -26,16 +32,33 @@ public class JWTUtils {
     @Value("${vibent.auth.issuer}")
     private String ISSUER;
 
-    @Value("${vibent.auth.expirationSeconds}")
-    private long AUTH_EXPIRATION_SECONDS;
+    @Value("${vibent.auth.expirationSecs}")
+    private long USER_AUTH_EXPIRATION_SECS;
 
-    private String createToken(String subject, long expireSeconds) {
-        String id = UUID.randomUUID().toString();
+    private static final String USER_AUTH_ID = "user_auth";
+
+    private static final String EVENT_NOTIFEED_ID = "notifeed";
+    private static final long EVENT_NOTIFEED_EXPIRATION_SECS = 300;
+
+    public String createUserAuthToken(String userRef) {
+        return createToken(userRef, USER_AUTH_EXPIRATION_SECS, USER_AUTH_ID);
+    }
+
+    public Claims validateUserAuthToken(String jwt) {
+        return validateToken(jwt, USER_AUTH_ID);
+    }
+
+    public String createEventNotifeedToken(Long eventId) {
+        String subject = String.format("%d %s", eventId, connectedUserUtils.getConnectedUserRef());
+        return createToken(subject, EVENT_NOTIFEED_EXPIRATION_SECS, EVENT_NOTIFEED_ID);
+    }
+
+    private String createToken(String subject, long expireSeconds, String id) {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
 
         //We will sign our JWT with our secret
-        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(SECRET);
+        byte[] apiKeySecretBytes = Base64.getEncoder().encode(SECRET.getBytes(StandardCharsets.UTF_8));
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, SIGNATURE_ALGORITHM.getJcaName());
 
         //Let's set the JWT Claims
@@ -50,18 +73,22 @@ public class JWTUtils {
         return builder.compact();
     }
 
-    public String createUserAuthenticationToken(String userRef) {
-        return createToken(userRef, AUTH_EXPIRATION_SECONDS);
+    private Claims validateToken(String jwt, String expectedId) {
+        Claims claims = validateToken(jwt);
+        if (!expectedId.equals(claims.getId())) {
+            throw new VibentException(VibentError.WRONG_TOKEN_TYPE);
+        }
+        return claims;
     }
 
-    public Claims validateJWTToken(String jwt) {
+    private Claims validateToken(String jwt) {
         if (jwt == null || jwt.isEmpty()) {
             throw new VibentException(VibentError.NO_TOKEN);
         }
         Claims claims = null;
         try {
             claims = Jwts.parser()
-                    .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET))
+                    .setSigningKey(Base64.getEncoder().encode(SECRET.getBytes(StandardCharsets.UTF_8)))
                     .parseClaimsJws(jwt).getBody();
             if (!claims.getIssuer().equals(ISSUER))
                 throw new VibentException(VibentError.ILLEGAL_TOKEN_ISSUER);

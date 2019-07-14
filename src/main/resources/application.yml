@@ -25,7 +25,7 @@ vibent:
       key: Authorization
     secret: zCGAq7Yn9NKFQ3GzpYNDDUashbUDeVcbJP59hwc7ANgq2grRX6Xw69nVAHNf8fEy
     issuer: Vibent
-    expirationSeconds: 86400 # equivalent to one day
+    expirationSecs: 86400 # equivalent to one day
     mock:
       username: vibentUser
       password: $2a$10$cLAIXc2UWiVdSGjxI3Fr5uJUvinj5hBHW1ySIW02.yjrS0DaAvs1O

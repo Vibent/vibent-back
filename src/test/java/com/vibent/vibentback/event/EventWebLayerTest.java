@@ -1,6 +1,7 @@
 package com.vibent.vibentback.event;
 
 import com.vibent.vibentback.VibentTest;
+import com.vibent.vibentback.common.util.JWTUtils;
 import com.vibent.vibentback.event.api.EventUpdateRequest;
 import com.vibent.vibentback.event.api.EventRequest;
 import org.junit.Before;
@@ -31,6 +32,9 @@ public class EventWebLayerTest extends VibentTest {
     @MockBean
     EventService eventService;
 
+    @MockBean
+    JWTUtils jwtUtils;
+
     private EventRequest RANDOM_EVENT_REQUEST;
     private EventUpdateRequest RANDOM_EVENT_UPDATE_REQUEST;
 
@@ -50,6 +54,7 @@ public class EventWebLayerTest extends VibentTest {
         when(eventService.getEvent(RANDOM_EVENT.getRef())).thenReturn(RANDOM_EVENT);
         when(eventService.createEvent(RANDOM_EVENT_REQUEST)).thenReturn(RANDOM_EVENT);
         when(eventService.updateEvent(RANDOM_EVENT.getRef(), RANDOM_EVENT_UPDATE_REQUEST)).thenReturn(RANDOM_EVENT);
+        when(jwtUtils.createEventNotifeedToken(RANDOM_EVENT.getId())).thenReturn("JWT Token value");
     }
 
     @Test

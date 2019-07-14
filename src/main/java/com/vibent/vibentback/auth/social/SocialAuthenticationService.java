@@ -26,8 +26,8 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SocialAuthenticationService {
 
-    @Value("${vibent.auth.expirationSeconds}")
-    private long EXPIRATION_SECONDS;
+    @Value("${vibent.auth.expirationSecs}")
+    private long EXPIRATION_SECS;
 
     private final GoogleAuthVerifier googleAuthVerifier;
     private final FacebookAuthVerifier facebookAuthVerifier;

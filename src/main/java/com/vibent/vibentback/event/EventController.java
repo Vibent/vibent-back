@@ -2,6 +2,7 @@ package com.vibent.vibentback.event;
 
 import com.vibent.vibentback.common.api.InviteTokenResponse;
 import com.vibent.vibentback.common.api.MailInviteRefRequest;
+import com.vibent.vibentback.common.util.JWTUtils;
 import com.vibent.vibentback.distributionlist.api.DistributionListInviteRequest;
 import com.vibent.vibentback.event.api.DetailledEventResponse;
 import com.vibent.vibentback.event.api.EventRequest;
@@ -24,12 +25,13 @@ import java.util.Set;
 public class EventController {
 
     private final EventService eventService;
+    private final JWTUtils jwtUtils;
 
     @RequestMapping(method = RequestMethod.GET, value = "/me")
     Set<DetailledEventResponse> getConnectedUserEvents() {
         log.info("Getting the connected user's events");
         Set<DetailledEventResponse> response = new HashSet<>();
-        eventService.getConnectedUserEvents().forEach(e -> response.add(new DetailledEventResponse(e)));
+        eventService.getConnectedUserEvents().forEach(e -> response.add(new DetailledEventResponse(e, null)));
         return response;
     }
 
@@ -37,21 +39,24 @@ public class EventController {
     @RequestMapping(method = RequestMethod.GET, value = "/{eventRef}")
     DetailledEventResponse getEvent(@PathVariable String eventRef) {
         log.info("Get event with ref : {}", eventRef);
-        return new DetailledEventResponse(eventService.getEvent(eventRef));
+        Event event = eventService.getEvent(eventRef);
+        return new DetailledEventResponse(event, jwtUtils.createEventNotifeedToken(event.getId()));
     }
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
     DetailledEventResponse createEvent(@Valid @RequestBody EventRequest request) {
         log.info("Creating event with body : {}", request.toString());
-        return new DetailledEventResponse(eventService.createEvent(request));
+        Event event = eventService.createEvent(request);
+        return new DetailledEventResponse(event, jwtUtils.createEventNotifeedToken(event.getId()));
     }
 
     @PreAuthorize(value = "hasPermission(#eventRef, 'Event', 'write')")
     @RequestMapping(method = RequestMethod.PATCH, value = "/{eventRef}")
     DetailledEventResponse updateEvent(@PathVariable String eventRef, @Valid @RequestBody EventUpdateRequest request) {
         log.info("Update event with ref {} body : {}", eventRef, request.toString());
-        return new DetailledEventResponse(eventService.updateEvent(eventRef, request));
+        Event event = eventService.updateEvent(eventRef, request);
+        return new DetailledEventResponse(event, jwtUtils.createEventNotifeedToken(event.getId()));
     }
 
     @PreAuthorize(value = "hasPermission(#eventRef, 'Event', 'write')")
@@ -79,7 +84,8 @@ public class EventController {
     @RequestMapping(method = RequestMethod.POST, value = "/validateInviteToken/{token:.+}")
     DetailledEventResponse validateEventInviteToken(@PathVariable String token) {
         log.info("Validating event invite token : {}", token);
-        return new DetailledEventResponse(eventService.validateEventInviteToken(token));
+        Event event = eventService.validateEventInviteToken(token);
+        return new DetailledEventResponse(event, jwtUtils.createEventNotifeedToken(event.getId()));
     }
 
     @PreAuthorize(value = "hasPermission(#request.eventRef, 'Event', 'write')")

@@ -22,9 +22,11 @@ public class DetailledEventResponse {
 
     @JsonIgnore
     private Event event;
+    private String notifeedToken;
 
-    public DetailledEventResponse(Event event) {
+    public DetailledEventResponse(Event event, String notifeedToken) {
         this.event = event;
+        this.notifeedToken = notifeedToken;
     }
 
     @JsonProperty
@@ -106,5 +108,10 @@ public class DetailledEventResponse {
     @JsonProperty
     public Set<TravelBubble> getTravelBubbles() {
         return event.getTravelBubbles();
+    }
+
+    @JsonProperty
+    public String getNotifeedToken() {
+        return this.notifeedToken;
     }
 }
