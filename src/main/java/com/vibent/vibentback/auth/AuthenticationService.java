@@ -32,8 +32,8 @@ public class AuthenticationService {
     @Value("${vibent.mail.autoConfirm}")
     private boolean AUTO_CONFIRM_MAIL;
 
-    @Value("${vibent.auth.expirationSeconds}")
-    private long EXPIRATION_SECONDS;
+    @Value("${vibent.auth.expirationSecs}")
+    private long USER_AUTH_EXPIRATION_SECS;
 
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
@@ -46,7 +46,7 @@ public class AuthenticationService {
     public String createToken(User user) {
         Authentication authentication = new VibentAuthentication(user.getRef(), user.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return this.JWTUtils.createUserAuthenticationToken((String) authentication.getPrincipal());
+        return this.JWTUtils.createUserAuthToken((String) authentication.getPrincipal());
     }
 
     public AuthenticationResponse loginApi(MultiValueMap<String, String> request) {
@@ -96,7 +96,7 @@ public class AuthenticationService {
         userRepository.save(user);
         return new AuthenticationResponse(
                 createToken(user),
-                EXPIRATION_SECONDS,
+                USER_AUTH_EXPIRATION_SECS,
                 lastLogin
         );
     }

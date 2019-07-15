@@ -63,7 +63,7 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
             }
             authToken = authToken.substring(BEARER.length());
 
-            Claims claims = this.JWTUtils.validateJWTToken(authToken);
+            Claims claims = this.JWTUtils.validateUserAuthToken(authToken);
             String userRef = claims.getSubject();
 
             Authentication authentication = new VibentAuthentication(userRef, null);
