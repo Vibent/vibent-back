@@ -65,6 +65,8 @@ public class DistributionListService {
                     DistributionListMembership membership = new DistributionListMembership();
                     membership.setUser(p.getUser());
                     membership.setDistributionList(created);
+
+                    membership = distributionListMembershipRepository.save(membership);
                     created.getMemberships().add(membership);
                 }
         );
